@@ -2,7 +2,6 @@ import { takeLatest, call, put } from 'redux-saga/effects'
 import { AdminUserLogin, Set_Admin_Login, Admin_Login_Fail, AdminUserLogout, Set_Admin_Logout, Get_Local_Store_Data, set_Local_Store_Data, Get_Retailers, Set_Retailer_List, Get_Factory, Set_Factory_List, Get_Distributer, Set_Distributer_List, FactoryUserLogin, Set_Factory_Login, Factory_Login_Fail, FactoryUserLogout, Set_Factory_Logout, Get_Factory_Local_Store_Data, set_Factory_Local_Store_Data, Store_Factory, Set_Store_Factory_Data, Set_Store_Factory_Data_Fail, Store_Distributer, Set_Store_Distributer_Data, Set_Store_Distributer_Data_Fail, Store_Retailer, Set_Store_Retailer_Data, Set_Store_Retailer_Data_Fail, Store_Multi_User, Store_Product_Template } from "./constant"
 import { API_URL } from "./constant"
 import Axios from "axios"
-import 
 
 function* adminUserLogin(data) {
     const requestData = data.data
@@ -180,7 +179,7 @@ async function* storeProductTemplate(data) {
         // console.log("currentFactoryUserHash", currentFactoryUserHash)
         // console.log("requestData main saga", requestData);
 
-        //   await supplychain.addProductTemplate(requestData.productId,requestData.productName,requestData.productDescription);
+          //await supplychain.addProductTemplate(currentFactoryUserHash,requestData.productName,requestData.productDescription);
 
         
         //yield put({type: Set_Store_Distributer_Data,result})
