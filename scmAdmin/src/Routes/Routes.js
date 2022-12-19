@@ -6,6 +6,7 @@ import Factory from "pages/Admin/Factory";
 import AddFactory from "pages/Admin/Factory/AddFactory";
 import Distributer from 'pages/Admin/Distributer';
 import AddDistributer from "pages/Admin/Distributer/AddDistributer";
+import AddMultiUser from "pages/Admin/Distributer/AddMultiUser";
 import Retailer from 'pages/Admin/Retailer';
 import AddRetailer from "pages/Admin/Retailer/AddRetailer";
 import Dashboard from 'pages/Admin/Dashboard';
@@ -32,6 +33,7 @@ const WebRoutes = () => {
             <Route path="/admin/adddistributer" index element={<AddDistributer />} />
             <Route path="/admin/retailer" index element={<Retailer />} />
             <Route path="/admin/addretailer" index element={<AddRetailer />} />
+            <Route path="/admin/addMultiUser" index element={<AddMultiUser />} />
             
             <Route path="/factory" index element={<FactoryLogin />} />
             <Route path="/factory/dashboard" index element={<FactoryDashboard />} />

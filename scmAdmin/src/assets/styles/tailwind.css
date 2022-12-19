@@ -551,6 +551,9 @@ video {
 .z-20{
 	z-index: 20;
 }
+.float-left{
+	float: left;
+}
 .m-8{
 	margin: 2rem;
 }

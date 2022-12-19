@@ -1,9 +1,9 @@
-import { GETDETAILS,AdminUserLogin, AdminUserLogout, Get_Local_Store_Data, Get_Retailers, Get_Factory, Get_Distributer, FactoryUserLogin, FactoryUserLogout, Get_Factory_Local_Store_Data, Store_Factory, Store_Distributer, Store_Retailer } from "./constant"
+import { GETDETAILS,AdminUserLogin, AdminUserLogout, Get_Local_Store_Data, Get_Retailers, Get_Factory, Get_Distributer, FactoryUserLogin, FactoryUserLogout, Get_Factory_Local_Store_Data, Store_Factory, Store_Distributer, Store_Retailer, Store_Multi_User } from "./constant"
 export const GetDetails = (data) => {
     return {
         type: GETDETAILS,
         data
-    }
+    } 
 }
 export const adminLogin = (data) =>{
     return{
@@ -44,6 +44,32 @@ export const getDistributer = (data) =>{
 }
 
 
+export const storeFactory = (data) =>{
+    return{
+        type:Store_Factory,
+        data:data 
+    } 
+}
+export const storeDistributer = (data) =>{
+    return{
+        type:Store_Distributer,
+        data:data 
+    } 
+}
+
+export const storeRetailer = (data) =>{
+    return{
+        type:Store_Retailer,
+        data:data 
+    } 
+}
+
+export const storeMultiUser = (data) =>{
+    return{
+        type:Store_Multi_User,
+        data:data 
+    } 
+}
 
 
 //////////Factory Module //////////////
@@ -69,21 +95,3 @@ export const factoryLogout = (data) =>{
     } 
 }
 
-export const storeFactory = (data) =>{
-    return{
-        type:Store_Factory,
-        data:data 
-    } 
-}
-export const storeDistributer = (data) =>{
-    return{
-        type:Store_Distributer,
-        data:data 
-    } 
-}
-export const storeRetailer = (data) =>{
-    return{
-        type:Store_Retailer,
-        data:data 
-    } 
-}

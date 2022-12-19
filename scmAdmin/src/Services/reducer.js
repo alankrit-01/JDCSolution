@@ -1,5 +1,5 @@
 import { combineReducers } from "redux";
-import { GETDETAILS, AdminUserLogin, Set_Admin_Login, Admin_Login_Fail, Get_Local_Store_Data, set_Local_Store_Data, Get_Retailers, Set_Retailer_List, Get_Factory, Set_Factory_List,Get_Distributer, Set_Distributer_List, Set_Admin_Logout, FactoryUserLogin,Set_Factory_Login, Factory_Login_Fail, set_Factory_Local_Store_Data, Set_Factory_Logout, Store_Factory, Store_Distributer, Store_Retailer } from "./constant";
+import { GETDETAILS, AdminUserLogin, Set_Admin_Login, Admin_Login_Fail, Get_Local_Store_Data, set_Local_Store_Data, Get_Retailers, Set_Retailer_List, Get_Factory, Set_Factory_List,Get_Distributer, Set_Distributer_List, Set_Admin_Logout, FactoryUserLogin,Set_Factory_Login, Factory_Login_Fail, set_Factory_Local_Store_Data, Set_Factory_Logout, Store_Factory, Store_Distributer, Store_Retailer, Store_Multi_User } from "./constant";
 const data = {
     error: ""
 }
@@ -278,5 +278,16 @@ export const RetailerStoreData = (initialdata = retailerStoreData, action) => {
     }
 }
 
+export const MultiUserStoreData = (initialdata = retailerStoreData, action) => {
+    switch (action.type) {
+        case Store_Multi_User:
+            return initialdata;
+            break;
+        default:
+            return initialdata;
+            break;
+    }
+}
 
-export const finalrecord = combineReducers({ Details, AdminLoginData, RetailerRecord, FactoryRecord, DistributerRecord, FactoryLoginData,FactoryStoreData, DistributerStoreData,RetailerStoreData })
+
+export const finalrecord = combineReducers({ Details, AdminLoginData, RetailerRecord, FactoryRecord, DistributerRecord, FactoryLoginData,FactoryStoreData, DistributerStoreData,RetailerStoreData,MultiUserStoreData })

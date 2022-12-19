@@ -1,5 +1,5 @@
 import { takeLatest, call, put } from 'redux-saga/effects'
-import { AdminUserLogin, Set_Admin_Login, Admin_Login_Fail, AdminUserLogout,Set_Admin_Logout, Get_Local_Store_Data, set_Local_Store_Data, Get_Retailers,Set_Retailer_List, Get_Factory, Set_Factory_List,Get_Distributer, Set_Distributer_List, FactoryUserLogin, Set_Factory_Login, Factory_Login_Fail, FactoryUserLogout, Set_Factory_Logout, Get_Factory_Local_Store_Data, set_Factory_Local_Store_Data, Store_Factory, Set_Store_Factory_Data,Set_Store_Factory_Data_Fail, Store_Distributer,Set_Store_Distributer_Data,Set_Store_Distributer_Data_Fail, Store_Retailer,Set_Store_Retailer_Data,Set_Store_Retailer_Data_Fail } from "./constant"
+import { AdminUserLogin, Set_Admin_Login, Admin_Login_Fail, AdminUserLogout,Set_Admin_Logout, Get_Local_Store_Data, set_Local_Store_Data, Get_Retailers,Set_Retailer_List, Get_Factory, Set_Factory_List,Get_Distributer, Set_Distributer_List, FactoryUserLogin, Set_Factory_Login, Factory_Login_Fail, FactoryUserLogout, Set_Factory_Logout, Get_Factory_Local_Store_Data, set_Factory_Local_Store_Data, Store_Factory, Set_Store_Factory_Data,Set_Store_Factory_Data_Fail, Store_Distributer,Set_Store_Distributer_Data,Set_Store_Distributer_Data_Fail, Store_Retailer,Set_Store_Retailer_Data,Set_Store_Retailer_Data_Fail, Store_Multi_User } from "./constant"
 import { API_URL } from "./constant"
 import Axios from "axios"
 
@@ -138,6 +138,38 @@ function* storeRetailer(data) {
     }
 }
 
+function* storeMultiUser(data) {
+    const requestData = data.data
+    try {
+
+        const valuesArray = [];
+
+        requestData.map((value, index) => {
+                    //  {value.map((val, i) => {
+
+                            // valuesArray.push(['hashAddress',value[0]]);
+                            // valuesArray.push(['name',value[1]]);
+                       //valuesArray.push(['hashAddress:'+ value[0], 'name',value[1]])
+                       valuesArray.push([value[0],value[1],value[2],value[3],value[4],value[5],value[6],value[7],value[8]])
+ 
+                       
+                    // })}
+              
+        })
+
+
+
+        console.log("requestData main saga", valuesArray);
+          let uri = API_URL.concat('/addMultiUser')
+          const storeDistributerRes = yield call(Axios.post, uri, valuesArray)
+          const result = storeDistributerRes.data;
+                //yield put({type: Set_Store_Distributer_Data,result})
+    } catch (error) {
+        console.log("Error is ", error)
+        //yield put({type:Set_Store_Distributer_Data_Fail})
+    }
+}
+
 
 function* mainSaga() {
     yield takeLatest(AdminUserLogin, adminUserLogin)
@@ -152,10 +184,9 @@ function* mainSaga() {
     yield takeLatest(FactoryUserLogout, factoryUserLogout)
     yield takeLatest(Get_Factory_Local_Store_Data,getFactoryLocalStoreData)
     yield takeLatest(Store_Factory,storeFactory)
-
     yield takeLatest(Store_Distributer,storeDistributer)
-
     yield takeLatest(Store_Retailer,storeRetailer)
+    yield takeLatest(Store_Multi_User,storeMultiUser)
 
 
     

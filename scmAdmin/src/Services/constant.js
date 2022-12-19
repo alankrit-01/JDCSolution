@@ -16,7 +16,9 @@ export const Set_Factory_List = 'Set_Factory_List';
 export const Get_Distributer = 'Get_Distributer';
 export const Set_Distributer_List = 'Set_Distributer_List';
 
-
+export const Store_Multi_User = 'Store_Multi_User';
+export const Set_Store_Multi_User_Data = 'Set_Store_Multi_User_Data';
+export const Set_Store_Multi_User_Data_Fail = 'Set_Store_Multi_User_Data_Fail';
 
 
 /////////////////Factory Module ////////////

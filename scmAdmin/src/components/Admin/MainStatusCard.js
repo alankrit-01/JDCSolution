@@ -1,6 +1,33 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from 'react-redux';
+import { getDistributer, getFactory, getRetailers } from 'Services/action';
 import StatusCard from "./StatusCard";
 const MainStatusCard = () => {
+    const dispatch = useDispatch();
+    const [Distributer, setDistributer] = useState([]);
+    const [Factories, setFactories] = useState([]);
+    const [Retailer, setRetailer] = useState([]);
+
+
+    useEffect(() => {
+        dispatch(getDistributer())
+        dispatch(getFactory())
+        dispatch(getRetailers())
+    }, [])
+
+    const initialdata = useSelector((state) => state.DistributerRecord);
+    const initialFactorydata = useSelector((state) => state.FactoryRecord);
+    const initialRetailerdata = useSelector((state) => state.RetailerRecord);
+
+
+    console.log("initialFactorydata", initialFactorydata)
+    useEffect(() => {
+        setDistributer(initialdata.distributerRec.length)
+        setFactories(initialFactorydata.factoryRec.length)
+        setRetailer(initialRetailerdata.retailerRec.length)
+
+    }, [initialdata, initialFactorydata, initialRetailerdata])
+
 
     return (
         <>
@@ -8,7 +35,7 @@ const MainStatusCard = () => {
                 color="pink"
                 icon="groups"
                 title="Factory"
-                amount="1"
+                amount={Factories}
             // percentage="3.48"
             // percentageIcon="arrow_upward"
             // percentageColor="green"
@@ -18,7 +45,7 @@ const MainStatusCard = () => {
                 color="purple"
                 icon="groups"
                 title="Distributer"
-                amount="10"
+                amount={Distributer}
             // percentage="1.10"
             // percentageIcon="arrow_downward"
             // percentageColor="orange"
@@ -28,14 +55,14 @@ const MainStatusCard = () => {
                 color="orange"
                 icon="groups"
                 title="Retailer"
-                amount="20"
+                amount={Retailer}
             // percentage="3.48"
             // percentageIcon="arrow_downward"
             // percentageColor="red"
             // date="Since last week"
             />
 
-            <StatusCard
+            {/* <StatusCard
                 color="blue"
                 icon="groups"
                 title="Products"
@@ -44,7 +71,7 @@ const MainStatusCard = () => {
             // percentageIcon="arrow_upward"
             // percentageColor="green"
             // date="Since last month"
-            />
+            /> */}
         </>
     )
 }

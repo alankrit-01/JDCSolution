@@ -4,37 +4,76 @@ import Footer from 'components/Admin/Footer';
 import { NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getDistributer } from 'Services/action';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import DataTable from 'react-data-table-component';
 import { Button } from "@material-tailwind/react";
 import Input from '@material-tailwind/react/Input';
+import Papa from 'papaparse';
+import { storeMultiUser } from 'Services/action';
 
 const Distributer = () => {
     const dispatch = useDispatch();
-    const[Distributer,setDistributer] = useState([]);
-    const[Search,setSearch] = useState("");
-    const[FilterDistributer,setFilterDistributer] = useState([]);
+    const [Distributer, setDistributer] = useState([]);
+    const [Search, setSearch] = useState("");
+    const [FilterDistributer, setFilterDistributer] = useState([]);
+
+
+    const [parsedData, setParsedData] = useState([]);
+    //State to store table Column name
+    const [tableRows, setTableRows] = useState([]);
+    //State to store the values
+    const [values, setValues] = useState([]);
+
+
+    const changeHandler = (event) => {
+        // Passing file data (event.target.files[0]) to parse using Papa.parse
+        Papa.parse(event.target.files[0], {
+            header: true,
+            skipEmptyLines: true,
+            complete: function (results) {
+                const rowsArray = [];
+                const valuesArray = [];
+
+                // Iterating data to get column name and their values
+                results.data.map((d) => {
+                    rowsArray.push(Object.keys(d));
+                    valuesArray.push(Object.values(d));
+                });
+
+                // Parsed Data Response in array format
+                setParsedData(results.data);
+
+                // Filtered Column Names
+                setTableRows(rowsArray[0]);
+
+                // Filtered Values
+                //console.log("valuesArray", valuesArray)
+                dispatch(storeMultiUser(valuesArray))
+                setValues(valuesArray);
+            },
+        });
+    };
 
     const columns = [
         {
-            name:"Distributer Name",
-            selector:(row) => row.name,
-            sortable:true,
+            name: "Distributer Name",
+            selector: (row) => row.name,
+            sortable: true,
         },
         {
-            name:"Distributer Email",
-            selector:(row) => row.email,
-            sortable:true,
+            name: "Distributer Email",
+            selector: (row) => row.email,
+            sortable: true,
         },
         {
-            name:"Distributer Address",
-            selector:(row) => row.address,
-            sortable:true,
+            name: "Distributer Address",
+            selector: (row) => row.address,
+            sortable: true,
         },
         {
-            name:"Distributer Hash Address",
-            selector:(row) => row.hashAddress,
-            sortable:true,
+            name: "Distributer Hash Address",
+            selector: (row) => row.hashAddress,
+            sortable: true,
         },
     ];
 
@@ -43,18 +82,18 @@ const Distributer = () => {
     }, [])
 
     const initialdata = useSelector((state) => state.DistributerRecord);
-    
+
     useEffect(() => {
         setDistributer(initialdata.distributerRec)
         setFilterDistributer(initialdata.distributerRec)
     }, [initialdata])
-   
-    useEffect(() =>{
+
+    useEffect(() => {
         const result = Distributer.filter((distributerval) => {
             return distributerval.name.toLowerCase().match(Search.toLowerCase());
         })
         setFilterDistributer(result)
-    },[Search]) 
+    }, [Search])
     return (
         <>
             <Sidebar />
@@ -67,10 +106,29 @@ const Distributer = () => {
                     </div>
                 </div>
                 <div className="px-3 md:px-8 h-auto -mt-24">
+                    <table>
+                        <thead>
+                            <tr>
+                                {tableRows.map((rows, index) => {
+                                    return <th key={index}>{rows}</th>;
+                                })}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {values.map((value, index) => {
+                                return (
+                                    <tr key={index}>
+                                        {value.map((val, i) => {
+                                            return <td key={i}>{val}</td>;
+                                        })}
+                                    </tr>
+                                );
+                            })}
+                        </tbody>
+                    </table>
                     <div className="container mx-auto max-w-full">
                         <div className="grid grid-cols-1 px-4 mb-16">
-                            <button>Import CSV</button>
-                              <DataTable
+                            <DataTable
                                 title="Distributer List"
                                 columns={columns}
                                 data={FilterDistributer}
@@ -79,18 +137,31 @@ const Distributer = () => {
                                 selectableRows
                                 selectableRowsHighlight
                                 highlightOnHover
-                                
-                                actions={ <NavLink
+
+                                actions={<NavLink
                                     to="/admin/adddistributer"><Button>Add</Button></NavLink>}
                                 subHeader
                                 subHeaderComponent={
-                                    <div className="w-full lg:w-6/12 pr-4 mb-10 font-light">
-                                        <Input type="text" color="purple" placeholder="Search Here" value={Search} onChange={(e) => setSearch(e.target.value)} />
-                                        <NavLink to="/admin/adddistributer"><Button>Import Csv</Button></NavLink>
+                                    <div className='w-full'>
+                                        <div className="float-left lg:w-6/12 d-flex pr-4 mb-10 font-light">
+                                        <Button><NavLink
+                                    to="/admin/addMultiUser">Import CSV</NavLink></Button>
+                                            {/* <input
+                                                type="file"
+                                                name="file"
+                                                accept=".csv"
+                                                onChange={changeHandler}
+                                                style={{ display: "block", margin: "10px auto" }}
+                                            /> */}
+
+                                        </div>
+                                        <div className="float-left lg:w-6/12 d-flex pr-4 mb-10 font-light">
+                                            <Input type="text" color="purple" placeholder="Search Here" value={Search} onChange={(e) => setSearch(e.target.value)} />
+                                        </div>
                                     </div>
                                 }
-                                
-                            />  
+
+                            />
                         </div>
                     </div>
                 </div>
