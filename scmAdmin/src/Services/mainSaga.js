@@ -180,7 +180,7 @@ async function* storeProductTemplate(data) {
         // console.log("currentFactoryUserHash", currentFactoryUserHash)
         // console.log("requestData main saga", requestData);
 
-          await supplychain.addProductTemplate(requestData.productId,requestData.productName,requestData.productDescription);
+        //   await supplychain.addProductTemplate(requestData.productId,requestData.productName,requestData.productDescription);
 
         
         //yield put({type: Set_Store_Distributer_Data,result})
