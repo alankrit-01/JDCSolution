@@ -32,7 +32,7 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
 
   },
   paths:{
-    artifacts: './react-admin/src/artifacts',
+    artifacts: './scmAdmin/src/artifacts',
   }
 
 };

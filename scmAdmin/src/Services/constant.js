@@ -45,6 +45,13 @@ export const Store_Retailer = 'Store_Retailer';
 export const Set_Store_Retailer_Data = 'Set_Store_Retailer_Data';
 export const Set_Store_Retailer_Data_Fail = 'Set_Store_Retailer_Data_Fail';
 
+export const Store_Product_Template = 'Store_Product_Template';
+export const Set_Store_Product_Template_Data = 'Set_Store_Product_Template_Data';
+export const Set_Store_Product_Template_Data_Fail = 'Set_Store_Product_Template_Data_Fail';
+
+
+
+
 
 
 

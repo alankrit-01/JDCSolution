@@ -1,5 +1,5 @@
 import { combineReducers } from "redux";
-import { GETDETAILS, AdminUserLogin, Set_Admin_Login, Admin_Login_Fail, Get_Local_Store_Data, set_Local_Store_Data, Get_Retailers, Set_Retailer_List, Get_Factory, Set_Factory_List,Get_Distributer, Set_Distributer_List, Set_Admin_Logout, FactoryUserLogin,Set_Factory_Login, Factory_Login_Fail, set_Factory_Local_Store_Data, Set_Factory_Logout, Store_Factory, Store_Distributer, Store_Retailer, Store_Multi_User } from "./constant";
+import { GETDETAILS, AdminUserLogin, Set_Admin_Login, Admin_Login_Fail, Get_Local_Store_Data, set_Local_Store_Data, Get_Retailers, Set_Retailer_List, Get_Factory, Set_Factory_List,Get_Distributer, Set_Distributer_List, Set_Admin_Logout, FactoryUserLogin,Set_Factory_Login, Factory_Login_Fail, set_Factory_Local_Store_Data, Set_Factory_Logout, Store_Factory, Store_Distributer, Store_Retailer, Store_Multi_User, Store_Product_Template } from "./constant";
 const data = {
     error: ""
 }
@@ -52,6 +52,10 @@ const distributerStoreData ={
 const retailerStoreData ={
     error: "",
 }
+const storeProductTemplateData ={
+    error: "",
+}
+
 
 
 ///// End Factory Module /////
@@ -210,6 +214,8 @@ export const FactoryLoginData = (initialdata = factoryloginRec, action) => {
             initialdata = { ...initialdata, factorytoken: token }
             let userRole = localStorage.getItem('factoryUserRole');
             initialdata = { ...initialdata, factoryUserRole: userRole }
+            let currentFactoryUserHash = localStorage.getItem('currentFactoryUserHash');
+            initialdata = { ...initialdata, currentFactoryUserHash: currentFactoryUserHash }
             return initialdata;
             break;
         case Factory_Login_Fail:
@@ -225,6 +231,8 @@ export const FactoryLoginData = (initialdata = factoryloginRec, action) => {
             initialdata = { ...initialdata, factorytoken: token1 }
             let userRole1 = localStorage.getItem('factoryUserRole');
             initialdata = { ...initialdata, factoryUserRole: userRole1 }
+            let currentFactoryUserHash1 = localStorage.getItem('currentFactoryUserHash');
+            initialdata = { ...initialdata, currentFactoryUserHash: currentFactoryUserHash1 }
             return initialdata;
             break;
         case Set_Factory_Logout:
@@ -289,5 +297,16 @@ export const MultiUserStoreData = (initialdata = retailerStoreData, action) => {
     }
 }
 
+export const StoreProductTemplateData = (initialdata = storeProductTemplateData, action) => {
+    switch (action.type) {
+        case Store_Product_Template:
+            return initialdata;
+            break;
+        default:
+            return initialdata;
+            break;
+    }
+}
 
-export const finalrecord = combineReducers({ Details, AdminLoginData, RetailerRecord, FactoryRecord, DistributerRecord, FactoryLoginData,FactoryStoreData, DistributerStoreData,RetailerStoreData,MultiUserStoreData })
+
+export const finalrecord = combineReducers({ Details, AdminLoginData, RetailerRecord, FactoryRecord, DistributerRecord, FactoryLoginData,FactoryStoreData, DistributerStoreData,RetailerStoreData,MultiUserStoreData,StoreProductTemplateData })

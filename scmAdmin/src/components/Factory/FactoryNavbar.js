@@ -50,10 +50,9 @@ export default function FactoryNavbar({ showSidebar, setShowSidebar }) {
 
     const accountChangedHandler = (newAccount) => {
 		setDefaultAccount(newAccount);
-		// dispatch({ type: "setMetask",data:newAccount })
-		
-		///console.log('accountChangedHandler called ',newAccount);
 		updateEthers();
+
+        localStorage.setItem('currentFactoryUserHash', newAccount);
 	}
     const chainChangedHandler = () => {
 		window.location.reload();
@@ -69,6 +68,8 @@ export default function FactoryNavbar({ showSidebar, setShowSidebar }) {
 
 		let tempSigner = tempProvider.getSigner();
 		setSigner(tempSigner);
+        
+        console.log("tempSigner",tempSigner)
 
 		// let supplyChaintempContract = new ethers.Contract(SupplyChainContractAddress, Supplychain_abi.abi, tempSigner);
 		// setSCContract(supplyChaintempContract);

@@ -6,7 +6,7 @@
 // global scope, and execute the script.
 const hre = require("hardhat");
 
-async function main() {
+async function main() { 
 
 
   const Supplychain = await hre.ethers.getContractFactory("Supplychain");
