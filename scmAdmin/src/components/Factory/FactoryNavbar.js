@@ -1,4 +1,6 @@
 import { useLocation } from 'react-router-dom';
+import Supplychain_abi from '../../artifacts/contracts/Supplychain.sol/Supplychain.json';
+// /home/alankrit/Desktop/JDCSolution/scmAdmin/src/artifacts/contracts/Supplychain.sol/Supplychain.json
 import Button from '@material-tailwind/react/Button';
 import Icon from '@material-tailwind/react/Icon';
 import NavbarInput from '@material-tailwind/react/NavbarInput';
@@ -8,83 +10,81 @@ import DropdownItem from '@material-tailwind/react/DropdownItem';
 import ProfilePicture from 'assets/img/richmint.png';
 import { NavLink } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { ethers } from 'ethers';
-import Supplychain_abi from '../../artifacts/contracts/Supplychain.sol/Supplychain.json';
 
+import { ethers } from 'ethers';
+
+let supplyChainAddress = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
 
 export default function FactoryNavbar({ showSidebar, setShowSidebar }) {
     const location = useLocation().pathname;
 
-
-    let supplyChainAddress = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
-
-
     const [defaultAccount, setDefaultAccount] = useState('');
-    const [connButtonText, setConnButtonText] = useState('Connect Wallet');
-    const [errorMessage, setErrorMessage] = useState(null)
+	const [connButtonText, setConnButtonText] = useState('Connect Wallet');
+    const [errorMessage,setErrorMessage] =  useState(null)
 
-    const [SCContract, setSCContract] = useState();
+    // const [SCContract, setSCContract] = useState();
     const [provider, setProvider] = useState(null);
-    const [signer, setSigner] = useState(null);
+	const [signer, setSigner] = useState(null);
+	const [supplychainContract, setsupplychainContract] = useState(null);
 
     useEffect(() => {
-        connectWalletHandler();
-
+        connectWalletHandler();  
+     
     }, [])
 
-    const connectWalletHandler = () => {
-        if (window.ethereum && window.ethereum.isMetaMask) {
-            window.ethereum.request({ method: 'eth_requestAccounts' })
-                .then(result => {
-                    //console.log("helllo then",result)
-                    accountChangedHandler(result[0]);
-                    setConnButtonText('Wallet Connected');
+    const connectWalletHandler=()=>{
+        if (window.ethereum && window.ethereum.isMetaMask){
+            window.ethereum.request({ method: 'eth_requestAccounts'})
+			.then(result => {
+			//console.log("helllo then",result)
+            accountChangedHandler(result[0]);
+            setConnButtonText('Wallet Connected');
+			
+			})
+			.catch(error => {
+			console.log("error",error);
+            setErrorMessage()
+			});
 
-                })
-                .catch(error => {
-                    console.log("error", error);
-                    setErrorMessage()
-                });
-
-        } else {
+		} else{
             console.log('Need to install MetaMask');
-            setErrorMessage('Please install MetaMask browser extension to interact');
-
+			setErrorMessage('Please install MetaMask browser extension to interact');
+           
         }
-
+        
     }
 
     const accountChangedHandler = (newAccount) => {
-        setDefaultAccount(newAccount);
-        updateEthers();
+		setDefaultAccount(newAccount);
+		updateEthers();
 
         localStorage.setItem('currentFactoryUserHash', newAccount);
-    }
+	}
     const chainChangedHandler = () => {
-        window.location.reload();
-    }
+		window.location.reload();
+	}
 
-    // listen for account changes
-    window.ethereum.on('accountsChanged', accountChangedHandler);
-    window.ethereum.on('chainChanged', chainChangedHandler);
+	// listen for account changes
+	window.ethereum.on('accountsChanged', accountChangedHandler);
+	window.ethereum.on('chainChanged', chainChangedHandler);
 
-    const updateEthers = () => {
-        let tempProvider = new ethers.providers.Web3Provider(window.ethereum);
-        setProvider(tempProvider);
+	const updateEthers = () => {
+		let tempProvider = new ethers.providers.Web3Provider(window.ethereum);
+		setProvider(tempProvider);
+        
+		let tempSigner = tempProvider.getSigner();
+		setSigner(tempSigner);
+        
+        console.log("tempSigner",tempSigner)
 
-        let tempSigner = tempProvider.getSigner();
-        setSigner(tempSigner);
+        let supplychainContract = new ethers.Contract(supplyChainAddress, Supplychain_abi.abi, tempSigner);
+		setsupplychainContract(supplychainContract);
 
-        //console.log("tempSigner",tempSigner)
-
-        let supplyChaintempContract = new ethers.Contract(supplyChainAddress, Supplychain_abi.abi, tempSigner);
-        setSCContract(supplyChaintempContract);
-        localStorage.setItem('supplyChaintempContract', supplyChaintempContract);
-        console.log("supplyChaintempContract navbar", supplyChaintempContract)
-
-        // dispatch({ type: "updateSupplyChain",supplyChainContract:supplyChaintempContract })
-
-    }
+		console.log("supplychaintempContract",supplychainContract);
+		
+        // dispatch({ type: "updateSupplychain", supplyChainContract: supplychaintempContract })
+		// console.log(await supplychaintempContract.totalBatchs());	
+	}
 
     return (
         <nav className="bg-light-blue-500 md:ml-64 py-6 px-3">
@@ -102,8 +102,9 @@ export default function FactoryNavbar({ showSidebar, setShowSidebar }) {
                         <Icon name="menu" size="2xl" color="white" />
                     </Button>
                     <div
-                        className={`absolute top-2 md:hidden ${showSidebar === 'left-0' ? 'left-64' : '-left-64'
-                            } z-50 transition-all duration-300`}
+                        className={`absolute top-2 md:hidden ${
+                            showSidebar === 'left-0' ? 'left-64' : '-left-64'
+                        } z-50 transition-all duration-300`}
                     >
                         <Button
                             color="transparent"
@@ -126,8 +127,8 @@ export default function FactoryNavbar({ showSidebar, setShowSidebar }) {
                             : location.toUpperCase().replace('/', '')}
                     </h4>
                     <div className="flex">
-                        <span style={{ padding: '5px', color: '#fff' }} ><b>Addres:-</b> {defaultAccount}</span>
-                        <Button onClick={connectWalletHandler}> Connect Metamask</Button>
+                    <span style={{padding:'5px', color:'#fff'}} ><b>Addres:-</b> {defaultAccount}</span>
+                    <Button onClick={connectWalletHandler}> Connect Metamask</Button>
 
                         {/* <NavbarInput placeholder="Search" /> */}
                         <div className="-mr-4 ml-6">
@@ -143,14 +144,14 @@ export default function FactoryNavbar({ showSidebar, setShowSidebar }) {
                                     padding: 0,
                                     color: 'transparent',
                                 }}
-                            >
-                                <NavLink
+                            > 
+                            <NavLink
                                     to="/factory/settings">
-                                    <DropdownItem color="lightBlue">
-                                        Profile
-                                    </DropdownItem>
+                                <DropdownItem color="lightBlue">
+                                    Profile
+                                </DropdownItem>
                                 </NavLink>
-
+                                
                             </Dropdown>
                         </div>
                     </div>
