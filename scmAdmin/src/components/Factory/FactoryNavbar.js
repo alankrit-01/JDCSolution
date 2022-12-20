@@ -1,6 +1,5 @@
 import { useLocation } from 'react-router-dom';
 import Supplychain_abi from '../../artifacts/contracts/Supplychain.sol/Supplychain.json';
-// /home/alankrit/Desktop/JDCSolution/scmAdmin/src/artifacts/contracts/Supplychain.sol/Supplychain.json
 import Button from '@material-tailwind/react/Button';
 import Icon from '@material-tailwind/react/Icon';
 import NavbarInput from '@material-tailwind/react/NavbarInput';
@@ -9,9 +8,9 @@ import Dropdown from '@material-tailwind/react/Dropdown';
 import DropdownItem from '@material-tailwind/react/DropdownItem';
 import ProfilePicture from 'assets/img/richmint.png';
 import { NavLink } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
-import { ethers } from 'ethers';
+import { ethers } from 'ethers'; 
 
 let supplyChainAddress = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
 
@@ -75,16 +74,22 @@ export default function FactoryNavbar({ showSidebar, setShowSidebar }) {
 		let tempSigner = tempProvider.getSigner();
 		setSigner(tempSigner);
         
-        console.log("tempSigner",tempSigner)
+        //console.log("tempSigner",tempSigner)
 
         let supplychainContract = new ethers.Contract(supplyChainAddress, Supplychain_abi.abi, tempSigner);
 		setsupplychainContract(supplychainContract);
 
-		console.log("supplychaintempContract",supplychainContract);
+		//console.log("supplychaintempContract",supplychainContract);
+        
 		
         // dispatch({ type: "updateSupplychain", supplyChainContract: supplychaintempContract })
 		// console.log(await supplychaintempContract.totalBatchs());	
 	}
+
+
+    
+   
+
 
     return (
         <nav className="bg-light-blue-500 md:ml-64 py-6 px-3">

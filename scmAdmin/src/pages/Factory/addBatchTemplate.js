@@ -7,22 +7,116 @@ import CardBody from '@material-tailwind/react/CardBody';
 import Button from '@material-tailwind/react/Button';
 import Input from '@material-tailwind/react/Input';
 import Textarea from '@material-tailwind/react/Textarea';
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+
+////need improve////
+import Supplychain_abi from '../../artifacts/contracts/Supplychain.sol/Supplychain.json';
+import { ethers } from "ethers";
+let supplyChainAddress = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
+////End need improve////
 const AddBatchTemplate = () => {
+
+
+    
+////need improve////
+const [defaultAccount, setDefaultAccount] = useState('');
+const [connButtonText, setConnButtonText] = useState('Connect Wallet');
+const [errorMessage,setErrorMessage] =  useState(null)
+
+// const [SCContract, setSCContract] = useState();
+const [provider, setProvider] = useState(null);
+const [signer, setSigner] = useState(null);
+const [supplychainContract, setsupplychainContract] = useState(null);
+
+
+useEffect(() => {
+    connectWalletHandler();  
+ 
+}, [])
+
+
+const connectWalletHandler=()=>{
+    if (window.ethereum && window.ethereum.isMetaMask){
+        window.ethereum.request({ method: 'eth_requestAccounts'})
+        .then(result => {
+        //console.log("helllo then",result)
+        accountChangedHandler(result[0]);
+        setConnButtonText('Wallet Connected');
+        
+        })
+        .catch(error => {
+        console.log("error",error);
+        setErrorMessage()
+        });
+
+    } else{
+        console.log('Need to install MetaMask');
+        setErrorMessage('Please install MetaMask browser extension to interact');
+       
+    }
+    
+}
+
+const accountChangedHandler = (newAccount) => {
+    setDefaultAccount(newAccount);
+    updateEthers();
+
+}
+
+const chainChangedHandler = () => {
+    window.location.reload();
+}
+
+// listen for account changes
+window.ethereum.on('accountsChanged', accountChangedHandler);
+window.ethereum.on('chainChanged', chainChangedHandler);
+
+
+const updateEthers = () => {
+    let tempProvider = new ethers.providers.Web3Provider(window.ethereum);
+    setProvider(tempProvider);
+    
+    let tempSigner = tempProvider.getSigner();
+    setSigner(tempSigner);
+    
+    //console.log("tempSigner",tempSigner)
+
+    let supplychainContract = new ethers.Contract(supplyChainAddress, Supplychain_abi.abi, tempSigner);
+    setsupplychainContract(supplychainContract);
+
+    //console.log("supplychaintempContract",supplychainContract);
+    
+    
+    // dispatch({ type: "updateSupplychain", supplyChainContract: supplychaintempContract })
+    // console.log(await supplychaintempContract.totalBatchs());	
+}
+
+
+// const buyCottonMaterialHandler = async (event) => {
+    
+    
+//   }
+
+////End need improve////
 
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [hashAddress, setHashAddress] = useState('');
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [emailError, setemailError] = useState('');
+    const [productId, setProductId] = useState('');
+    const [batchTemplateId, setBatchTemplateId] = useState('');
+    const [batchSize, setBatchSize] = useState('');
+    const [batchDescription, setBatchDescription] = useState('');
+  
 
-    function handleSubmit(event) {
+    const  handleSubmit = async (event) =>{
         event.preventDefault();
-        const emailRegex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+        const tx = await supplychainContract.addBatchTemplate("1827371912","0193Bvch11","Batch Description",15,"0x71bE63f3384f5fb98995898A86B02Fb2426c5788");
+        if(tx){
+           navigate("/factory/batchTemplate")
+        }
+       
     }
 
     return (
@@ -51,19 +145,39 @@ const AddBatchTemplate = () => {
                                             <div className="flex flex-wrap mt-10">
                                                 <div className="w-full pr-4 font-light">
                                                     <span><b>Batch Template ID</b></span>
-                                                    <Input type="text" color="purple" name="batchTemplateId" required />
+                                                    <Input
+                                                     type="text"
+                                                     color="purple"
+                                                     name="batchTemplateId"
+                                                     value={batchTemplateId} onChange={(e) => setBatchTemplateId(e.target.value)}
+                                                     />
                                                 </div>
                                                 <div className="w-screen flex flex-wrap mt-10 font-light">
                                                     <span><b>Product ID</b></span>
-                                                    <Input type="text" color="purple" name="productId" />
+                                                    <Input
+                                                     type="text"
+                                                     color="purple"
+                                                     name="productId"
+                                                     value={productId} onChange={(e) => setProductId(e.target.value)}
+                                                     />
                                                 </div>
                                                 <div className="w-screen flex flex-wrap mt-10 font-light">
                                                     <span><b>Batch Size</b></span>
-                                                    <Input type="text" color="purple" name="batchSize" />
+                                                    <Input
+                                                     type="text"
+                                                     color="purple"
+                                                     name="batchSize"
+                                                     value={batchSize} onChange={(e) => setBatchSize(e.target.value)}
+                                                     />
                                                 </div>
                                                 <div className="w-screen flex flex-wrap mt-10 font-light">
                                                     <span><b>Batch Description</b></span>
-                                                    <Input type="text" color="purple" name="batchDescription" />
+                                                    <Input
+                                                     type="text"
+                                                     color="purple"
+                                                     name="batchDescription"
+                                                     value={batchDescription} onChange={(e) => setBatchDescription(e.target.value)}
+                                                     />
                                                 </div>
                                             </div>
                                             <div className="flex mt-10">
