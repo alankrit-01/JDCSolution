@@ -35,7 +35,7 @@ const AddProductTemplate = () => {
             additionalInformation:additionalInformation,
             productExpDate:productExpDate,
         }
-        console.log("data data data", data)
+        //console.log("data data data", data)
 
         dispatch(storeProductTemplate(data))
     }
