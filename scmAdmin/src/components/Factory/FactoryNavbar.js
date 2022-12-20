@@ -1,4 +1,6 @@
 import { useLocation } from 'react-router-dom';
+import Supplychain_abi from '../../artifacts/contracts/Supplychain.sol/Supplychain.json';
+// /home/alankrit/Desktop/JDCSolution/scmAdmin/src/artifacts/contracts/Supplychain.sol/Supplychain.json
 import Button from '@material-tailwind/react/Button';
 import Icon from '@material-tailwind/react/Icon';
 import NavbarInput from '@material-tailwind/react/NavbarInput';
@@ -8,7 +10,10 @@ import DropdownItem from '@material-tailwind/react/DropdownItem';
 import ProfilePicture from 'assets/img/richmint.png';
 import { NavLink } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+
 import { ethers } from 'ethers';
+
+let supplyChainAddress = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
 
 export default function FactoryNavbar({ showSidebar, setShowSidebar }) {
     const location = useLocation().pathname;
@@ -20,6 +25,7 @@ export default function FactoryNavbar({ showSidebar, setShowSidebar }) {
     // const [SCContract, setSCContract] = useState();
     const [provider, setProvider] = useState(null);
 	const [signer, setSigner] = useState(null);
+	const [supplychainContract, setsupplychainContract] = useState(null);
 
     useEffect(() => {
         connectWalletHandler();  
@@ -65,16 +71,19 @@ export default function FactoryNavbar({ showSidebar, setShowSidebar }) {
 	const updateEthers = () => {
 		let tempProvider = new ethers.providers.Web3Provider(window.ethereum);
 		setProvider(tempProvider);
-
+        
 		let tempSigner = tempProvider.getSigner();
 		setSigner(tempSigner);
         
         console.log("tempSigner",tempSigner)
 
-		// let supplyChaintempContract = new ethers.Contract(SupplyChainContractAddress, Supplychain_abi.abi, tempSigner);
-		// setSCContract(supplyChaintempContract);
-		// dispatch({ type: "updateSupplyChain",supplyChainContract:supplyChaintempContract })
-	
+        let supplychainContract = new ethers.Contract(supplyChainAddress, Supplychain_abi.abi, tempSigner);
+		setsupplychainContract(supplychainContract);
+
+		console.log("supplychaintempContract",supplychainContract);
+		
+        // dispatch({ type: "updateSupplychain", supplyChainContract: supplychaintempContract })
+		// console.log(await supplychaintempContract.totalBatchs());	
 	}
 
     return (
