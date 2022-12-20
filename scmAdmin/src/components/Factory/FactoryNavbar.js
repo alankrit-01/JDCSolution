@@ -1,7 +1,7 @@
-import { useLocation } from 'react-router-dom';
-import Supplychain_abi from '../../artifacts/contracts/Supplychain.sol/Supplychain.json';
+import { useLocation } from 'react-router-dom';                                                         
+import Supplychain_abi from '../../artifacts/contracts/Supplychain.sol/Supplychain.json';               
 // /home/alankrit/Desktop/JDCSolution/scmAdmin/src/artifacts/contracts/Supplychain.sol/Supplychain.json
-import Button from '@material-tailwind/react/Button';
+import Button from '@material-tailwind/react/Button';                                               
 import Icon from '@material-tailwind/react/Icon';
 import NavbarInput from '@material-tailwind/react/NavbarInput';
 import Image from '@material-tailwind/react/Image';
