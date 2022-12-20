@@ -3,6 +3,7 @@ import { AdminUserLogin, Set_Admin_Login, Admin_Login_Fail, AdminUserLogout, Set
 import { API_URL } from "./constant"
 import Axios from "axios"
 
+
 function* adminUserLogin(data) {
     const requestData = data.data
     try {
@@ -171,12 +172,14 @@ function* storeMultiUser(data) {
 }
 
 
-async function* storeProductTemplate(data) {
+function* storeProductTemplate(data) {
     const requestData = data.data
     try {
 
         const currentFactoryUserHash = localStorage.getItem('currentFactoryUserHash');
-        // console.log("currentFactoryUserHash", currentFactoryUserHash)
+         console.log("currentFactoryUserHash", currentFactoryUserHash)
+         const supplyChaintempContract = localStorage.getItem('supplyChaintempContract');
+         console.log("supplyChaintempContract", supplyChaintempContract)
         // console.log("requestData main saga", requestData);
 
           //await supplychain.addProductTemplate(currentFactoryUserHash,requestData.productName,requestData.productDescription);
