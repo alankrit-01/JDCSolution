@@ -1,4 +1,6 @@
-export const API_URL = "http://127.0.0.1:5150";
+//export const API_URL = "http://127.0.0.1:5150";
+export const API_URL = "http://162.215.222.118:5155";
+
 export const GETDETAILS = 'GETDETAILS';
 export const AdminUserLogin = 'AdminUserLogin';
 export const Get_Local_Store_Data = 'Get_Local_Store_Data';

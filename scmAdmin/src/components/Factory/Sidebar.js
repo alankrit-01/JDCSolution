@@ -78,7 +78,7 @@ export default function FactorySidebar() {
                                 </NavLink>
                             </li>
 
-                            <li className="rounded-lg mb-4">
+                            {/* <li className="rounded-lg mb-4">
                                 <NavLink
                                     className="flex items-center gap-4 text-sm text-gray-700 font-light px-4 py-3 rounded-lg"
                                     activeClassName="bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md"
@@ -86,7 +86,7 @@ export default function FactorySidebar() {
                                     <Icon name="dashboard" size="2xl" />
                                     Batch Shipment
                                 </NavLink>
-                            </li>
+                            </li> */}
                             
                             {/* <li className="rounded-lg mb-4">
                                 <NavLink

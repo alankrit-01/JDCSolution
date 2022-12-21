@@ -139,8 +139,8 @@ const updateEthers = () => {
 
     const getProductTemplateHandler = async (event) => {
 
-        let array = await supplychainContract.getAllBatchTemplateIDs();
-        console.log("array", array)
+        // let array = await supplychainContract.getAllBatchTemplateIDs();
+        // console.log("array", array)
 
         // for(let i=0;i<array.length; i++){
         //     let data =await supplychainContract.ProductTemplateMAP(array[i]);  
@@ -165,6 +165,9 @@ const updateEthers = () => {
     //     })
     //     setFilterFactories(result)
     // },[Search]) 
+
+    
+     
     return (
         <>
             <FactorySidebar />
