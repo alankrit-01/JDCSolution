@@ -53,12 +53,20 @@ export default function FactoryNavbar({ showSidebar, setShowSidebar }) {
         
     }
 
+    const tempHandler= async()=>{
+        // console.log(supplychainContract);
+        // const results = await supplychainContract.x();
+        // console.log(results);   
+        // await supplychainContract.addBatchTemplate("2817373811","0193Bvch11","Batch Description",20,"0xcd3B766CCDd6AE721141F452C550Ca635964ce71");
+    }                            
+
     const accountChangedHandler = (newAccount) => {
 		setDefaultAccount(newAccount);
 		updateEthers();
 
         localStorage.setItem('currentFactoryUserHash', newAccount);
 	}
+
     const chainChangedHandler = () => {
 		window.location.reload();
 	}
@@ -67,29 +75,32 @@ export default function FactoryNavbar({ showSidebar, setShowSidebar }) {
 	window.ethereum.on('accountsChanged', accountChangedHandler);
 	window.ethereum.on('chainChanged', chainChangedHandler);
 
-	const updateEthers = () => {
+	const updateEthers = async() => {
 		let tempProvider = new ethers.providers.Web3Provider(window.ethereum);
 		setProvider(tempProvider);
         
 		let tempSigner = tempProvider.getSigner();
 		setSigner(tempSigner);
         
-        //console.log("tempSigner",tempSigner)
+        // console.log("tempSigner",tempSigner)
+        // console.log("supplyChainAddress",supplyChainAddress)
+        // console.log(Supplychain_abi.abi)
 
         let supplychainContract = new ethers.Contract(supplyChainAddress, Supplychain_abi.abi, tempSigner);
 		setsupplychainContract(supplychainContract);
 
-		//console.log("supplychaintempContract",supplychainContract);
+		// console.log("Hello supplychaintempContract",supplychainContract);
+
+        // console.log("Solution :",await supplychainContract.x());
+        
+
+        // console.log(await supplychainContract.getAllProductTemplateIDs());
         
 		
         // dispatch({ type: "updateSupplychain", supplyChainContract: supplychaintempContract })
 		// console.log(await supplychaintempContract.totalBatchs());	
 	}
-
-
-    
    
-
 
     return (
         <nav className="bg-light-blue-500 md:ml-64 py-6 px-3">
@@ -134,6 +145,7 @@ export default function FactoryNavbar({ showSidebar, setShowSidebar }) {
                     <div className="flex">
                     <span style={{padding:'5px', color:'#fff'}} ><b>Addres:-</b> {defaultAccount}</span>
                     <Button onClick={connectWalletHandler}> Connect Metamask</Button>
+                    <Button onClick={tempHandler}> HELP</Button>
 
                         {/* <NavbarInput placeholder="Search" /> */}
                         <div className="-mr-4 ml-6">

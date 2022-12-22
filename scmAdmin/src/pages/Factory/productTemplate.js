@@ -85,7 +85,7 @@ const updateEthers = () => {
     //console.log("tempSigner",tempSigner)
 
     let supplychainContract = new ethers.Contract(supplyChainAddress, Supplychain_abi.abi, tempSigner);
-    setsupplychainContract(supplychainContract);
+    // setsupplychainContract("From product temp :",supplychainContract);
 
     //console.log("supplychaintempContract",supplychainContract);
     

@@ -54,8 +54,7 @@ const AddProductTemplate = () => {
 
 		} else{
             console.log('Need to install MetaMask');
-			setErrorMessage('Please install MetaMask browser extension to interact');
-           
+			setErrorMessage('Please install MetaMask browser extension to interact');  
         }
         
     }

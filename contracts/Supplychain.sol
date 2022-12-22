@@ -16,7 +16,7 @@ contract Supplychain{
         string name;
         string description;
     }
-
+    uint public x=10;
     mapping(string=>ProductTemplate) public ProductTemplateMAP;
     mapping(string=>BatchTemplate) public BatchTemplateMAP;
     
