@@ -112,11 +112,13 @@ const AddProductTemplate = () => {
     const [productExpDate, setProductExpDate] = useState('');
 
     const  handleSubmit = async (event) =>{
-        event.preventDefault();
-        const tx = await supplychainContract.addProductTemplate("0193Bvch11","Product Name","Product Description");
-        if(tx){
-           navigate("/factory/productTemplate")
-        }
+        event.preventDefault(); 
+        let array =await supplychainContract.getAllProductTemplateIDs();
+        console.log("array dfsdfsdf", array);
+        // const tx = await supplychainContract.addProductTemplate("0193Bvch11","Product Name","Product Description");
+        // if(tx){
+        //    navigate("/factory/productTemplate")
+        // }
     }
 
     // useMemo(() => {
