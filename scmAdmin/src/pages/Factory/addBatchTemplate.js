@@ -1,7 +1,7 @@
 import MainStatusCard from "components/Factory/MainStatusCard";
 import FactorySidebar from "components/Factory/Sidebar";
-import Footer from "components/Factory/Footer";
-import Card from '@material-tailwind/react/Card';
+import Footer from "components/Factory/Footer";         
+import Card from '@material-tailwind/react/Card';           
 import CardHeader from '@material-tailwind/react/CardHeader';
 import CardBody from '@material-tailwind/react/CardBody';
 import Button from '@material-tailwind/react/Button';
@@ -9,9 +9,11 @@ import Input from '@material-tailwind/react/Input';
 import Textarea from '@material-tailwind/react/Textarea';
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom"; 
 
-////need improve////
+    
+    //\/\/\/\/\/\/\/\/-need-improve-/\/\/\/\/\/\/\/\
+
 import Supplychain_abi from '../../artifacts/contracts/Supplychain.sol/Supplychain.json';
 import { ethers } from "ethers";
 let supplyChainAddress = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
