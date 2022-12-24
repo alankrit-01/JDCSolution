@@ -27,8 +27,8 @@ const AddProductTemplate = () => {
     const [errorMessage,setErrorMessage] =  useState(null)
 
     // const [SCContract, setSCContract] = useState();
-    const [provider, setProvider] = useState(null);
-	const [signer, setSigner] = useState(null);
+    const [provider, setProvider] = useState(null);     
+	const [signer, setSigner] = useState(null);         
 	const [supplychainContract, setsupplychainContract] = useState(null);
 
 
