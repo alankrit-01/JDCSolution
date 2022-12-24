@@ -966,11 +966,11 @@ video {
 .border-b{
 	border-bottom-width: 1px;
 }
-.border-b-2{
-	border-bottom-width: 2px;
-}
 .border-b-4{
 	border-bottom-width: 4px;
+}
+.border-b-2{
+	border-bottom-width: 2px;
 }
 .border-solid{
 	border-style: solid;
@@ -1094,10 +1094,6 @@ video {
 	padding-top: 0.5rem;
 	padding-bottom: 0.5rem;
 }
-.py-2\.5{
-	padding-top: 0.625rem;
-	padding-bottom: 0.625rem;
-}
 .px-8{
 	padding-left: 2rem;
 	padding-right: 2rem;
@@ -1109,6 +1105,10 @@ video {
 .py-8{
 	padding-top: 2rem;
 	padding-bottom: 2rem;
+}
+.py-2\.5{
+	padding-top: 0.625rem;
+	padding-bottom: 0.625rem;
 }
 .pr-4{
 	padding-right: 1rem;
