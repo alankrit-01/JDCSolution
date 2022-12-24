@@ -112,7 +112,7 @@ const AddProductTemplate = () => {
 
     const  handleSubmit = async (event) =>{
         event.preventDefault(); 
-        let array =await supplychainContract.getAllProductTemplateIDs();
+        let array =await supplychainContract.x();
         console.log("array dfsdfsdf", array);
         // const tx = await supplychainContract.addProductTemplate("0193Bvch11","Product Name","Product Description");
         // if(tx){
