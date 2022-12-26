@@ -27,13 +27,13 @@ async function main() {
   await supplychain.addProductTemplate("08sh2u11uw","Product Name","Product Description");
 
 
-  // List of all product templates
+  // List of all product templates  
 
   // let array =await supplychain.getAllProductTemplateIDs()
   // for(let i=0;i<array.length; i++){
   //   let data =await supplychain.ProductTemplateMAP(array[i]);  
   //   console.log(data);
-  // }
+  // }  
 
   // Add a new Batch
   // await supplychain.addBatchTemplate("1827371912","0193Bvch11","Batch Description",15,"0x71bE63f3384f5fb98995898A86B02Fb2426c5788");
@@ -48,6 +48,20 @@ async function main() {
   //   console.log(data);
   // }
   // while()
+
+
+  // Add a batch
+
+  await supplychain.batchProduced(
+    "0x71bE63f3384f5fb98995898A86B02Fb2426c5788",// factory
+    "0x71bE63f3384f5fb98995898A86B02Fb2426c5788",// distributor
+    14, // batchSize
+    1738101,// batchID
+    4821913,// productID
+    "ABC",// factoryLocation
+    "DEF",// distributorLocation
+    1828171// dateOfProduction
+  )
 }
 
 // We recommend this pattern to be able to use async/await everywhere
