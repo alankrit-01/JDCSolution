@@ -74,7 +74,7 @@ export const storeMultiUser = (data) =>{
 
 //////////Factory Module //////////////
 
-export const factoryLogin = (data) =>{
+export const factoryLogin = (data) =>{ 
     return{
         type:FactoryUserLogin,
         data:data 

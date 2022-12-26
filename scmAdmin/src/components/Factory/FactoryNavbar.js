@@ -11,9 +11,7 @@ import { NavLink } from 'react-router-dom';
 import { useEffect, useMemo, useState } from 'react';
 
 import { ethers } from 'ethers'; 
-
 let supplyChainAddress = '0xD64337aDC5074f7a126d017fe1Cce854aB6F3e3C';
-// let supplyChainAddress = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
 
 export default function FactoryNavbar({ showSidebar, setShowSidebar }) {
     const location = useLocation().pathname;
@@ -51,12 +49,11 @@ export default function FactoryNavbar({ showSidebar, setShowSidebar }) {
 			setErrorMessage('Please install MetaMask browser extension to interact');
            
         }
-        
     }
 
-    const tempHandler= async ()=>{
+    const tempHandler= async ()=>{ 
         console.log("Temp Signer",supplychainContract);
-        let results =await supplychainContract.x()
+        let results =await supplychainContract.getAllProductTemplateIDs()
         console.log(results);   
         // await supplychainContract.addBatchTemplate("2817373811","0193Bvch11","Batch Description",20,"0xcd3B766CCDd6AE721141F452C550Ca635964ce71");
     }                            

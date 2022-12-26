@@ -40,7 +40,8 @@ const factoryloginRec = {
     factoryUsername: "",
     factoryUserEmail: "",
     factorytoken: "",
-    factoryUserRole: ""
+    factoryUserRole: "",
+    factoryUserAddress:""
 }
 
 const factoryStoreData ={
@@ -214,6 +215,8 @@ export const FactoryLoginData = (initialdata = factoryloginRec, action) => {
             initialdata = { ...initialdata, factorytoken: token }
             let userRole = localStorage.getItem('factoryUserRole');
             initialdata = { ...initialdata, factoryUserRole: userRole }
+            let userAddress = localStorage.getItem('factoryUserAddress');
+            initialdata = { ...initialdata, factoryUserAddress: userAddress }
             let currentFactoryUserHash = localStorage.getItem('currentFactoryUserHash');
             initialdata = { ...initialdata, currentFactoryUserHash: currentFactoryUserHash }
             return initialdata;
@@ -231,6 +234,8 @@ export const FactoryLoginData = (initialdata = factoryloginRec, action) => {
             initialdata = { ...initialdata, factorytoken: token1 }
             let userRole1 = localStorage.getItem('factoryUserRole');
             initialdata = { ...initialdata, factoryUserRole: userRole1 }
+            let userAddress1 = localStorage.getItem('factoryUserAddress');
+            initialdata = { ...initialdata, factoryUserAddress: userAddress1 }
             let currentFactoryUserHash1 = localStorage.getItem('currentFactoryUserHash');
             initialdata = { ...initialdata, currentFactoryUserHash: currentFactoryUserHash1 }
             return initialdata;
@@ -240,10 +245,12 @@ export const FactoryLoginData = (initialdata = factoryloginRec, action) => {
             localStorage.removeItem('factoryUserEmail');
             localStorage.removeItem('factorytoken');
             localStorage.removeItem('factoryUserRole');
+            localStorage.removeItem('factoryUserAddress');
             initialdata = { ...initialdata, factoryUserName: "" }
             initialdata = { ...initialdata, factoryUserEmail: "" }
             initialdata = { ...initialdata, factorytoken: "" }
             initialdata = { ...initialdata, factoryUserRole: "" }
+            initialdata = { ...initialdata, factoryUserAddress: "" }
             return initialdata;
             break;
         default:
