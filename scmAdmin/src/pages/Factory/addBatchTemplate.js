@@ -7,8 +7,8 @@ import CardBody from '@material-tailwind/react/CardBody';
 import Button from '@material-tailwind/react/Button';
 import Input from '@material-tailwind/react/Input';
 import Textarea from '@material-tailwind/react/Textarea';
-import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect, useMemo, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 
@@ -16,21 +16,46 @@ import { useNavigate } from "react-router-dom";
 
 import Supplychain_abi from '../../artifacts/contracts/Supplychain.sol/Supplychain.json';
 import { ethers } from "ethers";
-let supplyChainAddress = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
+let supplyChainAddress = '0xD64337aDC5074f7a126d017fe1Cce854aB6F3e3C';
+
+
 ////End need improve////
 const AddBatchTemplate = () => {
 
 
 
+
     ////need improve////
+
     const [defaultAccount, setDefaultAccount] = useState('');
+    const [userAddress, setUserAddress] = useState('');
     const [connButtonText, setConnButtonText] = useState('Connect Wallet');
     const [errorMessage, setErrorMessage] = useState(null)
-
+    const [materiallist, setMateriallist] = useState(null);
     // const [SCContract, setSCContract] = useState();
     const [provider, setProvider] = useState(null);
     const [signer, setSigner] = useState(null);
     const [supplychainContract, setsupplychainContract] = useState(null);
+
+    const [batchTemplateId, setBatchTemplateId] = useState(null);
+
+    
+    const factoryData = useSelector((state) => state.FactoryLoginData);
+
+    useEffect(() => {
+        setUserAddress(factoryData.factoryUserAddress);
+    }, [])
+
+    const allsupplymateriallist = [];
+
+    function randomBatchId() {
+        let currentTimestamp = Date.now()
+        return currentTimestamp;
+    }
+
+    useEffect(() => {
+        setBatchTemplateId(randomBatchId());
+    }, [])
 
 
     useEffect(() => {
@@ -58,7 +83,6 @@ const AddBatchTemplate = () => {
             setErrorMessage('Please install MetaMask browser extension to interact');
 
         }
-
     }
 
     const accountChangedHandler = (newAccount) => {
@@ -76,50 +100,67 @@ const AddBatchTemplate = () => {
     window.ethereum.on('chainChanged', chainChangedHandler);
 
 
-    const updateEthers = () => {
+    // listen for account changes
+    window.ethereum.on('accountsChanged', accountChangedHandler);
+    window.ethereum.on('chainChanged', chainChangedHandler);
+
+    const updateEthers = async () => {
         let tempProvider = new ethers.providers.Web3Provider(window.ethereum);
         setProvider(tempProvider);
 
         let tempSigner = tempProvider.getSigner();
         setSigner(tempSigner);
 
-        //console.log("tempSigner",tempSigner)
-
         let supplychainContract = new ethers.Contract(supplyChainAddress, Supplychain_abi.abi, tempSigner);
         setsupplychainContract(supplychainContract);
 
-        //console.log("supplychaintempContract",supplychainContract);
-
-
-        // dispatch({ type: "updateSupplychain", supplyChainContract: supplychaintempContract })
-        // console.log(await supplychaintempContract.totalBatchs());	
     }
 
 
-    // const buyCottonMaterialHandler = async (event) => {
-
-
-    //   }
-
     ////End need improve////
+
+
+
+    const getProductId = async () => {
+        let array = await (supplychainContract && supplychainContract.getAllProductTemplateIDs());
+
+        if (array && array.length > 0) {
+            for (let i = 0; i < array.length; i++) {
+                let data = await (supplychainContract && supplychainContract.ProductTemplateMAP(array[i]));
+
+                allsupplymateriallist.push(
+                    <>
+                        <option value={data.productTemplateID}>{data.productTemplateID}</option>
+                    </>
+                )
+
+            }
+        }
+
+        setMateriallist(allsupplymateriallist);
+    }
+
+    useMemo(() => {
+        getProductId();
+    }, [supplychainContract])
 
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [productId, setProductId] = useState('');
-    const [batchTemplateId, setBatchTemplateId] = useState('');
+    
     const [batchSize, setBatchSize] = useState('');
     const [batchDescription, setBatchDescription] = useState('');
-
+    const [batchManufacture, setBatchManufacture] = useState('');
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const tx = await supplychainContract.addBatchTemplate("1827371912", "0193Bvch11", "Batch Description", 15, "0x71bE63f3384f5fb98995898A86B02Fb2426c5788");
+        // console.log("productId productId", productId)
+        const tx = await supplychainContract.addBatchTemplate(batchTemplateId.toString(), productId.toString(), batchDescription, batchSize, defaultAccount);
         if (tx) {
             navigate("/factory/batchTemplate")
         }
-
-    } 
+    }
 
     return (
         <>
@@ -139,36 +180,19 @@ const AddBatchTemplate = () => {
                                 <Card>
                                     <CardHeader color="purple" contentPosition="none">
                                         <div className="w-full flex items-center justify-between">
-                                            <h2 className="text-white text-2xl">Add Batch Template </h2>
+                                            <h2 className="text-white text-2xl">Add Batch </h2>
                                         </div>
                                     </CardHeader>
                                     <CardBody>
                                         <form onSubmit={handleSubmit}>
                                             <div className="flex flex-wrap mt-10">
-                                                <div className="w-full pr-4 font-light">
-                                                    <span><b>Batch Template ID</b></span>
-                                                    <Input
-                                                        type="text"
-                                                        color="purple"
-                                                        name="batchTemplateId"
-                                                        value={batchTemplateId} onChange={(e) => setBatchTemplateId(e.target.value)}
-                                                    />
-                                                </div>
                                                 <div className="w-screen flex flex-wrap mt-10 font-light">
-                                                    <span><b>Product ID</b></span>
-                                                    <select id="underline_select" color="purple" class="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer">
-                                                        <option selected>Choose a country</option>
-                                                        <option value="US">United States</option>
-                                                        <option value="CA">Canada</option>
-                                                        <option value="FR">France</option>
-                                                        <option value="DE">Germany</option>
+                                                    <span><b>Product Template ID</b></span>
+                                                    <select id="productId" name="productId" color="purple" class="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer" onChange={(e) => setProductId(e.target.value)}>
+                                                        <option selected>Choose a Product Template Id</option>
+                                                        {materiallist}
                                                     </select>
-                                                    <Input
-                                                        type="text"
-                                                        color="purple"
-                                                        name="productId"
-                                                        value={productId} onChange={(e) => setProductId(e.target.value)}
-                                                    />
+
                                                 </div>
                                                 <div className="w-screen flex flex-wrap mt-10 font-light">
                                                     <span><b>Batch Size</b></span>
@@ -187,6 +211,17 @@ const AddBatchTemplate = () => {
                                                         name="batchDescription"
                                                         value={batchDescription} onChange={(e) => setBatchDescription(e.target.value)}
                                                     />
+                                                </div>
+                                                <div className="w-screen flex flex-wrap mt-10 font-light">
+                                                    <span><b>Select Distributer</b></span>
+                                                    <select id="productId" name="productId" color="purple" class="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer" onChange={(e) => setProductId(e.target.value)}>
+                                                        <option selected>Choose a Product Template Id</option>
+                                                        {materiallist}
+                                                    </select>
+                                                </div>
+                                                <div className="w-screen flex flex-wrap mt-10 font-light">
+                                                    <span><b>Manufacture Date</b></span>
+                                                    <Input type="date" color="purple" value={batchManufacture} onChange={(e) => setBatchManufacture(e.target.value)} required />
                                                 </div>
                                             </div>
                                             <div className="flex mt-10">

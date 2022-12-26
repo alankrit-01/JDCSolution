@@ -4,7 +4,7 @@ import Footer from 'components/Factory/Footer';
 import { NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getFactory } from 'Services/action';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import DataTable from 'react-data-table-component';
 import { Button } from "@material-tailwind/react";
 import Input from '@material-tailwind/react/Input';
@@ -12,96 +12,98 @@ import Input from '@material-tailwind/react/Input';
 ////need improve////
 import Supplychain_abi from '../../artifacts/contracts/Supplychain.sol/Supplychain.json';
 import { ethers } from "ethers";
-let supplyChainAddress = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
+let supplyChainAddress = '0xD64337aDC5074f7a126d017fe1Cce854aB6F3e3C';
 ////End need improve////
 
 const ProductTemplate = () => {
 
 
+    ////need improve////
+
+    const [defaultAccount, setDefaultAccount] = useState('');
+    const [connButtonText, setConnButtonText] = useState('Connect Wallet');
+    const [errorMessage, setErrorMessage] = useState(null)
+
+    // const [SCContract, setSCContract] = useState();
+    const [provider, setProvider] = useState(null);
+    const [signer, setSigner] = useState(null);
+    const [supplychainContract, setsupplychainContract] = useState('');
+
+    const [productTemplatelist, setProductTemplatelist] = useState(null);
+
+    const allProductTemplatelist = [];
+
+    useEffect(() => {
+        connectWalletHandler();
+
+    }, [])
 
 
-    
-////need improve////
-const [defaultAccount, setDefaultAccount] = useState('');
-const [connButtonText, setConnButtonText] = useState('Connect Wallet');
-const [errorMessage,setErrorMessage] =  useState(null)
+    const connectWalletHandler = () => {
+        if (window.ethereum && window.ethereum.isMetaMask) {
+            window.ethereum.request({ method: 'eth_requestAccounts' })
+                .then(result => {
+                    //console.log("helllo then",result)
+                    accountChangedHandler(result[0]);
+                    setConnButtonText('Wallet Connected');
 
-// const [SCContract, setSCContract] = useState();
-const [provider, setProvider] = useState(null);
-const [signer, setSigner] = useState(null);
-const [supplychainContract, setsupplychainContract] = useState(null);
+                })
+                .catch(error => {
+                    console.log("error", error);
+                    setErrorMessage()
+                });
 
+        } else {
+            console.log('Need to install MetaMask');
+            setErrorMessage('Please install MetaMask browser extension to interact');
 
-useEffect(() => {
-    connectWalletHandler();  
- 
-}, [])
-
-
-const connectWalletHandler=()=>{
-    if (window.ethereum && window.ethereum.isMetaMask){
-        window.ethereum.request({ method: 'eth_requestAccounts'})
-        .then(result => {
-        //console.log("helllo then",result)
-        accountChangedHandler(result[0]);
-        setConnButtonText('Wallet Connected');
-        
-        })
-        .catch(error => {
-        console.log("error",error);
-        setErrorMessage()
-        });
-
-    } else{
-        console.log('Need to install MetaMask');
-        setErrorMessage('Please install MetaMask browser extension to interact');
-       
+        }
     }
-    
-}
 
-const accountChangedHandler = (newAccount) => {
-    setDefaultAccount(newAccount);
-    updateEthers();
+    const accountChangedHandler = (newAccount) => {
+        setDefaultAccount(newAccount);
+        updateEthers();
 
-}
+        //localStorage.setItem('currentFactoryUserHash', newAccount);
+    }
 
-const chainChangedHandler = () => {
-    window.location.reload();
-}
+    const chainChangedHandler = () => {
+        window.location.reload();
+    }
 
-// listen for account changes
-window.ethereum.on('accountsChanged', accountChangedHandler);
-window.ethereum.on('chainChanged', chainChangedHandler);
-
-
-const updateEthers = () => {
-    let tempProvider = new ethers.providers.Web3Provider(window.ethereum);
-    setProvider(tempProvider);
-    
-    let tempSigner = tempProvider.getSigner();
-    setSigner(tempSigner);
-    
-    //console.log("tempSigner",tempSigner)
-
-    let supplychainContract = new ethers.Contract(supplyChainAddress, Supplychain_abi.abi, tempSigner);
-    // setsupplychainContract("From product temp :",supplychainContract);
-
-    //console.log("supplychaintempContract",supplychainContract);
-    
-    
-    // dispatch({ type: "updateSupplychain", supplyChainContract: supplychaintempContract })
-    // console.log(await supplychaintempContract.totalBatchs());	
-}
+    // listen for account changes
+    window.ethereum.on('accountsChanged', accountChangedHandler);
+    window.ethereum.on('chainChanged', chainChangedHandler);
 
 
-// const buyCottonMaterialHandler = async (event) => {
-    
-    
-//   }
+    // listen for account changes
+    window.ethereum.on('accountsChanged', accountChangedHandler);
+    window.ethereum.on('chainChanged', chainChangedHandler);
 
-////End need improve////
-    
+    useEffect(() => {
+        updateEthers()
+    }, [])
+
+    const updateEthers = async () => {
+        let tempProvider = new ethers.providers.Web3Provider(window.ethereum);
+        setProvider(tempProvider);
+
+        let tempSigner = tempProvider.getSigner();
+        setSigner(tempSigner);
+
+        // console.log("tempSigner",tempSigner)
+        // console.log("supplyChainAddress",supplyChainAddress)
+        // console.log(Supplychain_abi.abi)
+        let supplychainContract = new ethers.Contract(supplyChainAddress, Supplychain_abi.abi, tempSigner);
+        console.log("Ether updates", supplychainContract)
+        setsupplychainContract(supplychainContract);
+
+    }
+
+
+
+    ////End need improve////
+
     const dispatch = useDispatch();
     // const[Factories,setFactories] = useState([]);
     // const[Search,setSearch] = useState("");
@@ -137,28 +139,49 @@ const updateEthers = () => {
 
 
 
-    const getProductTemplateHandler = async (event) => {
 
-        // let array = await supplychainContract.getAllBatchTemplateIDs();
-        // console.log("array", array)
 
-        // for(let i=0;i<array.length; i++){
-        //     let data =await supplychainContract.ProductTemplateMAP(array[i]);  
-        //     console.log(data);
-        //   }
+    const getProductTemplateHandler = async () => {
+        // console.log("supplychainContract", supplychainContract)
+        let array = await (supplychainContract && supplychainContract.getAllProductTemplateIDs());
+        if (array && array.length > 0) {
+            for (let i = 0; i < array.length; i++) {
+                let data = await (supplychainContract && supplychainContract.ProductTemplateMAP(array[i]));
+                console.log(data);
+                allProductTemplatelist.push(
+                    <>
+                        <tr>
+                            <td>{i}</td>
+                            <td>{data && data.productTemplateID}</td>
+                             <td> {data && data.name}</td>
+                            <td>{data && data.description}</td>
+                           
+
+                        </tr>
+                    </>
+                )
+            }
+            setProductTemplatelist(allProductTemplatelist);
+        }
     }
 
-    useEffect(() => {
+    useMemo(() => {
         getProductTemplateHandler();
-      }, []);
+    }, [supplychainContract])
+
+
+
+
+
+
 
     //const initialdata = useSelector((state) => state.FactoryRecord);
-    
+
     // useEffect(() => {
     //     setFactories(initialdata.factoryRec)
     //     setFilterFactories(initialdata.factoryRec)
     // }, [initialdata])
-   
+
     // useEffect(() =>{
     //     const result = Factories.filter((retailer) => {
     //         return retailer.name.toLowerCase().match(Search.toLowerCase());
@@ -166,8 +189,8 @@ const updateEthers = () => {
     //     setFilterFactories(result)
     // },[Search]) 
 
-    
-     
+
+
     return (
         <>
             <FactorySidebar />
@@ -182,7 +205,19 @@ const updateEthers = () => {
                 <div className="px-3 md:px-8 h-auto -mt-24">
                     <div className="container mx-auto max-w-full">
                         <div className="grid grid-cols-1 px-4 mb-16">
-                              <DataTable
+                        <NavLink
+                                    to="/factory/addProductTemplate"><Button>Add</Button></NavLink>
+                            <table className="table-auto">
+                <tr>
+                <th style={{textAlign: "left"}}>Sr. NO</th>
+                  <th style={{textAlign: "left"}}>Product Template ID</th>
+                  <th style={{textAlign: "left"}}>Product Name</th>
+                  <th style={{textAlign: "left"}}>Product Description</th>
+                 
+                </tr>
+                {productTemplatelist}
+              </table>
+                            {/* <DataTable
                                 title="Product Template List"
                                 // columns={columns}
                                 // data={FilterFactories}
@@ -191,15 +226,15 @@ const updateEthers = () => {
                                 selectableRows
                                 selectableRowsHighlight
                                 highlightOnHover
-                                actions={ <NavLink
+                                actions={<NavLink
                                     to="/factory/addProductTemplate"><Button>Add</Button></NavLink>}
-                                subHeader
-                                // subHeaderComponent={
-                                //     <div className="w-full lg:w-6/12 pr-4 mb-10 font-light">
-                                //         <Input type="text" color="purple" placeholder="Search Here" value={Search} onChange={(e) => setSearch(e.target.value)} />
-                                //     </div>
-                                // }
-                            />  
+                                subHeader 
+                             subHeaderComponent={
+                            //     <div className="w-full lg:w-6/12 pr-4 mb-10 font-light">
+                            //         <Input type="text" color="purple" placeholder="Search Here" value={Search} onChange={(e) => setSearch(e.target.value)} />
+                            //     </div>
+                            // }
+                            /> */}
                         </div>
                     </div>
                 </div>

@@ -4,58 +4,185 @@ import Footer from 'components/Factory/Footer';
 import { NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getFactory } from 'Services/action';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import DataTable from 'react-data-table-component';
 import { Button } from "@material-tailwind/react";
 import Input from '@material-tailwind/react/Input';
 
-const BatchTemplate = () => {
-    
-    const dispatch = useDispatch();
-    const[Factories,setFactories] = useState([]);
-    const[Search,setSearch] = useState("");
-    const[FilterFactories,setFilterFactories] = useState([]);
+import Supplychain_abi from '../../artifacts/contracts/Supplychain.sol/Supplychain.json';
+import { ethers } from "ethers";
+let supplyChainAddress = '0xD64337aDC5074f7a126d017fe1Cce854aB6F3e3C';
 
-    const columns = [
-        {
-            name:"Factory Name",
-            selector:(row) => row.name,
-            sortable:true,
-        },
-        {
-            name:"Factory Email",
-            selector:(row) => row.email,
-            sortable:true,
-        },
-        {
-            name:"Factory Address",
-            selector:(row) => row.address,
-            sortable:true,
-        },
-        {
-            name:"Factory Hash Address",
-            selector:(row) => row.hashAddress,
-            sortable:true,
-        },
-    ];
+const BatchTemplate = () => {
+
+    const dispatch = useDispatch();
+    const [Factories, setFactories] = useState([]);
+    const [Search, setSearch] = useState("");
+    const [FilterFactories, setFilterFactories] = useState([]);
+
+    ////need improve////
+
+    const [defaultAccount, setDefaultAccount] = useState('');
+    const [connButtonText, setConnButtonText] = useState('Connect Wallet');
+    const [errorMessage, setErrorMessage] = useState(null)
+
+    // const [SCContract, setSCContract] = useState();
+    const [provider, setProvider] = useState(null);
+    const [signer, setSigner] = useState(null);
+    const [supplychainContract, setsupplychainContract] = useState('');
+
+    const [productTemplatelist, setProductTemplatelist] = useState(null);
+
+    const allProductTemplatelist = [];
 
     useEffect(() => {
-        dispatch(getFactory())
+        connectWalletHandler();
+
     }, [])
 
-    const initialdata = useSelector((state) => state.FactoryRecord);
-    
+
+    const connectWalletHandler = () => {
+        if (window.ethereum && window.ethereum.isMetaMask) {
+            window.ethereum.request({ method: 'eth_requestAccounts' })
+                .then(result => {
+                    //console.log("helllo then",result)
+                    accountChangedHandler(result[0]);
+                    setConnButtonText('Wallet Connected');
+
+                })
+                .catch(error => {
+                    console.log("error", error);
+                    setErrorMessage()
+                });
+
+        } else {
+            console.log('Need to install MetaMask');
+            setErrorMessage('Please install MetaMask browser extension to interact');
+
+        }
+    }
+
+    const accountChangedHandler = (newAccount) => {
+        setDefaultAccount(newAccount);
+        updateEthers();
+
+        //localStorage.setItem('currentFactoryUserHash', newAccount);
+    }
+
+    const chainChangedHandler = () => {
+        window.location.reload();
+    }
+
+    // listen for account changes
+    window.ethereum.on('accountsChanged', accountChangedHandler);
+    window.ethereum.on('chainChanged', chainChangedHandler);
+
+
+    // listen for account changes
+    window.ethereum.on('accountsChanged', accountChangedHandler);
+    window.ethereum.on('chainChanged', chainChangedHandler);
+
     useEffect(() => {
-        setFactories(initialdata.factoryRec)
-        setFilterFactories(initialdata.factoryRec)
-    }, [initialdata])
-   
-    useEffect(() =>{
-        const result = Factories.filter((retailer) => {
-            return retailer.name.toLowerCase().match(Search.toLowerCase());
-        })
-        setFilterFactories(result)
-    },[Search]) 
+        updateEthers()
+    }, [])
+
+    const updateEthers = async () => {
+        let tempProvider = new ethers.providers.Web3Provider(window.ethereum);
+        setProvider(tempProvider);
+
+        let tempSigner = tempProvider.getSigner();
+        setSigner(tempSigner);
+
+        // console.log("tempSigner",tempSigner)
+        // console.log("supplyChainAddress",supplyChainAddress)
+        // console.log(Supplychain_abi.abi)
+        let supplychainContract = new ethers.Contract(supplyChainAddress, Supplychain_abi.abi, tempSigner);
+        console.log("Ether updates", supplychainContract)
+        setsupplychainContract(supplychainContract);
+
+    }
+
+
+
+    ////End need improve////
+
+
+    const getProductTemplateHandler = async () => {
+        // console.log("supplychainContract", supplychainContract)
+        let array = await (supplychainContract && supplychainContract.getAllBatchTemplateIDs());
+        if (array && array.length > 0) {
+            for (let i = 0; i < array.length; i++) {
+                let data = await (supplychainContract && supplychainContract.BatchTemplateMAP(array[i]));
+                console.log(data);
+                allProductTemplatelist.push(
+                    <>
+                        <tr>
+                            <td>{i}</td>
+                            <td>{data && data.batchTemplateID}</td>
+                            <td>{data && data.productTemplateID}</td>
+                            <td> {data && data.batchSize.toNumber()}</td>
+                            <td> {data && data.batchSize.toNumber()}</td>
+                            {/* <td>{data && data.description}</td> */}
+
+
+                        </tr>
+                    </>
+                )
+            }
+            setProductTemplatelist(allProductTemplatelist);
+        }
+    }
+
+    useMemo(() => {
+        getProductTemplateHandler();
+    }, [supplychainContract])
+
+
+
+
+
+
+
+    // const columns = [
+    //     {
+    //         name:"Factory Name",
+    //         selector:(row) => row.name,
+    //         sortable:true,
+    //     },
+    //     {
+    //         name:"Factory Email",
+    //         selector:(row) => row.email,
+    //         sortable:true,
+    //     },
+    //     {
+    //         name:"Factory Address",
+    //         selector:(row) => row.address,
+    //         sortable:true,
+    //     },
+    //     {
+    //         name:"Factory Hash Address",
+    //         selector:(row) => row.hashAddress,
+    //         sortable:true,
+    //     },
+    // ];
+
+    // useEffect(() => {
+    //     dispatch(getFactory())
+    // }, [])
+
+    // const initialdata = useSelector((state) => state.FactoryRecord);
+
+    // useEffect(() => {
+    //     setFactories(initialdata.factoryRec)
+    //     setFilterFactories(initialdata.factoryRec)
+    // }, [initialdata])
+
+    // useEffect(() =>{
+    //     const result = Factories.filter((retailer) => {
+    //         return retailer.name.toLowerCase().match(Search.toLowerCase());
+    //     })
+    //     setFilterFactories(result)
+    // },[Search]) 
     return (
         <>
             <FactorySidebar />
@@ -70,7 +197,21 @@ const BatchTemplate = () => {
                 <div className="px-3 md:px-8 h-auto -mt-24">
                     <div className="container mx-auto max-w-full">
                         <div className="grid grid-cols-1 px-4 mb-16">
-                              <DataTable
+                            <NavLink
+                                to="/factory/addBatchTemplate"><Button>Add</Button></NavLink>
+                            <table className="table-auto">
+                                <tr>
+                                    <th style={{ textAlign: "left" }}>Sr. NO</th>
+                                    <th style={{ textAlign: "left" }}>Batch ID</th>
+                                    <th style={{ textAlign: "left" }}>Product Template ID</th>
+                                    <th style={{ textAlign: "left" }}>Batch Size</th>
+                                    <th style={{ textAlign: "left" }}>Distributer</th>
+                                    {/* <th style={{textAlign: "left"}}>Batch Description</th> */}
+
+                                </tr>
+                                {productTemplatelist}
+                            </table>
+                            {/* <DataTable
                                 title="Batch Template List"
                                 // columns={columns}
                                 // data={FilterFactories}
@@ -87,7 +228,7 @@ const BatchTemplate = () => {
                                         <Input type="text" color="purple" placeholder="Search Here" value={Search} onChange={(e) => setSearch(e.target.value)} />
                                     </div>
                                 }
-                            />  
+                            />   */}
                         </div>
                     </div>
                 </div>

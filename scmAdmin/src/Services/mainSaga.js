@@ -82,6 +82,9 @@ function* factoryUserLogin(data) {
         localStorage.setItem('factoryUserEmail', factoryLoginRes.data.userEmail);
         localStorage.setItem('factorytoken', factoryLoginRes.data.token);
         localStorage.setItem('factoryUserRole', factoryLoginRes.data.userRole);
+        localStorage.setItem('factoryUserAddress', factoryLoginRes.data.address);
+
+        
         yield put({ type: Set_Factory_Login, result })
     } catch (error) {
         console.log("Error is ", error)
@@ -194,7 +197,7 @@ function* storeProductTemplate(data) {
 
 
 
-function* mainSaga() {
+function* mainSaga() { 
     yield takeLatest(AdminUserLogin, adminUserLogin)
     yield takeLatest(AdminUserLogout, adminUserLogout)
     yield takeLatest(Get_Local_Store_Data, getLocalStoreData)

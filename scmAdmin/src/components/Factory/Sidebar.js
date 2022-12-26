@@ -74,7 +74,7 @@ export default function FactorySidebar() {
                                     activeClassName="bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md"
                                 >
                                     <Icon name="dashboard" size="2xl" />
-                                    Batch Template
+                                    Batch 
                                 </NavLink>
                             </li>
 

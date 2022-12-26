@@ -14,7 +14,6 @@ import { useEffect, useState } from 'react';
 export default function ProfileCard() {
         const initialdata = useSelector((state) => state.FactoryLoginData);
     
-    console.log("initialdata sds",initialdata)
     return (
         <Card>
             <div className="flex flex-wrap justify-center">
