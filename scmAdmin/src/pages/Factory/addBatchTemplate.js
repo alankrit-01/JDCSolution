@@ -10,6 +10,7 @@ import Textarea from '@material-tailwind/react/Textarea';
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { getDistributer } from 'Services/action';
 
 
 //\/\/\/\/\/\/\/\/-need-improve-/\/\/\/\/\/\/\/\
@@ -28,7 +29,7 @@ const AddBatchTemplate = () => {
     ////need improve////
 
     const [defaultAccount, setDefaultAccount] = useState('');
-    const [userAddress, setUserAddress] = useState('');
+    const [factoryAddress, setFactoryAddress] = useState('');
     const [connButtonText, setConnButtonText] = useState('Connect Wallet');
     const [errorMessage, setErrorMessage] = useState(null)
     const [materiallist, setMateriallist] = useState(null);
@@ -39,11 +40,11 @@ const AddBatchTemplate = () => {
 
     const [batchTemplateId, setBatchTemplateId] = useState(null);
 
-    
+
     const factoryData = useSelector((state) => state.FactoryLoginData);
 
     useEffect(() => {
-        setUserAddress(factoryData.factoryUserAddress);
+        setFactoryAddress(factoryData.factoryUserAddress);
     }, [])
 
     const allsupplymateriallist = [];
@@ -113,30 +114,20 @@ const AddBatchTemplate = () => {
 
         let supplychainContract = new ethers.Contract(supplyChainAddress, Supplychain_abi.abi, tempSigner);
         setsupplychainContract(supplychainContract);
-
     }
-
-
     ////End need improve////
-
-
-
     const getProductId = async () => {
         let array = await (supplychainContract && supplychainContract.getAllProductTemplateIDs());
-
         if (array && array.length > 0) {
             for (let i = 0; i < array.length; i++) {
                 let data = await (supplychainContract && supplychainContract.ProductTemplateMAP(array[i]));
-
                 allsupplymateriallist.push(
                     <>
                         <option value={data.productTemplateID}>{data.productTemplateID}</option>
                     </>
                 )
-
             }
         }
-
         setMateriallist(allsupplymateriallist);
     }
 
@@ -148,6 +139,8 @@ const AddBatchTemplate = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [productId, setProductId] = useState('');
+    const [distributer, setDistributer] = useState('');
+
     
     const [batchSize, setBatchSize] = useState('');
     const [batchDescription, setBatchDescription] = useState('');
@@ -156,9 +149,28 @@ const AddBatchTemplate = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         // console.log("productId productId", productId)
-        const tx = await supplychainContract.addBatchTemplate(batchTemplateId.toString(), productId.toString(), batchDescription, batchSize, defaultAccount);
+        const tx = await supplychainContract.addBatchTemplate(defaultAccount,distributer, batchSize, batchTemplateId.toString(), productId.toString(),factoryAddress,factoryAddress, batchManufacture);
         if (tx) {
             navigate("/factory/batchTemplate")
+        }
+    }
+
+    useEffect(() => {
+        dispatch(getDistributer())
+    }, [])
+
+    const distributerdata = useSelector((state) => state.DistributerRecord);
+
+    let distributerdatarec = distributerdata.distributerRec
+
+    const distributerlist = [];
+    if (distributerdatarec && distributerdatarec.length > 0) {
+        for (let i = 0; i < distributerdatarec.length; i++) {
+            distributerlist.push(
+                <>
+                    <option value={distributerdatarec[i].hashAddress}>{distributerdatarec[i].name}</option>
+                </>
+            )
         }
     }
 
@@ -214,9 +226,9 @@ const AddBatchTemplate = () => {
                                                 </div>
                                                 <div className="w-screen flex flex-wrap mt-10 font-light">
                                                     <span><b>Select Distributer</b></span>
-                                                    <select id="productId" name="productId" color="purple" class="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer" onChange={(e) => setProductId(e.target.value)}>
-                                                        <option selected>Choose a Product Template Id</option>
-                                                        {materiallist}
+                                                    <select id="distributer" name="distributer" color="purple" class="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer" onChange={(e) => setDistributer(e.target.value)}>
+                                                        <option selected>Choose a Distributer </option>
+                                                        {distributerlist}
                                                     </select>
                                                 </div>
                                                 <div className="w-screen flex flex-wrap mt-10 font-light">

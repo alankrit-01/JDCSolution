@@ -113,16 +113,17 @@ const BatchTemplate = () => {
         if (array && array.length > 0) {
             for (let i = 0; i < array.length; i++) {
                 let data = await (supplychainContract && supplychainContract.BatchTemplateMAP(array[i]));
-                console.log(data);
+                //console.log(data);
                 allProductTemplatelist.push(
-                    <>
+                    <> 
                         <tr>
                             <td>{i}</td>
                             <td>{data && data.batchTemplateID}</td>
                             <td>{data && data.productTemplateID}</td>
                             <td> {data && data.batchSize.toNumber()}</td>
                             <td> {data && data.batchSize.toNumber()}</td>
-                            {/* <td>{data && data.description}</td> */}
+                            <td><NavLink to="/factory/addBatchTemplate"><Button>View Batch Qr</Button></NavLink>/<NavLink
+                                to="/factory/addBatchTemplate"><Button>View Product Qr</Button></NavLink> </td>
 
 
                         </tr>
@@ -206,6 +207,7 @@ const BatchTemplate = () => {
                                     <th style={{ textAlign: "left" }}>Product Template ID</th>
                                     <th style={{ textAlign: "left" }}>Batch Size</th>
                                     <th style={{ textAlign: "left" }}>Distributer</th>
+                                    <th style={{ textAlign: "left" }}>Action</th>
                                     {/* <th style={{textAlign: "left"}}>Batch Description</th> */}
 
                                 </tr>
