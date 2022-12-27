@@ -15,7 +15,7 @@ contract Supplychain{
         string productTemplateID;
         string name;
         string description;
-    }
+    }      
 
     mapping(string=>ProductTemplate) public ProductTemplateMAP;
     mapping(string=>BatchTemplate) public BatchTemplateMAP;
@@ -57,7 +57,7 @@ contract Supplychain{
     
     function getAllProductTemplateIDs() public view returns(string []memory){
         return ProductTemplateIDs;
-    }
+    }   
 
     function getAllBatchTemplateIDs() public view returns(string []memory){
         return BatchTemplateIDs;
@@ -70,8 +70,8 @@ contract Supplychain{
         string DOM;
     }   
 
-    struct Batch{
-        uint BatchID;
+    struct Batch{ 
+        uint BatchID; 
         uint[] ProductIDs;  
         uint BatchSize; 
         string BatchDescription; 
@@ -89,18 +89,18 @@ contract Supplychain{
     uint[] public BatchIDs;
  
     function batchProduced(
-        uint batchID,
+        uint batchID, 
         uint[] memory productIDs,
         uint batchSize,
         string memory batchDescription,
         uint productTemplateID,
         address factory,
-        address distributor,
+        address distributor, 
         string memory factoryLocation,
         string memory dateOfProduction 
-    ) public{
+    ) public{                   
         BatchMapping[batchID]=Batch({
-            BatchID:batchID,
+            BatchID:batchID,    
             ProductIDs:productIDs,
             BatchSize:batchSize, 
             BatchDescription:batchDescription, 
@@ -109,7 +109,12 @@ contract Supplychain{
             Distributor:distributor,
             FactoryLocation:factoryLocation,
             DateOfProduction:dateOfProduction 
-        }); 
-        BatchIDs.push(batchID);
+        });                       
+        BatchIDs.push(batchID);     
     }
+
+    function getAllBatchIDs() public view returns(uint []memory){
+        return BatchIDs;
+    }
+    
 }

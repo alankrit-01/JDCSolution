@@ -21,7 +21,7 @@ async function main() {
   // );
   // 0xD64337aDC5074f7a126d017fe1Cce854aB6F3e3C 
 
-  // Add a new product
+  // Add a new product 
 
   // await supplychain.addProductTemplate("0193Bvch11","Product Name","Product Description");
   // await supplychain.addProductTemplate("08sh2u11uw","Product Name","Product Description");
@@ -51,18 +51,31 @@ async function main() {
 
                                                                            
   // Add a batch                                                          
-  // await supplychain.batchProduced(                                      
-  //   1738101,// batchID                                                 
-  //   [16352,173817,17361,1738191], // Array of product Ids               
-  //   10,// Batch Size                                                   
-  //   "A B C",// Batch Description                                        
-  //   7842182,// Product temlplate ID                                    
-  //   "0x71bE63f3384f5fb98995898A86B02Fb2426c5788",// factory address     
-  //   "0x71bE63f3384f5fb98995898A86B02Fb2426c5788",// distributor address
-  //   "My location",// factory Location                                   
-  //   1828171// dateOfProduction                                         
-  // )                                                                     
-                                                                           
+  await supplychain.batchProduced(                                      
+    1738101,// batchID                                                 
+    [16352,173817,17361,1738191], // Array of product Ids               
+    10,// Batch Size                                                   
+    "A B C",// Batch Description                                        
+    7842182,// Product temlplate ID                                    
+    "0x71bE63f3384f5fb98995898A86B02Fb2426c5788",// factory address     
+    "0x71bE63f3384f5fb98995898A86B02Fb2426c5788",// distributor address
+    "My location",// factory Location                                   
+    "1828171"// dateOfProduction                                         
+  ) 
+
+
+  // To get all Batch IDs
+
+  let x =await supplychain.getAllBatchIDs()
+  console.log(x);
+  
+  // To view the list
+  
+  for(let i=0; i<x.length; i++){
+    console.log(await supplychain.BatchMapping(x[i]));
+  }
+                          
+  
 }
 
 // We recommend this pattern to be able to use async/await everywhere
