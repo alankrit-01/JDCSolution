@@ -115,7 +115,7 @@ const BatchTemplate = () => {
                 let data = await (supplychainContract && supplychainContract.BatchTemplateMAP(array[i]));
                 //console.log(data);
                 allProductTemplatelist.push(
-                    <> 
+                    <>
                         <tr>
                             <td>{i}</td>
                             <td>{data && data.batchTemplateID}</td>
