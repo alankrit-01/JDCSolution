@@ -241,7 +241,7 @@ const ProductTemplate = () => {
                 <Footer />
             </div>
         </>
-    );
+    ); 
 }
 export default ProductTemplate
 
