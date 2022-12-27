@@ -89,7 +89,7 @@ async function main() {
   // Product Ids for ith batch
   console.log(await supplychain.getProductIdsForaBatch(batchID))
 
-
+ 
 }
 
 // We recommend this pattern to be able to use async/await everywhere
