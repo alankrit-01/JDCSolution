@@ -80,7 +80,7 @@ contract Supplychain{
         address Distributor;
         string FactoryLocation;
         // string DistributorLocation;
-        uint DateOfProduction;
+        string DateOfProduction;
     }   
 
     mapping(uint=>Product) public ProductMapping;
@@ -97,7 +97,7 @@ contract Supplychain{
         address factory,
         address distributor,
         string memory factoryLocation,
-        uint dateOfProduction 
+        string memory dateOfProduction 
     ) public{
         BatchMapping[batchID]=Batch({
             BatchID:batchID,
