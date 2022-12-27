@@ -12,7 +12,7 @@ import Input from '@material-tailwind/react/Input';
 ////need improve////
 import Supplychain_abi from '../../artifacts/contracts/Supplychain.sol/Supplychain.json';
 import { ethers } from "ethers";
-let supplyChainAddress = '0x9fB784B725a2EB089A97f8c86c4f352F9c1bD2B9';
+let supplyChainAddress = '0xEF01780c988Db40eF0Daf4e1787AefF95f45b189';
 ////End need improve////
 
 const ProductTemplate = () => {
@@ -203,6 +203,10 @@ const ProductTemplate = () => {
                         <div className="grid grid-cols-1 px-4 mb-16">
                             <NavLink
                                 to="/factory/addProductTemplate"><Button>Add</Button></NavLink>
+                                <NavLink
+                                to="/factory/batchQr"><Button>Qr</Button></NavLink>
+                                <NavLink
+                                to="/factory/BatchProductQr"><Button>product Qr</Button></NavLink>
                             <table className="table-auto">
                                 <tr>
                                     <th style={{ textAlign: "left" }}>Sr. NO</th>

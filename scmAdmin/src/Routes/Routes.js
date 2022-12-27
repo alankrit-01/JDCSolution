@@ -15,10 +15,14 @@ import FactorySetting from 'pages/Factory/Settings';
 import Products from "pages/Factory/Product";
 import BatchTemplate from "pages/Factory/batchTemplate";
 import AddBatchTemplate from "pages/Factory/addBatchTemplate";
+import BatchQr from "pages/Factory/batchQr";
+import BatchProductQr from "pages/Factory/batchProductQr";
 import ProductTemplate from "pages/Factory/productTemplate";
 import AddProductTemplate from "pages/Factory/addProductTemplate";
 import AddProduct from "pages/Factory/addProduct";
 import Setting from 'pages/Admin/Settings';
+
+
 import { Route, Routes } from "react-router-dom";
 const WebRoutes = () => {
     return (
@@ -41,6 +45,8 @@ const WebRoutes = () => {
 
             <Route path="/factory/batchTemplate" index element={<BatchTemplate />} />
             <Route path="/factory/addBatchTemplate" index element={<AddBatchTemplate />} />
+            <Route path="/factory/batchQr" index element={<BatchQr />} />
+            <Route path="/factory/batchProductQr" index element={<BatchProductQr />} />
 
             <Route path="/factory/productTemplate" index element={<ProductTemplate />} />
             <Route path="/factory/addProductTemplate" index element={<AddProductTemplate />} />
