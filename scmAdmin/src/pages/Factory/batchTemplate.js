@@ -122,8 +122,11 @@ const BatchTemplate = () => {
                             <td>{data && data.productTemplateID}</td>
                             <td> {data && data.batchSize.toNumber()}</td>
                             <td> {data && data.batchSize.toNumber()}</td>
-                            <td><NavLink to="/factory/addBatchTemplate"><Button>View Batch Qr</Button></NavLink>/<NavLink
-                                to="/factory/addBatchTemplate"><Button>View Product Qr</Button></NavLink> </td>
+                            <td>
+                                <NavLink
+                                to="/factory/addBatchTemplate"><Button>View Batch Qr</Button></NavLink>/<NavLink
+                                to="/factory/addBatchTemplate"><Button>View Product Qr</Button></NavLink>
+                            </td>
 
 
                         </tr>
