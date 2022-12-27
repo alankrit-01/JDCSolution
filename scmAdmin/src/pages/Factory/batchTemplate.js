@@ -11,7 +11,7 @@ import Input from '@material-tailwind/react/Input';
 
 import Supplychain_abi from '../../artifacts/contracts/Supplychain.sol/Supplychain.json';
 import { ethers } from "ethers";
-let supplyChainAddress = '0xFd45EA76c45D756f93f0aa4bbb4e5274fbC4EA3E';
+let supplyChainAddress = '0x9fB784B725a2EB089A97f8c86c4f352F9c1bD2B9';
 
 const BatchTemplate = () => {
 

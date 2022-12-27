@@ -17,7 +17,7 @@ import { getDistributer } from 'Services/action';
 
 import Supplychain_abi from '../../artifacts/contracts/Supplychain.sol/Supplychain.json';
 import { ethers } from "ethers";
-let supplyChainAddress = '0xFd45EA76c45D756f93f0aa4bbb4e5274fbC4EA3E';
+let supplyChainAddress = '0x9fB784B725a2EB089A97f8c86c4f352F9c1bD2B9';
 
 
 ////End need improve////
@@ -147,7 +147,7 @@ const AddBatchTemplate = () => {
     const [batchManufacture, setBatchManufacture] = useState('');
 
     const handleSubmit = async (event) => {
-        event.preventDefault();
+        event.preventDefault(); 
 
         const productIds = [];
         for (let i = 1; i <= batchSize; i++) {
@@ -155,11 +155,11 @@ const AddBatchTemplate = () => {
                 batchTemplateId+i
             )
         } 
-         console.log("supplychainContract", supplychainContract)
-        // const tx = await supplychainContract.batchProduced(batchTemplateId.toString(),productIds, batchSize,batchDescription, productId.toString(), defaultAccount,distributer, factoryAddress, batchManufacture);
-        // if (tx) {
-        //     navigate("/factory/batchTemplate")
-        // }
+        //  console.log("supplychainContract", supplychainContract)
+        const tx = await supplychainContract.batchProduced(batchTemplateId.toString(),productIds, batchSize,batchDescription, productId.toString(), defaultAccount,distributer, factoryAddress, batchManufacture);
+        if (tx) {
+            navigate("/factory/batchTemplate")
+        }
     }
 
     useEffect(() => {
