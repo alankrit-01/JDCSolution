@@ -16,12 +16,14 @@ contract Supplychain{
         string name;
         string description;
     }
-    uint public x=10;
+
     mapping(string=>ProductTemplate) public ProductTemplateMAP;
     mapping(string=>BatchTemplate) public BatchTemplateMAP;
     
     string[] public ProductTemplateIDs;
     string[] public BatchTemplateIDs;
+
+
 
     function addBatchTemplate(
         string memory _batchTemplateID,
@@ -39,6 +41,7 @@ contract Supplychain{
         });
         BatchTemplateIDs.push(_batchTemplateID);
     }
+
     function addProductTemplate(
         string memory _productTemplateID,
         string memory _name,
@@ -60,9 +63,51 @@ contract Supplychain{
         return BatchTemplateIDs;
     }
 
-    // function shipBatchFromFactory(
-        // string memory _productTemplateID,
-        // string memory _batchTemplateID) public {
-    // }
+    struct Product{
+        uint ProductID;
+        string Name;
+        string Description;
+        string DOM;
+    }   
+
+    struct Batch{
+        uint BatchID;
+        uint[] productIDs;
+        uint BatchSize;
+        address Factory;
+        address Distributor;
+        string FactoryLocation;
+        string DistributorLocation;
+        uint DateOfProduction;
+    }   
+
+    mapping(uint=>Product) public ProductMapping;
+    // uint[] public ProductID;
+    mapping(uint=>Batch) public BatchMapping;
+    uint[] public BatchIDs;
  
+    function batchProduced(
+        address factory,
+        address distributor,
+        // string memory name,
+        // string memory description,
+        uint batchSize,
+        uint batchID,
+        uint[] memory productID,
+        string memory factoryLocation,
+        string memory distributorLocation,
+        uint dateOfProduction
+    ) public{
+        BatchMapping[batchID]=Batch({
+            BatchID:batchID,
+            productIDs:productID,
+            BatchSize:batchSize,
+            Factory:factory,
+            Distributor:distributor,
+            FactoryLocation:factoryLocation,
+            DistributorLocation:distributorLocation,
+            DateOfProduction:dateOfProduction 
+        }); 
+        BatchIDs.push(batchID);
+    }
 }
