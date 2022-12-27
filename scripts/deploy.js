@@ -53,15 +53,14 @@ async function main() {
   // Add a batch
 
   await supplychain.batchProduced(
-    "0x71bE63f3384f5fb98995898A86B02Fb2426c5788",// factory
-    "0x71bE63f3384f5fb98995898A86B02Fb2426c5788",// distributor
-    14, // batchSize
     1738101,// batchID
-    4821913,// productID
-    "ABC",// factoryLocation
-    "DEF",// distributorLocation
-    1828171// dateOfProduction
-  )
+    [16352,173817,17361,1738191], // Array of product Ids
+    1738101,// Batch temlate ID
+    7842182,// Product temlate ID 
+    "0x71bE63f3384f5fb98995898A86B02Fb2426c5788",// distributor
+    "My location",// factory Location 
+    1828171// dateOfProduction 
+  ) 
 }
 
 // We recommend this pattern to be able to use async/await everywhere
