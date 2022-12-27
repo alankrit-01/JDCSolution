@@ -73,7 +73,8 @@ contract Supplychain{
     struct Batch{
         uint BatchID;
         uint[] ProductIDs;  
-        uint BatchTemplateID; 
+        uint BatchSize; 
+        uint BatchDescription; 
         uint ProductTemplateID;  
         address Distributor;
         string FactoryLocation;
@@ -89,7 +90,8 @@ contract Supplychain{
     function batchProduced(
         uint batchID,
         uint[] memory productIDs,
-        uint batchTemplateID,
+        uint batchSize,
+        uint batchDescription,
         uint productTemplateID,
         address distributor,
         string memory factoryLocation,
@@ -98,7 +100,8 @@ contract Supplychain{
         BatchMapping[batchID]=Batch({
             BatchID:batchID,
             ProductIDs:productIDs,
-            BatchTemplateID:batchTemplateID,
+            BatchSize:batchSize, 
+            BatchDescription:batchDescription, 
             ProductTemplateID:productTemplateID,
             Distributor:distributor,
             FactoryLocation:factoryLocation,

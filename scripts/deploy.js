@@ -55,6 +55,8 @@ async function main() {
   await supplychain.batchProduced(
     1738101,// batchID
     [16352,173817,17361,1738191], // Array of product Ids
+    10,// Batch Size
+    "A B C",// Batch Description
     1738101,// Batch temlate ID
     7842182,// Product temlate ID 
     "0x71bE63f3384f5fb98995898A86B02Fb2426c5788",// distributor
