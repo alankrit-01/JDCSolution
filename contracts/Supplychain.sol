@@ -72,12 +72,12 @@ contract Supplychain{
 
     struct Batch{
         uint BatchID;
-        uint[] productIDs;
-        uint BatchSize;
-        address Factory;
+        uint[] ProductIDs;  
+        uint BatchTemplateID; 
+        uint ProductTemplateID;  
         address Distributor;
         string FactoryLocation;
-        string DistributorLocation;
+        // string DistributorLocation;
         uint DateOfProduction;
     }   
 
@@ -87,25 +87,21 @@ contract Supplychain{
     uint[] public BatchIDs;
  
     function batchProduced(
-        address factory,
-        address distributor,
-        // string memory name,
-        // string memory description,
-        uint batchSize,
         uint batchID,
-        uint[] memory productID,
+        uint[] memory productIDs,
+        uint batchTemplateID,
+        uint productTemplateID,
+        address distributor,
         string memory factoryLocation,
-        string memory distributorLocation,
-        uint dateOfProduction
+        uint dateOfProduction 
     ) public{
         BatchMapping[batchID]=Batch({
             BatchID:batchID,
-            productIDs:productID,
-            BatchSize:batchSize,
-            Factory:factory,
+            ProductIDs:productIDs,
+            BatchTemplateID:batchTemplateID,
+            ProductTemplateID:productTemplateID,
             Distributor:distributor,
             FactoryLocation:factoryLocation,
-            DistributorLocation:distributorLocation,
             DateOfProduction:dateOfProduction 
         }); 
         BatchIDs.push(batchID);
