@@ -45,6 +45,9 @@ module.exports = {
   mocha: {
     timeout: 100000000,
   },
+  paths:{
+    artifacts: './scmAdmin/src/artifacts',
+  }
 };
 
 // npx hardhat verify --contract contracts/OldCrypto.test.sol:OldCrypt3DPunksTest --network rinkeby 0xcAff8ec4b071Cd99fa8Ac83079A765218fc094aA 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266 0x03717989289c46a101A18b0A3e0Ca8DffB92a5a5
