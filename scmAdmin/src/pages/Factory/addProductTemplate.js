@@ -15,7 +15,7 @@ import { storeProductTemplate } from "Services/action";
 ////need improve////
 import Supplychain_abi from '../../artifacts/contracts/Supplychain.sol/Supplychain.json';
 import { ethers } from "ethers";
-let supplyChainAddress = '0xD64337aDC5074f7a126d017fe1Cce854aB6F3e3C';
+let supplyChainAddress = '0xFd45EA76c45D756f93f0aa4bbb4e5274fbC4EA3E';
 ////End need improve////
 
 const AddProductTemplate = () => {
