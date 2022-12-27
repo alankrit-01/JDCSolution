@@ -17,7 +17,7 @@ import { getDistributer } from 'Services/action';
 
 import Supplychain_abi from '../../artifacts/contracts/Supplychain.sol/Supplychain.json';
 import { ethers } from "ethers";
-let supplyChainAddress = '0xD64337aDC5074f7a126d017fe1Cce854aB6F3e3C';
+let supplyChainAddress = '0xFd45EA76c45D756f93f0aa4bbb4e5274fbC4EA3E';
 
 
 ////End need improve////
@@ -148,11 +148,18 @@ const AddBatchTemplate = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        // console.log("productId productId", productId)
-        const tx = await supplychainContract.addBatchTemplate(defaultAccount,distributer, batchSize, batchTemplateId.toString(), productId.toString(),factoryAddress,factoryAddress, batchManufacture);
-        if (tx) {
-            navigate("/factory/batchTemplate")
-        }
+
+        const productIds = [];
+        for (let i = 1; i <= batchSize; i++) {
+            productIds.push(
+                batchTemplateId+i
+            )
+        } 
+         console.log("supplychainContract", supplychainContract)
+        // const tx = await supplychainContract.batchProduced(batchTemplateId.toString(),productIds, batchSize,batchDescription, productId.toString(), defaultAccount,distributer, factoryAddress, batchManufacture);
+        // if (tx) {
+        //     navigate("/factory/batchTemplate")
+        // }
     }
 
     useEffect(() => {

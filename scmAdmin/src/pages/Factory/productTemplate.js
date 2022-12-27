@@ -12,7 +12,7 @@ import Input from '@material-tailwind/react/Input';
 ////need improve////
 import Supplychain_abi from '../../artifacts/contracts/Supplychain.sol/Supplychain.json';
 import { ethers } from "ethers";
-let supplyChainAddress = '0xD64337aDC5074f7a126d017fe1Cce854aB6F3e3C';
+let supplyChainAddress = '0xFd45EA76c45D756f93f0aa4bbb4e5274fbC4EA3E';
 ////End need improve////
 
 const ProductTemplate = () => {
@@ -142,12 +142,10 @@ const ProductTemplate = () => {
 
 
     const getProductTemplateHandler = async () => {
-        // console.log("supplychainContract", supplychainContract)
         let array = await (supplychainContract && supplychainContract.getAllProductTemplateIDs());
         if (array && array.length > 0) {
             for (let i = 0; i < array.length; i++) {
                 let data = await (supplychainContract && supplychainContract.ProductTemplateMAP(array[i]));
-                console.log(data);
                 allProductTemplatelist.push(
                     <>
                         <tr>
@@ -155,8 +153,6 @@ const ProductTemplate = () => {
                             <td>{data && data.productTemplateID}</td>
                             <td> {data && data.name}</td>
                             <td>{data && data.description}</td>
-
-
                         </tr>
                     </>
                 )

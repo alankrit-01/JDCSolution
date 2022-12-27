@@ -11,7 +11,7 @@ import { NavLink } from 'react-router-dom';
 import { useEffect, useMemo, useState } from 'react';
 
 import { ethers } from 'ethers'; 
-let supplyChainAddress = '0xD64337aDC5074f7a126d017fe1Cce854aB6F3e3C';
+let supplyChainAddress = '0xFd45EA76c45D756f93f0aa4bbb4e5274fbC4EA3E';
 
 export default function FactoryNavbar({ showSidebar, setShowSidebar }) {
     const location = useLocation().pathname;
