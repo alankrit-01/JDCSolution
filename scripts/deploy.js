@@ -23,8 +23,8 @@ async function main() {
 
   // Add a new product 
 
-  // await supplychain.addProductTemplate("0193Bvch11","Product Name","Product Description");
-  // await supplychain.addProductTemplate("08sh2u11uw","Product Name","Product Description");
+   await supplychain.addProductTemplate("0193Bvch11","Product Name","Product Description");
+   await supplychain.addProductTemplate("08sh2u11uw","Product Name","Product Description");
 
 
   // List of all product templates  
@@ -36,8 +36,8 @@ async function main() {
   // }  
 
   // Add a new Batch
-  // await supplychain.addBatchTemplate("1827371912","0193Bvch11","Batch Description",15,"0x71bE63f3384f5fb98995898A86B02Fb2426c5788");
-  // await supplychain.addBatchTemplate("2817373811","0193Bvch11","Batch Description",20,"0xcd3B766CCDd6AE721141F452C550Ca635964ce71");
+   await supplychain.addBatchTemplate("1827371912","0193Bvch11","Batch Description",15,"0x71bE63f3384f5fb98995898A86B02Fb2426c5788");
+   await supplychain.addBatchTemplate("2817373811","0193Bvch11","Batch Description",20,"0xcd3B766CCDd6AE721141F452C550Ca635964ce71");
                     
 
   // List of all product templates
