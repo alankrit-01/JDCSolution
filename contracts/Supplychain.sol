@@ -75,7 +75,8 @@ contract Supplychain{
         uint[] ProductIDs;  
         uint BatchSize; 
         uint BatchDescription; 
-        uint ProductTemplateID;  
+        uint ProductTemplateID;          
+        address Factory;
         address Distributor;
         string FactoryLocation;
         // string DistributorLocation;
@@ -93,6 +94,7 @@ contract Supplychain{
         uint batchSize,
         uint batchDescription,
         uint productTemplateID,
+        address factory,
         address distributor,
         string memory factoryLocation,
         uint dateOfProduction 
@@ -103,6 +105,7 @@ contract Supplychain{
             BatchSize:batchSize, 
             BatchDescription:batchDescription, 
             ProductTemplateID:productTemplateID,
+            Factory:factory,
             Distributor:distributor,
             FactoryLocation:factoryLocation,
             DateOfProduction:dateOfProduction 

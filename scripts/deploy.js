@@ -12,19 +12,19 @@ async function main() {
   const Supplychain = await hre.ethers.getContractFactory("Supplychain");
   const supplychain = await Supplychain.deploy();
   // const supplychain = await hre.ethers.getContractAt("Supplychain","0xD64337aDC5074f7a126d017fe1Cce854aB6F3e3C");
-  // console.log(supplychain.address)
+  console.log(supplychain.address)
 
-  await supplychain.deployed();
+  // await supplychain.deployed();
 
-  console.log(
-    `Supplychain contract deployed to ${supplychain.address}`
-  );
+  // console.log(
+  //   `Supplychain contract deployed to ${supplychain.address}`
+  // );
   // 0xD64337aDC5074f7a126d017fe1Cce854aB6F3e3C 
 
   // Add a new product
 
-  await supplychain.addProductTemplate("0193Bvch11","Product Name","Product Description");
-  await supplychain.addProductTemplate("08sh2u11uw","Product Name","Product Description");
+  // await supplychain.addProductTemplate("0193Bvch11","Product Name","Product Description");
+  // await supplychain.addProductTemplate("08sh2u11uw","Product Name","Product Description");
 
 
   // List of all product templates  
@@ -57,9 +57,9 @@ async function main() {
     [16352,173817,17361,1738191], // Array of product Ids
     10,// Batch Size
     "A B C",// Batch Description
-    1738101,// Batch temlate ID
     7842182,// Product temlate ID 
-    "0x71bE63f3384f5fb98995898A86B02Fb2426c5788",// distributor
+    "0x71bE63f3384f5fb98995898A86B02Fb2426c5788",// factory address
+    "0x71bE63f3384f5fb98995898A86B02Fb2426c5788",// distributor address
     "My location",// factory Location 
     1828171// dateOfProduction 
   ) 
