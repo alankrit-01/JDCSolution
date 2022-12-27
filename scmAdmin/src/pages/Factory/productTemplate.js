@@ -137,7 +137,7 @@ const ProductTemplate = () => {
     //     dispatch(getFactory())
     // }, [])
 
-
+   
 
 
 
@@ -153,9 +153,9 @@ const ProductTemplate = () => {
                         <tr>
                             <td>{i}</td>
                             <td>{data && data.productTemplateID}</td>
-                             <td> {data && data.name}</td>
+                            <td> {data && data.name}</td>
                             <td>{data && data.description}</td>
-                           
+
 
                         </tr>
                     </>
@@ -205,18 +205,18 @@ const ProductTemplate = () => {
                 <div className="px-3 md:px-8 h-auto -mt-24">
                     <div className="container mx-auto max-w-full">
                         <div className="grid grid-cols-1 px-4 mb-16">
-                        <NavLink
-                                    to="/factory/addProductTemplate"><Button>Add</Button></NavLink>
+                            <NavLink
+                                to="/factory/addProductTemplate"><Button>Add</Button></NavLink>
                             <table className="table-auto">
-                <tr>
-                <th style={{textAlign: "left"}}>Sr. NO</th>
-                  <th style={{textAlign: "left"}}>Product Template ID</th>
-                  <th style={{textAlign: "left"}}>Product Name</th>
-                  <th style={{textAlign: "left"}}>Product Description</th>
-                 
-                </tr>
-                {productTemplatelist}
-              </table>
+                                <tr>
+                                    <th style={{ textAlign: "left" }}>Sr. NO</th>
+                                    <th style={{ textAlign: "left" }}>Product Template ID</th>
+                                    <th style={{ textAlign: "left" }}>Product Name</th>
+                                    <th style={{ textAlign: "left" }}>Product Description</th>
+
+                                </tr>
+                                {productTemplatelist}
+                            </table>
                             {/* <DataTable
                                 title="Product Template List"
                                 // columns={columns}
@@ -241,7 +241,7 @@ const ProductTemplate = () => {
                 <Footer />
             </div>
         </>
-    ); 
+    );
 }
 export default ProductTemplate
 

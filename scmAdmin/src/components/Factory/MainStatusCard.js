@@ -17,14 +17,14 @@ const MainStatusCard = () => {
             <StatusCard
                 color="purple"
                 icon="groups"
-                title="Distributer"
+                title="Products"
                 amount="10"
             // percentage="1.10"
             // percentageIcon="arrow_downward"
             // percentageColor="orange"
             // date="Since yesterday"
             />
-            <StatusCard
+            {/* <StatusCard
                 color="orange"
                 icon="groups"
                 title="Retailer"
@@ -33,12 +33,12 @@ const MainStatusCard = () => {
             // percentageIcon="arrow_downward"
             // percentageColor="red"
             // date="Since last week"
-            />
+            /> */}
 
             <StatusCard
                 color="blue"
                 icon="groups"
-                title="Products"
+                title="Batchs"
                 amount="10"
             // percentage="12"
             // percentageIcon="arrow_upward"
