@@ -61,21 +61,35 @@ async function main() {
     "0x71bE63f3384f5fb98995898A86B02Fb2426c5788",// distributor address
     "My location",// factory Location                                   
     "1828171"// dateOfProduction                                         
-  ) 
+  )   
 
 
   // To get all Batch IDs
 
-  let x =await supplychain.getAllBatchIDs()
-  console.log(x);
+  let x =await supplychain.getAllBatchIDs()   
+  console.log(x);  
+  
   
   // To view the list
   
   for(let i=0; i<x.length; i++){
-    console.log(await supplychain.BatchMapping(x[i]));
-  }
-                          
+    // For ith Batch
+    console.log(await supplychain.BatchMapping(x[i]));  
+    // Product Ids for ith batch
+    console.log(await supplychain.getProductIdsForaBatch(x[i]));
+  }      
   
+
+  // ----------- For QR code
+
+  // Get batch information by passing batch ID
+  // Let batch ID -> 1738101
+  let batchID =1738101
+  console.log(await supplychain.BatchMapping(batchID));  
+  // Product Ids for ith batch
+  console.log(await supplychain.getProductIdsForaBatch(batchID))
+
+
 }
 
 // We recommend this pattern to be able to use async/await everywhere
