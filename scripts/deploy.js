@@ -52,17 +52,17 @@ async function main() {
 
   // Add a batch
 
-  await supplychain.batchProduced(
-    1738101,// batchID
-    [16352,173817,17361,1738191], // Array of product Ids
-    10,// Batch Size
-    "A B C",// Batch Description
-    7842182,// Product temlate ID 
-    "0x71bE63f3384f5fb98995898A86B02Fb2426c5788",// factory address
-    "0x71bE63f3384f5fb98995898A86B02Fb2426c5788",// distributor address
-    "My location",// factory Location 
-    1828171// dateOfProduction 
-  ) 
+  // await supplychain.batchProduced(
+  //   1738101,// batchID
+  //   [16352,173817,17361,1738191], // Array of product Ids
+  //   10,// Batch Size
+  //   "A B C",// Batch Description
+  //   7842182,// Product temlplate ID 
+  //   "0x71bE63f3384f5fb98995898A86B02Fb2426c5788",// factory address
+  //   "0x71bE63f3384f5fb98995898A86B02Fb2426c5788",// distributor address
+  //   "My location",// factory Location 
+  //   1828171// dateOfProduction 
+  // ) 
 }
 
 // We recommend this pattern to be able to use async/await everywhere
