@@ -4,30 +4,53 @@ pragma solidity ^0.8.9;
 contract Supplychain{
 
     struct BatchTemplate{
-        string batchTemplateID;
-        string productTemplateID;
+        uint batchTemplateID;
+        uint productTemplateID;
         string description;
         uint batchSize;
         address factoryADDRESS;
     }
 
     struct ProductTemplate{
-        string productTemplateID;
+        uint productTemplateID;
         string name;
         string description;
     }      
-
-    mapping(string=>ProductTemplate) public ProductTemplateMAP;
-    mapping(string=>BatchTemplate) public BatchTemplateMAP;
     
-    string[] public ProductTemplateIDs;
-    string[] public BatchTemplateIDs;
+    struct Product{
+        uint ProductID;
+        uint ProductTemplateID;
+        string DOM;
+    }   
 
+    struct Batch{
+        uint BatchID; 
+        uint BatchSize; 
+        string BatchDescription;    
+        uint ProductTemplateID;              
+        address Factory;    
+        address Distributor;    
+        string FactoryLocation; 
+        string DateOfProduction;
+    }   
+
+
+    mapping(uint=>ProductTemplate) public ProductTemplateMAP;
+    mapping(uint=>BatchTemplate) public BatchTemplateMAP;
+        
+    uint[] public ProductTemplateIDs;
+    uint[] public BatchTemplateIDs;
+
+    mapping(uint=>Product) public ProductMapping;
+    uint[] public ProductIDs;     
+    mapping(uint=>Batch) public BatchMapping;
+    mapping(uint=>uint[]) public BatchIDToProductIDMapping;
+    uint[] public BatchIDs; 
 
 
     function addBatchTemplate(
-        string memory _batchTemplateID,
-        string memory _productTemplateID,
+        uint _batchTemplateID,
+        uint _productTemplateID,
         string memory _description,
         uint _batchSize,
         address _factoryADDRESS
@@ -43,7 +66,7 @@ contract Supplychain{
     }
 
     function addProductTemplate(
-        string memory _productTemplateID,
+        uint _productTemplateID,
         string memory _name,
         string memory _description
     ) public{
@@ -55,39 +78,7 @@ contract Supplychain{
         ProductTemplateIDs.push(_productTemplateID);
     }   
     
-    function getAllProductTemplateIDs() public view returns(string []memory){
-        return ProductTemplateIDs;
-    }   
 
-    function getAllBatchTemplateIDs() public view returns(string []memory){
-        return BatchTemplateIDs;
-    }
-
-    struct Product{
-        uint ProductID;
-        string Name;
-        string Description;
-        string DOM;
-    }   
-
-    struct Batch{ 
-        uint BatchID; 
-        uint[] ProductIDs;  
-        uint BatchSize; 
-        string BatchDescription; 
-        uint ProductTemplateID;          
-        address Factory;
-        address Distributor;
-        string FactoryLocation;
-        // string DistributorLocation;
-        string DateOfProduction;
-    }   
-
-    mapping(uint=>Product) public ProductMapping;
-    // uint[] public ProductID;
-    mapping(uint=>Batch) public BatchMapping;
-    uint[] public BatchIDs;
- 
     function batchProduced(
         uint batchID, 
         uint[] memory productIDs,
@@ -98,10 +89,11 @@ contract Supplychain{
         address distributor, 
         string memory factoryLocation,
         string memory dateOfProduction 
-    ) public{                   
+        // 
+    ) public{
         BatchMapping[batchID]=Batch({
             BatchID:batchID,    
-            ProductIDs:productIDs,
+            // ProductIDs:productIDs,
             BatchSize:batchSize, 
             BatchDescription:batchDescription, 
             ProductTemplateID:productTemplateID,
@@ -110,11 +102,36 @@ contract Supplychain{
             FactoryLocation:factoryLocation,
             DateOfProduction:dateOfProduction 
         });                       
-        BatchIDs.push(batchID);     
+        BatchIDs.push(batchID);  
+        BatchIDToProductIDMapping[batchID]= productIDs;
+        for(uint i=0;i<batchSize; i++){
+            ProductMapping[productIDs[i]]=Product({
+                ProductID:productIDs[i],
+                ProductTemplateID:productTemplateID,
+                DOM:dateOfProduction
+            });
+            ProductIDs.push(productIDs[i]);
+        }  
+    }
+
+    function getAllProductTemplateIDs() public view returns(uint []memory){
+        return ProductTemplateIDs;
+    }   
+
+    function getAllBatchTemplateIDs() public view returns(uint []memory){
+        return BatchTemplateIDs;
     }
 
     function getAllBatchIDs() public view returns(uint []memory){
         return BatchIDs;
     }
-    
+
+    function getAllProductIDs() public view returns(uint []memory){
+        return ProductIDs;
+    }
+
+    function getProductIdsForaBatch(uint batchID) public view returns(uint []memory){
+        return BatchIDToProductIDMapping[batchID];
+    } 
+      
 }
