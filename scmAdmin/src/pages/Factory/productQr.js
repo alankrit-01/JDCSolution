@@ -1,11 +1,7 @@
-import MainStatusCard from "components/Factory/MainStatusCard";
-import FactorySidebar from "components/Factory/Sidebar";
-import Footer from "components/Factory/Footer";
 import React, { useState, useRef } from "react";
 import { QRCodeCanvas } from "qrcode.react";
-import ProductQr from "./productQr";
 
-const BatchProductQr = () => {
+const ProductQr = () => {
     const [url, setUrl] = useState(
         `ProductName:${"Lorem Ipsum is simply dummy text of the printing and typesetting."} ProductDescription:${"Lorem Ipsum is simply dummy text of the printing and typesetting."}
         Quantity:${"Lorem Ipsum is simply dummy text of the printing and typesetting"} 
@@ -35,28 +31,16 @@ const BatchProductQr = () => {
     );
     return (
         <>
-            <FactorySidebar />
-            <div className="md:ml-64">
-                <div className="bg-light-blue-500 pt-14 pb-28 px-3 md:px-8 h-auto">
-                    <div className="container mx-auto max-w-full">
-                        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4">
-                            <MainStatusCard />
-                        </div>
-                    </div>
+            <div className="qrcode__container">
+                <div ref={qrRef}>{qrcode}</div>
+                <div className="input__group">
+                    <form onSubmit={downloadQRCode}>
+                        <button type="submit" >Download QR code</button>
+                    </form>
                 </div>
-                <div className="px-3 md:px-8 h-auto -mt-24">
-                    <div className="container mx-auto max-w-full">
-                        <div className="grid grid-cols-1 xl:grid-cols-6">
-                            <div className="xl:col-start-1 xl:col-end-7 px-4 mb-16">
-                                <ProductQr/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <Footer />
             </div>
-            
+
         </>
     );
 };
-export default BatchProductQr;
+export default ProductQr;

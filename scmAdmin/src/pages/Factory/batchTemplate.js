@@ -1,7 +1,7 @@
 import MainStatusCard from 'components/Factory/MainStatusCard';
 import FactorySidebar from 'components/Factory/Sidebar';
 import Footer from 'components/Factory/Footer';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getFactory } from 'Services/action';
 import { useEffect, useMemo, useState } from 'react';
@@ -11,11 +11,12 @@ import Input from '@material-tailwind/react/Input';
 
 import Supplychain_abi from '../../artifacts/contracts/Supplychain.sol/Supplychain.json';
 import { ethers } from "ethers";
-let supplyChainAddress = '0xE8E55467181C7D968233EC1ff6B09303Bc5EC4b7';
+let supplyChainAddress = '0xf41D5f4EA5037B3cb0799BcFb6Ec66be22908311';
 
 const BatchTemplate = () => {
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [Factories, setFactories] = useState([]);
     const [Search, setSearch] = useState("");
     const [FilterFactories, setFilterFactories] = useState([]);
@@ -109,26 +110,25 @@ const BatchTemplate = () => {
 
     const getProductTemplateHandler = async () => {
         // console.log("supplychainContract", supplychainContract)
-        let array = await (supplychainContract && supplychainContract.getAllBatchTemplateIDs());
+        let array = await (supplychainContract && supplychainContract.getAllBatchIDs());
         if (array && array.length > 0) {
             for (let i = 0; i < array.length; i++) {
-                let data = await (supplychainContract && supplychainContract.BatchTemplateMAP(array[i]));
-                //console.log(data);
+                let data = await (supplychainContract && supplychainContract.BatchMapping(array[i]));
+                // console.log(data);
                 allProductTemplatelist.push(
                     <>
                         <tr>
                             <td>{i}</td>
-                            <td>{data && data.batchTemplateID}</td>
-                            <td>{data && data.productTemplateID}</td>
-                            <td> {data && data.batchSize.toNumber()}</td>
-                            <td> {data && data.batchSize.toNumber()}</td>
+                            <td>{data && data.BatchID.toNumber()}</td>
+                            <td>{data && data.ProductTemplateID.toNumber()}</td>
+                            <td> {data && data.BatchSize.toNumber()}</td>
+                            <td> {data && data.Distributor}</td>
                             <td>
-                                <NavLink
-                                to="/factory/addBatchTemplate"><Button>View Batch Qr</Button></NavLink>/<NavLink
-                                to="/factory/addBatchTemplate"><Button>View Product Qr</Button></NavLink>
+                                <NavLink to="/factory/batchQr"><Button>View Batch Qr</Button></NavLink><NavLink
+                                        to="/factory/BatchProductQr"><Button>View Product Qr</Button></NavLink>
+
+                                <Button variant="outline-success" onClick={() => navigate('/factory/batchQr', { state: { BatchID: data.BatchID.toNumber() } })}>Buy</Button>
                             </td>
-
-
                         </tr>
                     </>
                 )

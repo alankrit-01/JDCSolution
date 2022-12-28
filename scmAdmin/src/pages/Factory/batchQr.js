@@ -9,13 +9,20 @@ import Input from '@material-tailwind/react/Input';
 import Textarea from '@material-tailwind/react/Textarea';
 import React, { useEffect, useMemo, useState, useRef } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { QRCodeCanvas } from "qrcode.react";
 
 const BatchQr = () => {
+
+    let batchData = useLocation();
+
+    let batchtId = batchData.state.BatchID;
+    console.log("batchtemplateId batchtemplateId", batchtId)
+
     const [url, setUrl] = useState(
-        `ProductName:${"Lorem Ipsum is simply dummy text of the printing and typesetting."} ProductDescription:${"Lorem Ipsum is simply dummy text of the printing and typesetting."}
-        Quantity:${"Lorem Ipsum is simply dummy text of the printing and typesetting"} 
+        `ProductName:${"Raymond"}
+        ProductDescription:${"Lorem Ipsum is simply dummy text of the printing and typesetting."}
+        Quantity:${"25"}  
     `);
     const qrRef = useRef();
     const downloadQRCode = (e) => {
@@ -24,56 +31,23 @@ const BatchQr = () => {
         let image = canvas.toDataURL("image/png");
         let anchor = document.createElement("a");
         anchor.href = image;
-        anchor.download = `scm-product-detal.png`;
+        anchor.download = `scm-batch-detal.png`;
         document.body.appendChild(anchor);
         anchor.click();
         document.body.removeChild(anchor);
         //setUrl("");
     };
-    const qrCodeEncoder = (e) => {
-        //setUrl(e.target.value);
-
-        const productCompleteRecord = [];
-
-        productCompleteRecord.push(
-            <><table>
-                <tr>
-                    <th>Batch ID</th>
-                    <th>Raw Material Supplier</th>
-                    <th>Warehouse</th>
-                    <th>Material Type</th>
-                    <th>Yarn Quantity</th>
-                    <th>Yarn Color</th>
-                    <th>Yarn Type</th>
-                    <th>Date</th>
-                    <th>Action</th>
-                </tr>
-            </table></>
-        )
-        //setUrl(productCompleteRecord)
-    };
-
-
     const qrcode = (
-        <QRCodeCanvas id="qrCode" value={url} size={400} bgColor={"#ffffff"} // fgColor={"#7f0000"}
-            imageSettings={{ src: "https://richmint.com/full-logo-size_00dc00340_46620.png", excavate: true }}
+        <QRCodeCanvas id="qrCode"
+            value={url}
+            size={400}
+            bgColor={"#ffffff"}
+            imageSettings={{ src: "https://richmint.com/img/navbar-logo.png", excavate: true }}
             includeMargin
             level={"H"}
         />
     );
-
-
-    // const qrcode = (
-    //     <QRCodeCanvas
-    //         id="qrCode"
-    //         value={url}
-    //         size={300}
-    //         bgColor={"#ffffff"}
-    //         level={"H"}
-    //     />
-    // );
     return (
-
         <>
             <FactorySidebar />
             <div className="md:ml-64">
@@ -88,40 +62,19 @@ const BatchQr = () => {
                     <div className="container mx-auto max-w-full">
                         <div className="grid grid-cols-1 xl:grid-cols-6">
                             <div className="xl:col-start-1 xl:col-end-7 px-4 mb-16">
-
-                                <div className="bottom">
-                                    <div className="right" style={{ textAlign: "center" }}>
-                                        <div className="qrcode__container">
-                                            <div ref={qrRef}>{qrcode}</div>
-                                            <div className="input__group">
-                                                <form onSubmit={downloadQRCode}>
-                                                    {/* <label>Enter URL</label>
-                                    <input
-                                        type="text"
-                                        value={url}
-                                        onChange={qrCodeEncoder}
-                                        placeholder="https://hackernoon.com"
-                                    /> */}
-                                                    <button type="submit" >Download QR code</button>
-                                                </form>
-                                            </div>
-                                        </div>
+                                <div className="qrcode__container">
+                                    <div ref={qrRef}>{qrcode}</div>
+                                    <div className="input__group">
+                                        <form onSubmit={downloadQRCode}>
+                                            <button type="submit" >Download QR code</button>
+                                        </form>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                     </div>
                 </div>
                 <Footer />
-            </div>
-            <div className="new">
-                <div className="newContainer">
-                    <div className="top">
-                        <h4>Check Product Authentication</h4>
-                    </div>
-
-                </div>
             </div>
         </>
     );
