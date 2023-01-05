@@ -1,45 +1,99 @@
 import MainStatusCard from "components/Factory/MainStatusCard";
 import FactorySidebar from "components/Factory/Sidebar";
 import Footer from "components/Factory/Footer";
-import Card from '@material-tailwind/react/Card';
-import CardHeader from '@material-tailwind/react/CardHeader';
-import CardBody from '@material-tailwind/react/CardBody';
-import Button from '@material-tailwind/react/Button';
-import Input from '@material-tailwind/react/Input';
-import Textarea from '@material-tailwind/react/Textarea';
 import React, { useEffect, useMemo, useState, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
-import { QRCodeCanvas } from "qrcode.react";
-
+import { QRCodeSVG } from 'qrcode.react';
+import Supplychain_abi from '../../artifacts/contracts/Supplychain.sol/Supplychain.json';
+import { ethers } from "ethers";
+import { Button } from "@material-tailwind/react";
+let supplyChainAddress = '0xFd0C39B94CF349a1f72B9D1510a94EBFF8E4D128';
 const BatchQr = () => {
 
     let batchData = useLocation();
-
     let batchtId = batchData.state.BatchID;
-    console.log("batchtemplateId batchtemplateId", batchtId)
+    const [batchSize, setBatchSize] = useState('');
+    const [productName, setProductName] = useState('');
+    const [productDescription, setProductDescription] = useState('');
+    ////need improve////
+    const [defaultAccount, setDefaultAccount] = useState('');
+    const [connButtonText, setConnButtonText] = useState('Connect Wallet');
+    const [errorMessage, setErrorMessage] = useState(null)
+    const [provider, setProvider] = useState(null);
+    const [signer, setSigner] = useState(null);
+    const [supplychainContract, setsupplychainContract] = useState('');
+    useEffect(() => {
+        connectWalletHandler();
+    }, [])
+    const connectWalletHandler = () => {
+        if (window.ethereum && window.ethereum.isMetaMask) {
+            window.ethereum.request({ method: 'eth_requestAccounts' })
+                .then(result => {
+                    accountChangedHandler(result[0]);
+                    setConnButtonText('Wallet Connected');
+                })
+                .catch(error => {
+                    console.log("error", error);
+                    setErrorMessage()
+                });
+        } else {
+            console.log('Need to install MetaMask');
+            setErrorMessage('Please install MetaMask browser extension to interact');
 
-    const [url, setUrl] = useState(
-        `ProductName:${"Raymond"}
-        ProductDescription:${"Lorem Ipsum is simply dummy text of the printing and typesetting."}
-        Quantity:${"25"}  
+        }
+    }
+
+    const accountChangedHandler = (newAccount) => {
+        setDefaultAccount(newAccount);
+        updateEthers();
+    }
+    const chainChangedHandler = () => {
+        window.location.reload();
+    }
+    // listen for account changes
+    window.ethereum.on('accountsChanged', accountChangedHandler);
+    window.ethereum.on('chainChanged', chainChangedHandler);
+    useEffect(() => {
+        updateEthers()
+    }, [])
+    const updateEthers = async () => {
+        let tempProvider = new ethers.providers.Web3Provider(window.ethereum);
+        setProvider(tempProvider);
+        let tempSigner = tempProvider.getSigner();
+        setSigner(tempSigner);
+        let supplychainContract = new ethers.Contract(supplyChainAddress, Supplychain_abi.abi, tempSigner);
+        //console.log("Ether updates", supplychainContract)
+        setsupplychainContract(supplychainContract);
+    }
+    const getBatchRecord = async () => {
+        let batchAllRec = await (supplychainContract && supplychainContract.BatchMapping(batchtId));
+        let productIdsRec = await (supplychainContract && supplychainContract.getProductIdsForaBatch(batchtId));
+        let ProductTemplateID = batchAllRec && batchAllRec.ProductTemplateID.toNumber();
+        let getbatchSize = batchAllRec && batchAllRec.BatchSize.toNumber();
+        let productDataRec = await (supplychainContract && supplychainContract.ProductTemplateMAP(ProductTemplateID));
+        setBatchSize(getbatchSize);
+        setProductName(productDataRec.name);
+        setProductDescription(productDataRec.description);
+    }
+    useMemo(() => {
+        getBatchRecord();
+    }, [supplychainContract])
+    ////End need improve////
+    const [url1, setUrl1] = useState();
+    useMemo(() => {
+        const url = (
+            `BatchID:${batchtId} 
+        ProductName:${productName && productName}
+        ProductQuantity:${batchSize && batchSize}   
     `);
+        setUrl1(url)
+    }, [productName, productDescription, batchSize])
+
     const qrRef = useRef();
-    const downloadQRCode = (e) => {
-        e.preventDefault();
-        let canvas = qrRef.current.querySelector("canvas");
-        let image = canvas.toDataURL("image/png");
-        let anchor = document.createElement("a");
-        anchor.href = image;
-        anchor.download = `scm-batch-detal.png`;
-        document.body.appendChild(anchor);
-        anchor.click();
-        document.body.removeChild(anchor);
-        //setUrl("");
-    };
     const qrcode = (
-        <QRCodeCanvas id="qrCode"
-            value={url}
+        <QRCodeSVG id="qrCode"
+            value={url1 && url1}
             size={400}
             bgColor={"#ffffff"}
             imageSettings={{ src: "https://richmint.com/img/navbar-logo.png", excavate: true }}
@@ -47,6 +101,15 @@ const BatchQr = () => {
             level={"H"}
         />
     );
+    const Print = () => {
+        let printContents = document.getElementById('qrcode__container').innerHTML;
+        var winPrint = window.open();
+        winPrint.document.write('<title>Richmint Product Authentication</title><br />', printContents);
+        winPrint.document.close();
+        winPrint.focus();
+        winPrint.print();
+        winPrint.close();
+    }
     return (
         <>
             <FactorySidebar />
@@ -62,17 +125,18 @@ const BatchQr = () => {
                     <div className="container mx-auto max-w-full">
                         <div className="grid grid-cols-1 xl:grid-cols-6">
                             <div className="xl:col-start-1 xl:col-end-7 px-4 mb-16">
-                                <div className="qrcode__container">
-                                    <div ref={qrRef}>{qrcode}</div>
-                                    <div className="input__group">
-                                        <form onSubmit={downloadQRCode}>
-                                            <button type="submit" >Download QR code</button>
-                                        </form>
+                                <div>
+                                    <Button type="button" onClick={Print} > Print</Button>
+                                </div>
+                                <div id="qrcode__container" className="qrcode__container">
+                                    <div className="mainBatch" ref={qrRef}>
+                                        {qrcode}
+                                        <span className="mainBatchNumber">B-{batchtId && batchtId}</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> 
                 </div>
                 <Footer />
             </div>

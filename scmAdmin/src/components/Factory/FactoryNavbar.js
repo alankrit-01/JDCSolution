@@ -11,7 +11,7 @@ import { NavLink } from 'react-router-dom';
 import { useEffect, useMemo, useState } from 'react';
 
 import { ethers } from 'ethers'; 
-let supplyChainAddress = '0xf41D5f4EA5037B3cb0799BcFb6Ec66be22908311';
+let supplyChainAddress = '0xFd0C39B94CF349a1f72B9D1510a94EBFF8E4D128';
 
 export default function FactoryNavbar({ showSidebar, setShowSidebar }) {
     const location = useLocation().pathname;
@@ -50,13 +50,7 @@ export default function FactoryNavbar({ showSidebar, setShowSidebar }) {
            
         }
     }
-
-    const tempHandler= async ()=>{ 
-        console.log("Temp Signer",supplychainContract);
-        let results =await supplychainContract.getAllProductTemplateIDs()
-        console.log(results);   
-        // await supplychainContract.addBatchTemplate("2817373811","0193Bvch11","Batch Description",20,"0xcd3B766CCDd6AE721141F452C550Ca635964ce71");
-    }                            
+                           
 
     const accountChangedHandler = (newAccount) => {
 		setDefaultAccount(newAccount);
@@ -143,7 +137,6 @@ export default function FactoryNavbar({ showSidebar, setShowSidebar }) {
                     <div className="flex">
                     <span style={{padding:'5px', color:'#fff'}} ><b>Addres:-</b> {defaultAccount}</span>
                     <Button onClick={connectWalletHandler}> Connect Metamask</Button>
-                    <Button onClick={tempHandler}> HELP</Button>
 
                         {/* <NavbarInput placeholder="Search" /> */}
                         <div className="-mr-4 ml-6">

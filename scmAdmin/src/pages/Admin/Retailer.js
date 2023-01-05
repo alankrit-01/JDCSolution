@@ -82,8 +82,14 @@ const Retailer = () => {
                                     to="/admin/addretailer"><Button>Add</Button></NavLink>}
                                 subHeader
                                 subHeaderComponent={
-                                    <div className="w-full lg:w-6/12 pr-4 mb-10 font-light">
-                                        <Input type="text" color="purple" placeholder="Search Here" value={Search} onChange={(e) => setSearch(e.target.value)} />
+                                    <div className='w-full'>
+                                        <div className="float-left lg:w-6/12 d-flex pr-4 mb-10 font-light">
+                                        <Button><NavLink
+                                    to="/admin/addMultiUser">Add Multi Retailer</NavLink></Button>
+                                        </div>
+                                        <div className="float-left lg:w-6/12 d-flex pr-4 mb-10 font-light">
+                                            <Input type="text" color="purple" placeholder="Search Here" value={Search} onChange={(e) => setSearch(e.target.value)} />
+                                        </div>
                                     </div>
                                 }
                             />  
