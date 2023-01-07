@@ -14,3 +14,27 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 @import '@material-tailwind/react/tailwind.css';
+
+canvas.qrCode {
+    float: left;
+    margin: 10px;
+}
+.qrCodeSection {
+    width: 25%;
+    position: relative;
+    float: left;
+}
+span.rcheckRec {
+    font-size: 14px;
+    left: 30%;
+    position: absolute;
+    bottom: 0;
+}
+.mainBatch{
+    position: relative;
+}
+.mainBatchNumber{
+    position: absolute;
+    bottom: 0;
+    left: 10%;
+}

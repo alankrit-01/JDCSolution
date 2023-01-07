@@ -24,36 +24,6 @@ const Distributer = () => {
     //State to store the values
     const [values, setValues] = useState([]);
 
-
-    const changeHandler = (event) => {
-        // Passing file data (event.target.files[0]) to parse using Papa.parse
-        Papa.parse(event.target.files[0], {
-            header: true,
-            skipEmptyLines: true,
-            complete: function (results) {
-                const rowsArray = [];
-                const valuesArray = [];
-
-                // Iterating data to get column name and their values
-                results.data.map((d) => {
-                    rowsArray.push(Object.keys(d));
-                    valuesArray.push(Object.values(d));
-                });
-
-                // Parsed Data Response in array format
-                setParsedData(results.data);
-
-                // Filtered Column Names
-                setTableRows(rowsArray[0]);
-
-                // Filtered Values
-                //console.log("valuesArray", valuesArray)
-                dispatch(storeMultiUser(valuesArray))
-                setValues(valuesArray);
-            },
-        });
-    };
-
     const columns = [
         {
             name: "Distributer Name",
@@ -145,15 +115,7 @@ const Distributer = () => {
                                     <div className='w-full'>
                                         <div className="float-left lg:w-6/12 d-flex pr-4 mb-10 font-light">
                                         <Button><NavLink
-                                    to="/admin/addMultiUser">Import CSV</NavLink></Button>
-                                            {/* <input
-                                                type="file"
-                                                name="file"
-                                                accept=".csv"
-                                                onChange={changeHandler}
-                                                style={{ display: "block", margin: "10px auto" }}
-                                            /> */}
-
+                                    to="/admin/addMultiUser">Add Multi Distributer</NavLink></Button>
                                         </div>
                                         <div className="float-left lg:w-6/12 d-flex pr-4 mb-10 font-light">
                                             <Input type="text" color="purple" placeholder="Search Here" value={Search} onChange={(e) => setSearch(e.target.value)} />

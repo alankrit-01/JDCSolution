@@ -11,12 +11,14 @@ import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getDistributer } from 'Services/action';
+import Papa from 'papaparse';
+import { storeMultiUser } from 'Services/action';
 
 //\/\/\/\/\/\/\/\/-need-improve-/\/\/\/\/\/\/\/\
 
 import Supplychain_abi from '../../artifacts/contracts/Supplychain.sol/Supplychain.json';
 import { ethers } from "ethers";
-let supplyChainAddress = '0xE8E55467181C7D968233EC1ff6B09303Bc5EC4b7';
+let supplyChainAddress = '0xFd0C39B94CF349a1f72B9D1510a94EBFF8E4D128';
 
 
 ////End need improve////
@@ -38,8 +40,10 @@ const AddBatchTemplate = () => {
     const [supplychainContract, setsupplychainContract] = useState(null);
 
     const [batchTemplateId, setBatchTemplateId] = useState(null);
+    const [materialtype, setMaterialtype] = useState('');
+    const [productIdsData, setproductIdsData] = useState('');
 
-
+    
     const factoryData = useSelector((state) => state.FactoryLoginData);
 
     useEffect(() => {
@@ -68,10 +72,8 @@ const AddBatchTemplate = () => {
         if (window.ethereum && window.ethereum.isMetaMask) {
             window.ethereum.request({ method: 'eth_requestAccounts' })
                 .then(result => {
-                    //console.log("helllo then",result)
                     accountChangedHandler(result[0]);
                     setConnButtonText('Wallet Connected');
-
                 })
                 .catch(error => {
                     console.log("error", error);
@@ -122,7 +124,7 @@ const AddBatchTemplate = () => {
                 let data = await (supplychainContract && supplychainContract.ProductTemplateMAP(array[i]));
                 allsupplymateriallist.push(
                     <>
-                        <option value={data.productTemplateID}>{data.productTemplateID}</option>
+                        <option value={data.productTemplateID.toNumber()}>{data.productTemplateID.toNumber()} - {data.name}</option>
                     </>
                 )
             }
@@ -140,22 +142,39 @@ const AddBatchTemplate = () => {
     const [productId, setProductId] = useState('');
     const [distributer, setDistributer] = useState('');
 
-    
+
     const [batchSize, setBatchSize] = useState('');
     const [batchDescription, setBatchDescription] = useState('');
     const [batchManufacture, setBatchManufacture] = useState('');
 
     const handleSubmit = async (event) => {
-        event.preventDefault(); 
-
+        event.preventDefault();
         const productIds = [];
-        for (let i = 1; i <= batchSize; i++) {
-            productIds.push(
-                batchTemplateId+i
-            )
-        }  
-        //  console.log("supplychainContract", supplychainContract)
-        const tx = await supplychainContract.batchProduced(batchTemplateId.toString(),productIds, batchSize,batchDescription, productId.toString(), defaultAccount,distributer, factoryAddress, 1828171);
+
+        let batchSizeData = '';
+
+        if (materialtype == 'csv') {
+
+            batchSizeData = values.length
+
+            for (let i = 0; i < values.length; i++) {
+
+                let arr = parseInt(values[i])
+                productIds.push(
+                    arr
+                )
+            }
+        } else {
+            for (let i = 1; i <= batchSize; i++) {
+                productIds.push(
+                    batchTemplateId + i
+                )
+            }
+            batchSizeData = batchSize
+
+        }
+
+         const tx = await supplychainContract.batchProduced(batchTemplateId.toString(), productIds, batchSizeData, batchDescription, productId.toString(), defaultAccount, distributer, factoryAddress, batchManufacture);
         if (tx) {
             navigate("/factory/batchTemplate")
         }
@@ -166,9 +185,7 @@ const AddBatchTemplate = () => {
     }, [])
 
     const distributerdata = useSelector((state) => state.DistributerRecord);
-
     let distributerdatarec = distributerdata.distributerRec
-
     const distributerlist = [];
     if (distributerdatarec && distributerdatarec.length > 0) {
         for (let i = 0; i < distributerdatarec.length; i++) {
@@ -180,6 +197,28 @@ const AddBatchTemplate = () => {
         }
     }
 
+    const [parsedData, setParsedData] = useState([]);
+    //State to store the values
+    const [values, setValues] = useState([]);
+
+    const changeHandler = (event) => {
+        // Passing file data (event.target.files[0]) to parse using Papa.parse
+        Papa.parse(event.target.files[0], {
+            header: true,
+            skipEmptyLines: true,
+            complete: function (results) {
+                const valuesArray = [];
+                // Iterating data to get column name and their values
+                results.data.map((d) => {
+                    valuesArray.push(Object.values(d).toString());
+                });
+                // Parsed Data Response in array format
+                setParsedData(results.data);
+                // Filtered Values
+                setValues(valuesArray);
+            },
+        });
+    };
     return (
         <>
             <FactorySidebar />
@@ -202,6 +241,9 @@ const AddBatchTemplate = () => {
                                         </div>
                                     </CardHeader>
                                     <CardBody>
+
+                                    {materialtype == 'csv' ? ( <span>Total Product Id : {values.length}</span>  ) : ( '' ) }
+                                        {productIdsData}
                                         <form onSubmit={handleSubmit}>
                                             <div className="flex flex-wrap mt-10">
                                                 <div className="w-screen flex flex-wrap mt-10 font-light">
@@ -210,17 +252,39 @@ const AddBatchTemplate = () => {
                                                         <option selected>Choose a Product Template Id</option>
                                                         {materiallist}
                                                     </select>
-
                                                 </div>
                                                 <div className="w-screen flex flex-wrap mt-10 font-light">
-                                                    <span><b>Batch Size</b></span>
-                                                    <Input
-                                                        type="text"
-                                                        color="purple"
-                                                        name="batchSize"
-                                                        value={batchSize} onChange={(e) => setBatchSize(e.target.value)}
-                                                    />
+                                                    <span><b>Select Product Id</b></span>
+                                                    <select id="distributer" name="distributer" color="purple" class="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer" defaultValue={materialtype} onChange={(e) => setMaterialtype(e.target.value)}>
+                                                        {/* <option selected>Select Product Id</option> */}
+                                                        <option value={'Auto'} selected>Auto Generate</option>
+                                                        <option value={'csv'}>Import Product CSV</option>
+                                                    </select>
                                                 </div>
+
+                                                {materialtype == 'csv' ? (
+                                                    <div className="flex flex-wrap mt-10">
+                                                        <div className="w-full pr-4 mb-10 font-light">
+                                                            <Input
+                                                                type="file"
+                                                                name="file"
+                                                                accept=".csv"
+                                                                onChange={changeHandler}
+                                                                style={{ display: "block", margin: "10px auto" }}
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                ) : (
+                                                    <div className="w-screen flex flex-wrap mt-10 font-light">
+                                                        <span><b>Batch Size</b></span>
+                                                        <Input
+                                                            type="text"
+                                                            color="purple"
+                                                            name="batchSize"
+                                                            value={batchSize} onChange={(e) => setBatchSize(e.target.value)}
+                                                        />
+                                                    </div>
+                                                )}
                                                 <div className="w-screen flex flex-wrap mt-10 font-light">
                                                     <span><b>Batch Description</b></span>
                                                     <Input
