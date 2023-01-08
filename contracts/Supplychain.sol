@@ -10,7 +10,7 @@ contract Supplychain{
         uint batchSize;
         address factoryADDRESS;
     }
-             
+    uint public x=10;
     struct ProductTemplate{
         uint productTemplateID;
         string name;

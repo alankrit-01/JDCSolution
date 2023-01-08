@@ -26,13 +26,13 @@ module.exports = {
     goerli: {
       url: "https://goerli.infura.io/v3/08d0a9d1045146dc888e62677f83e772", //Infura url with projectId
       accounts: [
-        "08848e865c6f07e43abf9b6e4ce3dd7364e9d1be450d4d18ef2b558ab8f9b525",
+        "4a5108f992a891f20aa2a0cec796d8cdf692d86b2ef57b2fea89da3ea02fff40",
       ], // add the account that will deploy the contract (private key)
-      // ["ADMIN","ALANKRIT"]
+      // ["ALANKRIT 2"]
     },
     matic: {
       url: "https://rpc-mumbai.maticvigil.com",
-      accounts: ["08848e865c6f07e43abf9b6e4ce3dd7364e9d1be450d4d18ef2b558ab8f9b525"]  // Alankrit private key
+      accounts: ["4a5108f992a891f20aa2a0cec796d8cdf692d86b2ef57b2fea89da3ea02fff40"]  // Alankrit private key
     }
   },
   etherscan: {
