@@ -153,7 +153,7 @@ async function main() {
   //     } 
   // }
 
-  // ------------- For Retailer
+  // ------------- For Retailer -----------
 
   // let x = await supplychain.getAllBatchIDs()   
   // console.log(x);  

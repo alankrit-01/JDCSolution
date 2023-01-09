@@ -591,15 +591,36 @@ app.get('/api/viewSendBatches', async (req, res) => {
   } 
 });
 
+
+app.get('/api/viewAvailableBatchesForRetailer', async (req, res) => {
+  try {
+    let result={};
+    const distibutor= req.query.distibutor;
+    const IDs =await contract.getAllBatchIDs();
+    for(let i=0; i<IDs.length; i++){
+      const batchData =await contract.BatchMapping(IDs[i]);
+      if(batchData.Distributor==distibutor && batchData.state==0){
+        const productIDs= (await contract.getProductIdsForaBatch(IDs[i]));
+        // console.log(IDs[i])
+        result[IDs[i].toNumber()]={"productIDs":productIDs ,"batchData":batchData};
+      } 
+    }
+    if(result){
+      res.status(200).json({status:"success", message:result});
+    }else {
+      res.status(200).json({status:"success", message:"Returned data is empty"});
+    }
+  } catch (error) {
+    console.log(error.message);
+    res.status(400).send({ error: error.message });
+  } 
+});
+
 app.get('/', function (req, res) {
     // console.log(web3)
     res.send('Hello World');
 })
  
-
 var server = app.listen(8081, function () {
-    var host = server.address().address
-    var port = server.address().port
-    
-    console.log("Example app listening at http://%s:%s", host, port)
+    console.log("Example app listening at http://127:0:0:1:8081")
 })
