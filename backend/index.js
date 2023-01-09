@@ -493,22 +493,33 @@ var contractAbi=
 
 let contractAddress ="0xEEd5B8edC86013C360E87Ff39a28159DdDC1D9e8"; 
 const privateKey = '4a5108f992a891f20aa2a0cec796d8cdf692d86b2ef57b2fea89da3ea02fff40'; //Alankrit2
-
+let contract;
 app.use(express.json()); 
 
-const connectToGoerli = async () => {
+const connectToMatic = async () => {
   try {    
     // const provider = new ethers.providers.InfuraProvider(network, infuraKey);
     const provider = new ethers.providers.JsonRpcProvider("https://rpc-mumbai.maticvigil.com");
-    // console.log(provider);
+    // console.log(provider);  
     const signer = new ethers.Wallet(privateKey, provider);
     // console.log(signer);   
     const contractInstance = new ethers.Contract(contractAddress, contractAbi.abi, signer);
-    
-    console.log(await contractInstance.getAllProductTemplateIDs())
-
+    contract =contractInstance;
+    // console.log(await contractInstance.getAllProductTemplateIDs())
     // const tx =await contractInstance.addProductTemplate(1234132,"Tommy Hilfiger Watch","Men Black Analogue Watch Black");
-    // await tx.wait();
+    // const tx =await contractInstance.batchProduced(                                      
+    //   1738102,// batchID                                                 
+    //   [112231,313133,13313,31333,313313,313311], // Array of product Ids               
+    //   4,// Batch Size                                                   
+    //   "Batch of 6 Jeans",// Batch Description                                        
+    //   1837183,// Product temlplate ID                                    
+    //   "0x71bE63f3384f5fb98995898A86B02Fb2426c5788",// factory address     
+    //   "0x90F79bf6EB2c4f870365E785982E1f101E93b906",// distributor address
+    //   "Factory location",// factory Location                                   
+    //   "1223123"// dateOfProduction                                         
+    // )   
+    // await tx.wait(); 
+
   } catch (err) {
     console.log(err);
     throw new Error(err?.message || "Something Went Wrong");
@@ -516,33 +527,69 @@ const connectToGoerli = async () => {
 }
 
 
-connectToGoerli();
+connectToMatic();
 
-app.post('/api/execute-transaction', async (req, res) => {
+app.get('/api/viewAvailableBatches', async (req, res) => {
   try {
-    // Build the transaction data
-    // const txData = {
-    //   to: req.body.to,
-    //   value: req.body.value,
-    //   data: req.body.data,
-    // };
-
-    // Sign the transaction
-    // const signedTx = await web3.eth.accounts.signTransaction(txData, privateKey);
-    // console.log(txData)
-    // console.log(web3)
-    // Send the signed transaction to the Ethereum network
-    // const receipt = await web3.eth.sendSignedTransaction(signedTx.rawTransaction);
-
-    // Return the status of the transaction to the front-end
-    res.send({ status: receipt.status });
+    let result={};
+    const distibutor= req.query.distibutor;
+    const IDs =await contract.getAllBatchIDs();
+    for(let i=0; i<IDs.length; i++){
+      const batchData =await contract.BatchMapping(IDs[i]);
+      if(batchData.Distributor==distibutor && batchData.state==0){
+        const productIDs= (await contract.getProductIdsForaBatch(IDs[i]));
+        // console.log(IDs[i])
+        result[IDs[i].toNumber()]={"productIDs":productIDs ,"batchData":batchData};
+      } 
+    }
+    if(result){
+      res.status(200).json({status:"success", message:result});
+    }else {
+      res.status(200).json({status:"success", message:"Returned data is empty"});
+    }
   } catch (error) {
-    // Return an error if something went wrong
+    console.log(error.message);
     res.status(400).send({ error: error.message });
-  }
-
+  } 
 });
 
+app.post('/api/distributorSellToRetailer',async(req,res)=>{
+  try {
+    // console.log(req.body);
+    const batchID =req.body.batchID;
+    const retailerAddress =req.body.retailerAddress;
+    const tx =await contract.distributorSellToRetailer(batchID,retailerAddress);
+    tx.wait();
+    res.status(200).json({status:"success", message:"Batch sold to retailer"});
+  } catch (error) {
+    console.log(error.message);
+    res.status(400).send({ error: error.message });
+  }
+})
+
+app.get('/api/viewSendBatches', async (req, res) => {
+  try {
+    let result={};
+    const distibutor= req.query.distibutor;
+    const IDs =await contract.getAllBatchIDs();
+    for(let i=0; i<IDs.length; i++){
+      const batchData =await contract.BatchMapping(IDs[i]);
+      if(batchData.Distributor==distibutor && batchData.state==1){
+        const productIDs= (await contract.getProductIdsForaBatch(IDs[i]));
+        // console.log(IDs[i])
+        result[IDs[i].toNumber()]={"productIDs":productIDs ,"batchData":batchData};
+      } 
+    }
+    if(result){
+      res.status(200).json({status:"success", message:result});
+    }else {
+      res.status(200).json({status:"success", message:"Returned data is empty"});
+    }
+  } catch (error) {
+    console.log(error.message);
+    res.status(400).send({ error: error.message });
+  } 
+});
 
 app.get('/', function (req, res) {
     // console.log(web3)

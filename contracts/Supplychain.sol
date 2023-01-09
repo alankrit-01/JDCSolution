@@ -121,7 +121,7 @@ contract Supplychain{
     function distributorSellToRetailer(uint batchID, address retailer) public{
         BatchMapping[batchID].Retailer=retailer;
         BatchMapping[batchID].state=1;
-    }
+    }   
 
     function getAllProductTemplateIDs() public view returns(uint []memory){
         return ProductTemplateIDs;
