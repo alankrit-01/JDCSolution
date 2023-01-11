@@ -508,14 +508,14 @@ const connectToMatic = async () => {
     // console.log(await contractInstance.getAllProductTemplateIDs())
     // const tx =await contractInstance.addProductTemplate(1234132,"Tommy Hilfiger Watch","Men Black Analogue Watch Black");
     // const tx =await contractInstance.batchProduced(                                      
-    //   1738102,// batchID                                                 
-    //   [112231,313133,13313,31333,313313,313311], // Array of product Ids               
-    //   4,// Batch Size                                                   
-    //   "Batch of 6 Jeans",// Batch Description                                        
+    //   647261,// batchID                                                 
+    //   [3882819,498119,183781], // Array of product Ids               
+    //   3,// Batch Size                                                   
+    //   "Batch of 3 Jeans",// Batch Description                                        
     //   1837183,// Product temlplate ID                                    
     //   "0x71bE63f3384f5fb98995898A86B02Fb2426c5788",// factory address     
     //   "0x90F79bf6EB2c4f870365E785982E1f101E93b906",// distributor address
-    //   "Factory location",// factory Location                                   
+    //   "My Factory location",// factory Location                                   
     //   "1223123"// dateOfProduction                                         
     // )   
     // await tx.wait(); 
@@ -533,13 +533,17 @@ app.get('/api/viewAvailableBatches', async (req, res) => {
   try {
     let result={};
     const distibutor= req.query.distibutor;
+    // console.log(distibutor);
     const IDs =await contract.getAllBatchIDs();
+    let counter=0;
     for(let i=0; i<IDs.length; i++){
       const batchData =await contract.BatchMapping(IDs[i]);
       if(batchData.Distributor==distibutor && batchData.state==0){
         const productIDs= (await contract.getProductIdsForaBatch(IDs[i]));
         // console.log(IDs[i])
-        result[IDs[i].toNumber()]={"productIDs":productIDs ,"batchData":batchData};
+        // result[IDs[i].toNumber()]={"productIDs":productIDs ,"batchData":batchData};
+        result[counter]={"batchID":IDs[i].toNumber(),"productIDs":productIDs ,"batchData":batchData};
+        counter++;
       } 
     }
     if(result){
@@ -567,17 +571,21 @@ app.post('/api/distributorSellToRetailer',async(req,res)=>{
   }
 })
 
+
 app.get('/api/viewSendBatches', async (req, res) => {
   try {
     let result={};
     const distibutor= req.query.distibutor;
     const IDs =await contract.getAllBatchIDs();
+    let counter=0;
     for(let i=0; i<IDs.length; i++){
       const batchData =await contract.BatchMapping(IDs[i]);
       if(batchData.Distributor==distibutor && batchData.state==1){
         const productIDs= (await contract.getProductIdsForaBatch(IDs[i]));
         // console.log(IDs[i])
-        result[IDs[i].toNumber()]={"productIDs":productIDs ,"batchData":batchData};
+        // result[IDs[i].toNumber()]={"productIDs":productIDs ,"batchData":batchData};
+        result[counter]={"batchID":IDs[i].toNumber(),"productIDs":productIDs ,"batchData":batchData};
+        counter++;
       } 
     }
     if(result){
