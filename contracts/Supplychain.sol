@@ -38,19 +38,24 @@ contract Supplychain{
         uint state;
     }              
 
+    struct Customer{
+        uint BatchID;
+        uint ProductID;
+    }
 
     mapping(uint=>ProductTemplate) public ProductTemplateMAP;
     mapping(uint=>BatchTemplate) public BatchTemplateMAP;
 
     uint[] public ProductTemplateIDs;
-    uint[] public BatchTemplateIDs;
+    uint[] public BatchTemplateIDs; 
 
-    mapping(uint=>Product) public ProductMapping;
+    mapping(uint=>Product) public ProductMapping;   
     uint[] public ProductIDs;     
     mapping(uint=>Batch) public BatchMapping;
     mapping(uint=>uint[]) public BatchIDToProductIDMapping;
     uint[] public BatchIDs; 
 
+    mapping(address =>Customer[]) public CustomerData;
 
     function addBatchTemplate(
         uint _batchTemplateID,
@@ -132,12 +137,16 @@ contract Supplychain{
         BatchMapping[batchID].AmountSold +=1;
         ProductMapping[productID].Owner=customer;
         ProductMapping[productID].DateWhenSold=block.timestamp;
+        CustomerData[customer].push(Customer({
+            BatchID:batchID,
+            ProductID:productID
+        }));
     }    
 
-    // function getProductdata(uint productID) public view returns(Product memory){
-    //     return ProductMapping[productID];
-    // }
-    
+    function getAllProductsBought(address customer) public view returns(Customer[] memory){
+        return CustomerData[customer];
+    } 
+
     function getAllProductTemplateIDs() public view returns(uint []memory){
         return ProductTemplateIDs;
     }   
