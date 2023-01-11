@@ -1,6 +1,7 @@
 const express = require('express');
 // const Web3 = require('web3');
 const ethers = require('ethers');
+require('dotenv').config()
 
 
 const app = express();
@@ -516,8 +517,7 @@ var contractAbi={
 
 
 // let contractAddress ="0xEEd5B8edC86013C360E87Ff39a28159DdDC1D9e8"; V1
-let contractAddress ="0x433689100038DC94E44F90f75D82cB8230Da4Eb4"; // V2
-const privateKey = '4a5108f992a891f20aa2a0cec796d8cdf692d86b2ef57b2fea89da3ea02fff40'; //Alankrit2
+let contractAddress ="0x433689100038DC94E44F90f75D82cB8230Da4Eb4"; // V2 
 let contract;
 app.use(express.json()); 
 
@@ -526,7 +526,7 @@ const connectToMatic = async () => {
     // const provider = new ethers.providers.InfuraProvider(network, infuraKey);
     const provider = new ethers.providers.JsonRpcProvider("https://rpc-mumbai.maticvigil.com");
     // console.log(provider);  
-    const signer = new ethers.Wallet(privateKey, provider);
+    const signer = new ethers.Wallet(process.env.PRIVATEKEY, provider);  
     // console.log(signer);   
     const contractInstance = new ethers.Contract(contractAddress, contractAbi.abi, signer);
     contract =contractInstance;
