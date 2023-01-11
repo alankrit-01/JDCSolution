@@ -23,8 +23,8 @@ async function main() {
 
   // Add a new product template
 
-  await supplychain.addProductTemplate(1234132,"Tommy Hilfiger Watch","Men Black Analogue Watch TH1791802W");
-  await supplychain.addProductTemplate(1837183,"Jeans","Men Navy Blue Ryan Straight Fit Light Fade Stretchable Jeans");
+  // await supplychain.addProductTemplate(1234132,"Tommy Hilfiger Watch","Men Black Analogue Watch TH1791802W");
+  // await supplychain.addProductTemplate(1837183,"Jeans","Men Navy Blue Ryan Straight Fit Light Fade Stretchable Jeans");
 
 
   // List of all product templates  
@@ -36,8 +36,8 @@ async function main() {
   // }  
 
   // Add a new Batch
-  await supplychain.addBatchTemplate(1827371912,1234132,"Batch Description 1",15,"0x71bE63f3384f5fb98995898A86B02Fb2426c5788");
-  await supplychain.addBatchTemplate(2817373811,1837183,"Batch Description 2",20,"0xcd3B766CCDd6AE721141F452C550Ca635964ce71");
+  // await supplychain.addBatchTemplate(1827371912,1234132,"Batch Description 1",15,"0x8626f6940E2eb28930eFb4CeF49B2d1F2C9C1199");
+  // await supplychain.addBatchTemplate(2817373811,1837183,"Batch Description 2",20,"0x8626f6940E2eb28930eFb4CeF49B2d1F2C9C1199");
                     
 
   // List of all product templates
@@ -52,29 +52,53 @@ async function main() {
                                                                            
   // Add a batch 
 
-  await supplychain.batchProduced(                                      
-    1738101,// batchID                                                 
-    [16352,173817,17361,173819], // Array of product Ids               
-    4,// Batch Size                                                   
-    "Batch of 4 Watches",// Batch Description                                        
-    1234132,// Product temlplate ID                                    
-    "0x71bE63f3384f5fb98995898A86B02Fb2426c5788",// factory address     
-    "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",// distributor address
-    "Factory location",// factory Location                                   
-    "1828171"// dateOfProduction                                         
-  )   
+  // await supplychain.batchProduced(                                      
+  //   1738101,// batchID                                                 
+  //   [16352,173817,17361,173819], // Array of product Ids               
+  //   4,// Batch Size                                                   
+  //   "Batch of 4 Watches",// Batch Description                                        
+  //   1234132,// Product temlplate ID                                    
+  //   "0x8626f6940E2eb28930eFb4CeF49B2d1F2C9C1199",// factory address     
+  //   "0xdD2FD4581271e230360230F9337D5c0430Bf44C0",// distributor address
+  //   "Factory location",// factory Location                                   
+  //   "1828171"// dateOfProduction                                         
+  // )   
 
-  await supplychain.batchProduced(                                      
-    1738102,// batchID                                                 
-    [112231,313133,13313,31333,313313,313311], // Array of product Ids               
-    4,// Batch Size                                                   
-    "Batch of 6 Jeans",// Batch Description                                        
-    1837183,// Product temlplate ID                                    
-    "0x71bE63f3384f5fb98995898A86B02Fb2426c5788",// factory address     
-    "0x90F79bf6EB2c4f870365E785982E1f101E93b906",// distributor address
-    "Factory location",// factory Location                                   
-    "1223123"// dateOfProduction                                         
-  )   
+  // await supplychain.batchProduced(                                      
+  //   1738102,// batchID                                                 
+  //   [112231,313133,13313,31333,313313,313311], // Array of product Ids               
+  //   4,// Batch Size                                                   
+  //   "Batch of 6 Jeans",// Batch Description                                        
+  //   1837183,// Product temlplate ID                                    
+  //   "0x8626f6940E2eb28930eFb4CeF49B2d1F2C9C1199",// factory address     
+  //   "0xdD2FD4581271e230360230F9337D5c0430Bf44C0",// distributor address
+  //   "Factory location",// factory Location                                   
+  //   "1223123"// dateOfProduction                                         
+  // ) 
+
+  // await supplychain.batchProduced(                                      
+  //   1738122,// batchID                                                 
+  //   [112231,313133,13313,31333,313313,313311], // Array of product Ids               
+  //   4,// Batch Size                                                   
+  //   "Batch of 6 Jeans",// Batch Description                                        
+  //   1837183,// Product temlplate ID                                    
+  //   "0x8626f6940E2eb28930eFb4CeF49B2d1F2C9C1199",// factory address     
+  //   "0xdD2FD4581271e230360230F9337D5c0430Bf44C0",// distributor address
+  //   "Factory location",// factory Location                                   
+  //   "1223123"// dateOfProduction                                         
+  // ) 
+
+  // await supplychain.batchProduced(                                      
+  //   7338122,// batchID                                                 
+  //   [112231,313133,13313,31333,313313,313311], // Array of product Ids               
+  //   4,// Batch Size                                                   
+  //   "Batch of 6 Jeans",// Batch Description                                        
+  //   1837183,// Product temlplate ID                                    
+  //   "0x8626f6940E2eb28930eFb4CeF49B2d1F2C9C1199",// factory address     
+  //   "0xdD2FD4581271e230360230F9337D5c0430Bf44C0",// distributor address
+  //   "Factory location",// factory Location                                   
+  //   "1223123"// dateOfProduction                                         
+  // )   
 
 
   // To get all Batch IDs
@@ -120,54 +144,73 @@ async function main() {
 
   // VIEW LIST OF BATCHES THAT FACTORIES HAS SUPPLIED
   
-  let x =await supplychain.getAllBatchIDs()   
-  console.log(x);  
-
-  for(let i=0; i<x.length; i++){
-    // For ith Batch
-    const data =await supplychain.BatchMapping(x[i])
-      if(data.Distributor=="0x90F79bf6EB2c4f870365E785982E1f101E93b906" && data.state==0){
-        console.log(data);  
-        // Product Ids for ith batch
-        console.log(await supplychain.getProductIdsForaBatch(x[i]));
-      } 
-  }
-
-  // SELL A BATCH TO A RETAILER
-
-  // await supplychain.distributorSellToRetailer(1738102,"0x90F79bf6EB2c4f870365E785982E1f101E93b906");
-
-
-  // VIEW LIST OF BATCHES THAT THIS DISTRIBUTOR HAS SUPPLIED TO THE RETAILERS
-
   // let x =await supplychain.getAllBatchIDs()   
   // console.log(x);  
 
   // for(let i=0; i<x.length; i++){
   //   // For ith Batch
   //   const data =await supplychain.BatchMapping(x[i])
-  //     if(data.Distributor=="0x90F79bf6EB2c4f870365E785982E1f101E93b906" && data.state==1){
+  //     if(data.Distributor=="0xdD2FD4581271e230360230F9337D5c0430Bf44C0" && data.state==0){
   //       console.log(data);  
   //       // Product Ids for ith batch
   //       console.log(await supplychain.getProductIdsForaBatch(x[i]));
   //     } 
   // }
 
-  // ------------- For Retailer -----------
 
+  // SELL A BATCH TO A RETAILER
+
+  // await supplychain.distributorSellToRetailer(1738101,"0xbDA5747bFD65F08deb54cb465eB87D40e51B197E");
+  // await supplychain.distributorSellToRetailer(1738102,"0xbDA5747bFD65F08deb54cb465eB87D40e51B197E");
+  // await supplychain.distributorSellToRetailer(1738122,"0xbDA5747bFD65F08deb54cb465eB87D40e51B197E");
+  
+  
+  // VIEW LIST OF BATCHES THAT THIS DISTRIBUTOR HAS SUPPLIED TO THE RETAILERS
+  
+  // let x =await supplychain.getAllBatchIDs()   
+  // console.log(x);  
+  
+  // for(let i=0; i<x.length; i++){
+  //   // For ith Batch
+  //   const data =await supplychain.BatchMapping(x[i])
+  //   if(data.Distributor=="0xdD2FD4581271e230360230F9337D5c0430Bf44C0" && data.state==1){
+    //     console.log(data);  
+  //     // Product Ids for ith batch
+  //     let array =await supplychain.getProductIdsForaBatch(x[i]);
+  //     console.log(array);
+  //   } 
+  // }
+  
+  
+
+  // ------------- For Retailer -----------
+  
+  
+  // -------------------- VIEW ALL THE BATCHES  --------------- 
+  
   // let x = await supplychain.getAllBatchIDs()   
   // console.log(x);  
-
+  
   // for(let i=0; i<x.length; i++){ 
-  //   // For ith Batch
-  //   const data =await supplychain.BatchMapping(x[i]) 
-  //     if(data.Retailer=="0x90F79bf6EB2c4f870365E785982E1f101E93b906" && data.state==1){
-  //       console.log(data);  
-  //       // Product Ids for ith batch
-  //       console.log(await supplychain.getProductIdsForaBatch(x[i]));
-  //     } 
-  //   } 
+    // const data =await supplychain.BatchMapping(x[i]) 
+    // if(data.Retailer=="0xbDA5747bFD65F08deb54cb465eB87D40e51B197E" && data.state==1){
+      // console.log(data);  
+      
+      // let array =await supplychain.getProductIdsForaBatch(x[i]);
+      // console.log(array);
+      // for(let j=0; j<array.length; j++){
+        // console.log(await supplychain.ProductMapping(array[j]));
+        // console.log(array[i]);
+      // }
+    // }  
+  // }
+  
+  // --------------- Retailer sell to customer ----------
 
+  // await supplychain.retailerSellToCustomer(1738101,17361,"0x2546BcD3c84621e976D8185a91A922aE77ECEc30");
+
+
+  //------------ For Customer  ----------------
 
 }
 

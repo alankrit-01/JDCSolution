@@ -10,7 +10,6 @@ contract Supplychain{
         uint batchSize;
         address factoryADDRESS;
     }
-    uint public x=10;
     struct ProductTemplate{
         uint productTemplateID;
         string name;
@@ -21,11 +20,14 @@ contract Supplychain{
         uint ProductID;
         uint ProductTemplateID;
         string DOM;
+        address Owner;
+        uint DateWhenSold;
     }            
                  
     struct Batch{   
         uint BatchID; 
         uint BatchSize; 
+        uint AmountSold;
         string BatchDescription;    
         uint ProductTemplateID;              
         address Factory;    
@@ -34,7 +36,7 @@ contract Supplychain{
         string FactoryLocation; 
         string DateOfProduction;
         uint state;
-    }             
+    }              
 
 
     mapping(uint=>ProductTemplate) public ProductTemplateMAP;
@@ -97,6 +99,7 @@ contract Supplychain{
             BatchID:batchID,    
             // ProductIDs:productIDs,
             BatchSize:batchSize, 
+            AmountSold:0,
             BatchDescription:batchDescription, 
             ProductTemplateID:productTemplateID,
             Factory:factory,
@@ -112,7 +115,9 @@ contract Supplychain{
             ProductMapping[productIDs[i]]=Product({
                 ProductID:productIDs[i],
                 ProductTemplateID:productTemplateID,
-                DOM:dateOfProduction
+                DOM:dateOfProduction,
+                Owner:address(0),
+                DateWhenSold:0
             });
             ProductIDs.push(productIDs[i]);
         }  
@@ -123,13 +128,23 @@ contract Supplychain{
         BatchMapping[batchID].state=1;
     }   
 
+    function retailerSellToCustomer(uint batchID,uint productID, address customer) public {
+        BatchMapping[batchID].AmountSold +=1;
+        ProductMapping[productID].Owner=customer;
+        ProductMapping[productID].DateWhenSold=block.timestamp;
+    }    
+
+    // function getProductdata(uint productID) public view returns(Product memory){
+    //     return ProductMapping[productID];
+    // }
+    
     function getAllProductTemplateIDs() public view returns(uint []memory){
         return ProductTemplateIDs;
     }   
 
     function getAllBatchTemplateIDs() public view returns(uint []memory){
         return BatchTemplateIDs;
-    }
+    }   
 
     function getAllBatchIDs() public view returns(uint []memory){
         return BatchIDs;
@@ -141,8 +156,5 @@ contract Supplychain{
 
     function getProductIdsForaBatch(uint batchID) public view returns(uint []memory){
         return BatchIDToProductIDMapping[batchID];
-    } 
-
-
-      
+    }
 }
