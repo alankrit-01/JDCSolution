@@ -4,7 +4,7 @@ require('dotenv').config()
 const app = express(); 
 const contractAbi = require('./artifacts/contracts/Supplychain.sol/Supplychain.json')
 
-let contractAddress ="0xa56b4f6B5C009618d07530139819865e586A9431"; 
+let contractAddress ="0xc838573e06d6088013bAB1bc46F6AC63e2509aeC"; 
 let contract;
 app.use(express.json()); 
 
@@ -18,9 +18,9 @@ const connectToMatic = async () => {
     // console.log(await contractInstance.getAllProductTemplateIDs())
     // const tx =await contractInstance.addProductTemplate(1234132,"Tommy Hilfiger Watch","Men Black Analogue Watch Black");
     // const tx =await contractInstance.batchProduced(                                      
-    //   363618,// batchID                                                 
+    //   363620,// batchID                                                 
     //   [477173,382171], // Array of product Ids               
-    //   2,// Batch Size                                               
+    //   3,// Batch Size                                               
     //   "Batch of 3 Jeans",// Batch Description                                        
     //   1234132,// Product temlplate ID                                    
     //   "0x8626f6940E2eb28930eFb4CeF49B2d1F2C9C1199",// factory address     
@@ -52,11 +52,11 @@ app.get('/api/viewAvailableBatches', async (req, res) => {
     for(let i=0; i<IDs.length; i++){ 
       const batchData =await contract.BatchMapping(IDs[i]);
       if(batchData.Distributor==distibutor && batchData.state==0){
-        const productIDs= (await contract.getProductIdsForaBatch(IDs[i]));
-        result.push({
-          "batchID":IDs[i].toNumber(),
-          "productIDs":productIDs ,
-          "batchData":{
+        // const productIDs= (await contract.getProductIdsForaBatch(IDs[i]));
+        result.push([
+          // "batchID":IDs[i].toNumber(),
+          // "productIDs":productIDs ,
+          {
             BatchID :batchData[0].toNumber(),
             BatchSize :batchData[1].toNumber(),
             AmountSold :batchData[2].toNumber(),
@@ -69,7 +69,7 @@ app.get('/api/viewAvailableBatches', async (req, res) => {
             DateOfProduction:batchData[9],
             state:batchData[10].toNumber(),
           }
-        })
+        ])
       } 
     }
     if(result){
@@ -104,11 +104,11 @@ app.get('/api/viewSendBatches', async (req, res) => {
     for(let i=0; i<IDs.length; i++){
       const batchData =await contract.BatchMapping(IDs[i]);
       if(batchData.Distributor==distibutor && batchData.state==1){
-        const productIDs= (await contract.getProductIdsForaBatch(IDs[i]));
-        result.push({
-          "batchID":IDs[i].toNumber(),
-          "productIDs":productIDs ,
-          "batchData":{
+        // const productIDs= (await contract.getProductIdsForaBatch(IDs[i]));
+        result.push(
+          // "batchID":IDs[i].toNumber(),
+          // "productIDs":productIDs ,
+          [{
             BatchID :batchData[0].toNumber(),
             BatchSize :batchData[1].toNumber(),
             AmountSold :batchData[2].toNumber(),
@@ -121,7 +121,7 @@ app.get('/api/viewSendBatches', async (req, res) => {
             DateOfProduction:batchData[9],
             state:batchData[10].toNumber(),
           }
-        })
+        ])
       } 
     }
     if(result){
@@ -145,16 +145,16 @@ app.get('/api/viewBatchesForRetailer', async (req, res) => {
     for(let i=0; i<IDs.length; i++){
       const batchData =await contract.BatchMapping(IDs[i]);
       if(batchData.Retailer==retailer && batchData.state==1){
-        let productInfo=[]; 
-        const productIDs= await contract.getProductIdsForaBatch(IDs[i]);
-        for(let j=0; j<productIDs.length; j++){
-          productInfo.push(await contract.ProductMapping(productIDs[j]));
-        }
+        // let productInfo=[]; 
+        // const productIDs= await contract.getProductIdsForaBatch(IDs[i]);
+        // for(let j=0; j<productIDs.length; j++){
+        //   productInfo.push(await contract.ProductMapping(productIDs[j]));
+        // }
         // console.log(productInfo[0]);
-        result.push({
-          "batchID":IDs[i].toNumber(),
-          "productIDs":productIDs ,
-          "batchData":{
+        result.push(
+          // "batchID":IDs[i].toNumber(),
+          // "productIDs":productIDs ,
+          [{
             BatchID :batchData[0].toNumber(),
             BatchSize :batchData[1].toNumber(),
             AmountSold :batchData[2].toNumber(),
@@ -166,9 +166,9 @@ app.get('/api/viewBatchesForRetailer', async (req, res) => {
             FactoryLocation:batchData[8],
             DateOfProduction:batchData[9],
             state:batchData[10].toNumber(),
-          },
-          "productInfo":productInfo
-        })
+          }]
+          // "productInfo":productInfo
+        )
       } 
     }
     if(result){

@@ -4,10 +4,10 @@ require("@nomiclabs/hardhat-waffle");
 // require("@nomiclabs/hardhat-waffle");
 
 /** @type import('hardhat/config').HardhatUserConfig */
-// set proxy
+// set proxy  
 // const { ProxyAgent, setGlobalDispatcher } = require("undici");
 // const proxyAgent = new ProxyAgent('http://127.0.0.1:7890'); // change to yours
-// setGlobalDispatcher(proxyAgent);
+// setGlobalDispatcher(proxyAgent);   
 
 module.exports = {
   solidity: {
@@ -29,7 +29,7 @@ module.exports = {
         "9ddfdc9f5611dae1fd7dd3874529480f54cd14d5e511e9c0dddc88c38fba69ce",
       ], // add the account that will deploy the contract (private key)
       // ["ALANKRIT 2"]
-    },
+    },    
     matic: {
       url: "https://rpc-mumbai.maticvigil.com",
       accounts: ["9ddfdc9f5611dae1fd7dd3874529480f54cd14d5e511e9c0dddc88c38fba69ce"]  // Alankrit private key
