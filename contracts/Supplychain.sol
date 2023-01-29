@@ -24,19 +24,19 @@ contract Supplychain{
         uint DateWhenSold;
     }            
                  
-    struct Batch{   
-        uint BatchID; 
-        uint BatchSize; 
-        uint AmountSold;
+    struct Batch{        
+        uint BatchID;    
+        uint BatchSize;  
+        uint AmountSold;  
         string BatchDescription;    
-        uint ProductTemplateID;              
+        uint ProductTemplateID;    
         address Factory;    
         address Distributor;
         address Retailer;    
         string FactoryLocation; 
         string DateOfProduction;
-        uint state;
-    }              
+        uint state;               
+    }                               
 
     struct Customer{
         uint BatchID;
@@ -45,17 +45,16 @@ contract Supplychain{
 
     mapping(uint=>ProductTemplate) public ProductTemplateMAP;
     mapping(uint=>BatchTemplate) public BatchTemplateMAP;
+    mapping(uint=>Product) public ProductMapping;   
+    mapping(uint=>Batch) public BatchMapping;
+    mapping(uint=>uint[]) public BatchIDToProductIDMapping;
+    mapping(address =>Customer[]) public CustomerData;
 
     uint[] public ProductTemplateIDs;
     uint[] public BatchTemplateIDs; 
-
-    mapping(uint=>Product) public ProductMapping;   
     uint[] public ProductIDs;     
-    mapping(uint=>Batch) public BatchMapping;
-    mapping(uint=>uint[]) public BatchIDToProductIDMapping;
     uint[] public BatchIDs; 
 
-    mapping(address =>Customer[]) public CustomerData;
 
     function addBatchTemplate(
         uint _batchTemplateID,
@@ -90,12 +89,12 @@ contract Supplychain{
 
     function batchProduced(
         uint batchID, 
-        uint[] memory productIDs,
-        uint batchSize,
-        string memory batchDescription,
-        uint productTemplateID,
-        address factory,
-        address distributor, 
+        uint[] memory productIDs, 
+        uint batchSize, 
+        string memory batchDescription, 
+        uint productTemplateID, 
+        address factory, 
+        address distributor,  
         string memory factoryLocation,
         string memory dateOfProduction 
         // 
@@ -125,8 +124,10 @@ contract Supplychain{
                 DateWhenSold:0
             });
             ProductIDs.push(productIDs[i]);
-        }  
-    }
+        }   
+    }    
+
+    
 
     function distributorSellToRetailer(uint batchID, address retailer) public{
         BatchMapping[batchID].Retailer=retailer;

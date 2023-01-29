@@ -180,7 +180,28 @@ app.get('/api/viewBatchesForRetailer', async (req, res) => {
     console.log(error.message);
     res.status(400).send({ error: error.message });
   }
+});  
+
+
+app.get('/api/viewBatchDetails', async (req, res) => {
+  try {
+    let result=[];
+    const batchID= req.query.batchID;
+    console.log(batchID);
+    const IDs =await contract.getProductIdsForaBatch(batchID);
+    console.log("HEY ",IDs);
+    if(result){
+      res.status(200).json({status:"success", message:result});
+    }else {
+      res.status(200).json({status:"success", message:"Returned data is empty"});
+    }
+  } catch (error) {
+    console.log(error.message);
+    res.status(400).send({ error: error.message });
+  }
 });   
+
+
 
 app.post('/api/sellToCustomer',async(req,res)=>{
   try {
@@ -206,7 +227,7 @@ app.get('/api/viewProductBoughts', async (req, res) => {
     let customer= req.query.customer;
     let data =await contract.getAllProductsBought(customer);
 
-    for(let i=0; i<data.length; i++){
+    for(let i=0; i<data.length; i++){       
       const batchData =await contract.BatchMapping(data[i][0]);
       const productData =await contract.ProductMapping(data[i][1]);
       console.log(productData[0]);
@@ -231,7 +252,7 @@ app.get('/api/viewProductBoughts', async (req, res) => {
           FactoryLocation:batchData[8],
           DateOfProduction:batchData[9],
           state:batchData[10].toNumber(),
-        }});
+        }});  
     }
 
     if(result){
