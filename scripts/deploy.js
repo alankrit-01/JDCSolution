@@ -58,8 +58,8 @@ async function main() {
     4,// Batch Size                                                   
     "Batch of 4 Watches",// Batch Description                                        
     1234132,// Product temlplate ID                                    
-    "0x8626f6940E2eb28930eFb4CeF49B2d1F2C9C1199",// factory address     
-    "0xdD2FD4581271e230360230F9337D5c0430Bf44C0",// distributor address
+    1721,// factoryID     
+    1234,// distributorID
     "Factory location",// factory Location                                   
     "1828171"// dateOfProduction                                         
   )   
@@ -70,8 +70,8 @@ async function main() {
   //   4,// Batch Size                                                   
   //   "Batch of 6 Jeans",// Batch Description                                        
   //   1837183,// Product temlplate ID                                    
-  //   "0x8626f6940E2eb28930eFb4CeF49B2d1F2C9C1199",// factory address     
-  //   "0xdD2FD4581271e230360230F9337D5c0430Bf44C0",// distributor address
+  //   1721,// factory address     
+  //   1234,// distributor address
   //   "Factory location",// factory Location                                   
   //   "1223123"// dateOfProduction                                         
   // ) 
@@ -82,8 +82,8 @@ async function main() {
   //   4,// Batch Size                                                   
   //   "Batch of 6 Jeans",// Batch Description                                        
   //   1837183,// Product temlplate ID                                    
-  //   "0x8626f6940E2eb28930eFb4CeF49B2d1F2C9C1199",// factory address     
-  //   "0xdD2FD4581271e230360230F9337D5c0430Bf44C0",// distributor address
+  //   1721,// factory address     
+  //   1234,// distributor address
   //   "Factory location",// factory Location                                   
   //   "1223123"// dateOfProduction                                         
   // ) 
@@ -94,8 +94,8 @@ async function main() {
   //   4,// Batch Size                                                   
   //   "Batch of 6 Jeans",// Batch Description                                        
   //   1837183,// Product temlplate ID                                    
-  //   "0x8626f6940E2eb28930eFb4CeF49B2d1F2C9C1199",// factory address     
-  //   "0xdD2FD4581271e230360230F9337D5c0430Bf44C0",// distributor address
+  //   1721,// factory address     
+  //   1234,// distributor address
   //   "Factory location",// factory Location                                   
   //   "1223123"// dateOfProduction                                         
   // )   
@@ -124,7 +124,7 @@ async function main() {
   // Let batch ID -> 1738101
   // let batchID =1738101
   // console.log(await supplychain.BatchMapping(batchID));  
-  // // Product Ids for ith batch
+  // Product Ids for ith batch
   // console.log(await supplychain.getProductIdsForaBatch(batchID))
 
 
@@ -140,9 +140,23 @@ async function main() {
 
 
 
-  //------------ For distributor---------
+  // Factory scans the QR code 
 
-  // VIEW LIST OF BATCHES THAT FACTORIES HAS SUPPLIED
+  // await supplychain.factoryScansBatch(1721,1738101);
+  // console.log(await supplychain.BatchScanned(1721,1738101))
+
+
+
+
+
+
+
+
+
+
+  //---------------------------- For distributor---------
+
+  // VIEW LIST OF BATCHES THAT FACTORIES HAS SUPPLIED 
   
   // let x =await supplychain.getAllBatchIDs()   
   // console.log(x);  
@@ -150,20 +164,22 @@ async function main() {
   // for(let i=0; i<x.length; i++){
   //   // For ith Batch
   //   const data =await supplychain.BatchMapping(x[i])
-  //     if(data.Distributor=="0xdD2FD4581271e230360230F9337D5c0430Bf44C0" && data.state==0){
+  //     if(data.DistributorID==1234 && data.state==0){
   //       console.log(data);  
   //       // Product Ids for ith batch
   //       console.log(await supplychain.getProductIdsForaBatch(x[i]));
   //     } 
   // }
 
+  // ----------------------------------Distributor scans the QR code ----------------------
 
-  // SELL A BATCH TO A RETAILER
+  // await supplychain.distributorScansBatch(1234,1738101);
+  // console.log(await supplychain.BatchScanned(1234,1738101))
 
-  await supplychain.distributorSellToRetailer(1738101,"0xbDA5747bFD65F08deb54cb465eB87D40e51B197E");
-  // await supplychain.distributorSellToRetailer(1738102,"0xbDA5747bFD65F08deb54cb465eB87D40e51B197E");
-  // await supplychain.distributorSellToRetailer(1738122,"0xbDA5747bFD65F08deb54cb465eB87D40e51B197E");
-  
+  // ---------------------------------SELL A BATCH TO A RETAILER-----------------------------
+
+  await supplychain.distributorSellToRetailer(1738101,4321);
+
   
   // VIEW LIST OF BATCHES THAT THIS DISTRIBUTOR HAS SUPPLIED TO THE RETAILERS
   
@@ -173,8 +189,8 @@ async function main() {
   // for(let i=0; i<x.length; i++){
   //   // For ith Batch
   //   const data =await supplychain.BatchMapping(x[i])
-  //   if(data.Distributor=="0xdD2FD4581271e230360230F9337D5c0430Bf44C0" && data.state==1){
-    //     console.log(data);  
+  //   if(data.DistributorID==1234 && data.state==1){
+  //       console.log(data);  
   //     // Product Ids for ith batch
   //     let array =await supplychain.getProductIdsForaBatch(x[i]);
   //     console.log(array);
@@ -185,7 +201,12 @@ async function main() {
 
   // ------------- For Retailer -----------
   
-  
+  // Retailer scans the QR code 
+
+  // await supplychain.retailerScansBatch(4321,1738101);
+  // console.log(await supplychain.BatchScanned(4321,1738101))
+
+
   // -------------------- VIEW ALL THE BATCHES  --------------- 
   
   // let x = await supplychain.getAllBatchIDs()   
@@ -193,7 +214,7 @@ async function main() {
   
   // for(let i=0; i<x.length; i++){ 
   //   const data =await supplychain.BatchMapping(x[i]) 
-  //   if(data.Retailer=="0xbDA5747bFD65F08deb54cb465eB87D40e51B197E" && data.state==1){
+  //   if(data.RetailerID==4321 && data.state==1){
   //     console.log(data);  
       
   //     let array =await supplychain.getProductIdsForaBatch(x[i]);
@@ -204,17 +225,20 @@ async function main() {
   //     }
   //   }  
   // }
+
+
+
   
   // --------------- Retailer sell to customer ----------
 
-  await supplychain.retailerSellToCustomer(1738101,17361,"0x2546BcD3c84621e976D8185a91A922aE77ECEc30");
+  // await supplychain.retailerSellToCustomer(1738101,17361,5362);
 
 
-  //------------ For Customer  ----------------
+  //------------------------ For Customer  -------------------
 
-  // -------------------- VIEW BATCH BOUGHTS -----------------
+  // -------------------- VIEW BATCH BOUGHTS --------------------
   
-  console.log(await supplychain.getAllProductsBought("0x2546BcD3c84621e976D8185a91A922aE77ECEc30"));
+  // console.log(await supplychain.getAllProductsBought(5362));
 
 }
 

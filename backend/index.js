@@ -4,7 +4,7 @@ require('dotenv').config()
 const app = express(); 
 const contractAbi = require('./artifacts/contracts/Supplychain.sol/Supplychain.json')
 
-let contractAddress ="0xc838573e06d6088013bAB1bc46F6AC63e2509aeC"; 
+let contractAddress ="0x7Eb0eB873416773F9e7064F7C00BdC481f015d08"; 
 let contract;
 app.use(express.json()); 
 
@@ -13,23 +13,23 @@ const connectToMatic = async () => {
     const provider = new ethers.providers.JsonRpcProvider("https://rpc-mumbai.maticvigil.com");
     const signer = new ethers.Wallet(process.env.PRIVATEKEY, provider);  
     const contractInstance = new ethers.Contract(contractAddress, contractAbi.abi, signer);
-    contract =contractInstance; 
+    contract =contractInstance;  
 
     // console.log(await contractInstance.getAllProductTemplateIDs())
     // const tx =await contractInstance.addProductTemplate(1234132,"Tommy Hilfiger Watch","Men Black Analogue Watch Black");
-    // const tx =await contractInstance.batchProduced(                                      
-    //   363620,// batchID                                                 
-    //   [477173,382171], // Array of product Ids               
-    //   3,// Batch Size                                               
-    //   "Batch of 3 Jeans",// Batch Description                                        
-    //   1234132,// Product temlplate ID                                    
-    //   "0x8626f6940E2eb28930eFb4CeF49B2d1F2C9C1199",// factory address     
-    //   "0xdD2FD4581271e230360230F9337D5c0430Bf44C0",// distributor address
-    //   "My Factory location",// factory Location                                   
-    //   "1223123"// dateOfProduction                                         
-    // )   
-    // await tx.wait(); 
-    // console.log("Transaction completed!");
+    const tx =await contractInstance.batchProduced(                                      
+      1738102,// batchID                                                 
+      [477174,382172,173719], // Array of product Ids               
+      3,// Batch Size                                               
+      "Batch of 3 Jeans",// Batch Description                                        
+      1234132,// Product temlplate ID                                    
+      1234,// factoryID     
+      1235,// distributorID
+      "My Factory location",// factory Location                             
+      "1223123"// dateOfProduction                                         
+    )   
+    await tx.wait(); 
+    console.log("Transaction completed!");
 
   } catch (err) {
     console.log(err);
@@ -43,15 +43,16 @@ connectToMatic();
 ////////////////// API FOR DISTIBUTOR ////////////////////
 
 
-app.get('/api/viewAvailableBatches', async (req, res) => {
+app.get('/api/viewReceivedBatchesForDistributor', async (req, res) => {
   try {
     let result=[]; 
-    const distibutor= req.query.distibutor;
+    const distibutorID= req.query.distibutorID;
     const IDs =await contract.getAllBatchIDs();
-    
+    // console.log(IDs);
     for(let i=0; i<IDs.length; i++){ 
       const batchData =await contract.BatchMapping(IDs[i]);
-      if(batchData.Distributor==distibutor && batchData.state==0){
+      // console.log(batchData);
+      if(batchData.DistributorID==distibutorID && batchData.state==0){
         // const productIDs= (await contract.getProductIdsForaBatch(IDs[i]));
         result.push([
           // "batchID":IDs[i].toNumber(),
@@ -62,9 +63,9 @@ app.get('/api/viewAvailableBatches', async (req, res) => {
             AmountSold :batchData[2].toNumber(),
             BatchDescription :batchData[3],
             ProductTemplateID: batchData[4].toNumber(),
-            Factory:batchData[5],
-            Distributor:batchData[6],
-            Retailer:batchData[7],
+            FactoryID:batchData[5].toNumber(),
+            DistributorID:batchData[6].toNumber(),
+            RetailerID:batchData[7].toNumber(),
             FactoryLocation:batchData[8],
             DateOfProduction:batchData[9],
             state:batchData[10].toNumber(),
@@ -83,12 +84,29 @@ app.get('/api/viewAvailableBatches', async (req, res) => {
   } 
 });
 
+app.post('/api/distributorScansBatch',async(req,res)=>{
+  try {
+    const batchID =req.body.batchID;
+    const distributorID =req.body.distributorID;
+    const tx =await contract.distributorScansBatch(batchID,distributorID);
+    tx.wait();
+    console.log("Transaction completed!");
+
+    res.status(200).json({status:"success", message:"Distributor scans the batch"});
+  } catch (error) {
+    console.log(error.message);
+    res.status(400).send({ error: error.message });
+  }
+})
+
 app.post('/api/distributorSellToRetailer',async(req,res)=>{
   try {
     const batchID =req.body.batchID;
-    const retailerAddress =req.body.retailerAddress;
-    const tx =await contract.distributorSellToRetailer(batchID,retailerAddress);
+    const retailerID =req.body.retailerID;
+    const tx =await contract.distributorSellToRetailer(batchID,retailerID);
     tx.wait();
+    console.log("Transaction completed!");
+
     res.status(200).json({status:"success", message:"Batch sold to retailer"});
   } catch (error) {
     console.log(error.message);
@@ -96,14 +114,16 @@ app.post('/api/distributorSellToRetailer',async(req,res)=>{
   }
 })
 
-app.get('/api/viewSendBatches', async (req, res) => {
+app.get('/api/viewBatchesSendToRetailers', async (req, res) => {
   try {
     let result=[];
-    const distibutor= req.query.distibutor;
+    const distributorID= req.query.distributorID;
     const IDs =await contract.getAllBatchIDs();
+
     for(let i=0; i<IDs.length; i++){
       const batchData =await contract.BatchMapping(IDs[i]);
-      if(batchData.Distributor==distibutor && batchData.state==1){
+      // console.log(batchData);
+      if(batchData.DistributorID==distributorID && batchData.state==1){
         // const productIDs= (await contract.getProductIdsForaBatch(IDs[i]));
         result.push(
           // "batchID":IDs[i].toNumber(),
@@ -114,9 +134,9 @@ app.get('/api/viewSendBatches', async (req, res) => {
             AmountSold :batchData[2].toNumber(),
             BatchDescription :batchData[3],
             ProductTemplateID: batchData[4].toNumber(),
-            Factory:batchData[5],
-            Distributor:batchData[6],
-            Retailer:batchData[7],
+            FactoryID:batchData[5].toNumber(),
+            DistributorID:batchData[6].toNumber(),
+            RetailerID:batchData[7].toNumber(),
             FactoryLocation:batchData[8],
             DateOfProduction:batchData[9],
             state:batchData[10].toNumber(),
@@ -135,16 +155,19 @@ app.get('/api/viewSendBatches', async (req, res) => {
   } 
 });
 
+
+
 ////////////////// API FOR RETAILER ////////////////////
 
-app.get('/api/viewBatchesForRetailer', async (req, res) => {
+
+app.get('/api/viewReceivedBatchesForRetailer', async (req, res) => {
   try {
     let result=[];
-    const retailer= req.query.retailer;
+    const retailerID= req.query.retailerID;
     const IDs =await contract.getAllBatchIDs();
     for(let i=0; i<IDs.length; i++){
       const batchData =await contract.BatchMapping(IDs[i]);
-      if(batchData.Retailer==retailer && batchData.state==1){
+      if(batchData.RetailerID==retailerID && batchData.state==1){
         // let productInfo=[]; 
         // const productIDs= await contract.getProductIdsForaBatch(IDs[i]);
         // for(let j=0; j<productIDs.length; j++){
@@ -160,9 +183,9 @@ app.get('/api/viewBatchesForRetailer', async (req, res) => {
             AmountSold :batchData[2].toNumber(),
             BatchDescription :batchData[3],
             ProductTemplateID: batchData[4].toNumber(),
-            Factory:batchData[5],
-            Distributor:batchData[6],
-            Retailer:batchData[7],
+            FactoryID:batchData[5].toNumber(),
+            DistributorID:batchData[6].toNumber(),
+            RetailerID:batchData[7].toNumber(),
             FactoryLocation:batchData[8],
             DateOfProduction:batchData[9],
             state:batchData[10].toNumber(),
@@ -180,16 +203,30 @@ app.get('/api/viewBatchesForRetailer', async (req, res) => {
     console.log(error.message);
     res.status(400).send({ error: error.message });
   }
-});  
+});               
 
+app.post('/api/retailerScansBatch',async(req,res)=>{
+  try {
+    const batchID =req.body.batchID; 
+    const retailerID =req.body.retailerID; 
+    const tx =await contract.retailerScansBatch(batchID,retailerID);
+    tx.wait();
+    console.log("Transaction completed!");
+
+    res.status(200).json({status:"success", message:"Retailer scans the batch"});
+  } catch (error) {
+    console.log(error.message);
+    res.status(400).send({ error: error.message });
+  }
+})
 
 app.get('/api/viewBatchDetails', async (req, res) => {
   try {
     let result=[];
     const batchID= req.query.batchID;
-    console.log(batchID);
+    // console.log(batchID);
     const IDs =await contract.getProductIdsForaBatch(batchID);
-    console.log("HEY ",IDs);
+    result.push()
     if(result){
       res.status(200).json({status:"success", message:result});
     }else {
@@ -202,14 +239,14 @@ app.get('/api/viewBatchDetails', async (req, res) => {
 });   
 
 
-
 app.post('/api/sellToCustomer',async(req,res)=>{
   try {
     const batchID =req.body.batchID;
     const productID =req.body.productID;
-    const customerAddress =req.body.customerAddress;
-    const tx =await contract.retailerSellToCustomer(batchID,productID,customerAddress);
+    const customerID =req.body.customerID;
+    const tx =await contract.retailerSellToCustomer(batchID,productID,customerID);
     tx.wait();
+
     res.status(200).json({status:"success", message:"Product sold to customer"});
   } catch (error) {
     console.log(error.message);
