@@ -18,8 +18,8 @@ const connectToMatic = async () => {
     // console.log(await contractInstance.getAllProductTemplateIDs())
     // const tx =await contractInstance.addProductTemplate(1234132,"Tommy Hilfiger Watch","Men Black Analogue Watch Black");
     // const tx =await contractInstance.batchProduced(                                      
-    //   1738101,// batchID                                                 
-    //   [477173,382171,173718], // Array of product Ids               
+    //   1738104,// batchID                                                 
+    //   [477176,382174,173721], // Array of product Ids               
     //   3,// Batch Size                                               
     //   "Batch of 3 Jeans",// Batch Description                                        
     //   1234132,// Product temlplate ID                                    
@@ -320,3 +320,5 @@ app.get('/', function (req, res) {
 var server = app.listen(8082, function () {
     console.log("Example app listening at http://127:0:0:1:8082")
 })
+
+
