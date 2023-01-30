@@ -106,7 +106,7 @@ async function main() {
   // let x =await supplychain.getAllBatchIDs()   
   // console.log(x);  
   
-  // // To view the list
+  // To view the list
   
   // for(let i=0; i<x.length; i++){
   //   // For ith Batch
@@ -142,16 +142,8 @@ async function main() {
 
   // Factory scans the QR code 
 
-  // await supplychain.factoryScansBatch(1721,1738101);
-  // console.log(await supplychain.BatchScanned(1721,1738101))
-
-
-
-
-
-
-
-
+  await supplychain.factoryScansBatch(1738101);
+  // console.log(await supplychain.BatchMapping(1738101));  
 
 
   //---------------------------- For distributor---------
@@ -164,17 +156,18 @@ async function main() {
   // for(let i=0; i<x.length; i++){
   //   // For ith Batch
   //   const data =await supplychain.BatchMapping(x[i])
-  //     if(data.DistributorID==1234 && data.state==0){
-  //       console.log(data);  
-  //       // Product Ids for ith batch
-  //       console.log(await supplychain.getProductIdsForaBatch(x[i]));
-  //     } 
+  //   if(data.DistributorID==1234 && data.State==0){
+  //     console.log(data);  
+  //     // Product Ids for ith batch
+  //     console.log(await supplychain.getProductIdsForaBatch(x[i]));
+  //   } 
   // }
 
   // ----------------------------------Distributor scans the QR code ----------------------
 
-  // await supplychain.distributorScansBatch(1234,1738101);
-  // console.log(await supplychain.BatchScanned(1234,1738101))
+  await supplychain.distributorScansBatch(1738101);
+  // console.log(await supplychain.BatchMapping(1738101));  
+
 
   // ---------------------------------SELL A BATCH TO A RETAILER-----------------------------
 
@@ -189,7 +182,7 @@ async function main() {
   // for(let i=0; i<x.length; i++){
   //   // For ith Batch
   //   const data =await supplychain.BatchMapping(x[i])
-  //   if(data.DistributorID==1234 && data.state==1){
+  //   if(data.DistributorID==1234 && data.State==1){
   //       console.log(data);  
   //     // Product Ids for ith batch
   //     let array =await supplychain.getProductIdsForaBatch(x[i]);
@@ -203,8 +196,7 @@ async function main() {
   
   // Retailer scans the QR code 
 
-  // await supplychain.retailerScansBatch(4321,1738101);
-  // console.log(await supplychain.BatchScanned(4321,1738101))
+  await supplychain.retailerScansBatch(1738101);
 
 
   // -------------------- VIEW ALL THE BATCHES  --------------- 
@@ -214,7 +206,7 @@ async function main() {
   
   // for(let i=0; i<x.length; i++){ 
   //   const data =await supplychain.BatchMapping(x[i]) 
-  //   if(data.RetailerID==4321 && data.state==1){
+  //   if(data.RetailerID==4321 && data.State==1){
   //     console.log(data);  
       
   //     let array =await supplychain.getProductIdsForaBatch(x[i]);

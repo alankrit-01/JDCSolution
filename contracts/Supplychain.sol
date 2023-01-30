@@ -36,7 +36,10 @@ contract Supplychain{
         uint RetailerID;    
         string FactoryLocation; 
         string DateOfProduction;
-        uint state;               
+        uint State;            
+        bool FactoryScanned;   
+        bool DistributorScanned;   
+        bool RetailerScanned;   
     }                               
 
     struct Customer{
@@ -58,7 +61,7 @@ contract Supplychain{
     uint[] public BatchIDs; 
 
     // FactoryID -> BatchID -> bool
-    mapping(uint=>mapping(uint=>bool)) public BatchScanned;
+    // mapping(uint=>mapping(uint=>bool)) public BatchScanned;
 
     function addBatchTemplate(
         uint _batchTemplateID,
@@ -115,7 +118,10 @@ contract Supplychain{
             RetailerID:0,
             FactoryLocation:factoryLocation,
             DateOfProduction:dateOfProduction,
-            state:0
+            State:0,
+            FactoryScanned:false,  
+            DistributorScanned:false, 
+            RetailerScanned:false
         }); 
         BatchIDs.push(batchID); 
         BatchIDToProductIDMapping[batchID]= productIDs;
@@ -131,24 +137,24 @@ contract Supplychain{
         }   
     }    
 
-    function factoryScansBatch(uint factoryID, uint batchID) public{
-        require(BatchScanned[factoryID][batchID]==false,"This batch is already scanned by the factory");
-        BatchScanned[factoryID][batchID]=true;
+    function factoryScansBatch(uint batchID) public{
+        require(BatchMapping[batchID].FactoryScanned==false,"This batch is already scanned by the factory");
+        BatchMapping[batchID].FactoryScanned=true;
     }
 
-    function distributorScansBatch(uint distributorID, uint batchID) public{
-        require(BatchScanned[distributorID][batchID]==false,"This batch is already scanned by the distributor");
-        BatchScanned[distributorID][batchID]=true;
+    function distributorScansBatch(uint batchID) public{
+        require(BatchMapping[batchID].DistributorScanned==false,"This batch is already scanned by the distributor");
+        BatchMapping[batchID].DistributorScanned=true;
     } 
 
     function distributorSellToRetailer(uint batchID, uint retailerID) public{
         BatchMapping[batchID].RetailerID=retailerID;
-        BatchMapping[batchID].state=1;
+        BatchMapping[batchID].State=1;
     }   
 
-    function retailerScansBatch(uint retailerID, uint batchID) public{
-        require(BatchScanned[retailerID][batchID]==false,"This batch is already scanned by the retailer");
-        BatchScanned[retailerID][batchID]=true;
+    function retailerScansBatch(uint batchID) public{
+        require(BatchMapping[batchID].RetailerScanned==false,"This batch is already scanned by the retailer");
+        BatchMapping[batchID].RetailerScanned=true;
     } 
 
     function retailerSellToCustomer(uint batchID,uint productID, uint customerID) public {
