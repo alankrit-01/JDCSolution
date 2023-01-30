@@ -45,7 +45,7 @@ connectToMatic();
 
 app.get('/api/viewReceivedBatchesForDistributor', async (req, res) => {
   try {
-    let result=[]; 
+    let result=[];          
     const distibutorID= req.query.distibutorID;
     const IDs =await contract.getAllBatchIDs();
     // console.log(IDs);
@@ -229,9 +229,32 @@ app.get('/api/viewBatchDetails', async (req, res) => {
   try {
     let result=[];
     const batchID= req.query.batchID;
-    // console.log(batchID);
+    const batchData =await contract.BatchMapping(batchID);
+    // console.log(batchData);
+    result.push(
+      {
+        BatchID :batchData[0].toNumber(),
+        BatchSize :batchData[1].toNumber(),
+        AmountSold :batchData[2].toNumber(),
+        BatchDescription :batchData[3],
+        ProductTemplateID: batchData[4].toNumber(),
+        FactoryID:batchData[5].toNumber(),
+        DistributorID:batchData[6].toNumber(),
+        RetailerID:batchData[7].toNumber(),
+        FactoryLocation:batchData[8],
+        DateOfProduction:batchData[9],
+        State:batchData[10].toNumber(),
+        FactoryScanned:batchData[11], 
+        DistributorScanned:batchData[12],   
+        RetailerScanned:batchData[13] 
+      }
+    )
     const IDs =await contract.getProductIdsForaBatch(batchID);
-    result.push()
+    for(let i=0; i<IDs.length; i++){
+      const productData =await contract.ProductMapping(IDs[i]);
+      console.log(productData);
+    }
+    // result.push() 
     if(result){
       res.status(200).json({status:"success", message:result});
     }else {
@@ -273,7 +296,7 @@ app.get('/api/viewProductBoughts', async (req, res) => {
       const batchData =await contract.BatchMapping(data[i][0]);
       const productData =await contract.ProductMapping(data[i][1]);
       console.log(productData[0]);
-      // console.log(batchData);
+      // console.log(batchData); 
       result.push({
         "productData":{
           ProductID:productData[0].toNumber(),
