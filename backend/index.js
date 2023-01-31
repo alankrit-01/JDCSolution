@@ -89,6 +89,7 @@ app.get('/api/viewReceivedBatchesForDistributor', async (req, res) => {
 app.post('/api/distributorScansBatch',async(req,res)=>{
   try {
     const batchID =req.body.batchID;
+    const distributorID =req.body.distributorID; 
     const tx =await contract.distributorScansBatch(batchID);
     tx.wait();
     console.log("Transaction completed!");
@@ -214,6 +215,8 @@ app.get('/api/viewReceivedBatchesForRetailer', async (req, res) => {
 app.post('/api/retailerScansBatch',async(req,res)=>{
   try {
     const batchID =req.body.batchID; 
+    const retailerID =req.body.retailerID; 
+
     const tx =await contract.retailerScansBatch(batchID);
     tx.wait();
     console.log("Transaction completed!");
