@@ -223,7 +223,7 @@ async function main() {
   
   // --------------- Retailer sell to customer ----------
 
-  await supplychain.retailerSellToCustomer(1738101,17361,5362);
+await supplychain.retailerSellToCustomer(1738101,17361,5362);
 
 
   //------------------------ For Customer  -------------------

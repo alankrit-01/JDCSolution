@@ -210,7 +210,8 @@ app.get('/api/viewReceivedBatchesForRetailer', async (req, res) => {
     console.log(error.message);
     res.status(400).send({ error: error.message });
   }
-});               
+});
+
 
 app.post('/api/retailerScansBatch',async(req,res)=>{
   try {
@@ -290,21 +291,22 @@ app.post('/api/sellToCustomer',async(req,res)=>{
 app.get('/api/viewProductBoughts', async (req, res) => {
   try {
     let result=[];
-    let customer= req.query.customer;
-    let data =await contract.getAllProductsBought(customer);
+    let customerID= req.query.customerID;
+    let data =await contract.getAllProductsBought(customerID);
 
     for(let i=0; i<data.length; i++){       
       const batchData =await contract.BatchMapping(data[i][0]);
       const productData =await contract.ProductMapping(data[i][1]);
-      console.log(productData[0]);
+      // console.log(productData[0]);
       // console.log(batchData); 
       result.push({
         "productData":{
           ProductID:productData[0].toNumber(),
-          ProductTemplateID:productData[1].toNumber(),
-          DOM:productData[2],
-          Owner:productData[3],
-          DateWhenSold:productData[4].toNumber()
+          BatchID:productData[1].toNumber(),
+          ProductTemplateID:productData[2].toNumber(),
+          DOM:productData[3],
+          CustomerID:productData[4].toNumber(),
+          DateWhenSold:productData[5].toNumber()
         },
         "batchData":{
           BatchID :batchData[0].toNumber(),
@@ -312,9 +314,9 @@ app.get('/api/viewProductBoughts', async (req, res) => {
           AmountSold :batchData[2].toNumber(),
           BatchDescription :batchData[3],
           ProductTemplateID: batchData[4].toNumber(),
-          Factory:batchData[5],
-          Distributor:batchData[6],
-          Retailer:batchData[7],
+          FactoryID:batchData[5].toNumber(),
+          DistributorID:batchData[6].toNumber(),
+          RetailerID:batchData[7].toNumber(),
           FactoryLocation:batchData[8],
           DateOfProduction:batchData[9],
           State:batchData[10].toNumber(),
@@ -335,15 +337,45 @@ app.get('/api/viewProductBoughts', async (req, res) => {
   }
 });  
 
-app.get('app/authenticateProduct',async(req,res)=>{
+app.get('/api/authenticateProduct',async(req,res)=>{
   try {
-    let productID= req.query.productID; 
+    let productID= req.query.productID;
+    let data = await contract.ProductMapping(productID);
+    let batchID;
+    batchID =data[1].toNumber();
+    let data2 =await contract.BatchMapping(batchID);
 
-    if(result){
-      res.status(200).json({status:"success", message:result});
-    }else {
-      res.status(200).json({status:"success", message:"Returned data is empty"});
+    // Level 1 
+
+    if(batchID==0){
+      res.status(200).json({status:"success", message:"Authentication Level 1 Falied: Product ID not found"}); 
     }
+    // Level 2
+    
+    else if(data2.FactoryScanned ==false){
+      res.status(200).json({status:"success", message:"Authentication Level 2 Falied: Factory didn't scanned this product"});
+    }
+    // Level 3
+    
+    else if(data2.DistributorScanned ==false){
+      res.status(200).json({status:"success", message:"Authentication Level 3 Falied: Distributor didn't scanned this product"});
+    }
+    // Level 4
+    
+    else if(data2.RetailerScanned ==false){
+      res.status(200).json({status:"success", message:"Authentication Level 4 Falied: Retailer didn't scanned this product"});
+    }
+
+    else{
+      res.status(200).json({status:"success", message:"All Authentication Level Passed"});
+    }
+
+    // if(result){
+    //   res.status(200).json({status:"success", message:});
+    // }else {
+    //   res.status(200).json({status:"success", message:"Returned data is empty"});
+    // }
+    
   } catch (error) {
     console.log(error.message);
     res.status(400).send({ error: error.message });
