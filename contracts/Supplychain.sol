@@ -9,7 +9,7 @@ contract Supplychain{
         string Description;
         uint BatchSize;
         uint FactoryID;
-    }
+    } 
 
     struct ProductTemplate{
         uint ProductTemplateID;
@@ -19,10 +19,11 @@ contract Supplychain{
 
     struct Product{
         uint ProductID;
+        uint BatchID;
         uint ProductTemplateID;
         string DOM;
         uint OwnerID;
-        uint DateWhenSold;
+        uint DateWhenSold; 
     }            
                  
     struct Batch{        
@@ -49,9 +50,9 @@ contract Supplychain{
 
     mapping(uint=>ProductTemplate) public ProductTemplateMAP;
     mapping(uint=>BatchTemplate) public BatchTemplateMAP;
-    mapping(uint=>Product) public ProductMapping;   
-    mapping(uint=>Batch) public BatchMapping;
-    mapping(uint=>uint[]) public BatchIDToProductIDMapping;
+    mapping(uint=>Product) public ProductMapping;  
+    mapping(uint=>Batch) public BatchMapping; 
+    mapping(uint=>uint[]) public BatchIDToProductIDMapping; 
     // CustomerID -> Customer[]
     mapping(uint =>Customer[]) public CustomerData;
 
@@ -128,6 +129,7 @@ contract Supplychain{
         for(uint i=0;i<batchSize; i++){
             ProductMapping[productIDs[i]]=Product({
                 ProductID:productIDs[i],
+                BatchID:batchID,
                 ProductTemplateID:productTemplateID,
                 DOM:dateOfProduction,
                 OwnerID:0,
@@ -137,13 +139,15 @@ contract Supplychain{
         }   
     }    
 
-    function factoryScansBatch(uint batchID) public{
+    function factoryScansBatch(uint batchID,uint _factoryID) public{
         require(BatchMapping[batchID].FactoryScanned==false,"This batch is already scanned by the factory");
+        require(BatchMapping[batchID].FactoryID==_factoryID,"This batch is not owned by this factory");
         BatchMapping[batchID].FactoryScanned=true;
     }
 
-    function distributorScansBatch(uint batchID) public{
+    function distributorScansBatch(uint batchID, uint _distributorID) public{
         require(BatchMapping[batchID].DistributorScanned==false,"This batch is already scanned by the distributor");
+        require(BatchMapping[batchID].DistributorID==_distributorID,"This batch is not owned by this distributor");
         BatchMapping[batchID].DistributorScanned=true;
     } 
 
@@ -152,8 +156,9 @@ contract Supplychain{
         BatchMapping[batchID].State=1;
     }   
 
-    function retailerScansBatch(uint batchID) public{
+    function retailerScansBatch(uint batchID, uint _retailerID) public{
         require(BatchMapping[batchID].RetailerScanned==false,"This batch is already scanned by the retailer");
+        require(BatchMapping[batchID].RetailerID==_retailerID,"This batch is not owned by this retailer");
         BatchMapping[batchID].RetailerScanned=true;
     } 
 

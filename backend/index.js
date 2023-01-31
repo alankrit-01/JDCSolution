@@ -4,7 +4,7 @@ require('dotenv').config()
 const app = express(); 
 const contractAbi = require('./artifacts/contracts/Supplychain.sol/Supplychain.json')
 
-let contractAddress ="0xf23D2e0fd9d548Cd393e407ae8A7C0e4a0fD2011"; 
+let contractAddress ="0xb6D8a3C1962a791338f1C18AfC0B8a78c22671c5"; 
 let contract;
 app.use(express.json()); 
 
@@ -18,8 +18,8 @@ const connectToMatic = async () => {
     // console.log(await contractInstance.getAllProductTemplateIDs())
     // const tx =await contractInstance.addProductTemplate(1234132,"Tommy Hilfiger Watch","Men Black Analogue Watch Black");
     // const tx =await contractInstance.batchProduced(                                      
-    //   1738104,// batchID                                                 
-    //   [477176,382174,173721], // Array of product Ids               
+    //   1738102,// batchID                                                 
+    //   [477172,382172,173722], // Array of product Ids               
     //   3,// Batch Size                                               
     //   "Batch of 3 Jeans",// Batch Description                                        
     //   1234132,// Product temlplate ID                                    
@@ -90,7 +90,7 @@ app.post('/api/distributorScansBatch',async(req,res)=>{
   try {
     const batchID =req.body.batchID;
     const distributorID =req.body.distributorID; 
-    const tx =await contract.distributorScansBatch(batchID);
+    const tx =await contract.distributorScansBatch(batchID,distributorID);
     tx.wait();
     console.log("Transaction completed!");
 
@@ -217,7 +217,7 @@ app.post('/api/retailerScansBatch',async(req,res)=>{
     const batchID =req.body.batchID; 
     const retailerID =req.body.retailerID; 
 
-    const tx =await contract.retailerScansBatch(batchID);
+    const tx =await contract.retailerScansBatch(batchID,retailerID);
     tx.wait();
     console.log("Transaction completed!");
 
@@ -234,7 +234,7 @@ app.get('/api/viewBatchDetails', async (req, res) => {
     const batchID= req.query.batchID;
     const batchData =await contract.BatchMapping(batchID);
     // console.log(batchData);
-    result.push(
+    result.push( 
       {
         BatchID :batchData[0].toNumber(),
         BatchSize :batchData[1].toNumber(),
@@ -285,8 +285,6 @@ app.post('/api/sellToCustomer',async(req,res)=>{
   }
 })
 
-
-
 ////////////////// API FOR CUSTOMERS ////////////////////
 
 app.get('/api/viewProductBoughts', async (req, res) => {
@@ -336,6 +334,21 @@ app.get('/api/viewProductBoughts', async (req, res) => {
     res.status(400).send({ error: error.message });
   }
 });  
+
+app.get('app/authenticateProduct',async(req,res)=>{
+  try {
+    let productID= req.query.productID; 
+
+    if(result){
+      res.status(200).json({status:"success", message:result});
+    }else {
+      res.status(200).json({status:"success", message:"Returned data is empty"});
+    }
+  } catch (error) {
+    console.log(error.message);
+    res.status(400).send({ error: error.message });
+  }
+})
 
 
 app.get('/', function (req, res) {

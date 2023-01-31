@@ -142,7 +142,7 @@ async function main() {
 
   // Factory scans the QR code 
 
-  await supplychain.factoryScansBatch(1738101);
+  await supplychain.factoryScansBatch(1738101,1721);
   // console.log(await supplychain.BatchMapping(1738101));  
 
 
@@ -165,7 +165,7 @@ async function main() {
 
   // ----------------------------------Distributor scans the QR code ----------------------
 
-  await supplychain.distributorScansBatch(1738101);
+  await supplychain.distributorScansBatch(1738101,1234);
   // console.log(await supplychain.BatchMapping(1738101));  
 
 
@@ -196,7 +196,7 @@ async function main() {
   
   // Retailer scans the QR code 
 
-  await supplychain.retailerScansBatch(1738101);
+  await supplychain.retailerScansBatch(1738101,4321);
 
 
   // -------------------- VIEW ALL THE BATCHES  --------------- 
@@ -223,7 +223,7 @@ async function main() {
   
   // --------------- Retailer sell to customer ----------
 
-  // await supplychain.retailerSellToCustomer(1738101,17361,5362);
+  await supplychain.retailerSellToCustomer(1738101,17361,5362);
 
 
   //------------------------ For Customer  -------------------
