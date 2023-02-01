@@ -18,8 +18,8 @@ const connectToMatic = async () => {
     // console.log(await contractInstance.getAllProductTemplateIDs())
     // const tx =await contractInstance.addProductTemplate(1234132,"Tommy Hilfiger Watch","Men Black Analogue Watch Black");
     // const tx =await contractInstance.batchProduced(                                      
-    //   1738102,// batchID                                                 
-    //   [477172,382172,173722], // Array of product Ids               
+    //   1738105,// batchID                                                 
+    //   [477175,382175,173725], // Array of product Ids               
     //   3,// Batch Size                                               
     //   "Batch of 3 Jeans",// Batch Description                                        
     //   1234132,// Product temlplate ID                                    
@@ -375,7 +375,7 @@ app.get('/api/authenticateProduct',async(req,res)=>{
     // }else {
     //   res.status(200).json({status:"success", message:"Returned data is empty"});
     // }
-    
+
   } catch (error) {
     console.log(error.message);
     res.status(400).send({ error: error.message });
