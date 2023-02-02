@@ -23,8 +23,8 @@ async function main() {
 
   // Add a new product template
 
-  await supplychain.addProductTemplate(1234132,"Tommy Hilfiger Watch","Men Black Analogue Watch TH1791802W");
-  await supplychain.addProductTemplate(1837183,"Jeans","Men Navy Blue Ryan Straight Fit Light Fade Stretchable Jeans");
+  await supplychain.addProductTemplate(1234132,"Tommy Hilfiger Watch","Men Black Analogue Watch TH1791802W",1234);
+  await supplychain.addProductTemplate(1837183,"Jeans","Men Navy Blue Ryan Straight Fit Light Fade Stretchable Jeans",1234);
 
 
   // List of all product templates  
@@ -35,7 +35,8 @@ async function main() {
   //   console.log(data);
   // }  
 
-  // Add a new Batch
+  // Add a new Batch template
+
   await supplychain.addBatchTemplate(1827371912,1234132,"Batch Description 1",15,"0x8626f6940E2eb28930eFb4CeF49B2d1F2C9C1199");
   await supplychain.addBatchTemplate(2817373811,1837183,"Batch Description 2",20,"0x8626f6940E2eb28930eFb4CeF49B2d1F2C9C1199");
                     

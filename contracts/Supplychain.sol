@@ -15,7 +15,8 @@ contract Supplychain{
         uint ProductTemplateID;
         string Name;
         string Description;
-    }         
+        uint FactoryID;
+    }               
 
     struct Product{
         uint ProductID;
@@ -84,12 +85,14 @@ contract Supplychain{
     function addProductTemplate(
         uint _productTemplateID,
         string memory _name,
-        string memory _description
+        string memory _description,
+        uint _factoryID
     ) public{
         ProductTemplateMAP[_productTemplateID]=ProductTemplate({
             ProductTemplateID:_productTemplateID,
             Name:_name,
-            Description:_description          
+            Description:_description,     
+            FactoryID:_factoryID    
         });
         ProductTemplateIDs.push(_productTemplateID);
     }   
