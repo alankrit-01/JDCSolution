@@ -4,7 +4,7 @@ require('dotenv').config()
 const app = express(); 
 const contractAbi = require('./artifacts/contracts/Supplychain.sol/Supplychain.json')
 
-let contractAddress ="0xe395AA636b012022CfB43A1a70c342c8F4Da450C"; 
+let contractAddress ="0x172d35c511e1eaE7F8acD8b66818301a019D3AcA"; 
 let contract;
 app.use(express.json()); 
 
@@ -435,7 +435,7 @@ app.get('/api/viewBatchDetails', async (req, res) => {
     const IDs =await contract.getProductIdsForaBatch(batchID);
     for(let i=0; i<IDs.length; i++){
       const productData =await contract.ProductMapping(IDs[i]);
-      console.log(productData);
+      // console.log(productData);
     }
     // result.push() 
     if(result){
