@@ -527,26 +527,26 @@ app.get('/api/authenticateProduct',async(req,res)=>{
     // Level 1 
 
     if(batchID==0){
-      res.status(200).json({status:"success", message:"Authentication Level 1 Falied: Product ID not found"}); 
+      res.status(200).json({status:"success", message:"Authentication Level 1 Falied: Product ID not found",level:"1"}); 
     }
     // Level 2
     
     else if(data2.FactoryScanned ==false){
-      res.status(200).json({status:"success", message:"Authentication Level 2 Falied: Factory didn't scanned this product"});
+      res.status(200).json({status:"success", message:"Authentication Level 2 Falied: Factory didn't scanned this product",level:"2"});
     }
     // Level 3
     
     else if(data2.DistributorScanned ==false){
-      res.status(200).json({status:"success", message:"Authentication Level 3 Falied: Distributor didn't scanned this product"});
+      res.status(200).json({status:"success", message:"Authentication Level 3 Falied: Distributor didn't scanned this product",level:"3"});
     }
     // Level 4
     
     else if(data2.RetailerScanned ==false){
-      res.status(200).json({status:"success", message:"Authentication Level 4 Falied: Retailer didn't scanned this product"});
+      res.status(200).json({status:"success", message:"Authentication Level 4 Falied: Retailer didn't scanned this product",level:"4"});
     }
 
     else{
-      res.status(200).json({status:"success", message:"All Authentication Level Passed"});
+      res.status(200).json({status:"success", message:"All Authentication Level Passed",level:"5"});
     }
 
     // if(result){
