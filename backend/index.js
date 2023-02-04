@@ -61,6 +61,7 @@ app.post('/api/factoryAddProductTemplate',async(req,res)=>{
 
 
 app.get('/api/viewListOfProductTemplates', async (req, res) => {
+  console.log('sdsd')
   try {
     let result=[];          
     const factoryID= req.query.factoryID;
