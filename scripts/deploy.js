@@ -23,8 +23,8 @@ async function main() {
 
   // Add a new product template
 
-  await supplychain.addProductTemplate(1234132,"Tommy Hilfiger Watch","Men Black Analogue Watch TH1791802W",1234);
-  await supplychain.addProductTemplate(1837183,"Jeans","Men Navy Blue Ryan Straight Fit Light Fade Stretchable Jeans",1234);
+  await supplychain.addProductTemplate(1234132,"Tommy Hilfiger Watch","Men Black Analogue Watch TH1791802W","1234");
+  await supplychain.addProductTemplate(1234133,"Jeans","Men Navy Blue Ryan Straight Fit Light Fade Stretchable Jeans","1234");
 
 
   // List of all product templates  
@@ -37,8 +37,9 @@ async function main() {
 
   // Add a new Batch template
 
-  await supplychain.addBatchTemplate(1827371912,1234132,"Batch Description 1",15,"0x8626f6940E2eb28930eFb4CeF49B2d1F2C9C1199");
-  await supplychain.addBatchTemplate(2817373811,1837183,"Batch Description 2",20,"0x8626f6940E2eb28930eFb4CeF49B2d1F2C9C1199");
+  await supplychain.addBatchTemplate(1827371912,1234132,"Batch Description 1",15,"1234");
+  // await supplychain.addBatchTemplate(1827371913,1234132,"Batch Description 1",15,"1234");
+  // await supplychain.addBatchTemplate(2817373811,1837183,"Batch Description 2",20,"1234");
                     
 
   // List of all product templates
@@ -48,22 +49,32 @@ async function main() {
   //   let data =await supplychain.BatchTemplateMAP(array2[i]);  
   //   console.log(data);
   // }
-
-
                                                                            
   // Add a batch 
 
-  await supplychain.batchProduced(                                      
-    1738101,// batchID                                                 
-    [16352,173817,17361,173819], // Array of product Ids               
-    4,// Batch Size                                                   
-    "Batch of 4 Watches",// Batch Description                                        
-    1234132,// Product temlplate ID                                    
-    1721,// factoryID     
-    1234,// distributorID
-    "Factory location",// factory Location                                   
-    "1828171"// dateOfProduction                                         
-  )   
+  // await supplychain.batchProduced(                                      
+  //   1738101,// batchID                                                 
+  //   [16352,173817,17361,173819], // Array of product Ids               
+  //   4,// Batch Size                                                   
+  //   "Batch of 4 Watches",// Batch Description                                        
+  //   1234132,// Product temlplate ID                                    
+  //   "1234",// factoryID     
+  //   "4321",// distributorID
+  //   "Factory location",// factory Location                                   
+  //   "1828171"// dateOfProduction                                         
+  // )   
+
+  // await supplychain.batchProduced(                                      
+  //   1738102,// batchID                                                 
+  //   [16353,173814,17362,173812], // Array of product Ids               
+  //   4,// Batch Size                                                   
+  //   "Batch of 4 Watches",// Batch Description                                        
+  //   1234132,// Product temlplate ID                                    
+  //   "1234",// factoryID     
+  //   "4321",// distributorID
+  //   "Factory location",// factory Location                                   
+  //   "1828171"// dateOfProduction                                         
+  // )   
 
   // await supplychain.batchProduced(                                      
   //   1738102,// batchID                                                 
@@ -107,7 +118,7 @@ async function main() {
   // let x =await supplychain.getAllBatchIDs()   
   // console.log(x);  
   
-  // To view the list
+  // // To view the list
   
   // for(let i=0; i<x.length; i++){
   //   // For ith Batch
@@ -143,7 +154,7 @@ async function main() {
 
   // Factory scans the QR code 
 
-  await supplychain.factoryScansBatch(1738101,1721);
+  // await supplychain.factoryScansBatch(1738101,1721);
   // console.log(await supplychain.BatchMapping(1738101));  
 
 
@@ -166,13 +177,13 @@ async function main() {
 
   // ----------------------------------Distributor scans the QR code ----------------------
 
-  await supplychain.distributorScansBatch(1738101,1234);
+  // await supplychain.distributorScansBatch(1738101,1234);
   // console.log(await supplychain.BatchMapping(1738101));  
 
 
   // ---------------------------------SELL A BATCH TO A RETAILER-----------------------------
 
-  await supplychain.distributorSellToRetailer(1738101,4321);
+  // await supplychain.distributorSellToRetailer(1738101,4321);
 
   
   // VIEW LIST OF BATCHES THAT THIS DISTRIBUTOR HAS SUPPLIED TO THE RETAILERS
@@ -197,7 +208,7 @@ async function main() {
   
   // Retailer scans the QR code 
 
-  await supplychain.retailerScansBatch(1738101,4321);
+  // await supplychain.retailerScansBatch(1738101,4321);
 
 
   // -------------------- VIEW ALL THE BATCHES  --------------- 
@@ -224,7 +235,7 @@ async function main() {
   
   // --------------- Retailer sell to customer ----------
 
-await supplychain.retailerSellToCustomer(1738101,17361,5362);
+// await supplychain.retailerSellToCustomer(1738101,17361,5362);
 
 
   //------------------------ For Customer  -------------------

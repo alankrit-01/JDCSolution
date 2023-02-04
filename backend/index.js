@@ -4,7 +4,7 @@ require('dotenv').config()
 const app = express(); 
 const contractAbi = require('./artifacts/contracts/Supplychain.sol/Supplychain.json')
 
-let contractAddress ="0x172d35c511e1eaE7F8acD8b66818301a019D3AcA"; 
+let contractAddress ="0x97068B74AB27232A978Fa20C0602f0748Ff769F7"; 
 let contract;
 app.use(express.json()); 
 
@@ -561,6 +561,23 @@ app.get('/api/authenticateProduct',async(req,res)=>{
   }
 })
 
+app.get('/api/viewProductIDsInBatch', async (req, res) => {
+  try {
+    let batchID= req.query.batchID;
+    let data = await contract.getProductIdsForaBatch(batchID);
+    let result =data.map(ID=>ID.toNumber())
+    if(result){
+      res.status(200).json({status:"success", message:result});
+    }else {
+      res.status(200).json({status:"success", message:"Returned data is empty"});
+    }
+  } catch (error) {
+    console.log(error.message);
+    res.status(400).send({ error: error.message });
+  }
+});  
+
+
 
 app.get('/', function (req, res) {
     // console.log(web3)
@@ -572,3 +589,7 @@ var server = app.listen(8082, function () {
 })
 
 
+
+// Product ID -5 Fails at Level 1
+// Product ID -12 Fails at Level 2
+// Product ID -1 Fails at Level 3

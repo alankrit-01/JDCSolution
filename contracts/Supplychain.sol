@@ -72,6 +72,8 @@ contract Supplychain{
         uint _batchSize,
         string memory _factoryID
     ) public{ 
+        require(checkInBatchTemplateIDs(_batchTemplateID)==false,"This BatchTemplateID already exists in the system");
+        require(checkInProductTemplateIDs(_productTemplateID)==true,"This ProductTemplateID does not exists in the system");
         BatchTemplateMAP[_batchTemplateID]=BatchTemplate({
             BatchTemplateID:_batchTemplateID,
             ProductTemplateID:_productTemplateID,
@@ -88,6 +90,7 @@ contract Supplychain{
         string memory _description,
         string memory _factoryID
     ) public{
+        require(checkInProductTemplateIDs(_productTemplateID)==false,"This ProductTemplateID already exists in the system");
         ProductTemplateMAP[_productTemplateID]=ProductTemplate({
             ProductTemplateID:_productTemplateID,
             Name:_name,
@@ -110,6 +113,8 @@ contract Supplychain{
         string memory dateOfProduction 
         // 
     ) public{
+        require(checkInBatchIDs(batchID)==false,"BatchID already exists in the system");
+        require(productIDs.length==batchSize,"Size of productIDs array does not match with Batch size");
         BatchMapping[batchID]=Batch({
             BatchID:batchID,    
             // ProductIDs:productIDs,
@@ -130,6 +135,7 @@ contract Supplychain{
         BatchIDs.push(batchID); 
         BatchIDToProductIDMapping[batchID]= productIDs;
         for(uint i=0;i<batchSize; i++){
+            require(checkInProductIDs(productIDs[i])==false,"ProductID already exists in the system");
             ProductMapping[productIDs[i]]=Product({
                 ProductID:productIDs[i],
                 BatchID:batchID,
@@ -183,16 +189,44 @@ contract Supplychain{
         return ProductTemplateIDs;
     }   
 
+    function checkInProductTemplateIDs(uint _productTemplateID) internal view returns(bool){
+        for(uint i=0; i<ProductTemplateIDs.length; i++){
+            if(ProductTemplateIDs[i]==_productTemplateID) return true;
+        }
+        return false;
+    }
+
     function getAllBatchTemplateIDs() public view returns(uint []memory){
         return BatchTemplateIDs;
     }   
+
+    function checkInBatchTemplateIDs(uint _batchTemplateID) internal view returns(bool){
+        for(uint i=0; i<BatchTemplateIDs.length; i++){
+            if(BatchTemplateIDs[i]==_batchTemplateID) return true;
+        }
+        return false;
+    }
 
     function getAllBatchIDs() public view returns(uint []memory){
         return BatchIDs;
     }
 
+    function checkInBatchIDs(uint _batchID) internal view returns(bool){
+        for(uint i=0; i<BatchIDs.length; i++){
+            if(BatchIDs[i]==_batchID) return true;
+        }
+        return false;
+    }
+
     function getAllProductIDs() public view returns(uint []memory){
         return ProductIDs;
+    }
+
+    function checkInProductIDs(uint _productID) internal view returns(bool){
+        for(uint i=0; i<ProductIDs.length; i++){
+            if(ProductIDs[i]==_productID) return true;
+        }
+        return false;
     }
 
     function getProductIdsForaBatch(uint batchID) public view returns(uint []memory){
