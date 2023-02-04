@@ -4,7 +4,7 @@ require('dotenv').config()
 const app = express(); 
 const contractAbi = require('./artifacts/contracts/Supplychain.sol/Supplychain.json')
 
-let contractAddress ="0xe395AA636b012022CfB43A1a70c342c8F4Da450C"; 
+let contractAddress ="0x97068B74AB27232A978Fa20C0602f0748Ff769F7"; 
 let contract;
 app.use(express.json()); 
 
@@ -75,7 +75,7 @@ app.get('/api/viewListOfProductTemplates', async (req, res) => {
           ProductTemplateID :data[0].toNumber(),
           Name :data[1],
           Description :data[2],
-          FactoryID :data[3].toNumber(), 
+          FactoryID :data[3], 
         })
       } 
     }  
@@ -124,7 +124,7 @@ app.get('/api/viewListOfBatchTemplates', async (req, res) => {
           ProductTemplateID :data[1].toNumber(),
           Description :data[2],
           BatchSize :data[3].toNumber(),
-          FactoryID :data[4].toNumber(), 
+          FactoryID :data[4], 
         })
       } 
     }  
@@ -180,9 +180,9 @@ app.get('/api/viewListOfBatchesProducedByFactory', async (req, res) => {
           AmountSold :batchData[2].toNumber(),
           BatchDescription :batchData[3],
           ProductTemplateID: batchData[4].toNumber(),
-          FactoryID:batchData[5].toNumber(),
-          DistributorID:batchData[6].toNumber(),
-          RetailerID:batchData[7].toNumber(),
+          FactoryID:batchData[5],
+          DistributorID:batchData[6],
+          RetailerID:batchData[7],
           FactoryLocation:batchData[8],
           DateOfProduction:batchData[9],
           State:batchData[10].toNumber(),
@@ -243,9 +243,9 @@ app.get('/api/viewReceivedBatchesForDistributor', async (req, res) => {
             AmountSold :batchData[2].toNumber(),
             BatchDescription :batchData[3],
             ProductTemplateID: batchData[4].toNumber(),
-            FactoryID:batchData[5].toNumber(),
-            DistributorID:batchData[6].toNumber(),
-            RetailerID:batchData[7].toNumber(),
+            FactoryID:batchData[5],
+            DistributorID:batchData[6],
+            RetailerID:batchData[7],
             FactoryLocation:batchData[8],
             DateOfProduction:batchData[9],
             State:batchData[10].toNumber(),
@@ -279,7 +279,7 @@ app.post('/api/distributorScansBatch',async(req,res)=>{
     console.log(error.message);
     res.status(400).send({ error: error.message });
   }
-})
+}) 
 
 app.post('/api/distributorSellToRetailer',async(req,res)=>{
   try {
@@ -316,9 +316,9 @@ app.get('/api/viewBatchesSendToRetailers', async (req, res) => {
             AmountSold :batchData[2].toNumber(),
             BatchDescription :batchData[3],
             ProductTemplateID: batchData[4].toNumber(),
-            FactoryID:batchData[5].toNumber(),
-            DistributorID:batchData[6].toNumber(),
-            RetailerID:batchData[7].toNumber(),
+            FactoryID:batchData[5],
+            DistributorID:batchData[6],
+            RetailerID:batchData[7],
             FactoryLocation:batchData[8],
             DateOfProduction:batchData[9],
             State:batchData[10].toNumber(),
@@ -367,9 +367,9 @@ app.get('/api/viewReceivedBatchesForRetailer', async (req, res) => {
             AmountSold :batchData[2].toNumber(),
             BatchDescription :batchData[3],
             ProductTemplateID: batchData[4].toNumber(),
-            FactoryID:batchData[5].toNumber(),
-            DistributorID:batchData[6].toNumber(),
-            RetailerID:batchData[7].toNumber(),
+            FactoryID:batchData[5],
+            DistributorID:batchData[6],
+            RetailerID:batchData[7],
             FactoryLocation:batchData[8],
             DateOfProduction:batchData[9],
             State:batchData[10].toNumber(),
@@ -422,9 +422,9 @@ app.get('/api/viewBatchDetails', async (req, res) => {
         AmountSold :batchData[2].toNumber(),
         BatchDescription :batchData[3],
         ProductTemplateID: batchData[4].toNumber(),
-        FactoryID:batchData[5].toNumber(),
-        DistributorID:batchData[6].toNumber(),
-        RetailerID:batchData[7].toNumber(),
+        FactoryID:batchData[5],
+        DistributorID:batchData[6],
+        RetailerID:batchData[7],
         FactoryLocation:batchData[8],
         DateOfProduction:batchData[9],
         State:batchData[10].toNumber(),
@@ -436,7 +436,7 @@ app.get('/api/viewBatchDetails', async (req, res) => {
     const IDs =await contract.getProductIdsForaBatch(batchID);
     for(let i=0; i<IDs.length; i++){
       const productData =await contract.ProductMapping(IDs[i]);
-      console.log(productData);
+      // console.log(productData);
     }
     // result.push() 
     if(result){
@@ -485,7 +485,7 @@ app.get('/api/viewProductBoughts', async (req, res) => {
           BatchID:productData[1].toNumber(),
           ProductTemplateID:productData[2].toNumber(),
           DOM:productData[3],
-          CustomerID:productData[4].toNumber(),
+          CustomerID:productData[4],
           DateWhenSold:productData[5].toNumber()
         },
         "batchData":{
@@ -494,9 +494,9 @@ app.get('/api/viewProductBoughts', async (req, res) => {
           AmountSold :batchData[2].toNumber(),
           BatchDescription :batchData[3],
           ProductTemplateID: batchData[4].toNumber(),
-          FactoryID:batchData[5].toNumber(),
-          DistributorID:batchData[6].toNumber(),
-          RetailerID:batchData[7].toNumber(),
+          FactoryID:batchData[5],
+          DistributorID:batchData[6],
+          RetailerID:batchData[7],
           FactoryLocation:batchData[8],
           DateOfProduction:batchData[9],
           State:batchData[10].toNumber(),
@@ -562,6 +562,23 @@ app.get('/api/authenticateProduct',async(req,res)=>{
   }
 })
 
+app.get('/api/viewProductIDsInBatch', async (req, res) => {
+  try {
+    let batchID= req.query.batchID;
+    let data = await contract.getProductIdsForaBatch(batchID);
+    let result =data.map(ID=>ID.toNumber())
+    if(result){
+      res.status(200).json({status:"success", message:result});
+    }else {
+      res.status(200).json({status:"success", message:"Returned data is empty"});
+    }
+  } catch (error) {
+    console.log(error.message);
+    res.status(400).send({ error: error.message });
+  }
+});  
+
+
 
 app.get('/', function (req, res) {
     // console.log(web3)
@@ -573,3 +590,7 @@ var server = app.listen(8082, function () {
 })
 
 
+
+// Product ID -5 Fails at Level 1
+// Product ID -12 Fails at Level 2
+// Product ID -1 Fails at Level 3
