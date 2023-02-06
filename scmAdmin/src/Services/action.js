@@ -1,10 +1,49 @@
-import { GETDETAILS,AdminUserLogin, AdminUserLogout, Get_Local_Store_Data, Get_Retailers, Get_Factory, Get_Distributer, FactoryUserLogin, FactoryUserLogout, Get_Factory_Local_Store_Data, Store_Factory, Store_Distributer, Store_Retailer, Store_Multi_User, Store_Product_Template } from "./constant"
+import { GETDETAILS,SuperAdminUserLogin,Get_SuperAdmin_Local_Store_Data,Store_Company,Check_Company_Success_data,Get_Company, SuperAdminUserLogout, AdminUserLogin, AdminUserLogout, Get_Local_Store_Data, Get_Retailers,Get_Retailer_By_Company, Get_Factory,Get_Factory_By_Company, Get_Distributer,Get_Distributer_By_Company, FactoryUserLogin, FactoryUserLogout, Get_Factory_Local_Store_Data, Store_Factory,Check_Factory_Success_data, Store_Distributer, Check_Distributer_Success_data, Store_Retailer,Check_Retailer_Success_data, Store_Multi_User, Store_Product_Template } from "./constant"
 export const GetDetails = (data) => {
     return {
         type: GETDETAILS,
         data
     } 
 }
+
+export const superAdminLogin = (data) =>{
+    return{
+        type:SuperAdminUserLogin,
+        data:data 
+    } 
+}
+export const getSuperAdminLocalStoreData = (data) =>{
+    return{
+        type:Get_SuperAdmin_Local_Store_Data,
+        data:data 
+    } 
+}
+export const storeCompany = (data) =>{
+    return{
+        type:Store_Company,
+        data:data 
+    } 
+}
+export const checkCompanySuccessdata = (data) =>{
+    return{
+        type:Check_Company_Success_data,
+        data:data 
+    } 
+}
+export const getCompany = (data) =>{
+    return{
+        type:Get_Company,
+        data:data 
+    } 
+}
+
+export const superAdminLogout = (data) =>{
+    return{
+        type:SuperAdminUserLogout,
+        data:data 
+    } 
+}
+
 export const adminLogin = (data) =>{
     return{
         type:AdminUserLogin,
@@ -23,16 +62,36 @@ export const adminLogout = (data) =>{
         data:data 
     } 
 }
-
+export const getRetailerByCompany = (data) =>{
+    return{
+        type:Get_Retailer_By_Company, 
+        data:data 
+    } 
+}
 export const getRetailers = (data) =>{
     return{
         type:Get_Retailers,
         data:data 
     } 
 }
+
+export const getFactoryByCompany = (data) =>{
+    return{
+        type:Get_Factory_By_Company,
+        data:data 
+    } 
+}
+
+
 export const getFactory = (data) =>{
     return{
         type:Get_Factory,
+        data:data 
+    } 
+}
+export const getDistributerByCompany = (data) =>{
+    return{
+        type:Get_Distributer_By_Company,
         data:data 
     } 
 }
@@ -50,9 +109,21 @@ export const storeFactory = (data) =>{
         data:data 
     } 
 }
+export const checkFactorySuccessdata = (data) =>{
+    return{
+        type:Check_Factory_Success_data,
+        data:data 
+    } 
+}
 export const storeDistributer = (data) =>{
     return{
         type:Store_Distributer,
+        data:data 
+    } 
+}
+export const checkDistributerSuccessdata = (data) =>{
+    return{
+        type:Check_Distributer_Success_data,
         data:data 
     } 
 }
@@ -60,6 +131,12 @@ export const storeDistributer = (data) =>{
 export const storeRetailer = (data) =>{
     return{
         type:Store_Retailer,
+        data:data 
+    } 
+}
+export const checkRetailerSuccessdata = (data) =>{
+    return{
+        type:Check_Retailer_Success_data,
         data:data 
     } 
 }

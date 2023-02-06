@@ -9,11 +9,11 @@ import Input from '@material-tailwind/react/Input';
 import Textarea from '@material-tailwind/react/Textarea';
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom"; 
 import { storeProductTemplate } from "Services/action";
 
 ////need improve////
-import Supplychain_abi from '../../artifacts/contracts/Supplychain.sol/Supplychain.json';
+// import Supplychain_abi from '../../artifacts/contracts/Supplychain.sol/Supplychain.json';
 import { ethers } from "ethers";
 let supplyChainAddress = '0xFd0C39B94CF349a1f72B9D1510a94EBFF8E4D128';
 ////End need improve////
@@ -86,10 +86,6 @@ const AddProductTemplate = () => {
     window.ethereum.on('chainChanged', chainChangedHandler);
 
 
-    // listen for account changes
-    window.ethereum.on('accountsChanged', accountChangedHandler);
-    window.ethereum.on('chainChanged', chainChangedHandler);
-
     const updateEthers = async () => {
         let tempProvider = new ethers.providers.Web3Provider(window.ethereum);
         setProvider(tempProvider);
@@ -97,9 +93,9 @@ const AddProductTemplate = () => {
         let tempSigner = tempProvider.getSigner();
         setSigner(tempSigner);
 
-        let supplychainContract = new ethers.Contract(supplyChainAddress, Supplychain_abi.abi, tempSigner);
-        setsupplychainContract(supplychainContract);
-	
+        // let supplychainContract = new ethers.Contract(supplyChainAddress, Supplychain_abi.abi, tempSigner);
+        // setsupplychainContract(supplychainContract);
+
     }
     ////End need improve////
 

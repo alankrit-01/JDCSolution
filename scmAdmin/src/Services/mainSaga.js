@@ -1,8 +1,66 @@
 import { takeLatest, call, put } from 'redux-saga/effects'
-import { AdminUserLogin, Set_Admin_Login, Admin_Login_Fail, AdminUserLogout, Set_Admin_Logout, Get_Local_Store_Data, set_Local_Store_Data, Get_Retailers, Set_Retailer_List, Get_Factory, Set_Factory_List, Get_Distributer, Set_Distributer_List, FactoryUserLogin, Set_Factory_Login, Factory_Login_Fail, FactoryUserLogout, Set_Factory_Logout, Get_Factory_Local_Store_Data, set_Factory_Local_Store_Data, Store_Factory, Set_Store_Factory_Data, Set_Store_Factory_Data_Fail, Store_Distributer, Set_Store_Distributer_Data, Set_Store_Distributer_Data_Fail, Store_Retailer, Set_Store_Retailer_Data, Set_Store_Retailer_Data_Fail, Store_Multi_User, Store_Product_Template } from "./constant"
+import {SuperAdminUserLogin,Set_SuperAdmin_Login, SuperAdmin_Login_Fail,Get_SuperAdmin_Local_Store_Data,set_SuperAdmin_Local_Store_Data,Store_Company,Set_Store_Company_Data, Set_Store_Company_Data_Fail, Check_Company_Success_data, Check_Company_Success_data_1,Get_Company,Set_Company_List, SuperAdminUserLogout,Set_SuperAdmin_Logout, AdminUserLogin, Set_Admin_Login, Admin_Login_Fail, AdminUserLogout, Set_Admin_Logout, Get_Local_Store_Data, set_Local_Store_Data, Get_Retailers,Get_Retailer_By_Company, Set_Retailer_List,Set_Retailer_By_Company_List, Get_Factory,Get_Factory_By_Company, Set_Factory_List,Set_Factory_By_Company_List, Get_Distributer,Get_Distributer_By_Company, Set_Distributer_List,Set_Distributer_By_Company_List, FactoryUserLogin, Set_Factory_Login, Factory_Login_Fail, FactoryUserLogout, Set_Factory_Logout, Get_Factory_Local_Store_Data, set_Factory_Local_Store_Data, Store_Factory, Set_Store_Factory_Data, Set_Store_Factory_Data_Fail, Check_Factory_Success_data, Check_Factory_Success_data_1, Store_Distributer, Set_Store_Distributer_Data, Set_Store_Distributer_Data_Fail, Check_Distributer_Success_data, Check_Distributer_Success_data_1, Store_Retailer, Set_Store_Retailer_Data, Set_Store_Retailer_Data_Fail,Check_Retailer_Success_data, Check_Retailer_Success_data_1, Store_Multi_User, Store_Product_Template } from "./constant"
 import { API_URL } from "./constant"
 import Axios from "axios"
 
+function* superAdminUserLogin(data) {
+    const requestData = data.data
+    try {
+        let uri = API_URL.concat('/superAdminLogin')
+        const superAdminLoginRes = yield call(Axios.post, uri, requestData)
+        const result = superAdminLoginRes.data;
+        localStorage.setItem('superAdminUserId', superAdminLoginRes.data.userId);
+        localStorage.setItem('superAdminUserName', superAdminLoginRes.data.userName);
+        localStorage.setItem('superAdminUserEmail', superAdminLoginRes.data.userEmail);
+        localStorage.setItem('superAdmintoken', superAdminLoginRes.data.token);
+        localStorage.setItem('superAdminUserRole', superAdminLoginRes.data.userRole);
+        localStorage.setItem('superAdminUserAddress', superAdminLoginRes.data.userAddress);
+        localStorage.setItem('superAdminUserCity', superAdminLoginRes.data.userCity);
+        localStorage.setItem('superAdminUserCountry', superAdminLoginRes.data.userCountry);
+        localStorage.setItem('superAdminUserLatitude', superAdminLoginRes.data.userLatitude);
+        localStorage.setItem('superAdminUserLongitude', superAdminLoginRes.data.userLongitude);
+        yield put({ type: Set_SuperAdmin_Login, result })
+    } catch (error) {
+        console.log("Error is ", error)
+        yield put({ type: SuperAdmin_Login_Fail })
+    }
+}
+
+function* getSuperAdminLocalStoreData() {
+    yield put({ type: set_SuperAdmin_Local_Store_Data })
+}
+function* storeCompany(data) {
+    const requestData = data.data
+    try {
+        let uri = API_URL.concat('/addUser')
+        const storeCompanyRes = yield call(Axios.post, uri, requestData)
+        const result = storeCompanyRes.data;
+        yield put({type: Set_Store_Company_Data,result})
+    } catch (error) {
+        console.log("Error is ", error)
+        yield put({type:Set_Store_Company_Data_Fail})
+    }
+}
+function* checkCompanySuccessdata(data) {
+    const requestData = data.data
+    yield put({type: Check_Company_Success_data_1})
+    
+}
+function* getCompany(data) {
+    try {
+        let uri = API_URL.concat('/company')
+        const companyListRes = yield call(Axios.get, uri)
+        const result = companyListRes.data;
+        yield put({ type: Set_Company_List, result })
+    } catch (error) {
+        yield put({ type: Set_Company_List, error })
+
+        console.log("Error is ", error)
+    }
+}
+function* superAdminUserLogout(data) {
+    yield put({ type: Set_SuperAdmin_Logout })
+}
 
 function* adminUserLogin(data) {
     const requestData = data.data
@@ -10,6 +68,7 @@ function* adminUserLogin(data) {
         let uri = API_URL.concat('/adminLogin')
         const adminLoginRes = yield call(Axios.post, uri, requestData)
         const result = adminLoginRes.data;
+        localStorage.setItem('adminUserId', adminLoginRes.data.userId);
         localStorage.setItem('adminUserName', adminLoginRes.data.userName);
         localStorage.setItem('adminUserEmail', adminLoginRes.data.userEmail);
         localStorage.setItem('admintoken', adminLoginRes.data.token);
@@ -31,6 +90,18 @@ function* getLocalStoreData() {
 function* adminUserLogout(data) {
     yield put({ type: Set_Admin_Logout })
 }
+function* getRetailerByCompany(data) {
+    try {
+        const requestData = data.data
+        let uri = API_URL.concat('/retailerByCompany')
+        const factoryListRes = yield call(Axios.post, uri, requestData)
+        const result = factoryListRes.data;
+        yield put({ type: Set_Retailer_By_Company_List, result })
+    } catch (error) {
+        yield put({ type: Set_Retailer_By_Company_List, error })
+        console.log("Error is ", error)
+    }
+}
 function* getRetailers(data) {
     try {
         let uri = API_URL.concat('/retailer')
@@ -43,7 +114,18 @@ function* getRetailers(data) {
         console.log("Error is ", error)
     }
 }
-
+function* getFactoryByCompany(data) {
+    try {
+        const requestData = data.data
+        let uri = API_URL.concat('/factoryByCompany')
+        const factoryListRes = yield call(Axios.post, uri, requestData)
+        const result = factoryListRes.data;
+        yield put({ type: Set_Factory_By_Company_List, result })
+    } catch (error) {
+        yield put({ type: Set_Factory_By_Company_List, error })
+        console.log("Error is ", error)
+    }
+}
 function* getFactory(data) {
     try {
         let uri = API_URL.concat('/factory')
@@ -53,6 +135,18 @@ function* getFactory(data) {
     } catch (error) {
         yield put({ type: Set_Factory_List, error })
 
+        console.log("Error is ", error)
+    }
+}
+function* getDistributerByCompany(data) {
+    try {
+        const requestData = data.data
+        let uri = API_URL.concat('/distributerByCompany')
+        const factoryListRes = yield call(Axios.post, uri, requestData)
+        const result = factoryListRes.data;
+        yield put({ type: Set_Distributer_By_Company_List, result })
+    } catch (error) {
+        yield put({ type: Set_Distributer_By_Company_List, error })
         console.log("Error is ", error)
     }
 }
@@ -83,6 +177,10 @@ function* factoryUserLogin(data) {
         localStorage.setItem('factorytoken', factoryLoginRes.data.token);
         localStorage.setItem('factoryUserRole', factoryLoginRes.data.userRole);
         localStorage.setItem('factoryUserAddress', factoryLoginRes.data.address);
+        localStorage.setItem('factoryUserCity', factoryLoginRes.data.city);
+        localStorage.setItem('factoryUserCountry', factoryLoginRes.data.country);
+        localStorage.setItem('factoryUserLatitude', factoryLoginRes.data.latitude);
+        localStorage.setItem('factoryUserLongitude', factoryLoginRes.data.longitude);
 
         
         yield put({ type: Set_Factory_Login, result })
@@ -102,44 +200,55 @@ function* factoryUserLogout(data) {
 function* storeFactory(data) {
     const requestData = data.data
     try {
-        //console.log("requestData", requestData);
-        let uri = API_URL.concat('/adddistributer')
+        let uri = API_URL.concat('/addUser')
         const storeFactoryRes = yield call(Axios.post, uri, requestData)
         const result = storeFactoryRes.data;
-        //yield put({type: Set_Store_Factory_Data,result})
+        yield put({type: Set_Store_Factory_Data,result})
     } catch (error) {
         console.log("Error is ", error)
-        //yield put({type:Set_Store_Factory_Data_Fail})
+        yield put({type:Set_Store_Factory_Data_Fail})
     }
 }
-
+function* checkFactorySuccessdata(data) {
+    const requestData = data.data
+    yield put({type: Check_Factory_Success_data_1})
+    
+}
 
 function* storeDistributer(data) {
     const requestData = data.data
     try {
-        console.log("requestData", requestData);
-        let uri = API_URL.concat('/adddistributer')
+        let uri = API_URL.concat('/addUser')
         const storeDistributerRes = yield call(Axios.post, uri, requestData)
         const result = storeDistributerRes.data;
-        //yield put({type: Set_Store_Distributer_Data,result})
+        yield put({type: Set_Store_Distributer_Data,result})
     } catch (error) {
         console.log("Error is ", error)
-        //yield put({type:Set_Store_Distributer_Data_Fail})
+        yield put({type:Set_Store_Distributer_Data_Fail})
     }
 }
-
+function* checkDistributerSuccessdata(data) {
+    const requestData = data.data
+    yield put({type: Check_Distributer_Success_data_1})
+    
+}
 function* storeRetailer(data) {
     const requestData = data.data
     try {
-        //console.log("requestData", requestData);
-        let uri = API_URL.concat('/adddistributer')
+        let uri = API_URL.concat('/addUser')
         const storeRetailerRes = yield call(Axios.post, uri, requestData)
         const result = storeRetailerRes.data;
-        //yield put({type: Set_Store_Retailer_Data,result})
+        yield put({type: Set_Store_Retailer_Data,result})
     } catch (error) {
         console.log("Error is ", error)
-        //yield put({type:Set_Store_Retailer_Data_Fail})
+        yield put({type:Set_Store_Retailer_Data_Fail})
     }
+}
+
+function* checkRetailerSuccessdata(data) {
+    const requestData = data.data
+    yield put({type: Check_Retailer_Success_data_1})
+    
 }
 
 function* storeMultiUser(data) {
@@ -161,9 +270,6 @@ function* storeMultiUser(data) {
 
         })
 
-
-
-        console.log("requestData main saga", valuesArray);
         let uri = API_URL.concat('/addMultiUser')
         const storeDistributerRes = yield call(Axios.post, uri, valuesArray)
         const result = storeDistributerRes.data;
@@ -198,13 +304,28 @@ function* storeProductTemplate(data) {
 
 
 function* mainSaga() { 
+    yield takeLatest(SuperAdminUserLogin, superAdminUserLogin)
+    yield takeLatest(Get_SuperAdmin_Local_Store_Data, getSuperAdminLocalStoreData)
+    yield takeLatest(Store_Company, storeCompany)
+    yield takeLatest(Check_Company_Success_data, checkCompanySuccessdata)
+    yield takeLatest(Get_Company, getCompany)
+
+    yield takeLatest(SuperAdminUserLogout, superAdminUserLogout)
     yield takeLatest(AdminUserLogin, adminUserLogin)
     yield takeLatest(AdminUserLogout, adminUserLogout)
     yield takeLatest(Get_Local_Store_Data, getLocalStoreData)
     yield takeLatest(Get_Retailers, getRetailers)
-    yield takeLatest(Get_Factory, getFactory)
-    yield takeLatest(Get_Distributer, getDistributer)
+    yield takeLatest(Get_Retailer_By_Company, getRetailerByCompany)
 
+    yield takeLatest(Check_Retailer_Success_data, checkRetailerSuccessdata)
+
+    yield takeLatest(Get_Factory, getFactory)
+    yield takeLatest(Get_Factory_By_Company, getFactoryByCompany)
+    yield takeLatest(Check_Factory_Success_data, checkFactorySuccessdata)
+    yield takeLatest(Get_Distributer, getDistributer)
+    yield takeLatest(Get_Distributer_By_Company, getDistributerByCompany)
+
+    yield takeLatest(Check_Distributer_Success_data, checkDistributerSuccessdata)
 
     yield takeLatest(FactoryUserLogin, factoryUserLogin)
     yield takeLatest(FactoryUserLogout, factoryUserLogout)
