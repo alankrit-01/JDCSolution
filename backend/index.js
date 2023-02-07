@@ -2,6 +2,15 @@ const express = require('express');
 const ethers = require('ethers');
 require('dotenv').config()
 const app = express(); 
+
+const cors = require('cors');
+const corsOptions ={
+    origin:'http://localhost:3000', 
+    credentials:true,            //access-control-allow-credentials:true
+    optionSuccessStatus:200
+}
+app.use(cors(corsOptions));
+
 const contractAbi = require('./artifacts/contracts/Supplychain.sol/Supplychain.json')
 
 let contractAddress ="0x4Af020635f8D6e179dbC28D3C83BdeAcd4F81dB5"; 
@@ -61,6 +70,7 @@ app.post('/api/factoryAddProductTemplate',async(req,res)=>{
 
 
 app.get('/api/viewListOfProductTemplates', async (req, res) => {
+  console.log('sdsd')
   try {
     let result=[];          
     const factoryID= req.query.factoryID;

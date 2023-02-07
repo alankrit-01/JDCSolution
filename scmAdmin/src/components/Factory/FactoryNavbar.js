@@ -1,5 +1,5 @@
 import { useLocation } from 'react-router-dom';
-import Supplychain_abi from '../../artifacts/contracts/Supplychain.sol/Supplychain.json';
+// import Supplychain_abi from '../../artifacts/contracts/Supplychain.sol/Supplychain.json';
 import Button from '@material-tailwind/react/Button';
 import Icon from '@material-tailwind/react/Icon';
 import NavbarInput from '@material-tailwind/react/NavbarInput';
@@ -8,90 +8,90 @@ import Dropdown from '@material-tailwind/react/Dropdown';
 import DropdownItem from '@material-tailwind/react/DropdownItem';
 import ProfilePicture from 'assets/img/richmint.png';
 import { NavLink } from 'react-router-dom';
-import { useEffect, useMemo, useState } from 'react';
+// import { useEffect, useMemo, useState } from 'react';
 
-import { ethers } from 'ethers'; 
-let supplyChainAddress = '0xFd0C39B94CF349a1f72B9D1510a94EBFF8E4D128';
+// import { ethers } from 'ethers'; 
+// let supplyChainAddress = '0xFd0C39B94CF349a1f72B9D1510a94EBFF8E4D128';
 
 export default function FactoryNavbar({ showSidebar, setShowSidebar }) {
-    const location = useLocation().pathname;
+     const location = useLocation().pathname;
 
-    const [defaultAccount, setDefaultAccount] = useState('');
-	const [connButtonText, setConnButtonText] = useState('Connect Wallet');
-    const [errorMessage,setErrorMessage] =  useState(null)
+    // const [defaultAccount, setDefaultAccount] = useState('');
+	// const [connButtonText, setConnButtonText] = useState('Connect Wallet');
+    // const [errorMessage,setErrorMessage] =  useState(null)
 
-    // const [SCContract, setSCContract] = useState();
-    const [provider, setProvider] = useState(null);
-	const [signer, setSigner] = useState(null);
-	const [supplychainContract, setsupplychainContract] = useState(null);
+    // // const [SCContract, setSCContract] = useState();
+    // const [provider, setProvider] = useState(null);
+	// const [signer, setSigner] = useState(null);
+	// const [supplychainContract, setsupplychainContract] = useState(null);
 
-    useEffect(() => {
-        connectWalletHandler();  
+    // useEffect(() => {
+    //     connectWalletHandler();  
      
-    }, [])
+    // }, [])
 
-    const connectWalletHandler=()=>{
-        if (window.ethereum && window.ethereum.isMetaMask){
-            window.ethereum.request({ method: 'eth_requestAccounts'})
-			.then(result => {
-			//console.log("helllo then",result)
-            accountChangedHandler(result[0]);
-            setConnButtonText('Wallet Connected');
+    // const connectWalletHandler=()=>{
+    //     if (window.ethereum && window.ethereum.isMetaMask){
+    //         window.ethereum.request({ method: 'eth_requestAccounts'})
+	// 		.then(result => {
+	// 		//console.log("helllo then",result)
+    //         accountChangedHandler(result[0]);
+    //         setConnButtonText('Wallet Connected');
 			
-			})
-			.catch(error => {
-			console.log("error",error);
-            setErrorMessage()
-			});
+	// 		})
+	// 		.catch(error => {
+	// 		console.log("error",error);
+    //         setErrorMessage()
+	// 		});
 
-		} else{
-            console.log('Need to install MetaMask');
-			setErrorMessage('Please install MetaMask browser extension to interact');
+	// 	} else{
+    //         console.log('Need to install MetaMask');
+	// 		setErrorMessage('Please install MetaMask browser extension to interact');
            
-        }
-    }
+    //     }
+    // }
                            
 
-    const accountChangedHandler = (newAccount) => {
-		setDefaultAccount(newAccount);
-		updateEthers();
+    // const accountChangedHandler = (newAccount) => {
+	// 	setDefaultAccount(newAccount);
+	// 	updateEthers();
 
-        localStorage.setItem('currentFactoryUserHash', newAccount);
-	}
+    //     localStorage.setItem('currentFactoryUserHash', newAccount);
+	// }
 
-    const chainChangedHandler = () => {
-		window.location.reload();
-	}
+    // const chainChangedHandler = () => {
+	// 	window.location.reload();
+	// }
 
-	// listen for account changes
-	window.ethereum.on('accountsChanged', accountChangedHandler);
-	window.ethereum.on('chainChanged', chainChangedHandler);
+	// // listen for account changes
+	// window.ethereum.on('accountsChanged', accountChangedHandler);
+	// window.ethereum.on('chainChanged', chainChangedHandler);
 
-	const updateEthers = async() => {
-		let tempProvider = new ethers.providers.Web3Provider(window.ethereum);
-		setProvider(tempProvider);
+	// const updateEthers = async() => {
+	// 	let tempProvider = new ethers.providers.Web3Provider(window.ethereum);
+	// 	setProvider(tempProvider);
         
-		let tempSigner = tempProvider.getSigner();
-		setSigner(tempSigner);
+	// 	let tempSigner = tempProvider.getSigner();
+	// 	setSigner(tempSigner);
         
-        // console.log("tempSigner",tempSigner)
-        // console.log("supplyChainAddress",supplyChainAddress)
-        // console.log(Supplychain_abi.abi)
+    //     // console.log("tempSigner",tempSigner)
+    //     // console.log("supplyChainAddress",supplyChainAddress)
+    //     // console.log(Supplychain_abi.abi)
 
-        let supplychainContract = new ethers.Contract(supplyChainAddress, Supplychain_abi.abi, tempSigner);
-		setsupplychainContract(supplychainContract);
+    //     let supplychainContract = new ethers.Contract(supplyChainAddress, Supplychain_abi.abi, tempSigner);
+	// 	setsupplychainContract(supplychainContract);
 
-		// console.log("Hello supplychaintempContract",supplychainContract);
+	// 	// console.log("Hello supplychaintempContract",supplychainContract);
 
-        // console.log("Solution :",await supplychainContract.x());
+    //     // console.log("Solution :",await supplychainContract.x());
         
 
-        // console.log(await supplychainContract.getAllProductTemplateIDs());
+    //     // console.log(await supplychainContract.getAllProductTemplateIDs());
         
 		
-        // dispatch({ type: "updateSupplychain", supplyChainContract: supplychaintempContract })
-		// console.log(await supplychaintempContract.totalBatchs());	
-	}
+    //     // dispatch({ type: "updateSupplychain", supplyChainContract: supplychaintempContract })
+	// 	// console.log(await supplychaintempContract.totalBatchs());	
+	// }
    
 
     return (
@@ -135,8 +135,9 @@ export default function FactoryNavbar({ showSidebar, setShowSidebar }) {
                             : location.toUpperCase().replace('/', '')}
                     </h4>
                     <div className="flex">
-                    <span style={{padding:'5px', color:'#fff'}} ><b>Addres:-</b> {defaultAccount}</span>
-                    <Button onClick={connectWalletHandler}> Connect Metamask</Button>
+                    {/* <span style={{padding:'5px', color:'#fff'}} ><b>Addres:-</b> {defaultAccount} 
+                     </span> 
+                    {/* <Button onClick={connectWalletHandler}> Connect Metamask</Button> */}
 
                         {/* <NavbarInput placeholder="Search" /> */}
                         <div className="-mr-4 ml-6">

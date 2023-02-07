@@ -8,33 +8,17 @@ import Button from '@material-tailwind/react/Button';
 import Input from '@material-tailwind/react/Input';
 import Textarea from '@material-tailwind/react/Textarea';
 import React, { useEffect, useMemo, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { storeProductTemplate } from "Services/action";
 
-////need improve////
-import Supplychain_abi from '../../artifacts/contracts/Supplychain.sol/Supplychain.json';
-import { ethers } from "ethers";
-let supplyChainAddress = '0xFd0C39B94CF349a1f72B9D1510a94EBFF8E4D128';
-////End need improve////
-
 const AddProductTemplate = () => {
-
-
-    ////need improve////
-
+    const factoryData = useSelector((state) => state.FactoryLoginData);
     const [productId, setProductId] = useState(null);
-
-    const [defaultAccount, setDefaultAccount] = useState('');
-    const [connButtonText, setConnButtonText] = useState('Connect Wallet');
-    const [errorMessage, setErrorMessage] = useState(null)
-
-    // const [SCContract, setSCContract] = useState();
-    const [provider, setProvider] = useState(null);
-    const [signer, setSigner] = useState(null);
-    const [supplychainContract, setsupplychainContract] = useState(null);
-
-
+    const [productNameError, setproductNameError] = useState('');
+    const [productDescriptionError, setproductDescriptionError] = useState('')
+    const [factoryUserHash, setFactoryUserHash] = useState(factoryData.currentFactoryUserHash);
+    
     function randomProductId() {
         let currentTimestamp = Date.now()
         return currentTimestamp;
@@ -44,81 +28,42 @@ const AddProductTemplate = () => {
         setProductId(randomProductId());
     }, [])
 
-    useEffect(() => {
-        connectWalletHandler();
-    }, [])
-
-
-    const connectWalletHandler = () => {
-        if (window.ethereum && window.ethereum.isMetaMask) {
-            window.ethereum.request({ method: 'eth_requestAccounts' })
-                .then(result => {
-                    //console.log("helllo then",result)
-                    accountChangedHandler(result[0]);
-                    setConnButtonText('Wallet Connected');
-
-                })
-                .catch(error => {
-                    console.log("error", error);
-                    setErrorMessage()
-                });
-
-        } else {
-            console.log('Need to install MetaMask');
-            setErrorMessage('Please install MetaMask browser extension to interact');
-
-        }
-    }
-
-    const accountChangedHandler = (newAccount) => {
-        setDefaultAccount(newAccount);
-        updateEthers();
-
-        //localStorage.setItem('currentFactoryUserHash', newAccount);
-    }
-
-    const chainChangedHandler = () => {
-        window.location.reload();
-    }
-
-    // listen for account changes
-    window.ethereum.on('accountsChanged', accountChangedHandler);
-    window.ethereum.on('chainChanged', chainChangedHandler);
-
-
-    // listen for account changes
-    window.ethereum.on('accountsChanged', accountChangedHandler);
-    window.ethereum.on('chainChanged', chainChangedHandler);
-
-    const updateEthers = async () => {
-        let tempProvider = new ethers.providers.Web3Provider(window.ethereum);
-        setProvider(tempProvider);
-
-        let tempSigner = tempProvider.getSigner();
-        setSigner(tempSigner);
-
-        let supplychainContract = new ethers.Contract(supplyChainAddress, Supplychain_abi.abi, tempSigner);
-        setsupplychainContract(supplychainContract);
-	
-    }
     ////End need improve////
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const [productName, setProductName] = useState('');
-    const [productQty, setProductQty] = useState('');
     const [productDescription, setProductDescription] = useState('');
-    const [additionalInformation, setAdditionalInformation] = useState('');
-    const [productExpDate, setProductExpDate] = useState('');
 
-    const handleSubmit = async (event) => {
+    function handleSubmit(event) {
         event.preventDefault();
-        const tx = await supplychainContract.addProductTemplate(productId.toString(), productName, productDescription);
-        if (tx) {
-            navigate("/factory/productTemplate")
-        }
+        const productNameRegex = /^[a-zA-Z ]+$/;
+        const productDescriptionRegex = /^[a-zA-Z ]+$/;
+
+        { productName == '' ? setproductNameError("Product Name is required") : (productNameRegex.test(productName) === false ? setproductNameError("Invalid Product Name") : setproductNameError(true)) }
+        { productDescription == '' ? setproductDescriptionError("Product Name is required") : (productDescriptionRegex.test(productDescription) === false ? setproductDescriptionError("Invalid Product Description") : setproductDescriptionError(true)) }
     }
+
+    useMemo(() => {
+        const data = {
+            productTemplateID:productId,
+            productName: productName,
+            productDescription: productDescription,
+            factoryID:factoryUserHash
+        }
+        if (productNameError == true && productDescriptionError == true) {
+            dispatch(storeProductTemplate(data))
+        }
+    }, [productNameError, productDescriptionError])
+
+    const initialProductTemplateStoredata = useSelector((state) => state.StoreProductTemplateData);
+
+    useMemo(() => {
+        if (initialProductTemplateStoredata.success == true) {
+            navigate('/factory/productTemplate')
+        }
+    }, [initialProductTemplateStoredata])
     return (
         <>
             <FactorySidebar />
@@ -169,6 +114,7 @@ const AddProductTemplate = () => {
                                                         value={productName} onChange={(e) => setProductName(e.target.value)}
                                                         required
                                                     />
+                                                    <span>{productNameError}</span>
                                                 </div>
                                                 {/* <div className="w-screen flex flex-wrap mt-10 font-light">
                                                     <span><b>Product Qty</b></span>
@@ -189,6 +135,7 @@ const AddProductTemplate = () => {
                                                         value={productDescription} onChange={(e) => setProductDescription(e.target.value)}
                                                         required
                                                     />
+                                                    <span>{productDescriptionError}</span>
                                                 </div>
 
                                                 {/* <div className="w-screen flex flex-wrap mt-10 font-light">

@@ -38,3 +38,9 @@ span.rcheckRec {
     bottom: 0;
     left: 10%;
 }
+.text-gray-400 {
+    color: #000000 !important;
+}
+.bg-customm-color{
+    background-color: #0a1d3d;
+}

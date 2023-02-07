@@ -5,7 +5,7 @@ import React, { useEffect, useMemo, useState, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { QRCodeSVG } from 'qrcode.react';
-import Supplychain_abi from '../../artifacts/contracts/Supplychain.sol/Supplychain.json';
+// import Supplychain_abi from '../../artifacts/contracts/Supplychain.sol/Supplychain.json';
 import { ethers } from "ethers";
 import { Button } from "@material-tailwind/react";
 let supplyChainAddress = '0xFd0C39B94CF349a1f72B9D1510a94EBFF8E4D128';
@@ -23,62 +23,62 @@ const BatchQr = () => {
     const [provider, setProvider] = useState(null);
     const [signer, setSigner] = useState(null);
     const [supplychainContract, setsupplychainContract] = useState('');
-    useEffect(() => {
-        connectWalletHandler();
-    }, [])
-    const connectWalletHandler = () => {
-        if (window.ethereum && window.ethereum.isMetaMask) {
-            window.ethereum.request({ method: 'eth_requestAccounts' })
-                .then(result => {
-                    accountChangedHandler(result[0]);
-                    setConnButtonText('Wallet Connected');
-                })
-                .catch(error => {
-                    console.log("error", error);
-                    setErrorMessage()
-                });
-        } else {
-            console.log('Need to install MetaMask');
-            setErrorMessage('Please install MetaMask browser extension to interact');
+    // useEffect(() => {
+    //     connectWalletHandler();
+    // }, [])
+    // const connectWalletHandler = () => {
+    //     if (window.ethereum && window.ethereum.isMetaMask) {
+    //         window.ethereum.request({ method: 'eth_requestAccounts' })
+    //             .then(result => {
+    //                 accountChangedHandler(result[0]);
+    //                 setConnButtonText('Wallet Connected');
+    //             })
+    //             .catch(error => {
+    //                 console.log("error", error);
+    //                 setErrorMessage()
+    //             });
+    //     } else {
+    //         console.log('Need to install MetaMask');
+    //         setErrorMessage('Please install MetaMask browser extension to interact');
 
-        }
-    }
+    //     }
+    // }
 
-    const accountChangedHandler = (newAccount) => {
-        setDefaultAccount(newAccount);
-        updateEthers();
-    }
-    const chainChangedHandler = () => {
-        window.location.reload();
-    }
+    // const accountChangedHandler = (newAccount) => {
+    //     setDefaultAccount(newAccount);
+    //     updateEthers();
+    // }
+    // const chainChangedHandler = () => {
+    //     window.location.reload();
+    // }
     // listen for account changes
-    window.ethereum.on('accountsChanged', accountChangedHandler);
-    window.ethereum.on('chainChanged', chainChangedHandler);
-    useEffect(() => {
-        updateEthers()
-    }, [])
-    const updateEthers = async () => {
-        let tempProvider = new ethers.providers.Web3Provider(window.ethereum);
-        setProvider(tempProvider);
-        let tempSigner = tempProvider.getSigner();
-        setSigner(tempSigner);
-        let supplychainContract = new ethers.Contract(supplyChainAddress, Supplychain_abi.abi, tempSigner);
-        //console.log("Ether updates", supplychainContract)
-        setsupplychainContract(supplychainContract);
-    }
-    const getBatchRecord = async () => {
-        let batchAllRec = await (supplychainContract && supplychainContract.BatchMapping(batchtId));
-        let productIdsRec = await (supplychainContract && supplychainContract.getProductIdsForaBatch(batchtId));
-        let ProductTemplateID = batchAllRec && batchAllRec.ProductTemplateID.toNumber();
-        let getbatchSize = batchAllRec && batchAllRec.BatchSize.toNumber();
-        let productDataRec = await (supplychainContract && supplychainContract.ProductTemplateMAP(ProductTemplateID));
-        setBatchSize(getbatchSize);
-        setProductName(productDataRec.name);
-        setProductDescription(productDataRec.description);
-    }
-    useMemo(() => {
-        getBatchRecord();
-    }, [supplychainContract])
+    // window.ethereum.on('accountsChanged', accountChangedHandler);
+    // window.ethereum.on('chainChanged', chainChangedHandler);
+    // useEffect(() => {
+    //     updateEthers()
+    // }, [])
+    // const updateEthers = async () => {
+    //     let tempProvider = new ethers.providers.Web3Provider(window.ethereum);
+    //     setProvider(tempProvider);
+    //     let tempSigner = tempProvider.getSigner();
+    //     setSigner(tempSigner);
+    //     let supplychainContract = new ethers.Contract(supplyChainAddress, Supplychain_abi.abi, tempSigner);
+    //     //console.log("Ether updates", supplychainContract)
+    //     setsupplychainContract(supplychainContract);
+    // }
+    // const getBatchRecord = async () => {
+    //     let batchAllRec = await (supplychainContract && supplychainContract.BatchMapping(batchtId));
+    //     let productIdsRec = await (supplychainContract && supplychainContract.getProductIdsForaBatch(batchtId));
+    //     let ProductTemplateID = batchAllRec && batchAllRec.ProductTemplateID.toNumber();
+    //     let getbatchSize = batchAllRec && batchAllRec.BatchSize.toNumber();
+    //     let productDataRec = await (supplychainContract && supplychainContract.ProductTemplateMAP(ProductTemplateID));
+    //     setBatchSize(getbatchSize);
+    //     setProductName(productDataRec.name);
+    //     setProductDescription(productDataRec.description);
+    // }
+    // useMemo(() => {
+    //     getBatchRecord();
+    // }, [supplychainContract])
     ////End need improve////
     const [url1, setUrl1] = useState();
     useMemo(() => {

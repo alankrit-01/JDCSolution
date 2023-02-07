@@ -1,17 +1,36 @@
 import MainStatusCard from 'components/Factory/MainStatusCard';
 import FactorySidebar from 'components/Factory/Sidebar';
 import Footer from 'components/Factory/Footer';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useEffect, useMemo, useState } from 'react';
 import DataTable from 'react-data-table-component';
 import { Button } from "@material-tailwind/react";
 import Input from '@material-tailwind/react/Input';
-////need improve////
-import Supplychain_abi from '../../artifacts/contracts/Supplychain.sol/Supplychain.json';
-import { ethers } from "ethers";
-let supplyChainAddress = '0xFd0C39B94CF349a1f72B9D1510a94EBFF8E4D128';
-////End need improve////
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { getProductTemplate, checkProductTemplateSuccessdata } from 'Services/action';
+
+import { useDispatch, useSelector } from 'react-redux';
+
 const ProductTemplate = () => {
+    const navigate = useNavigate();
+    const factoryData = useSelector((state) => state.FactoryLoginData);
+    const [factoryUserHash, setFactoryUserHash] = useState(factoryData.currentFactoryUserHash);
+
+
+    const successNotify = () => toast.success('Product Template Added Successfully !.', {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+    });
+
+
+
     ////need improve////
     const [defaultAccount, setDefaultAccount] = useState('');
     const [connButtonText, setConnButtonText] = useState('Connect Wallet');
@@ -19,94 +38,110 @@ const ProductTemplate = () => {
     const [provider, setProvider] = useState(null);
     const [signer, setSigner] = useState(null);
     const [supplychainContract, setsupplychainContract] = useState('');
-    const allProductTemplatelist = [];
-    useEffect(() => {
-        connectWalletHandler();
-    }, [])
-    const connectWalletHandler = () => {
-        if (window.ethereum && window.ethereum.isMetaMask) {
-            window.ethereum.request({ method: 'eth_requestAccounts' })
-                .then(result => {
-                    accountChangedHandler(result[0]);
-                    setConnButtonText('Wallet Connected');
-                })
-                .catch(error => {
-                    console.log("error", error);
-                    setErrorMessage()
-                });
-        } else {
-            console.log('Need to install MetaMask');
-            setErrorMessage('Please install MetaMask browser extension to interact');
-        }
-    }
-    const accountChangedHandler = (newAccount) => {
-        setDefaultAccount(newAccount);
-        updateEthers();
-    }
-    const chainChangedHandler = () => {
-        window.location.reload();
-    }
+    const allProductTemplatelist = []; 
+    // useEffect(() => {
+    //     connectWalletHandler();
+    // }, [])
+    // const connectWalletHandler = () => {
+    //     if (window.ethereum && window.ethereum.isMetaMask) {
+    //         window.ethereum.request({ method: 'eth_requestAccounts' })
+    //             .then(result => {
+    //                 accountChangedHandler(result[0]);
+    //                 setConnButtonText('Wallet Connected');
+    //             })
+    //             .catch(error => {
+    //                 console.log("error", error);
+    //                 setErrorMessage()
+    //             });
+    //     } else {
+    //         console.log('Need to install MetaMask');
+    //         setErrorMessage('Please install MetaMask browser extension to interact');
+    //     }
+    // }
+    // const accountChangedHandler = (newAccount) => {
+    //     setDefaultAccount(newAccount);
+    //     updateEthers();
+    // }
+    // const chainChangedHandler = () => {
+    //     window.location.reload();
+    // }
     // listen for account changes
-    window.ethereum.on('accountsChanged', accountChangedHandler);
-    window.ethereum.on('chainChanged', chainChangedHandler);
-    // listen for account changes
-    window.ethereum.on('accountsChanged', accountChangedHandler);
-    window.ethereum.on('chainChanged', chainChangedHandler);
-    useEffect(() => {
-        updateEthers()
-    }, [])
-    const updateEthers = async () => {
-        let tempProvider = new ethers.providers.Web3Provider(window.ethereum);
-        setProvider(tempProvider);
-        let tempSigner = tempProvider.getSigner();
-        setSigner(tempSigner);
-        let supplychainContract = new ethers.Contract(supplyChainAddress, Supplychain_abi.abi, tempSigner);
-        console.log("Ether updates", supplychainContract)
-        setsupplychainContract(supplychainContract);
-    }
+    // window.ethereum.on('accountsChanged', accountChangedHandler);
+    // window.ethereum.on('chainChanged', chainChangedHandler);
+
+    // useEffect(() => {
+    //     updateEthers()
+    // }, [])
+    // const updateEthers = async () => {
+    //     let tempProvider = new ethers.providers.Web3Provider(window.ethereum);
+    //     setProvider(tempProvider);
+    //     let tempSigner = tempProvider.getSigner();
+    //     setSigner(tempSigner);
+    //     let supplychainContract = new ethers.Contract(supplyChainAddress, Supplychain_abi.abi, tempSigner);
+    //     console.log("Ether updates", supplychainContract)
+    //     setsupplychainContract(supplychainContract);
+    // }
     ////End need improve////
+    const dispatch = useDispatch();
+
     const [Factories, setFactories] = useState([]);
     const [Search, setSearch] = useState("");
     const [FilterFactories, setFilterFactories] = useState([]);
     const columns = [
-        {
-            name: "	Product Template ID",
-            selector: (row) => row.productTemplateID.toNumber(),
-            sortable: true,
-        },
-        {
-            name: "Product Name",
-            selector: (row) => row.name,
-            sortable: true,
-        },
-        {
-            name: "Product Description",
-            selector: (row) => row.description,
-            sortable: true,
-        },
+        // {
+        //     name: "	Product Template ID",
+        //     selector: (row) => row.productTemplateID.toNumber(),
+        //     sortable: true,
+        // },
+        // {
+        //     name: "Product Name",
+        //     selector: (row) => row.name,
+        //     sortable: true,
+        // },
+        // {
+        //     name: "Product Description",
+        //     selector: (row) => row.description,
+        //     sortable: true,
+        // },
     ];
-    const getProductTemplateHandler = async () => {
-        let array = await (supplychainContract && supplychainContract.getAllProductTemplateIDs());
-        if (array && array.length > 0) {
-            for (let i = 0; i < array.length; i++) {
-                let data = await (supplychainContract && supplychainContract.ProductTemplateMAP(array[i]));
-                allProductTemplatelist.push(data)
-            }
-            setFactories(allProductTemplatelist);
-            setFilterFactories(allProductTemplatelist);
-        }
-    }
-    useMemo(() => {
-        getProductTemplateHandler();
-    }, [supplychainContract])
+    // const getProductTemplateHandler = async () => {
+    //     let array = await (supplychainContract && supplychainContract.getAllProductTemplateIDs());
+    //     if (array && array.length > 0) {
+    //         for (let i = 0; i < array.length; i++) {
+    //             let data = await (supplychainContract && supplychainContract.ProductTemplateMAP(array[i]));
+    //             allProductTemplatelist.push(data)
+    //         }
+    //         setFactories(allProductTemplatelist);
+    //         setFilterFactories(allProductTemplatelist);
+    //     }
+    // }
+    // useMemo(() => {
+    //     getProductTemplateHandler();
+    // }, [supplychainContract])
+    // useEffect(() => {
+    //     const result = Factories.filter((retailer) => {
+    //         return retailer.name.toLowerCase().match(Search.toLowerCase());
+    //     })
+    //     setFilterFactories(result)
+    // }, [Search])
+
     useEffect(() => {
-        const result = Factories.filter((retailer) => {
-            return retailer.name.toLowerCase().match(Search.toLowerCase());
-        })
-        setFilterFactories(result)
-    }, [Search])
+        const data = {
+            factoryID:factoryUserHash
+        }
+        dispatch(getProductTemplate(data))
+    }, [])
+
+    const initialProductTemplateStoredata = useSelector((state) => state.StoreProductTemplateData);
+    useMemo(() => {
+        if (initialProductTemplateStoredata.success == true) {
+            successNotify();
+        }
+    }, [initialProductTemplateStoredata])
     return (
         <>
+            <ToastContainer />
+
             <FactorySidebar />
             <div className="md:ml-64">
                 <div className="bg-light-blue-500 pt-14 pb-28 px-3 md:px-8 h-auto">

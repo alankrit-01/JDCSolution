@@ -1,5 +1,14 @@
 import React from "react";
 import Home from "pages/Front/Home";
+import SuperAdminLogin from "pages/SuperAdmin/Login";
+import SuperAdminDashboard from 'pages/SuperAdmin/Dashboard';
+import SuperAdminSetting from 'pages/SuperAdmin/Settings';
+import Company from 'pages/SuperAdmin/Company/Company';
+import AddCompany from 'pages/SuperAdmin/Company/AddCompany';
+import SuperAdminFactory from 'pages/SuperAdmin/Factory';
+import SuperAdminDistributer from 'pages/SuperAdmin/Distributer';
+import SuperAdminRetailer from 'pages/SuperAdmin/Retailer';
+
 import AdminLogin from "pages/Admin/Login";
 import FactoryLogin from "pages/Factory/Login";
 import Factory from "pages/Admin/Factory";
@@ -27,7 +36,20 @@ import { Route, Routes } from "react-router-dom";
 const WebRoutes = () => {
     return (
         <Routes>
-            <Route path="/" index element={<Home />} />
+            <Route path="/" index element={<SuperAdminLogin />} />
+            <Route path="/superAdmin" index element={<SuperAdminLogin />} />
+            <Route path="/superAdmin/dashboard" index element={<SuperAdminDashboard />} />
+            <Route path="/superAdmin/settings" index element={<SuperAdminSetting />} />
+            <Route path="/superAdmin/company" index element={<Company />} />
+            <Route path="/superAdmin/addCompany" index element={<AddCompany />} />
+            <Route path="/superAdmin/factory" index element={<SuperAdminFactory />} />
+            <Route path="/superAdmin/distributer" index element={<SuperAdminDistributer />} />
+            <Route path="/superAdmin/retailer" index element={<SuperAdminRetailer />} />
+            
+
+
+            
+            
             <Route path="/admin" index element={<AdminLogin />} />
             <Route path="/admin/dashboard" index element={<Dashboard />} />    
             <Route path="/admin/settings" index element={<Setting />} />
