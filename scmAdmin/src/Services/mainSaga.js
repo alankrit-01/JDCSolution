@@ -1,5 +1,5 @@
 import { takeLatest, call, put } from 'redux-saga/effects'
-import {SuperAdminUserLogin,Set_SuperAdmin_Login, SuperAdmin_Login_Fail,Get_SuperAdmin_Local_Store_Data,set_SuperAdmin_Local_Store_Data,Store_Company,Set_Store_Company_Data, Set_Store_Company_Data_Fail, Check_Company_Success_data, Check_Company_Success_data_1,Get_Company,Set_Company_List, SuperAdminUserLogout,Set_SuperAdmin_Logout, AdminUserLogin, Set_Admin_Login, Admin_Login_Fail, AdminUserLogout, Set_Admin_Logout, Get_Local_Store_Data, set_Local_Store_Data, Get_Retailers,Get_Retailer_By_Company, Set_Retailer_List,Set_Retailer_By_Company_List, Get_Factory,Get_Factory_By_Company, Set_Factory_List,Set_Factory_By_Company_List, Get_Distributer,Get_Distributer_By_Company, Set_Distributer_List,Set_Distributer_By_Company_List, FactoryUserLogin, Set_Factory_Login, Factory_Login_Fail, FactoryUserLogout, Set_Factory_Logout, Get_Factory_Local_Store_Data, set_Factory_Local_Store_Data, Store_Factory, Set_Store_Factory_Data, Set_Store_Factory_Data_Fail, Check_Factory_Success_data, Check_Factory_Success_data_1, Store_Distributer, Set_Store_Distributer_Data, Set_Store_Distributer_Data_Fail, Check_Distributer_Success_data, Check_Distributer_Success_data_1, Store_Retailer, Set_Store_Retailer_Data, Set_Store_Retailer_Data_Fail,Check_Retailer_Success_data, Check_Retailer_Success_data_1, Store_Multi_User, Store_Product_Template } from "./constant"
+import {SuperAdminUserLogin,Set_SuperAdmin_Login, SuperAdmin_Login_Fail,Get_SuperAdmin_Local_Store_Data,set_SuperAdmin_Local_Store_Data,Store_Company,Set_Store_Company_Data, Set_Store_Company_Data_Fail, Check_Company_Success_data, Check_Company_Success_data_1,Get_Company,Set_Company_List, SuperAdminUserLogout,Set_SuperAdmin_Logout, AdminUserLogin, Set_Admin_Login, Admin_Login_Fail, AdminUserLogout, Set_Admin_Logout, Get_Local_Store_Data, set_Local_Store_Data, Get_Retailers,Get_Retailer_By_Company, Set_Retailer_List,Set_Retailer_By_Company_List, Get_Factory,Get_Factory_By_Company, Set_Factory_List,Set_Factory_By_Company_List, Get_Distributer,Get_Distributer_By_Company, Set_Distributer_List,Set_Distributer_By_Company_List, FactoryUserLogin, Set_Factory_Login, Factory_Login_Fail, FactoryUserLogout, Set_Factory_Logout, Get_Factory_Local_Store_Data, set_Factory_Local_Store_Data, Store_Factory, Set_Store_Factory_Data, Set_Store_Factory_Data_Fail, Check_Factory_Success_data, Check_Factory_Success_data_1, Store_Distributer, Set_Store_Distributer_Data, Set_Store_Distributer_Data_Fail, Check_Distributer_Success_data, Check_Distributer_Success_data_1, Store_Retailer, Set_Store_Retailer_Data, Set_Store_Retailer_Data_Fail,Check_Retailer_Success_data, Check_Retailer_Success_data_1, Store_Multi_User, Store_Product_Template, Set_Store_Product_Template_Data, Set_Store_Product_Template_Data_Fail, Check_Product_Template_Success_data, Check_Product_Template_Success_data_1, BLOCKCHAIN_API_URL,Get_Product_Template,Set_Product_Template_List } from "./constant"
 import { API_URL } from "./constant"
 import Axios from "axios"
 
@@ -172,6 +172,8 @@ function* factoryUserLogin(data) {
         let uri = API_URL.concat('/factoryLogin')
         const factoryLoginRes = yield call(Axios.post, uri, requestData)
         const result = factoryLoginRes.data;
+        localStorage.setItem('currentFactoryUserHash', factoryLoginRes.data.userHash);
+        localStorage.setItem('factoryUserId', factoryLoginRes.data.userId);
         localStorage.setItem('factoryUserName', factoryLoginRes.data.userName);
         localStorage.setItem('factoryUserEmail', factoryLoginRes.data.userEmail);
         localStorage.setItem('factorytoken', factoryLoginRes.data.token);
@@ -280,29 +282,42 @@ function* storeMultiUser(data) {
     }
 }
 
-
 function* storeProductTemplate(data) {
     const requestData = data.data
+    console.log("requestData",requestData)
     try {
-
-        const currentFactoryUserHash = localStorage.getItem('currentFactoryUserHash');
-         console.log("currentFactoryUserHash", currentFactoryUserHash)
-         const supplyChaintempContract = localStorage.getItem('supplyChaintempContract');
-         console.log("supplyChaintempContract", supplyChaintempContract)
-        // console.log("requestData main saga", requestData);
-
-          //await supplychain.addProductTemplate(currentFactoryUserHash,requestData.productName,requestData.productDescription);
-
-        
-        //yield put({type: Set_Store_Distributer_Data,result})
+        let uri = BLOCKCHAIN_API_URL.concat('/factoryAddProductTemplate')
+        console.log("uri",uri)
+        const storeProductTemplateRes = yield call(Axios.post, uri, requestData)
+        const result = storeProductTemplateRes.data;
+        yield put({type: Set_Store_Product_Template_Data,result})
     } catch (error) {
         console.log("Error is ", error)
-        //yield put({type:Set_Store_Distributer_Data_Fail})
+        yield put({type:Set_Store_Product_Template_Data_Fail})
     }
 }
+function* checkProductTemplateSuccessdata(data) {
+    const requestData = data.data
+    yield put({type: Check_Product_Template_Success_data_1})
+    
+}
 
+function* getProductTemplate(data) {
+    const requestData = data.data
+    console.log("getProductTemplate product Saga",requestData)
 
+    try {
+        let uri = BLOCKCHAIN_API_URL.concat('/viewListOfProductTemplates')
+        const productTemplateListRes = yield call(Axios.get, uri,requestData)
+        const result = productTemplateListRes.data;
+        console.log("result",result)
+        yield put({ type: Set_Product_Template_List, result })
+    } catch (error) {
+        yield put({ type: Set_Product_Template_List, error })
 
+        console.log("Error is ", error)
+    }
+}
 function* mainSaga() { 
     yield takeLatest(SuperAdminUserLogin, superAdminUserLogin)
     yield takeLatest(Get_SuperAdmin_Local_Store_Data, getSuperAdminLocalStoreData)
@@ -334,7 +349,15 @@ function* mainSaga() {
     yield takeLatest(Store_Distributer, storeDistributer)
     yield takeLatest(Store_Retailer, storeRetailer)
     yield takeLatest(Store_Multi_User, storeMultiUser)
+
     yield takeLatest(Store_Product_Template, storeProductTemplate)
+    yield takeLatest(Check_Product_Template_Success_data, checkProductTemplateSuccessdata)
+
+    yield takeLatest(Get_Product_Template, getProductTemplate)
+
+
+    
+ 
 
 
 

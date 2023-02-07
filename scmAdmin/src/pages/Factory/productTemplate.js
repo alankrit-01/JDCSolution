@@ -1,17 +1,36 @@
 import MainStatusCard from 'components/Factory/MainStatusCard';
 import FactorySidebar from 'components/Factory/Sidebar';
 import Footer from 'components/Factory/Footer';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useEffect, useMemo, useState } from 'react';
 import DataTable from 'react-data-table-component';
 import { Button } from "@material-tailwind/react";
 import Input from '@material-tailwind/react/Input';
-////need improve////
-// import Supplychain_abi from '../../artifacts/contracts/Supplychain.sol/Supplychain.json';
-import { ethers } from "ethers";
-let supplyChainAddress = '0xFd0C39B94CF349a1f72B9D1510a94EBFF8E4D128';
-////End need improve////
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { getProductTemplate, checkProductTemplateSuccessdata } from 'Services/action';
+
+import { useDispatch, useSelector } from 'react-redux';
+
 const ProductTemplate = () => {
+    const navigate = useNavigate();
+    const factoryData = useSelector((state) => state.FactoryLoginData);
+    const [factoryUserHash, setFactoryUserHash] = useState(factoryData.currentFactoryUserHash);
+
+
+    const successNotify = () => toast.success('Product Template Added Successfully !.', {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+    });
+
+
+
     ////need improve////
     const [defaultAccount, setDefaultAccount] = useState('');
     const [connButtonText, setConnButtonText] = useState('Connect Wallet');
@@ -19,7 +38,7 @@ const ProductTemplate = () => {
     const [provider, setProvider] = useState(null);
     const [signer, setSigner] = useState(null);
     const [supplychainContract, setsupplychainContract] = useState('');
-    const allProductTemplatelist = [];
+    const allProductTemplatelist = []; 
     // useEffect(() => {
     //     connectWalletHandler();
     // }, [])
@@ -49,7 +68,7 @@ const ProductTemplate = () => {
     // listen for account changes
     // window.ethereum.on('accountsChanged', accountChangedHandler);
     // window.ethereum.on('chainChanged', chainChangedHandler);
-   
+
     // useEffect(() => {
     //     updateEthers()
     // }, [])
@@ -63,6 +82,8 @@ const ProductTemplate = () => {
     //     setsupplychainContract(supplychainContract);
     // }
     ////End need improve////
+    const dispatch = useDispatch();
+
     const [Factories, setFactories] = useState([]);
     const [Search, setSearch] = useState("");
     const [FilterFactories, setFilterFactories] = useState([]);
@@ -103,8 +124,24 @@ const ProductTemplate = () => {
     //     })
     //     setFilterFactories(result)
     // }, [Search])
+
+    useEffect(() => {
+        const data = {
+            factoryID:factoryUserHash
+        }
+        dispatch(getProductTemplate(data))
+    }, [])
+
+    const initialProductTemplateStoredata = useSelector((state) => state.StoreProductTemplateData);
+    useMemo(() => {
+        if (initialProductTemplateStoredata.success == true) {
+            successNotify();
+        }
+    }, [initialProductTemplateStoredata])
     return (
         <>
+            <ToastContainer />
+
             <FactorySidebar />
             <div className="md:ml-64">
                 <div className="bg-light-blue-500 pt-14 pb-28 px-3 md:px-8 h-auto">

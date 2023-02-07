@@ -1,5 +1,5 @@
 import { combineReducers } from "redux";
-import { GETDETAILS,SuperAdminUserLogin,Set_SuperAdmin_Login, SuperAdmin_Login_Fail,set_SuperAdmin_Local_Store_Data,Store_Company, Store_Company_Request, Set_Store_Company_Data, Set_Store_Company_Data_Fail,Check_Company_Success_data_1, Get_Company, Set_Company_List,Set_SuperAdmin_Logout, AdminUserLogin, Set_Admin_Login, Admin_Login_Fail, Get_Local_Store_Data, set_Local_Store_Data,Set_Retailer_By_Company_List, Set_Retailer_List, Set_Factory_List,Set_Factory_By_Company_List, Set_Distributer_List,Set_Distributer_By_Company_List, Set_Admin_Logout, FactoryUserLogin, Set_Factory_Login, Factory_Login_Fail, set_Factory_Local_Store_Data, Set_Factory_Logout, Store_Factory, Store_Factory_Request, Set_Store_Factory_Data, Set_Store_Factory_Data_Fail, Check_Factory_Success_data, Check_Factory_Success_data_1, Store_Distributer, Set_Store_Distributer_Data, Set_Store_Distributer_Data_Fail, Store_Distributer_Request, Check_Distributer_Success_data, Check_Distributer_Success_data_1, Store_Retailer, Set_Store_Retailer_Data, Set_Store_Retailer_Data_Fail, Store_Retailer_Request, Check_Retailer_Success_data, Check_Retailer_Success_data_1, Store_Multi_User, Store_Product_Template } from "./constant";
+import { GETDETAILS,SuperAdminUserLogin,Set_SuperAdmin_Login, SuperAdmin_Login_Fail,set_SuperAdmin_Local_Store_Data,Store_Company, Store_Company_Request, Set_Store_Company_Data, Set_Store_Company_Data_Fail,Check_Company_Success_data_1, Get_Company, Set_Company_List,Set_SuperAdmin_Logout, AdminUserLogin, Set_Admin_Login, Admin_Login_Fail, Get_Local_Store_Data, set_Local_Store_Data,Set_Retailer_By_Company_List, Set_Retailer_List, Set_Factory_List,Set_Factory_By_Company_List, Set_Distributer_List,Set_Distributer_By_Company_List, Set_Admin_Logout, FactoryUserLogin, Set_Factory_Login, Factory_Login_Fail, set_Factory_Local_Store_Data, Set_Factory_Logout, Store_Factory, Store_Factory_Request, Set_Store_Factory_Data, Set_Store_Factory_Data_Fail, Check_Factory_Success_data, Check_Factory_Success_data_1, Store_Distributer, Set_Store_Distributer_Data, Set_Store_Distributer_Data_Fail, Store_Distributer_Request, Check_Distributer_Success_data, Check_Distributer_Success_data_1, Store_Retailer, Set_Store_Retailer_Data, Set_Store_Retailer_Data_Fail, Store_Retailer_Request, Check_Retailer_Success_data, Check_Retailer_Success_data_1, Store_Multi_User, Store_Product_Template, Set_Store_Product_Template_Data, Set_Store_Product_Template_Data_Fail, Store_Product_Template_Request, Check_Product_Template_Success_data, Check_Product_Template_Success_data_1,Get_Product_Template, Set_Product_Template_List } from "./constant";
 const data = {
     error: ""
 }
@@ -53,6 +53,11 @@ const distributerData = {
     distributerRec: [],
 }
 
+const productTemplateData = {
+    error: "",
+    productTemplateRec: [],
+}
+
 
 /////// Start Factory Module ///
 
@@ -60,6 +65,8 @@ const distributerData = {
 
 const factoryloginRec = {
     error: "",
+    factoryUserHash: "",
+    factoryUserId: "",
     factoryUsername: "",
     factoryUserEmail: "",
     factorytoken: "",
@@ -89,7 +96,9 @@ const multiUserStoreData = {
 }
 
 const storeProductTemplateData = {
-    error: "",
+    store_request: false,
+    success: false,
+    error: false,
 }
 
 
@@ -376,6 +385,8 @@ export const FactoryLoginData = (initialdata = factoryloginRec, action) => {
             return initialdata;
             break;
         case Set_Factory_Login:
+            let userId = localStorage.getItem('factoryUserId');
+            initialdata = { ...initialdata, factoryUserId: userId }
             let username = localStorage.getItem('factoryUserName');
             initialdata = { ...initialdata, factoryUserName: username }
             let userEmail = localStorage.getItem('factoryUserEmail');
@@ -403,6 +414,8 @@ export const FactoryLoginData = (initialdata = factoryloginRec, action) => {
             return initialdata;
             break;
         case set_Factory_Local_Store_Data:
+            let userId1 = localStorage.getItem('factoryUserId');
+            initialdata = { ...initialdata, factoryUserId: userId1 }
             let username1 = localStorage.getItem('factoryUserName');
             initialdata = { ...initialdata, factoryUserName: username1 }
             let userEmail1 = localStorage.getItem('factoryUserEmail');
@@ -426,6 +439,7 @@ export const FactoryLoginData = (initialdata = factoryloginRec, action) => {
             return initialdata;
             break;
         case Set_Factory_Logout:
+            localStorage.removeItem('factoryUserId');
             localStorage.removeItem('factoryUserName');
             localStorage.removeItem('factoryUserEmail');
             localStorage.removeItem('factorytoken');
@@ -436,6 +450,8 @@ export const FactoryLoginData = (initialdata = factoryloginRec, action) => {
             localStorage.removeItem('factoryUserCountry');
             localStorage.removeItem('factoryUserLatitude');
             localStorage.removeItem('factoryUserLongitude');
+            initialdata = { ...initialdata, factoryUserId: "" }
+            initialdata = { ...initialdata, userHash: "" }
             initialdata = { ...initialdata, factoryUserName: "" }
             initialdata = { ...initialdata, factoryUserEmail: "" }
             initialdata = { ...initialdata, factorytoken: "" }
@@ -548,13 +564,46 @@ export const MultiUserStoreData = (initialdata = multiUserStoreData, action) => 
     }
 }
 
+
+
 export const StoreProductTemplateData = (initialdata = storeProductTemplateData, action) => {
     switch (action.type) {
         case Store_Product_Template:
             return initialdata;
             break;
+        case Store_Product_Template_Request:
+            initialdata = { ...initialdata, success: false, store_request: true, error: false }
+            return initialdata;
+            break;
+        case Set_Store_Product_Template_Data:
+            initialdata = { ...initialdata, success: true, store_request: false, error: false }
+            return initialdata;
+            break;
+        case Check_Product_Template_Success_data_1:
+            initialdata = { ...initialdata, success: false, store_request: false, error: false }
+            return initialdata;
+            break;
+        case Set_Store_Product_Template_Data_Fail:
+            initialdata = { ...initialdata, error: true, store_request: false, success: false }
+            return initialdata;
+            break;
         default:
             return initialdata;
+            break;
+    }
+}
+
+export const ProductTemplateRecord = (initialdata = productTemplateData, action) => {
+    switch (action.type) {
+        case Get_Product_Template:
+            return initialdata
+            break;
+        case Set_Product_Template_List:
+            initialdata = { ...initialdata, productTemplateRec: action.result }
+            return initialdata
+            break;
+        default:
+            return initialdata
             break;
     }
 }

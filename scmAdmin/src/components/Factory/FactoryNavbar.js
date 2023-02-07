@@ -135,9 +135,8 @@ export default function FactoryNavbar({ showSidebar, setShowSidebar }) {
                             : location.toUpperCase().replace('/', '')}
                     </h4>
                     <div className="flex">
-                    <span style={{padding:'5px', color:'#fff'}} ><b>Addres:-</b>
-                     {/* {defaultAccount} */}
-                     </span>
+                    {/* <span style={{padding:'5px', color:'#fff'}} ><b>Addres:-</b> {defaultAccount} 
+                     </span> 
                     {/* <Button onClick={connectWalletHandler}> Connect Metamask</Button> */}
 
                         {/* <NavbarInput placeholder="Search" /> */}

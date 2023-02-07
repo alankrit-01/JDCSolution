@@ -3,14 +3,13 @@ import Sidebar from 'components/SuperAdmin/Sidebar';
 import Footer from 'components/SuperAdmin/Footer';
 import { NavLink,useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCompany } from 'Services/action';
 import { useEffect, useMemo, useState } from 'react';
 import DataTable from 'react-data-table-component';
 import { Button } from "@material-tailwind/react";
 import Input from '@material-tailwind/react/Input';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { checkCompanySuccessdata } from 'Services/action';
+import {getCompany, checkCompanySuccessdata } from 'Services/action';
 
 const Company = () => {
     const navigate = useNavigate();

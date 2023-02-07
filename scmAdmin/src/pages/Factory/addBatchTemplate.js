@@ -12,20 +12,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getDistributer } from 'Services/action';
 import Papa from 'papaparse';
-import { storeMultiUser } from 'Services/action';
 
-//\/\/\/\/\/\/\/\/-need-improve-/\/\/\/\/\/\/\/\
-
-// import Supplychain_abi from '../../artifacts/contracts/Supplychain.sol/Supplychain.json';
-// import { ethers } from "ethers";
-// let supplyChainAddress = '0xFd0C39B94CF349a1f72B9D1510a94EBFF8E4D128';
-
-
-////End need improve////
-const AddBatchTemplate = () => {
-
-
-
+const AddBatchTemplate = () => {  
 
     ////need improve////
 
@@ -62,57 +50,7 @@ const AddBatchTemplate = () => {
     }, [])
 
 
-    // useEffect(() => {
-    //     connectWalletHandler();
 
-    // }, [])
-
-
-    // const connectWalletHandler = () => {
-    //     if (window.ethereum && window.ethereum.isMetaMask) {
-    //         window.ethereum.request({ method: 'eth_requestAccounts' })
-    //             .then(result => {
-    //                 accountChangedHandler(result[0]);
-    //                 setConnButtonText('Wallet Connected');
-    //             })
-    //             .catch(error => {
-    //                 console.log("error", error);
-    //                 setErrorMessage()
-    //             });
-
-    //     } else {
-    //         console.log('Need to install MetaMask');
-    //         setErrorMessage('Please install MetaMask browser extension to interact');
-
-    //     }
-    // }
-
-    // const accountChangedHandler = (newAccount) => {
-    //     setDefaultAccount(newAccount);
-    //     updateEthers();
-
-    // }
-
-    // const chainChangedHandler = () => {
-    //     window.location.reload();
-    // }
-
-    // listen for account changes
-    // window.ethereum.on('accountsChanged', accountChangedHandler);
-    // window.ethereum.on('chainChanged', chainChangedHandler);
-
-
-    // const updateEthers = async () => {
-    //     let tempProvider = new ethers.providers.Web3Provider(window.ethereum);
-    //     setProvider(tempProvider);
-
-    //     let tempSigner = tempProvider.getSigner();
-    //     setSigner(tempSigner);
-
-    //     let supplychainContract = new ethers.Contract(supplyChainAddress, Supplychain_abi.abi, tempSigner);
-    //     setsupplychainContract(supplychainContract);
-    // }
-    ////End need improve////
     // const getProductId = async () => {
     //     let array = await (supplychainContract && supplychainContract.getAllProductTemplateIDs());
     //     if (array && array.length > 0) {

@@ -18,12 +18,13 @@ const MainStatusCard = () => {
     const initialdata = useSelector((state) => state.DistributerRecord);
     const initialFactorydata = useSelector((state) => state.FactoryRecord);
     const initialRetailerdata = useSelector((state) => state.RetailerRecord);
-    useEffect(() => {
-        setDistributer(initialdata.distributerRec.length)
-        setFactories(initialFactorydata.factoryRec.length)
-        setRetailer(initialRetailerdata.retailerRec.length)
+    
+    // useEffect(() => {
+    //     setDistributer(initialdata.distributerRec.length)
+    //     setFactories(initialFactorydata.factoryRec.length)
+    //     setRetailer(initialRetailerdata.retailerRec.length)
+    // }, [initialdata, initialFactorydata, initialRetailerdata])
 
-    }, [initialdata, initialFactorydata, initialRetailerdata])
 
 
     return (
