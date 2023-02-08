@@ -23,121 +23,57 @@ const ProductTemplate = () => {
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
-        pauseOnHover: true,
+        pauseOnHover: true, 
         draggable: true,
         progress: undefined,
         theme: "light",
     });
-
-
-
-    ////need improve////
-    const [defaultAccount, setDefaultAccount] = useState('');
-    const [connButtonText, setConnButtonText] = useState('Connect Wallet');
-    const [errorMessage, setErrorMessage] = useState(null)
-    const [provider, setProvider] = useState(null);
-    const [signer, setSigner] = useState(null);
-    const [supplychainContract, setsupplychainContract] = useState('');
-    const allProductTemplatelist = []; 
-    // useEffect(() => {
-    //     connectWalletHandler();
-    // }, [])
-    // const connectWalletHandler = () => {
-    //     if (window.ethereum && window.ethereum.isMetaMask) {
-    //         window.ethereum.request({ method: 'eth_requestAccounts' })
-    //             .then(result => {
-    //                 accountChangedHandler(result[0]);
-    //                 setConnButtonText('Wallet Connected');
-    //             })
-    //             .catch(error => {
-    //                 console.log("error", error);
-    //                 setErrorMessage()
-    //             });
-    //     } else {
-    //         console.log('Need to install MetaMask');
-    //         setErrorMessage('Please install MetaMask browser extension to interact');
-    //     }
-    // }
-    // const accountChangedHandler = (newAccount) => {
-    //     setDefaultAccount(newAccount);
-    //     updateEthers();
-    // }
-    // const chainChangedHandler = () => {
-    //     window.location.reload();
-    // }
-    // listen for account changes
-    // window.ethereum.on('accountsChanged', accountChangedHandler);
-    // window.ethereum.on('chainChanged', chainChangedHandler);
-
-    // useEffect(() => {
-    //     updateEthers()
-    // }, [])
-    // const updateEthers = async () => {
-    //     let tempProvider = new ethers.providers.Web3Provider(window.ethereum);
-    //     setProvider(tempProvider);
-    //     let tempSigner = tempProvider.getSigner();
-    //     setSigner(tempSigner);
-    //     let supplychainContract = new ethers.Contract(supplyChainAddress, Supplychain_abi.abi, tempSigner);
-    //     console.log("Ether updates", supplychainContract)
-    //     setsupplychainContract(supplychainContract);
-    // }
-    ////End need improve////
     const dispatch = useDispatch();
 
-    const [Factories, setFactories] = useState([]);
+    const [ProductTemplates, setProductTemplates] = useState([]);
     const [Search, setSearch] = useState("");
-    const [FilterFactories, setFilterFactories] = useState([]);
+    const [FilterProductTemplates, setFilterProductTemplates] = useState([]);
     const columns = [
-        // {
-        //     name: "	Product Template ID",
-        //     selector: (row) => row.productTemplateID.toNumber(),
-        //     sortable: true,
-        // },
-        // {
-        //     name: "Product Name",
-        //     selector: (row) => row.name,
-        //     sortable: true,
-        // },
-        // {
-        //     name: "Product Description",
-        //     selector: (row) => row.description,
-        //     sortable: true,
-        // },
+        {
+            name: "	Product Template ID",
+            selector: (row) => row.ProductTemplateID,
+            sortable: true,
+        },
+        {
+            name: "Product Name",
+            selector: (row) => row.Name,
+            sortable: true,
+        },
+        {
+            name: "Product Description",
+            selector: (row) => row.Description,
+            sortable: true,
+        },
     ];
-    // const getProductTemplateHandler = async () => {
-    //     let array = await (supplychainContract && supplychainContract.getAllProductTemplateIDs());
-    //     if (array && array.length > 0) {
-    //         for (let i = 0; i < array.length; i++) {
-    //             let data = await (supplychainContract && supplychainContract.ProductTemplateMAP(array[i]));
-    //             allProductTemplatelist.push(data)
-    //         }
-    //         setFactories(allProductTemplatelist);
-    //         setFilterFactories(allProductTemplatelist);
-    //     }
-    // }
-    // useMemo(() => {
-    //     getProductTemplateHandler();
-    // }, [supplychainContract])
-    // useEffect(() => {
-    //     const result = Factories.filter((retailer) => {
-    //         return retailer.name.toLowerCase().match(Search.toLowerCase());
-    //     })
-    //     setFilterFactories(result)
-    // }, [Search])
-
     useEffect(() => {
         const data = {
             factoryID:factoryUserHash
         }
         dispatch(getProductTemplate(data))
     }, [])
-
+    const initialProductTemplatedata = useSelector((state) => state.ProductTemplateRecord);
     const initialProductTemplateStoredata = useSelector((state) => state.StoreProductTemplateData);
+
     useMemo(() => {
         if (initialProductTemplateStoredata.success == true) {
             successNotify();
         }
     }, [initialProductTemplateStoredata])
+    useEffect(() => {
+        setProductTemplates(initialProductTemplatedata.productTemplateRec.message)
+        setFilterProductTemplates(initialProductTemplatedata.productTemplateRec.message)
+    }, [initialProductTemplatedata])
+    useEffect(() => {
+            const result = ProductTemplates.filter((allProductTemplate) => {
+                return allProductTemplate.Name.toLowerCase().match(Search.toLowerCase());
+            })
+            setFilterProductTemplates(result)
+        }, [Search])
     return (
         <>
             <ToastContainer />
@@ -157,7 +93,7 @@ const ProductTemplate = () => {
                             <DataTable
                                 title="Product Template List"
                                 columns={columns}
-                                data={FilterFactories}
+                                data={FilterProductTemplates}
                                 pagination
                                 fixedHeader
                                 selectableRows

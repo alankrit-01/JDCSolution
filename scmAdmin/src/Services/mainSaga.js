@@ -1,5 +1,5 @@
 import { takeLatest, call, put } from 'redux-saga/effects'
-import {SuperAdminUserLogin,Set_SuperAdmin_Login, SuperAdmin_Login_Fail,Get_SuperAdmin_Local_Store_Data,set_SuperAdmin_Local_Store_Data,Store_Company,Set_Store_Company_Data, Set_Store_Company_Data_Fail, Check_Company_Success_data, Check_Company_Success_data_1,Get_Company,Set_Company_List, SuperAdminUserLogout,Set_SuperAdmin_Logout, AdminUserLogin, Set_Admin_Login, Admin_Login_Fail, AdminUserLogout, Set_Admin_Logout, Get_Local_Store_Data, set_Local_Store_Data, Get_Retailers,Get_Retailer_By_Company, Set_Retailer_List,Set_Retailer_By_Company_List, Get_Factory,Get_Factory_By_Company, Set_Factory_List,Set_Factory_By_Company_List, Get_Distributer,Get_Distributer_By_Company, Set_Distributer_List,Set_Distributer_By_Company_List, FactoryUserLogin, Set_Factory_Login, Factory_Login_Fail, FactoryUserLogout, Set_Factory_Logout, Get_Factory_Local_Store_Data, set_Factory_Local_Store_Data, Store_Factory, Set_Store_Factory_Data, Set_Store_Factory_Data_Fail, Check_Factory_Success_data, Check_Factory_Success_data_1, Store_Distributer, Set_Store_Distributer_Data, Set_Store_Distributer_Data_Fail, Check_Distributer_Success_data, Check_Distributer_Success_data_1, Store_Retailer, Set_Store_Retailer_Data, Set_Store_Retailer_Data_Fail,Check_Retailer_Success_data, Check_Retailer_Success_data_1, Store_Multi_User, Store_Product_Template, Set_Store_Product_Template_Data, Set_Store_Product_Template_Data_Fail, Check_Product_Template_Success_data, Check_Product_Template_Success_data_1, BLOCKCHAIN_API_URL,Get_Product_Template,Set_Product_Template_List } from "./constant"
+import {BLOCKCHAIN_API_URL, SuperAdminUserLogin,Set_SuperAdmin_Login, SuperAdmin_Login_Fail,Get_SuperAdmin_Local_Store_Data,set_SuperAdmin_Local_Store_Data,Store_Company,Set_Store_Company_Data, Set_Store_Company_Data_Fail, Check_Company_Success_data, Check_Company_Success_data_1,Get_Company,Set_Company_List, SuperAdminUserLogout,Set_SuperAdmin_Logout, AdminUserLogin, Set_Admin_Login, Admin_Login_Fail, AdminUserLogout, Set_Admin_Logout, Get_Local_Store_Data, set_Local_Store_Data, Get_Retailers,Get_Retailer_By_Company, Set_Retailer_List,Set_Retailer_By_Company_List, Get_Factory,Get_Factory_By_Company, Set_Factory_List,Set_Factory_By_Company_List, Get_Distributer,Get_Distributer_By_Company, Set_Distributer_List,Set_Distributer_By_Company_List, FactoryUserLogin, Set_Factory_Login, Factory_Login_Fail, FactoryUserLogout, Set_Factory_Logout, Get_Factory_Local_Store_Data, set_Factory_Local_Store_Data, Store_Factory, Set_Store_Factory_Data, Set_Store_Factory_Data_Fail, Check_Factory_Success_data, Check_Factory_Success_data_1, Store_Distributer, Set_Store_Distributer_Data, Set_Store_Distributer_Data_Fail, Check_Distributer_Success_data, Check_Distributer_Success_data_1, Store_Retailer, Set_Store_Retailer_Data, Set_Store_Retailer_Data_Fail,Check_Retailer_Success_data, Check_Retailer_Success_data_1, Store_Multi_User, Store_Product_Template, Set_Store_Product_Template_Data, Set_Store_Product_Template_Data_Fail, Check_Product_Template_Success_data, Check_Product_Template_Success_data_1,Get_Product_Template,Set_Product_Template_List, Store_Batch_Template, Set_Store_Batch_Template_Data, Set_Store_Batch_Template_Data_Fail, Check_Batch_Template_Success_data, Check_Batch_Template_Success_data_1,Get_Batch_Template,Set_Batch_Template_List,Get_Batch_Detail, Set_Batch_Detail_List } from "./constant"
 import { API_URL } from "./constant"
 import Axios from "axios"
 
@@ -304,13 +304,11 @@ function* checkProductTemplateSuccessdata(data) {
 
 function* getProductTemplate(data) {
     const requestData = data.data
-    console.log("getProductTemplate product Saga",requestData)
-
     try {
-        let uri = BLOCKCHAIN_API_URL.concat('/viewListOfProductTemplates')
-        const productTemplateListRes = yield call(Axios.get, uri,requestData)
+        let uri = BLOCKCHAIN_API_URL.concat('/viewListOfProductTemplates?factoryID=')
+        uri = uri.concat(requestData.factoryID)
+        const productTemplateListRes = yield call(Axios.get, uri)
         const result = productTemplateListRes.data;
-        console.log("result",result)
         yield put({ type: Set_Product_Template_List, result })
     } catch (error) {
         yield put({ type: Set_Product_Template_List, error })
@@ -318,6 +316,62 @@ function* getProductTemplate(data) {
         console.log("Error is ", error)
     }
 }
+
+
+function* storeBatchTemplate(data) {
+    const requestData = data.data
+    console.log("requestData",requestData)
+    try {
+        let uri = BLOCKCHAIN_API_URL.concat('/factoryAddBatch')
+        const storeBatchTemplateRes = yield call(Axios.post, uri, requestData)
+        const result = storeBatchTemplateRes.data;
+        yield put({type: Set_Store_Batch_Template_Data,result})
+    } catch (error) {
+        console.log("Error is ", error)
+        yield put({type:Set_Store_Batch_Template_Data_Fail})
+    }
+}
+function* checkBatchTemplateSuccessdata(data) {
+    const requestData = data.data
+    yield put({type: Check_Batch_Template_Success_data_1})
+    
+}
+function* getBatchTemplate(data) {
+    const requestData = data.data
+    console.log("requestData",requestData)
+    try {
+        let uri = BLOCKCHAIN_API_URL.concat('/viewListOfBatchesProducedByFactory?factoryID=')
+        uri = uri.concat(requestData.factoryID)
+        const batchTemplateListRes = yield call(Axios.get, uri)
+        const result = batchTemplateListRes.data;
+        yield put({ type: Set_Batch_Template_List, result })
+    } catch (error) {
+        yield put({ type: Set_Batch_Template_List, error })
+
+        console.log("Error is ", error)
+    }
+}
+
+function* getBatchDetail(data) {
+    const requestData = data.data
+    console.log("requestData dettttt sdsdsd",requestData)
+
+    try {
+        let uri = BLOCKCHAIN_API_URL.concat('/viewBatchRecordByBatchId?batchID=')
+        uri = uri.concat(requestData.batchID)
+        const batchDetailRes = yield call(Axios.get, uri)
+        console.log("requestData dettttt",requestData)
+
+        const result = batchDetailRes.data;
+        yield put({ type: Set_Batch_Detail_List, result })
+    } catch (error) {
+        yield put({ type: Set_Batch_Detail_List, error })
+
+        console.log("Error is ", error)
+    }
+}
+
+
 function* mainSaga() { 
     yield takeLatest(SuperAdminUserLogin, superAdminUserLogin)
     yield takeLatest(Get_SuperAdmin_Local_Store_Data, getSuperAdminLocalStoreData)
@@ -354,6 +408,13 @@ function* mainSaga() {
     yield takeLatest(Check_Product_Template_Success_data, checkProductTemplateSuccessdata)
 
     yield takeLatest(Get_Product_Template, getProductTemplate)
+
+    yield takeLatest(Store_Batch_Template, storeBatchTemplate)
+    yield takeLatest(Check_Batch_Template_Success_data, checkBatchTemplateSuccessdata)
+
+    yield takeLatest(Get_Batch_Template, getBatchTemplate)
+
+    yield takeLatest(Get_Batch_Detail, getBatchDetail)
 
 
     

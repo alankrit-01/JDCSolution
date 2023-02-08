@@ -2,116 +2,73 @@ import MainStatusCard from "components/Factory/MainStatusCard";
 import FactorySidebar from "components/Factory/Sidebar";
 import Footer from "components/Factory/Footer";
 import React, { useEffect, useMemo, useState, useRef } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { QRCodeSVG } from "qrcode.react";
-// import Supplychain_abi from '../../artifacts/contracts/Supplychain.sol/Supplychain.json';
-// import { ethers } from "ethers";
 import { Button } from "@material-tailwind/react";
-// let supplyChainAddress = '0xFd0C39B94CF349a1f72B9D1510a94EBFF8E4D128';
+
+import { getBatchDetail } from 'Services/action';
+
+
 const BatchProductQr = () => {
-    let batchData = useLocation();
-    let batchtId = batchData.state.BatchID;
+
+    const dispatch = useDispatch();
+    
+
     const [batchSize, setBatchSize] = useState('');
     const [productIdsRec, setProductIdsRec] = useState('');
     const [productName, setProductName] = useState('');
     const [productDescription, setProductDescription] = useState('');
-    ////need improve////
-    const [defaultAccount, setDefaultAccount] = useState('');
-    const [connButtonText, setConnButtonText] = useState('Connect Wallet');
-    const [errorMessage, setErrorMessage] = useState(null)
-    const [provider, setProvider] = useState(null);
-    const [signer, setSigner] = useState(null);
-    const [supplychainContract, setsupplychainContract] = useState('');
-    // useEffect(() => {
-    //     connectWalletHandler();
-    // }, [])
-    // const connectWalletHandler = () => {
-    //     if (window.ethereum && window.ethereum.isMetaMask) {
-    //         window.ethereum.request({ method: 'eth_requestAccounts' })
-    //             .then(result => {
-    //                 accountChangedHandler(result[0]);
-    //                 setConnButtonText('Wallet Connected');
-    //             })
-    //             .catch(error => {
-    //                 console.log("error", error);
-    //                 setErrorMessage()
-    //             });
-    //     } else {
-    //         console.log('Need to install MetaMask');
-    //         setErrorMessage('Please install MetaMask browser extension to interact');
-    //     }
-    // }
-    // const accountChangedHandler = (newAccount) => {
-    //     setDefaultAccount(newAccount);
-    //     updateEthers();
-    // }
-    // const chainChangedHandler = () => {
-    //     window.location.reload();
-    // }
+    const [batchDescription, setBatchDescription] = useState('');
 
-    // listen for account changes
-    // window.ethereum.on('accountsChanged', accountChangedHandler);
-    // window.ethereum.on('chainChanged', chainChangedHandler);
+    let batchData = useLocation();
+    let batchID = batchData.state.BatchID;
 
-    // useEffect(() => {
-    //     updateEthers()
-    // }, [])
 
-    // const updateEthers = async () => {
-    //     let tempProvider = new ethers.providers.Web3Provider(window.ethereum);
-    //     setProvider(tempProvider);
+    useEffect(() => {
+        const data = {
+            batchID:batchID
+        }
+        dispatch(getBatchDetail(data))
+    }, [])
 
-    //     let tempSigner = tempProvider.getSigner();
-    //     setSigner(tempSigner);
-    //     let supplychainContract = new ethers.Contract(supplyChainAddress, Supplychain_abi.abi, tempSigner);
-    //     //console.log("Ether updates", supplychainContract)
-    //     setsupplychainContract(supplychainContract);
-    // }
+    // const initialBatchDetaildata = useSelector((state) => state.BatchDetailRecord.batchDetailRec.message);
+    //      setProductIdsRec(initialBatchDetaildata[0].setBatchSize);
+    //      setBatchSize(initialBatchDetaildata[0].setBatchSize);
+    //      setProductName(initialBatchDetaildata[0].setBatchSize);
+    //      setBatchDescription(initialBatchDetaildata[0].BatchDescription);
+
+    // console.log("initialBatchDetaildata Qr", initialBatchDetaildata[0])
+
+
+    
+   
+
     // useEffect(() => {
     //     getBatchRecord();
     // }, [])
 
-    const getBatchRecord = async () => {
-        let batchAllRec = await (supplychainContract && supplychainContract.BatchMapping(batchtId));
-        let productIdsRec = await (supplychainContract && supplychainContract.getProductIdsForaBatch(batchtId));
-        let ProductTemplateID = batchAllRec && batchAllRec.ProductTemplateID.toNumber();
-        let getbatchSize = batchAllRec && batchAllRec.BatchSize.toNumber();
-        let productDataRec = await (supplychainContract && supplychainContract.ProductTemplateMAP(ProductTemplateID));
-        setProductIdsRec(productIdsRec);
-        setBatchSize(getbatchSize);
-        setProductName(productDataRec.name);
-        setProductDescription(productDataRec.description);
+    // const getBatchRecord = async () => {
+    //     let batchAllRec = await (supplychainContract && supplychainContract.BatchMapping(batchtId));
+    //     let productIdsRec = await (supplychainContract && supplychainContract.getProductIdsForaBatch(batchtId));
+    //     let ProductTemplateID = batchAllRec && batchAllRec.ProductTemplateID.toNumber();
+    //     let getbatchSize = batchAllRec && batchAllRec.BatchSize.toNumber();
+    //     let productDataRec = await (supplychainContract && supplychainContract.ProductTemplateMAP(ProductTemplateID));
+    //     setProductIdsRec(productIdsRec);
+    //     setBatchSize(getbatchSize);
+    //     setProductName(productDataRec.name);
+    //     setProductDescription(productDataRec.description);
 
-    }
+    // }
 
-    // useMemo(() => {
-    //     getBatchRecord();
-    // }, [supplychainContract])
-
-    ////End need improve////
-
-    // const [url, setUrl] = useState(
-    //     `BatchID:${batchtId} 
-    //     ProductName:${productName && productName}
-    //     ProductDescription:${productDescription && productDescription}
-    //     ProductQuantity:${"dfgdgdfgdf"}   
-    // `);
+    
     const allProductQrlist = [];
     const [url1, setUrl1] = useState();
 
-    // useMemo(()=>{
-    //     const url = {
-    //         // batchtId:batchtId,
-    //         // ProductDescription:productDescription,
-    //         // ProductQuantity:batchSize
-    //     }
-    //     setUrl(url)
-    // },[productDescription,productName,batchSize])
 
     useMemo(() => {
         const url = (
-            `BatchID:${batchtId} 
+            `BatchID:${batchID} 
         ProductName:${productName && productName}
         ProductQuantity:${batchSize && batchSize}   
     `);
@@ -121,20 +78,7 @@ const BatchProductQr = () => {
 
 
     const qrRef = useRef();
-    const downloadQRCode = (e) => {
-        e.preventDefault();
-        let canvas = qrRef.current.querySelector("canvas");
-        let image = canvas.toDataURL("image/png");
-        let anchor = document.createElement("a");
-        anchor.href = image;
-        anchor.download = `scm-batch-detal.png`;
-        document.body.appendChild(anchor);
-        anchor.click();
-        document.body.removeChild(anchor);
-        //setUrl("");
-    };
-
-
+   
     for (let i = 0; i < productIdsRec.length; i++) {
         const urlc = (
             `productID:${productIdsRec[i].toNumber()} 

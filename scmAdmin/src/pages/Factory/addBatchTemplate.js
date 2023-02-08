@@ -9,35 +9,30 @@ import Input from '@material-tailwind/react/Input';
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { getDistributer } from 'Services/action';
+import { getDistributer, getProductTemplate, storeBatchTemplate } from 'Services/action';
 import Papa from 'papaparse';
 
-const AddBatchTemplate = () => {  
+const AddBatchTemplate = () => {
+    const factoryData = useSelector((state) => state.FactoryLoginData);
 
-    ////need improve////
+    const [factoryUserLocation, setFactoryUserLocation] = useState(factoryData.factoryUserAddress);
+    const [factoryUserHash, setFactoryUserHash] = useState(factoryData.currentFactoryUserHash);
+    useEffect(() => {
+        const data = {
+            factoryID: factoryUserHash
+        }
+        dispatch(getProductTemplate(data))
+    }, [])
 
-    const [defaultAccount, setDefaultAccount] = useState('');
-    const [factoryAddress, setFactoryAddress] = useState('');
-    const [connButtonText, setConnButtonText] = useState('Connect Wallet');
-    const [errorMessage, setErrorMessage] = useState(null)
-    const [materiallist, setMateriallist] = useState(null);
-    // const [SCContract, setSCContract] = useState();
-    const [provider, setProvider] = useState(null);
-    const [signer, setSigner] = useState(null);
-    const [supplychainContract, setsupplychainContract] = useState(null);
+    const initialProductTemplatedata = useSelector((state) => state.ProductTemplateRecord.productTemplateRec);
+    const allProductTemplatedata = initialProductTemplatedata.message;
+
 
     const [batchTemplateId, setBatchTemplateId] = useState(null);
     const [materialtype, setMaterialtype] = useState('');
     const [productIdsData, setproductIdsData] = useState('');
 
-    
-    const factoryData = useSelector((state) => state.FactoryLoginData);
 
-    useEffect(() => {
-        setFactoryAddress(factoryData.factoryUserAddress);
-    }, [])
-
-    const allsupplymateriallist = [];
 
     function randomBatchId() {
         let currentTimestamp = Date.now()
@@ -47,28 +42,6 @@ const AddBatchTemplate = () => {
     useEffect(() => {
         setBatchTemplateId(randomBatchId());
     }, [])
-
-
-
-    // const getProductId = async () => {
-    //     let array = await (supplychainContract && supplychainContract.getAllProductTemplateIDs());
-    //     if (array && array.length > 0) {
-    //         for (let i = 0; i < array.length; i++) {
-    //             let data = await (supplychainContract && supplychainContract.ProductTemplateMAP(array[i]));
-    //             allsupplymateriallist.push(
-    //                 <>
-    //                     <option value={data.productTemplateID.toNumber()}>{data.productTemplateID.toNumber()} - {data.name}</option>
-    //                 </>
-    //             )
-    //         }
-    //     }
-    //     setMateriallist(allsupplymateriallist);
-    // }
-
-    // useMemo(() => {
-    //     getProductId();
-    // }, [supplychainContract])
-
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -107,11 +80,31 @@ const AddBatchTemplate = () => {
 
         }
 
-         const tx = await supplychainContract.batchProduced(batchTemplateId.toString(), productIds, batchSizeData, batchDescription, productId.toString(), defaultAccount, distributer, factoryAddress, batchManufacture);
-        if (tx) {
-            navigate("/factory/batchTemplate")
+        // batchTemplateId.toString(), productIds, batchSizeData, batchDescription, productId.toString(), defaultAccount, distributer, factoryAddress, batchManufacture
+
+        const data = {
+            batchID:batchTemplateId.toString(),
+            productIDs:productIds,
+            batchSize:batchSizeData,
+            batchDescription:batchDescription,
+            productTemplateID:productId.toString(),
+            factoryID:factoryUserHash,
+            distributorID:distributer,
+            factoryLocation:factoryUserLocation,
+            dataOfProduction:batchManufacture 
         }
+        dispatch(storeBatchTemplate(data))
+        
+
     }
+
+    const initialBatchTemplateStoredata = useSelector((state) => state.StoreBatchTemplateData);
+
+        useMemo(() => {
+            if (initialBatchTemplateStoredata.success == true) {
+                navigate('/factory/batchTemplate')
+            }
+        }, [initialBatchTemplateStoredata])
 
     useEffect(() => {
         dispatch(getDistributer())
@@ -133,6 +126,7 @@ const AddBatchTemplate = () => {
     const [parsedData, setParsedData] = useState([]);
     //State to store the values
     const [values, setValues] = useState([]);
+
 
     const changeHandler = (event) => {
         // Passing file data (event.target.files[0]) to parse using Papa.parse
@@ -175,7 +169,7 @@ const AddBatchTemplate = () => {
                                     </CardHeader>
                                     <CardBody>
 
-                                    {materialtype == 'csv' ? ( <span>Total Product Id : {values.length}</span>  ) : ( '' ) }
+                                        {materialtype == 'csv' ? (<span>Total Product Id : {values.length}</span>) : ('')}
                                         {productIdsData}
                                         <form onSubmit={handleSubmit}>
                                             <div className="flex flex-wrap mt-10">
@@ -183,7 +177,13 @@ const AddBatchTemplate = () => {
                                                     <span><b>Product Template ID</b></span>
                                                     <select id="productId" name="productId" color="purple" class="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer" onChange={(e) => setProductId(e.target.value)}>
                                                         <option selected>Choose a Product Template Id</option>
-                                                        {materiallist}
+                                                        {/* {
+                                                            allProductTemplatedata.map((allProductTemplateRec) =>
+                                                                <option value={allProductTemplateRec.ProductTemplateID}>
+                                                                    {allProductTemplateRec.ProductTemplateID} - {allProductTemplateRec.Name}
+                                                                </option>
+                                                            )
+                                                        } */}
                                                     </select>
                                                 </div>
                                                 <div className="w-screen flex flex-wrap mt-10 font-light">
