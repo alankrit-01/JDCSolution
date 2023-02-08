@@ -24,49 +24,46 @@ contract Supplychain{
         uint ProductTemplateID;
         string DOM;
         string OwnerID;
+        string RetailerID;    
+        bool RetailerScanned;   
         uint DateWhenSold; 
     }            
                  
     struct Batch{        
         uint BatchID;    
         uint BatchSize;  
-        uint AmountSold;  
+        uint AmountSoldTOCustomer;  
         string BatchDescription;    
         uint ProductTemplateID;    
         string FactoryID;    
         string DistributorID;
-        string RetailerID;    
         string FactoryLocation; 
         string DateOfProduction;
         uint State;            
         bool FactoryScanned;   
         bool DistributorScanned;   
-        bool RetailerScanned;   
+        uint AmountSoldTORetailer;  
     }                               
 
     struct Customer{
         uint BatchID;
         uint ProductID;
-    }
+    } 
 
     mapping(uint=>ProductTemplate) public ProductTemplateMAP;
     mapping(uint=>BatchTemplate) public BatchTemplateMAP;
     mapping(uint=>Product) public ProductMapping;  
     mapping(uint=>Batch) public BatchMapping; 
     mapping(uint=>uint[]) public BatchIDToProductIDMapping; 
-    // CustomerID -> Customer[]
     mapping(string =>Customer[]) public CustomerData;
 
     uint[] public ProductTemplateIDs;
     uint[] public BatchTemplateIDs; 
     uint[] public ProductIDs;     
-    uint[] public BatchIDs; 
-
-    // FactoryID -> BatchID -> bool
-    // mapping(uint=>mapping(uint=>bool)) public BatchScanned;
-
-    function addBatchTemplate(
-        uint _batchTemplateID,
+    uint[] public BatchIDs;  
+    
+    function addBatchTemplate( 
+        uint _batchTemplateID, 
         uint _productTemplateID,
         string memory _description,
         uint _batchSize,
@@ -82,7 +79,7 @@ contract Supplychain{
             FactoryID:_factoryID            
         });
         BatchTemplateIDs.push(_batchTemplateID);
-    }   
+    }       
 
     function addProductTemplate(
         uint _productTemplateID,
@@ -100,7 +97,6 @@ contract Supplychain{
         ProductTemplateIDs.push(_productTemplateID);
     }   
     
-
     function batchProduced(
         uint batchID, 
         uint[] memory productIDs, 
@@ -119,18 +115,19 @@ contract Supplychain{
             BatchID:batchID,    
             // ProductIDs:productIDs,
             BatchSize:batchSize, 
-            AmountSold:0,
+            AmountSoldTORetailer:0,
+            AmountSoldTOCustomer:0,
             BatchDescription:batchDescription, 
             ProductTemplateID:productTemplateID,
             FactoryID:factory,
             DistributorID:distributor,
-            RetailerID:"",
+            // RetailerID:"",
             FactoryLocation:factoryLocation,
             DateOfProduction:dateOfProduction,
             State:0,
             FactoryScanned:false,  
-            DistributorScanned:false, 
-            RetailerScanned:false
+            DistributorScanned:false
+            // RetailerScanned:false
         }); 
         BatchIDs.push(batchID); 
         BatchIDToProductIDMapping[batchID]= productIDs;
@@ -142,6 +139,8 @@ contract Supplychain{
                 ProductTemplateID:productTemplateID,
                 DOM:dateOfProduction,
                 OwnerID:"",
+                RetailerID:"",
+                RetailerScanned:false,
                 DateWhenSold:0
             });
             ProductIDs.push(productIDs[i]);
@@ -152,7 +151,7 @@ contract Supplychain{
         require(BatchMapping[batchID].FactoryScanned==false,"This batch is already scanned by the factory");
         require(keccak256(abi.encodePacked(BatchMapping[batchID].FactoryID))== keccak256(abi.encodePacked(_factoryID)),"This batch is not owned by this factory");
         BatchMapping[batchID].FactoryScanned=true;
-    }
+    } 
 
     function distributorScansBatch(uint batchID, string memory _distributorID) public{
         require(BatchMapping[batchID].DistributorScanned==false,"This batch is already scanned by the distributor");
@@ -160,26 +159,37 @@ contract Supplychain{
         BatchMapping[batchID].DistributorScanned=true;
     } 
 
-    function distributorSellToRetailer(uint batchID, string memory retailerID) public{
-        BatchMapping[batchID].RetailerID=retailerID;
-        BatchMapping[batchID].State=1;
-    }   
+    // distributor ne kis kis retailer ko sell kiya hai ? 
+    // retailer k pass kon kon se batchs aur products hai? 
 
-    function retailerScansBatch(uint batchID, string memory _retailerID) public{
-        require(BatchMapping[batchID].RetailerScanned==false,"This batch is already scanned by the retailer");
-        require(keccak256(abi.encodePacked(BatchMapping[batchID].RetailerID))== keccak256(abi.encodePacked(_retailerID)),"This batch is not owned by this retailer");
-        BatchMapping[batchID].RetailerScanned=true;
+
+    function distributorSellToRetailer(uint batchID, uint[] memory productIDs, string[] memory retailerIDs) public{
+        require(productIDs.length<=BatchMapping[batchID].BatchSize,"Length of productIDs should be less then batch size");
+        require(productIDs.length==retailerIDs.length,"Length of productIDs and retailerIDs should be same");
+        for(uint i=0;i<productIDs.length; i++){
+            ProductMapping[productIDs[i]].RetailerID=retailerIDs[i];
+        }   
+        BatchMapping[batchID].AmountSoldTORetailer+=productIDs.length;
+        if(BatchMapping[batchID].AmountSoldTORetailer==BatchMapping[batchID].BatchSize){
+            BatchMapping[batchID].State=1;
+        }
+    }     
+
+    function retailerScansBatch(uint _productID, string memory _retailerID) public{
+        require(ProductMapping[_productID].RetailerScanned==false,"This batch is already scanned by the retailer");
+        require(keccak256(abi.encodePacked(ProductMapping[_productID].RetailerID))== keccak256(abi.encodePacked(_retailerID)),"This batch is not owned by this retailer");
+        ProductMapping[_productID].RetailerScanned=true;
     } 
 
     function retailerSellToCustomer(uint batchID,uint productID, string memory customerID) public {
-        BatchMapping[batchID].AmountSold +=1;
+        BatchMapping[batchID].AmountSoldTOCustomer +=1;
         ProductMapping[productID].OwnerID=customerID;
         ProductMapping[productID].DateWhenSold=block.timestamp;
         CustomerData[customerID].push(Customer({
             BatchID:batchID,
             ProductID:productID
         }));
-    }    
+    }        
 
     function getAllProductsBought(string memory customerID) public view returns(Customer[] memory){
         return CustomerData[customerID];

@@ -13,7 +13,7 @@ app.use(cors(corsOptions));
 
 const contractAbi = require('./artifacts/contracts/Supplychain.sol/Supplychain.json')
 
-let contractAddress ="0x97068B74AB27232A978Fa20C0602f0748Ff769F7"; 
+let contractAddress ="0x4Af020635f8D6e179dbC28D3C83BdeAcd4F81dB5"; 
 let contract;
 app.use(express.json()); 
 
@@ -186,19 +186,18 @@ app.get('/api/viewListOfBatchesProducedByFactory', async (req, res) => {
         result.push({
           BatchID :batchData[0].toNumber(),
           BatchSize :batchData[1].toNumber(),
-          AmountSold :batchData[2].toNumber(),
+          AmountSoldTOCustomer :batchData[2].toNumber(),
           BatchDescription :batchData[3],
           ProductTemplateID: batchData[4].toNumber(),
           FactoryID:batchData[5],
           DistributorID:batchData[6],
-          RetailerID:batchData[7],
-          FactoryLocation:batchData[8],
-          DateOfProduction:batchData[9],
-          State:batchData[10].toNumber(),
-          FactoryScanned:batchData[11], 
-          DistributorScanned:batchData[12],   
-          RetailerScanned:batchData[13] 
-        })
+          FactoryLocation:batchData[7],
+          DateOfProduction:batchData[8],
+          State:batchData[9].toNumber(),
+          FactoryScanned:batchData[10], 
+          DistributorScanned:batchData[11],   
+          AmountSoldTORetailer:batchData[12].toNumber()
+        }) 
       } 
     }  
     if(result){
@@ -249,18 +248,17 @@ app.get('/api/viewReceivedBatchesForDistributor', async (req, res) => {
           {
             BatchID :batchData[0].toNumber(),
             BatchSize :batchData[1].toNumber(),
-            AmountSold :batchData[2].toNumber(),
+            AmountSoldTOCustomer :batchData[2].toNumber(),
             BatchDescription :batchData[3],
             ProductTemplateID: batchData[4].toNumber(),
             FactoryID:batchData[5],
             DistributorID:batchData[6],
-            RetailerID:batchData[7],
-            FactoryLocation:batchData[8],
-            DateOfProduction:batchData[9],
-            State:batchData[10].toNumber(),
-            FactoryScanned:batchData[11], 
-            DistributorScanned:batchData[12],   
-            RetailerScanned:batchData[13] 
+            FactoryLocation:batchData[7],
+            DateOfProduction:batchData[8],
+            State:batchData[9].toNumber(),
+            FactoryScanned:batchData[10], 
+            DistributorScanned:batchData[11],  
+            AmountSoldTORetailer:batchData[12].toNumber() 
           })
       } 
     }
@@ -293,12 +291,13 @@ app.post('/api/distributorScansBatch',async(req,res)=>{
 app.post('/api/distributorSellToRetailer',async(req,res)=>{
   try {
     const batchID =req.body.batchID;
-    const retailerID =req.body.retailerID;
-    const tx =await contract.distributorSellToRetailer(batchID,retailerID);
+    const productIDs =req.body.productIDs;
+    const retailerIDs =req.body.retailerIDs;
+    const tx =await contract.distributorSellToRetailer(batchID,productIDs,retailerIDs);
     tx.wait();
     console.log("Transaction completed!");
 
-    res.status(200).json({status:"success", message:"Batch sold to retailer"});
+    res.status(200).json({status:"success", message:"Products sold to the respective retailers"});
   } catch (error) {
     console.log(error.message);
     res.status(400).send({ error: error.message });
@@ -309,7 +308,7 @@ app.get('/api/viewBatchesSendToRetailers', async (req, res) => {
   try {
     let result=[];
     const distributorID= req.query.distributorID;
-    const IDs =await contract.getAllBatchIDs();
+    const IDs =await contract.getAllBatchIDs(); 
 
     for(let i=0; i<IDs.length; i++){
       const batchData =await contract.BatchMapping(IDs[i]);
@@ -322,18 +321,17 @@ app.get('/api/viewBatchesSendToRetailers', async (req, res) => {
           {
             BatchID :batchData[0].toNumber(),
             BatchSize :batchData[1].toNumber(),
-            AmountSold :batchData[2].toNumber(),
+            AmountSoldTOCustomer :batchData[2].toNumber(),
             BatchDescription :batchData[3],
             ProductTemplateID: batchData[4].toNumber(),
             FactoryID:batchData[5],
             DistributorID:batchData[6],
-            RetailerID:batchData[7],
-            FactoryLocation:batchData[8],
-            DateOfProduction:batchData[9],
-            State:batchData[10].toNumber(),
-            FactoryScanned:batchData[11], 
-            DistributorScanned:batchData[12],   
-            RetailerScanned:batchData[13] 
+            FactoryLocation:batchData[7],
+            DateOfProduction:batchData[8],
+            State:batchData[9].toNumber(),
+            FactoryScanned:batchData[10], 
+            DistributorScanned:batchData[11],  
+            AmountSoldTORetailer:batchData[12].toNumber() 
           })
       } 
     }
@@ -373,18 +371,17 @@ app.get('/api/viewReceivedBatchesForRetailer', async (req, res) => {
           {
             BatchID :batchData[0].toNumber(),
             BatchSize :batchData[1].toNumber(),
-            AmountSold :batchData[2].toNumber(),
+            AmountSoldTOCustomer :batchData[2].toNumber(),
             BatchDescription :batchData[3],
             ProductTemplateID: batchData[4].toNumber(),
             FactoryID:batchData[5],
             DistributorID:batchData[6],
-            RetailerID:batchData[7],
-            FactoryLocation:batchData[8],
-            DateOfProduction:batchData[9],
-            State:batchData[10].toNumber(),
-            FactoryScanned:batchData[11], 
-            DistributorScanned:batchData[12],   
-            RetailerScanned:batchData[13] 
+            FactoryLocation:batchData[7],
+            DateOfProduction:batchData[8],
+            State:batchData[9].toNumber(),
+            FactoryScanned:batchData[10], 
+            DistributorScanned:batchData[11],
+            AmountSoldTORetailer:batchData[12].toNumber()
           }
           // "productInfo":productInfo
         )
@@ -428,18 +425,18 @@ app.get('/api/viewBatchDetails', async (req, res) => {
       {
         BatchID :batchData[0].toNumber(),
         BatchSize :batchData[1].toNumber(),
-        AmountSold :batchData[2].toNumber(),
+        AmountSoldTOCustomer :batchData[2].toNumber(),
         BatchDescription :batchData[3],
         ProductTemplateID: batchData[4].toNumber(),
         FactoryID:batchData[5],
         DistributorID:batchData[6],
-        RetailerID:batchData[7],
-        FactoryLocation:batchData[8],
-        DateOfProduction:batchData[9],
-        State:batchData[10].toNumber(),
-        FactoryScanned:batchData[11], 
-        DistributorScanned:batchData[12],   
-        RetailerScanned:batchData[13] 
+        FactoryLocation:batchData[7],
+        DateOfProduction:batchData[8],
+        State:batchData[9].toNumber(),
+        FactoryScanned:batchData[10], 
+        DistributorScanned:batchData[11], 
+        AmountSoldTORetailer:batchData[12].toNumber() 
+        
       }
     )
     const IDs =await contract.getProductIdsForaBatch(batchID);
@@ -500,18 +497,17 @@ app.get('/api/viewProductBoughts', async (req, res) => {
         "batchData":{
           BatchID :batchData[0].toNumber(),
           BatchSize :batchData[1].toNumber(),
-          AmountSold :batchData[2].toNumber(),
+          AmountSoldTOCustomer :batchData[2].toNumber(),
           BatchDescription :batchData[3],
           ProductTemplateID: batchData[4].toNumber(),
           FactoryID:batchData[5],
           DistributorID:batchData[6],
-          RetailerID:batchData[7],
-          FactoryLocation:batchData[8],
-          DateOfProduction:batchData[9],
-          State:batchData[10].toNumber(),
-          FactoryScanned:batchData[11], 
-          DistributorScanned:batchData[12],   
-          RetailerScanned:batchData[13] 
+          FactoryLocation:batchData[7],
+          DateOfProduction:batchData[8],
+          State:batchData[9].toNumber(),
+          FactoryScanned:batchData[10], 
+          DistributorScanned:batchData[11], 
+          AmountSoldTORetailer:batchData[12].toNumber() 
         }});  
     }
 
@@ -600,6 +596,8 @@ var server = app.listen(8082, function () {
 
 
 
-// Product ID -5 Fails at Level 1
-// Product ID -12 Fails at Level 2
-// Product ID -1 Fails at Level 3
+// Product ID -1 All Authentication level passed
+// Product ID -7 Fails at Level 4
+// Product ID -10 Fails at Level 3
+// Product ID -13 Fails at Level 2
+// Product ID -16 Fails at Level 1
