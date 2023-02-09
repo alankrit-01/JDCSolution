@@ -19,15 +19,15 @@ contract Supplychain{
     }               
 
     struct Product{
-        uint ProductID;
-        uint BatchID;
-        uint ProductTemplateID;
-        string DOM;
-        string OwnerID;
-        string RetailerID;    
-        bool RetailerScanned;   
-        uint DateWhenSold; 
-    }            
+        uint ProductID; 
+        uint BatchID; 
+        uint ProductTemplateID; 
+        string DOM; 
+        string OwnerID; 
+        string RetailerID;     
+        bool RetailerScanned;    
+        uint DateWhenSold;
+    }           
                  
     struct Batch{        
         uint BatchID;    
@@ -56,12 +56,15 @@ contract Supplychain{
     mapping(uint=>Batch) public BatchMapping; 
     mapping(uint=>uint[]) public BatchIDToProductIDMapping; 
     mapping(string =>Customer[]) public CustomerData;
+    
+    mapping(string=>string[]) public DistributorIDToRetailerID; 
+    mapping(string=>uint) public RetailerIDToProductID;   
 
     uint[] public ProductTemplateIDs;
     uint[] public BatchTemplateIDs; 
     uint[] public ProductIDs;     
     uint[] public BatchIDs;  
-    
+
     function addBatchTemplate( 
         uint _batchTemplateID, 
         uint _productTemplateID,
@@ -159,9 +162,10 @@ contract Supplychain{
         BatchMapping[batchID].DistributorScanned=true;
     } 
 
-    // distributor ne kis kis retailer ko sell kiya hai ? 
-    // retailer k pass kon kon se batchs aur products hai? 
-
+        // distributor ne kis kis retailer ko sell kiya hai ? 
+        // retailer k pass kon kon se batchs aur products hai? 
+        // distributor ->retailer[] 
+        // retialer -> productIDs[]  
 
     function distributorSellToRetailer(uint batchID, uint[] memory productIDs, string[] memory retailerIDs) public{
         require(productIDs.length<=BatchMapping[batchID].BatchSize,"Length of productIDs should be less then batch size");
