@@ -1,6 +1,6 @@
 //export const API_URL = "http://127.0.0.1:5150";
 export const API_URL = "http://162.215.222.118:5155";
-export const BLOCKCHAIN_API_URL = "http://waveskysuccess.com:8085/api";
+export const BLOCKCHAIN_API_URL = "http://162.215.222.118:8085/api";
 
 export const GETDETAILS = 'GETDETAILS';
 export const SuperAdminUserLogin = 'SuperAdminUserLogin';
@@ -85,3 +85,18 @@ export const Check_Product_Template_Success_data_1 = 'Check_Product_Template_Suc
 
 export const Get_Product_Template = 'Get_Product_Template';
 export const Set_Product_Template_List = 'Set_Product_Template_List';
+
+
+export const Store_Batch_Template = 'Store_Batch_Template';
+export const Store_Batch_Template_Request = 'Store_Batch_Template_Request';
+export const Set_Store_Batch_Template_Data = 'Set_Store_Batch_Template_Data';
+export const Set_Store_Batch_Template_Data_Fail = 'Set_Store_Batch_Template_Data_Fail';
+export const Check_Batch_Template_Success_data = 'Check_Batch_Template_Success_data';
+export const Check_Batch_Template_Success_data_1 = 'Check_Batch_Template_Success_data_1';
+
+export const Get_Batch_Template = 'Get_Batch_Template';
+export const Set_Batch_Template_List = 'Set_Batch_Template_List';
+
+
+export const Get_Batch_Detail = 'Get_Batch_Detail';
+export const Set_Batch_Detail_List = 'Set_Batch_Detail_List';

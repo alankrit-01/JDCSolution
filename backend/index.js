@@ -229,6 +229,41 @@ app.get('/api/viewListOfBatchesProducedByFactory', async (req, res) => {
 });
 
 
+app.get('/api/viewBatchRecordByBatchId', async (req, res) => {
+  try {
+    let result=[];          
+    const batchID= req.query.batchID;
+    // console.log(array)
+      const batchData =await contract.BatchMapping(batchID);
+        result.push({
+          BatchID :batchData[0].toNumber(),
+          BatchSize :batchData[1].toNumber(),
+          AmountSoldTOCustomer :batchData[2].toNumber(),
+          BatchDescription :batchData[3],
+          ProductTemplateID: batchData[4].toNumber(),
+          FactoryID:batchData[5],
+          DistributorID:batchData[6],
+          FactoryLocation:batchData[7],
+          DateOfProduction:batchData[8],
+          State:batchData[9].toNumber(),
+          FactoryScanned:batchData[10], 
+          DistributorScanned:batchData[11],   
+          AmountSoldTORetailer:batchData[12].toNumber()
+        }) 
+      
+    if(result){
+      res.status(200).json({status:"success", message:result});
+    }else {
+      res.status(200).json({status:"success", message:"Returned data is empty"});
+    }
+  } catch (error) {
+    console.log(error.message);
+    res.status(400).send({ error: error.message });
+  } 
+});
+
+
+
 app.post('/api/factoryScansBatch',async(req,res)=>{
   try {
     const batchID =req.body.batchID;

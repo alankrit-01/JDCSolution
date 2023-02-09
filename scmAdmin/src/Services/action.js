@@ -1,4 +1,4 @@
-import { GETDETAILS,SuperAdminUserLogin,Get_SuperAdmin_Local_Store_Data,Store_Company,Check_Company_Success_data,Get_Company, SuperAdminUserLogout, AdminUserLogin, AdminUserLogout, Get_Local_Store_Data, Get_Retailers,Get_Retailer_By_Company, Get_Factory,Get_Factory_By_Company, Get_Distributer,Get_Distributer_By_Company, FactoryUserLogin, FactoryUserLogout, Get_Factory_Local_Store_Data, Store_Factory,Check_Factory_Success_data, Store_Distributer, Check_Distributer_Success_data, Store_Retailer,Check_Retailer_Success_data, Store_Multi_User, Store_Product_Template,Check_Product_Template_Success_data, Get_Product_Template } from "./constant"
+import { GETDETAILS,SuperAdminUserLogin,Get_SuperAdmin_Local_Store_Data,Store_Company,Check_Company_Success_data,Get_Company, SuperAdminUserLogout, AdminUserLogin, AdminUserLogout, Get_Local_Store_Data, Get_Retailers,Get_Retailer_By_Company, Get_Factory,Get_Factory_By_Company, Get_Distributer,Get_Distributer_By_Company, FactoryUserLogin, FactoryUserLogout, Get_Factory_Local_Store_Data, Store_Factory,Check_Factory_Success_data, Store_Distributer, Check_Distributer_Success_data, Store_Retailer,Check_Retailer_Success_data, Store_Multi_User, Store_Product_Template,Check_Product_Template_Success_data, Get_Product_Template, Store_Batch_Template,Check_Batch_Template_Success_data, Get_Batch_Template,Get_Batch_Detail } from "./constant"
 export const GetDetails = (data) => {
     return {
         type: GETDETAILS,
@@ -188,6 +188,33 @@ export const checkProductTemplateSuccessdata = (data) =>{
 export const getProductTemplate = (data) =>{
     return{
         type:Get_Product_Template,
+        data:data 
+    } 
+}
+
+
+export const storeBatchTemplate = (data) =>{
+    return{
+        type:Store_Batch_Template,
+        data:data 
+    } 
+}
+export const checkBatchTemplateSuccessdata = (data) =>{
+    return{
+        type:Check_Batch_Template_Success_data,
+        data:data 
+    } 
+}
+export const getBatchTemplate = (data) =>{
+    return{
+        type:Get_Batch_Template,
+        data:data 
+    } 
+}
+
+export const getBatchDetail = (data) =>{
+    return{
+        type:Get_Batch_Detail,
         data:data 
     } 
 }
