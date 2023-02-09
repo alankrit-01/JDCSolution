@@ -32,13 +32,13 @@ const BatchProductQr = () => {
         dispatch(getBatchDetail(data))
     }, [])
 
-    // const initialBatchDetaildata = useSelector((state) => state.BatchDetailRecord.batchDetailRec.message);
-    //      setProductIdsRec(initialBatchDetaildata[0].setBatchSize);
-    //      setBatchSize(initialBatchDetaildata[0].setBatchSize);
-    //      setProductName(initialBatchDetaildata[0].setBatchSize);
-    //      setBatchDescription(initialBatchDetaildata[0].BatchDescription);
+     const initialBatchDetaildata = useSelector((state) => state.BatchDetailRecord.batchDetailRec.message);
+         setProductIdsRec(initialBatchDetaildata && initialBatchDetaildata[0].setBatchSize);
+         setBatchSize(initialBatchDetaildata && initialBatchDetaildata[0].setBatchSize);
+         setProductName(initialBatchDetaildata && initialBatchDetaildata[0].setBatchSize);
+         setBatchDescription(initialBatchDetaildata && initialBatchDetaildata[0].BatchDescription);
 
-    // console.log("initialBatchDetaildata Qr", initialBatchDetaildata[0])
+     console.log("initialBatchDetaildata Qr", initialBatchDetaildata && initialBatchDetaildata[0])
 
 
     
@@ -74,8 +74,6 @@ const BatchProductQr = () => {
     `);
         setUrl1(url)
     }, [productName, productDescription, batchSize])
-
-
 
     const qrRef = useRef();
    

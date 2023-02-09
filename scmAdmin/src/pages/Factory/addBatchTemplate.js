@@ -32,8 +32,6 @@ const AddBatchTemplate = () => {
     const [materialtype, setMaterialtype] = useState('');
     const [productIdsData, setproductIdsData] = useState('');
 
-
-
     function randomBatchId() {
         let currentTimestamp = Date.now()
         return currentTimestamp;
@@ -177,13 +175,13 @@ const AddBatchTemplate = () => {
                                                     <span><b>Product Template ID</b></span>
                                                     <select id="productId" name="productId" color="purple" class="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer" onChange={(e) => setProductId(e.target.value)}>
                                                         <option selected>Choose a Product Template Id</option>
-                                                        {/* {
-                                                            allProductTemplatedata.map((allProductTemplateRec) =>
+                                                        {
+                                                            allProductTemplatedata && allProductTemplatedata.map((allProductTemplateRec) =>
                                                                 <option value={allProductTemplateRec.ProductTemplateID}>
                                                                     {allProductTemplateRec.ProductTemplateID} - {allProductTemplateRec.Name}
                                                                 </option>
                                                             )
-                                                        } */}
+                                                        }
                                                     </select>
                                                 </div>
                                                 <div className="w-screen flex flex-wrap mt-10 font-light">
