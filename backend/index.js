@@ -233,24 +233,41 @@ app.get('/api/viewBatchRecordByBatchId', async (req, res) => {
   try {
     let result=[];          
     const batchID= req.query.batchID;
-    // console.log(array)
-      const batchData =await contract.BatchMapping(batchID);
-        result.push({
-          BatchID :batchData[0].toNumber(),
-          BatchSize :batchData[1].toNumber(),
-          AmountSoldTOCustomer :batchData[2].toNumber(),
-          BatchDescription :batchData[3],
-          ProductTemplateID: batchData[4].toNumber(),
-          FactoryID:batchData[5],
-          DistributorID:batchData[6],
-          FactoryLocation:batchData[7],
-          DateOfProduction:batchData[8],
-          State:batchData[9].toNumber(),
-          FactoryScanned:batchData[10], 
-          DistributorScanned:batchData[11],   
-          AmountSoldTORetailer:batchData[12].toNumber()
-        }) 
-      
+    // console.log(array) 
+    const batchData =await contract.BatchMapping(batchID);
+    let productInfo=[]; 
+    const productIDs =await contract.getProductIdsForaBatch(batchID);
+    for(let j=0; j<productIDs.length; j++){
+      let productData =await contract.ProductMapping(productIDs[j])
+      productInfo.push({
+        ProductID: productData[0].toNumber(),
+        BatchID:productData[1].toNumber(), 
+        ProductTemplateID:productData[2].toNumber(),
+        DOM:productData[3],
+        OwnerID:productData[4], 
+        RetailerID:productData[5],     
+        RetailerScanned:productData[6],    
+        DateWhenSold:productData[7].toNumber()
+      });
+    }
+      // console.log(productIDs);
+    result.push({
+      BatchID :batchData[0].toNumber(),
+      BatchSize :batchData[1].toNumber(),
+      AmountSoldTOCustomer :batchData[2].toNumber(),
+      BatchDescription :batchData[3],
+      ProductTemplateID: batchData[4].toNumber(),
+      FactoryID:batchData[5],
+      DistributorID:batchData[6],
+      FactoryLocation:batchData[7],
+      DateOfProduction:batchData[8],
+      State:batchData[9].toNumber(),
+      FactoryScanned:batchData[10], 
+      DistributorScanned:batchData[11],   
+      AmountSoldTORetailer:batchData[12].toNumber()
+    },{productInfo}) 
+
+
     if(result){
       res.status(200).json({status:"success", message:result});
     }else {
