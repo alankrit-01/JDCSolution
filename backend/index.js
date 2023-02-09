@@ -181,8 +181,25 @@ app.get('/api/viewListOfBatchesProducedByFactory', async (req, res) => {
     // console.log(array)
     for(let i=0;i<array.length; i++){
       const batchData =await contract.BatchMapping(array[i]);
+      
+      
       if(batchData.FactoryID==factoryID){
-        // console.log(batchData);   
+        let productInfo=[]; 
+        const productIDs =await contract.getProductIdsForaBatch(array[i]);
+        for(let j=0; j<productIDs.length; j++){
+          let productData =await contract.ProductMapping(productIDs[j])
+          productInfo.push({
+            ProductID: productData[0].toNumber(),
+            BatchID:productData[1].toNumber(), 
+            ProductTemplateID:productData[2].toNumber(),
+            DOM:productData[3],
+            OwnerID:productData[4], 
+            RetailerID:productData[5],     
+            RetailerScanned:productData[6],    
+            DateWhenSold:productData[7].toNumber()
+          });
+        }
+        // console.log(productIDs);
         result.push({
           BatchID :batchData[0].toNumber(),
           BatchSize :batchData[1].toNumber(),
@@ -197,7 +214,7 @@ app.get('/api/viewListOfBatchesProducedByFactory', async (req, res) => {
           FactoryScanned:batchData[10], 
           DistributorScanned:batchData[11],   
           AmountSoldTORetailer:batchData[12].toNumber()
-        }) 
+        },{productInfo}) 
       } 
     }  
     if(result){
