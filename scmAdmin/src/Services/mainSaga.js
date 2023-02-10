@@ -107,6 +107,7 @@ function* getRetailers(data) {
         let uri = API_URL.concat('/retailer')
         const retailerListRes = yield call(Axios.get, uri)
         const result = retailerListRes.data;
+        console.log("result saga",result)
         yield put({ type: Set_Retailer_List, result })
     } catch (error) {
         yield put({ type: Set_Retailer_List, error })
@@ -354,13 +355,11 @@ function* getBatchTemplate(data) {
 
 function* getBatchDetail(data) {
     const requestData = data.data
-    console.log("requestData dettttt sdsdsd",requestData)
-
     try {
         let uri = BLOCKCHAIN_API_URL.concat('/viewBatchRecordByBatchId?batchID=')
         uri = uri.concat(requestData.batchID)
+        // uri = "http://192.168.1.101:8082/api/viewBatchRecordByBatchId?batchID=12"
         const batchDetailRes = yield call(Axios.get, uri)
-        console.log("requestData dettttt",requestData)
 
         const result = batchDetailRes.data;
         yield put({ type: Set_Batch_Detail_List, result })

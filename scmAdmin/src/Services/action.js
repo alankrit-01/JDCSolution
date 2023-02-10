@@ -89,7 +89,7 @@ export const getFactory = (data) =>{
         data:data 
     } 
 }
-export const getDistributerByCompany = (data) =>{
+export const getDistributerByCompany = (data) =>{ 
     return{
         type:Get_Distributer_By_Company,
         data:data 

@@ -95,8 +95,8 @@ const BatchTemplate = () => {
         }
     }, [initialBatchTemplateStoredata])
     useEffect(() => {
-        setBatchTemplates(initialBatchTemplatedata.batchTemplateRec.message)
-        setFilterBatchTemplates(initialBatchTemplatedata.batchTemplateRec.message)
+        setBatchTemplates(initialBatchTemplatedata.batchTemplateRec.message && initialBatchTemplatedata.batchTemplateRec.message)
+        setFilterBatchTemplates(initialBatchTemplatedata.batchTemplateRec.message && initialBatchTemplatedata.batchTemplateRec.message)
     }, [initialBatchTemplatedata])
     useEffect(() => {
             const result = BatchTemplates.filter((allBatchTemplate) => {

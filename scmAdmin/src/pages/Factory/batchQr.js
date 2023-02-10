@@ -66,26 +66,13 @@ const BatchQr = () => {
     //     //console.log("Ether updates", supplychainContract)
     //     setsupplychainContract(supplychainContract);
     // }
-    // const getBatchRecord = async () => {
-    //     let batchAllRec = await (supplychainContract && supplychainContract.BatchMapping(batchtId));
-    //     let productIdsRec = await (supplychainContract && supplychainContract.getProductIdsForaBatch(batchtId));
-    //     let ProductTemplateID = batchAllRec && batchAllRec.ProductTemplateID.toNumber();
-    //     let getbatchSize = batchAllRec && batchAllRec.BatchSize.toNumber();
-    //     let productDataRec = await (supplychainContract && supplychainContract.ProductTemplateMAP(ProductTemplateID));
-    //     setBatchSize(getbatchSize);
-    //     setProductName(productDataRec.name);
-    //     setProductDescription(productDataRec.description);
-    // }
-    // useMemo(() => {
-    //     getBatchRecord();
-    // }, [supplychainContract])
+    
     ////End need improve////
     const [url1, setUrl1] = useState();
     useMemo(() => {
         const url = (
             `BatchID:${batchtId} 
-        ProductName:${productName && productName}
-        ProductQuantity:${batchSize && batchSize}   
+          
     `);
         setUrl1(url)
     }, [productName, productDescription, batchSize])

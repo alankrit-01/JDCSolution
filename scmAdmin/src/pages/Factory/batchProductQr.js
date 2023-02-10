@@ -6,24 +6,21 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { QRCodeSVG } from "qrcode.react";
 import { Button } from "@material-tailwind/react";
-
 import { getBatchDetail } from 'Services/action';
 
-
 const BatchProductQr = () => {
-
     const dispatch = useDispatch();
-    
-
     const [batchSize, setBatchSize] = useState('');
     const [productIdsRec, setProductIdsRec] = useState('');
     const [productName, setProductName] = useState('');
     const [productDescription, setProductDescription] = useState('');
+    const [productTemplateID, setProductTemplateID] = useState('');
     const [batchDescription, setBatchDescription] = useState('');
+    const [initialProductInfo, setInitialProductInfo] = useState('');
 
+    
     let batchData = useLocation();
     let batchID = batchData.state.BatchID;
-
 
     useEffect(() => {
         const data = {
@@ -31,70 +28,83 @@ const BatchProductQr = () => {
         }
         dispatch(getBatchDetail(data))
     }, [])
-
      const initialBatchDetaildata = useSelector((state) => state.BatchDetailRecord.batchDetailRec.message);
-         setProductIdsRec(initialBatchDetaildata && initialBatchDetaildata[0].setBatchSize);
-         setBatchSize(initialBatchDetaildata && initialBatchDetaildata[0].setBatchSize);
-         setProductName(initialBatchDetaildata && initialBatchDetaildata[0].setBatchSize);
-         setBatchDescription(initialBatchDetaildata && initialBatchDetaildata[0].BatchDescription);
+console.log("initialBatchDetaildata",initialBatchDetaildata) 
+        useMemo(()=>{
+            setProductTemplateID(initialBatchDetaildata && initialBatchDetaildata[0].ProductTemplateID);
+            setBatchSize(initialBatchDetaildata && initialBatchDetaildata[0].BatchSize);
+            setBatchDescription(initialBatchDetaildata && initialBatchDetaildata[0].BatchDescription);
+            setInitialProductInfo(initialBatchDetaildata && initialBatchDetaildata[1].productInfo);
 
-     console.log("initialBatchDetaildata Qr", initialBatchDetaildata && initialBatchDetaildata[0])
+        },[initialBatchDetaildata])
+
+         
 
 
-    
-   
-
-    // useEffect(() => {
-    //     getBatchRecord();
-    // }, [])
-
-    // const getBatchRecord = async () => {
-    //     let batchAllRec = await (supplychainContract && supplychainContract.BatchMapping(batchtId));
-    //     let productIdsRec = await (supplychainContract && supplychainContract.getProductIdsForaBatch(batchtId));
-    //     let ProductTemplateID = batchAllRec && batchAllRec.ProductTemplateID.toNumber();
-    //     let getbatchSize = batchAllRec && batchAllRec.BatchSize.toNumber();
-    //     let productDataRec = await (supplychainContract && supplychainContract.ProductTemplateMAP(ProductTemplateID));
-    //     setProductIdsRec(productIdsRec);
-    //     setBatchSize(getbatchSize);
-    //     setProductName(productDataRec.name);
-    //     setProductDescription(productDataRec.description);
-
-    // }
-
-    
     const allProductQrlist = [];
-    const [url1, setUrl1] = useState();
-
-
-    useMemo(() => {
-        const url = (
-            `BatchID:${batchID} 
-        ProductName:${productName && productName}
-        ProductQuantity:${batchSize && batchSize}   
-    `);
-        setUrl1(url)
-    }, [productName, productDescription, batchSize])
-
     const qrRef = useRef();
-   
-    for (let i = 0; i < productIdsRec.length; i++) {
+console.log("initialProductInfo",initialProductInfo)
+
+
+
+{
+    initialProductInfo && initialProductInfo.map(initialProductInfoRes =>{
+
         const urlc = (
-            `productID:${productIdsRec[i].toNumber()} 
+            `batchId:${batchID} 
+            productId:${initialProductInfoRes.ProductID } 
+            productTemplateID:${productTemplateID} 
+            batchSize:${batchSize} 
+            batchDescription:${batchDescription }
         `);
-        allProductQrlist.push(
-            <div className="qrCodeSection">
-                <QRCodeSVG className="qrCode"
-                    value={urlc}
-                    size={280}
-                    bgColor={"#ffffff"}
-                    imageSettings={{ src: "https://richmint.com/img/navbar-logo.png", excavate: true }}
-                    includeMargin
-                    level={"H"}
-                />
-                <span className="rcheckRec">P-{productIdsRec[i].toNumber()}</span>
-            </div>
-        )
-    }
+    allProductQrlist.push(
+        
+        <div className="qrCodeSection">
+            <QRCodeSVG className="qrCode"
+                value={urlc}
+                size={280}
+                bgColor={"#ffffff"}
+                imageSettings={{ src: "https://richmint.com/img/navbar-logo.png", excavate: true }}
+                includeMargin
+                level={"H"}
+            />
+            <span className="rcheckRec">P-{initialProductInfoRes.ProductID}</span>
+
+        </div>
+        
+    )
+}
+    )
+    
+}
+
+
+
+
+
+
+    // for (let i = 0; i <  initialProductInfo.length; i++) {
+    //     const urlc = (
+    //         `batchId:${batchID} 
+    //         productTemplateID:${productTemplateID} 
+    //         batchSize:${batchSize} 
+    //         batchDescription:${batchDescription } 
+    //     `);
+    //     allProductQrlist.push(
+    //         <div className="qrCodeSection">
+    //             <QRCodeSVG className="qrCode"
+    //                 value={urlc}
+    //                 size={280}
+    //                 bgColor={"#ffffff"}
+    //                 imageSettings={{ src: "https://richmint.com/img/navbar-logo.png", excavate: true }}
+    //                 includeMargin
+    //                 level={"H"}
+    //             />
+    //             <span className="rcheckRec">P-{initialProductInfo[i].ProductID}</span>
+
+    //         </div>
+    //     )
+    // }
     const Print = () => {
         let printContents = document.getElementById('qrcode__container').innerHTML;
         var winPrint = window.open();
