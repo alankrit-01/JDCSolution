@@ -184,21 +184,21 @@ app.get('/api/viewListOfBatchesProducedByFactory', async (req, res) => {
       
       
       if(batchData.FactoryID==factoryID){
-        let productInfo=[]; 
-        const productIDs =await contract.getProductIdsForaBatch(array[i]);
-        for(let j=0; j<productIDs.length; j++){
-          let productData =await contract.ProductMapping(productIDs[j])
-          productInfo.push({
-            ProductID: productData[0].toNumber(),
-            BatchID:productData[1].toNumber(), 
-            ProductTemplateID:productData[2].toNumber(),
-            DOM:productData[3],
-            OwnerID:productData[4], 
-            RetailerID:productData[5],     
-            RetailerScanned:productData[6],    
-            DateWhenSold:productData[7].toNumber()
-          });
-        }
+        // let productInfo=[]; 
+        // const productIDs =await contract.getProductIdsForaBatch(array[i]);
+        // for(let j=0; j<productIDs.length; j++){
+        //   let productData =await contract.ProductMapping(productIDs[j])
+        //   productInfo.push({
+        //     ProductID: productData[0].toNumber(),
+        //     BatchID:productData[1].toNumber(), 
+        //     ProductTemplateID:productData[2].toNumber(),
+        //     DOM:productData[3],
+        //     OwnerID:productData[4], 
+        //     RetailerID:productData[5],     
+        //     RetailerScanned:productData[6],    
+        //     DateWhenSold:productData[7].toNumber() 
+        //   });
+        // }
         // console.log(productIDs);
         result.push({
           BatchID :batchData[0].toNumber(),
@@ -214,7 +214,9 @@ app.get('/api/viewListOfBatchesProducedByFactory', async (req, res) => {
           FactoryScanned:batchData[10], 
           DistributorScanned:batchData[11],   
           AmountSoldTORetailer:batchData[12].toNumber()
-        },{productInfo}) 
+        }
+        // ,{productInfo}
+        ) 
       } 
     }  
     if(result){
@@ -280,21 +282,20 @@ app.get('/api/viewBatchRecordByBatchId', async (req, res) => {
 });
 
 
+// app.post('/api/factoryScansBatch',async(req,res)=>{
+//   try {
+//     const batchID =req.body.batchID;
+//     const factoryID =req.body.factoryID; 
+//     const tx =await contract.factoryScansBatch(batchID,factoryID);
+//     tx.wait();
+//     console.log("Transaction completed!");
 
-app.post('/api/factoryScansBatch',async(req,res)=>{
-  try {
-    const batchID =req.body.batchID;
-    const factoryID =req.body.factoryID; 
-    const tx =await contract.factoryScansBatch(batchID,factoryID);
-    tx.wait();
-    console.log("Transaction completed!");
-
-    res.status(200).json({status:"success", message:"Factory scans the batch"});
-  } catch (error) {
-    console.log(error.message);
-    res.status(400).send({ error: error.message });
-  }
-})
+//     res.status(200).json({status:"success", message:"Factory scans the batch"});
+//   } catch (error) {
+//     console.log(error.message);
+//     res.status(400).send({ error: error.message });
+//   }
+// })
 
 
 ////////////////// API FOR DISTIBUTOR ////////////////////
