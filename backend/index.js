@@ -222,10 +222,11 @@ app.get('/api/viewBatchRecordByBatchId', async (req, res) => {
         BatchID:productData[1].toNumber(), 
         ProductTemplateID:productData[2].toNumber(),
         DOM:productData[3],
-        OwnerID:productData[4], 
+        CustomerID:productData[4], 
         RetailerID:productData[5],     
         RetailerScanned:productData[6],    
-        DateWhenSold:productData[7].toNumber()
+        DateWhenSoldToRetailer:productData[7].toNumber(),
+        DateWhenSoldToCustomer:productData[8].toNumber()
       });
     }
       // console.log(productIDs);
@@ -443,7 +444,8 @@ app.get('/api/viewBatchDetails', async (req, res) => {
         OwnerID:productData[4], 
         RetailerID:productData[5],     
         RetailerScanned:productData[6],    
-        DateWhenSold:productData[7].toNumber()
+        DateWhenSoldToRetailer:productData[7].toNumber(),
+        DateWhenSoldToCustomer:productData[8].toNumber()
       });
     }
 
@@ -476,6 +478,7 @@ app.post('/api/sellToCustomer',async(req,res)=>{
 
 ////////////////// API FOR CUSTOMERS ////////////////////
 
+
 app.get('/api/viewProductBoughts', async (req, res) => {
   try {
     let result=[];
@@ -489,12 +492,15 @@ app.get('/api/viewProductBoughts', async (req, res) => {
       // console.log(batchData); 
       result.push({
         "productData":{
-          ProductID:productData[0].toNumber(),
-          BatchID:productData[1].toNumber(),
+          ProductID: productData[0].toNumber(),
+          BatchID:productData[1].toNumber(), 
           ProductTemplateID:productData[2].toNumber(),
           DOM:productData[3],
-          CustomerID:productData[4],
-          DateWhenSold:productData[5].toNumber()
+          OwnerID:productData[4], 
+          RetailerID:productData[5],     
+          RetailerScanned:productData[6],    
+          DateWhenSoldToRetailer:productData[7].toNumber(),
+          DateWhenSoldToCustomer:productData[8].toNumber()
         },
         "batchData":{
           BatchID :batchData[0].toNumber(),
@@ -507,9 +513,8 @@ app.get('/api/viewProductBoughts', async (req, res) => {
           FactoryLocation:batchData[7],
           DateOfProduction:batchData[8],
           State:batchData[9].toNumber(),
-          // FactoryScanned:batchData[10], 
           DistributorScanned:batchData[10], 
-          AmountSoldTORetailer:batchData[11].toNumber() 
+          AmountLeftForSellingTORetailer:batchData[11].toNumber()  
         }});  
     }
 
