@@ -40,7 +40,7 @@ contract Supplychain{
         string FactoryLocation; 
         string DateOfProduction;
         uint State;            
-        bool FactoryScanned;   
+        // bool FactoryScanned;   
         bool DistributorScanned;   
         uint AmountSoldTORetailer;  
     }                               
@@ -128,7 +128,7 @@ contract Supplychain{
             FactoryLocation:factoryLocation,
             DateOfProduction:dateOfProduction,
             State:0,
-            FactoryScanned:false,  
+            // FactoryScanned:false,  
             DistributorScanned:false
             // RetailerScanned:false
         }); 
@@ -150,11 +150,11 @@ contract Supplychain{
         }   
     }    
 
-    function factoryScansBatch(uint batchID, string memory _factoryID) public{
-        require(BatchMapping[batchID].FactoryScanned==false,"This batch is already scanned by the factory");
-        require(keccak256(abi.encodePacked(BatchMapping[batchID].FactoryID))== keccak256(abi.encodePacked(_factoryID)),"This batch is not owned by this factory");
-        BatchMapping[batchID].FactoryScanned=true;
-    } 
+    // function factoryScansBatch(uint batchID, string memory _factoryID) public{
+    //     require(BatchMapping[batchID].FactoryScanned==false,"This batch is already scanned by the factory");
+    //     require(keccak256(abi.encodePacked(BatchMapping[batchID].FactoryID))== keccak256(abi.encodePacked(_factoryID)),"This batch is not owned by this factory");
+    //     BatchMapping[batchID].FactoryScanned=true;
+    // } 
 
     function distributorScansBatch(uint batchID, string memory _distributorID) public{
         require(BatchMapping[batchID].DistributorScanned==false,"This batch is already scanned by the distributor");
@@ -162,10 +162,10 @@ contract Supplychain{
         BatchMapping[batchID].DistributorScanned=true;
     } 
 
-        // distributor ne kis kis retailer ko sell kiya hai ? 
-        // retailer k pass kon kon se batchs aur products hai? 
-        // distributor ->retailer[] 
-        // retialer -> productIDs[]  
+    // distributor ne kis kis retailer ko sell kiya hai ? 
+    // retailer k pass kon kon se batchs aur products hai? 
+    // distributor ->retailer[] 
+    // retialer -> productIDs[]  
 
     function distributorSellToRetailer(uint batchID, uint[] memory productIDs, string[] memory retailerIDs) public{
         require(productIDs.length<=BatchMapping[batchID].BatchSize,"Length of productIDs should be less then batch size");
@@ -179,7 +179,7 @@ contract Supplychain{
         }
     }     
 
-    function retailerScansBatch(uint _productID, string memory _retailerID) public{
+    function retailerScansProduct(uint _productID, string memory _retailerID) public{
         require(ProductMapping[_productID].RetailerScanned==false,"This batch is already scanned by the retailer");
         require(keccak256(abi.encodePacked(ProductMapping[_productID].RetailerID))== keccak256(abi.encodePacked(_retailerID)),"This batch is not owned by this retailer");
         ProductMapping[_productID].RetailerScanned=true;

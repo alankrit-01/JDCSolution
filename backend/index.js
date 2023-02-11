@@ -13,7 +13,7 @@ app.use(cors(corsOptions));
 
 const contractAbi = require('./artifacts/contracts/Supplychain.sol/Supplychain.json')
 
-let contractAddress ="0x4Af020635f8D6e179dbC28D3C83BdeAcd4F81dB5"; 
+let contractAddress ="0x1A9Ef4C724963825ce6347F0956077d37d0267a6"; 
 let contract;
 app.use(express.json()); 
 
@@ -66,7 +66,7 @@ app.post('/api/factoryAddProductTemplate',async(req,res)=>{
     console.log(error.message);
     res.status(400).send({ error: error.message });
   } 
-})   
+})    
 
 
 app.get('/api/viewListOfProductTemplates', async (req, res) => {
@@ -211,9 +211,9 @@ app.get('/api/viewListOfBatchesProducedByFactory', async (req, res) => {
           FactoryLocation:batchData[7],
           DateOfProduction:batchData[8],
           State:batchData[9].toNumber(),
-          FactoryScanned:batchData[10], 
-          DistributorScanned:batchData[11],   
-          AmountSoldTORetailer:batchData[12].toNumber()
+          // FactoryScanned:batchData[10], 
+          DistributorScanned:batchData[10], 
+          AmountSoldTORetailer:batchData[11].toNumber() 
         }
         // ,{productInfo}
         ) 
@@ -264,9 +264,9 @@ app.get('/api/viewBatchRecordByBatchId', async (req, res) => {
       FactoryLocation:batchData[7],
       DateOfProduction:batchData[8],
       State:batchData[9].toNumber(),
-      FactoryScanned:batchData[10], 
-      DistributorScanned:batchData[11],   
-      AmountSoldTORetailer:batchData[12].toNumber()
+      // FactoryScanned:batchData[10], 
+      DistributorScanned:batchData[10], 
+      AmountSoldTORetailer:batchData[11].toNumber() 
     },{productInfo}) 
 
 
@@ -326,9 +326,9 @@ app.get('/api/viewReceivedBatchesForDistributor', async (req, res) => {
             FactoryLocation:batchData[7],
             DateOfProduction:batchData[8],
             State:batchData[9].toNumber(),
-            FactoryScanned:batchData[10], 
-            DistributorScanned:batchData[11],  
-            AmountSoldTORetailer:batchData[12].toNumber() 
+            // FactoryScanned:batchData[10], 
+            DistributorScanned:batchData[10], 
+            AmountSoldTORetailer:batchData[11].toNumber()  
           })
       } 
     }
@@ -399,9 +399,9 @@ app.get('/api/viewBatchesSendToRetailers', async (req, res) => {
             FactoryLocation:batchData[7],
             DateOfProduction:batchData[8],
             State:batchData[9].toNumber(),
-            FactoryScanned:batchData[10], 
-            DistributorScanned:batchData[11],  
-            AmountSoldTORetailer:batchData[12].toNumber() 
+            // FactoryScanned:batchData[10], 
+            DistributorScanned:batchData[10], 
+            AmountSoldTORetailer:batchData[11].toNumber() 
           })
       } 
     }
@@ -449,9 +449,9 @@ app.get('/api/viewReceivedBatchesForRetailer', async (req, res) => {
             FactoryLocation:batchData[7],
             DateOfProduction:batchData[8],
             State:batchData[9].toNumber(),
-            FactoryScanned:batchData[10], 
-            DistributorScanned:batchData[11],
-            AmountSoldTORetailer:batchData[12].toNumber()
+            // FactoryScanned:batchData[10], 
+            DistributorScanned:batchData[10], 
+            AmountSoldTORetailer:batchData[11].toNumber() 
           }
           // "productInfo":productInfo
         )
@@ -469,16 +469,16 @@ app.get('/api/viewReceivedBatchesForRetailer', async (req, res) => {
 });
 
 
-app.post('/api/retailerScansBatch',async(req,res)=>{
+app.post('/api/retailerScansProduct',async(req,res)=>{
   try {
-    const batchID =req.body.batchID; 
+    const productID =req.body.productID; 
     const retailerID =req.body.retailerID; 
 
-    const tx =await contract.retailerScansBatch(batchID,retailerID);
+    const tx =await contract.retailerScansProduct(productID,retailerID);
     tx.wait();
     console.log("Transaction completed!");
 
-    res.status(200).json({status:"success", message:"Retailer scans the batch"});
+    res.status(200).json({status:"success", message:"Retailer scans the product"});
   } catch (error) {
     console.log(error.message);
     res.status(400).send({ error: error.message });
@@ -489,34 +489,44 @@ app.get('/api/viewBatchDetails', async (req, res) => {
   try {
     let result=[];
     const batchID= req.query.batchID;
-    const batchData =await contract.BatchMapping(batchID);
+    // const batchData =await contract.BatchMapping(batchID);
     // console.log(batchData);
-    result.push( 
-      {
-        BatchID :batchData[0].toNumber(),
-        BatchSize :batchData[1].toNumber(),
-        AmountSoldTOCustomer :batchData[2].toNumber(),
-        BatchDescription :batchData[3],
-        ProductTemplateID: batchData[4].toNumber(),
-        FactoryID:batchData[5],
-        DistributorID:batchData[6],
-        FactoryLocation:batchData[7],
-        DateOfProduction:batchData[8],
-        State:batchData[9].toNumber(),
-        FactoryScanned:batchData[10], 
-        DistributorScanned:batchData[11], 
-        AmountSoldTORetailer:batchData[12].toNumber() 
+    // result.push( 
+    //   {
+    //     BatchID :batchData[0].toNumber(),
+    //     BatchSize :batchData[1].toNumber(),
+    //     AmountSoldTOCustomer :batchData[2].toNumber(),
+    //     BatchDescription :batchData[3],
+    //     ProductTemplateID: batchData[4].toNumber(),
+    //     FactoryID:batchData[5],
+    //     DistributorID:batchData[6],
+    //     FactoryLocation:batchData[7],
+    //     DateOfProduction:batchData[8],
+    //     State:batchData[9].toNumber(),
+    //     FactoryScanned:batchData[10], 
+    //     DistributorScanned:batchData[11], 
+    //     AmountSoldTORetailer:batchData[12].toNumber() 
         
-      }
-    )
-    const IDs =await contract.getProductIdsForaBatch(batchID);
-    for(let i=0; i<IDs.length; i++){
-      const productData =await contract.ProductMapping(IDs[i]);
-      // console.log(productData);
+    //   }
+    // )
+    let productInfo=[]; 
+    const productIDs =await contract.getProductIdsForaBatch(batchID);
+    for(let j=0; j<productIDs.length; j++){
+      let productData =await contract.ProductMapping(productIDs[j])
+      productInfo.push({
+        ProductID: productData[0].toNumber(),
+        BatchID:productData[1].toNumber(), 
+        ProductTemplateID:productData[2].toNumber(),
+        DOM:productData[3],
+        OwnerID:productData[4], 
+        RetailerID:productData[5],     
+        RetailerScanned:productData[6],    
+        DateWhenSold:productData[7].toNumber()
+      });
     }
-    // result.push() 
-    if(result){
-      res.status(200).json({status:"success", message:result});
+
+    if(productInfo){
+      res.status(200).json({status:"success", message:productInfo});
     }else {
       res.status(200).json({status:"success", message:"Returned data is empty"});
     }
@@ -575,9 +585,9 @@ app.get('/api/viewProductBoughts', async (req, res) => {
           FactoryLocation:batchData[7],
           DateOfProduction:batchData[8],
           State:batchData[9].toNumber(),
-          FactoryScanned:batchData[10], 
-          DistributorScanned:batchData[11], 
-          AmountSoldTORetailer:batchData[12].toNumber() 
+          // FactoryScanned:batchData[10], 
+          DistributorScanned:batchData[10], 
+          AmountSoldTORetailer:batchData[11].toNumber() 
         }});  
     }
 
@@ -607,18 +617,18 @@ app.get('/api/authenticateProduct',async(req,res)=>{
     }
     // Level 2
     
-    else if(data2.FactoryScanned ==false){
-      res.status(200).json({status:"success", message:"Authentication Level 2 Falied: Factory didn't scanned this product",level:"2"});
+    // else if(data2.FactoryScanned ==false){
+    //   res.status(200).json({status:"success", message:"Authentication Level 2 Falied: Factory didn't scanned this product",level:"2"});
+    // }
+    // Level 2 
+    
+    else if(data2.DistributorScanned ==false){
+      res.status(200).json({status:"success", message:"Authentication Level 2 Falied: Distributor didn't scanned this product",level:"2"});
     }
     // Level 3
     
-    else if(data2.DistributorScanned ==false){
-      res.status(200).json({status:"success", message:"Authentication Level 3 Falied: Distributor didn't scanned this product",level:"3"});
-    }
-    // Level 4
-    
-    else if(data2.RetailerScanned ==false){
-      res.status(200).json({status:"success", message:"Authentication Level 4 Falied: Retailer didn't scanned this product",level:"4"});
+    else if(data.RetailerScanned ==false){
+      res.status(200).json({status:"success", message:"Authentication Level 3 Falied: Retailer didn't scanned this product",level:"3"});
     }
 
     else{
