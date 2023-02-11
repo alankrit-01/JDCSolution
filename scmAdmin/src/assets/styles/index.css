@@ -23,12 +23,13 @@ canvas.qrCode {
     width: 25%;
     position: relative;
     float: left;
+    margin-bottom: 15px;
 }
 span.rcheckRec {
     font-size: 14px;
     left: 30%;
     position: absolute;
-    bottom: 0;
+    bottom: -10px;
 }
 .mainBatch{
     position: relative;

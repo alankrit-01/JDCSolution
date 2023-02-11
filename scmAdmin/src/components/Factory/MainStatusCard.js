@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import StatusCard from "./StatusCard";
-import { getProductTemplate } from 'Services/action';
+import { getProductTemplate, getBatchTemplate } from 'Services/action';
 import {useDispatch, useSelector } from "react-redux";
 const MainStatusCard = () => {
     const dispatch = useDispatch();
@@ -18,18 +18,22 @@ const MainStatusCard = () => {
             factoryID:factoryUserHash
         }
         dispatch(getProductTemplate(data))
+        dispatch(getBatchTemplate(data))
     }, [])
+    const initialBatchTemplatedata = useSelector((state) => state.BatchTemplateRecord);
     const initialProductTemplatedata = useSelector((state) => state.ProductTemplateRecord);
     useEffect(() => {
-        //setProductTemplates(initialProductTemplatedata.productTemplateRec.message)
-    }, [initialProductTemplatedata])
+        setAllBatchData(initialBatchTemplatedata.batchTemplateRec.message)
+        setProductTemplates(initialProductTemplatedata.productTemplateRec.message)
+
+    }, [initialProductTemplatedata, initialBatchTemplatedata])
     return (
         <>
             <StatusCard
                 color="purple"
                 icon="groups"
                 title="All Products"
-                 amount={ProductTemplates.length && ProductTemplates.length}
+                amount={ProductTemplates.length && ProductTemplates.length}
             // percentage="1.10"
             // percentageIcon="arrow_downward"
             // percentageColor="orange"
@@ -39,7 +43,7 @@ const MainStatusCard = () => {
                 color="blue"
                 icon="groups"
                 title="All Batchs"
-                // amount={allBatchData}
+                amount={allBatchData.length && allBatchData.length}
             // percentage="12"
             // percentageIcon="arrow_upward"
             // percentageColor="green"

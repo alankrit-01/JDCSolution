@@ -318,7 +318,7 @@ function* getProductTemplate(data) {
     }
 }
 
-
+ 
 function* storeBatchTemplate(data) {
     const requestData = data.data
     console.log("requestData",requestData)
