@@ -13,7 +13,7 @@ app.use(cors(corsOptions));
 
 const contractAbi = require('./artifacts/contracts/Supplychain.sol/Supplychain.json')
 
-let contractAddress ="0x1A9Ef4C724963825ce6347F0956077d37d0267a6"; 
+let contractAddress ="0xA0aBB027f801B94B291E666fea265516F81db87D"; 
 let contract;
 app.use(express.json()); 
 
@@ -68,7 +68,6 @@ app.post('/api/factoryAddProductTemplate',async(req,res)=>{
   } 
 })    
 
-
 app.get('/api/viewListOfProductTemplates', async (req, res) => {
   console.log('sdsd')
   try {
@@ -98,7 +97,6 @@ app.get('/api/viewListOfProductTemplates', async (req, res) => {
     res.status(400).send({ error: error.message });
   } 
 });
-
 
 app.post('/api/factoryAddBatchTemplate',async(req,res)=>{
   try {
@@ -148,7 +146,6 @@ app.get('/api/viewListOfBatchTemplates', async (req, res) => {
   } 
 });
 
-
 app.post('/api/factoryAddBatch',async(req,res)=>{
   try {
     const batchID =req.body.batchID;
@@ -172,34 +169,15 @@ app.post('/api/factoryAddBatch',async(req,res)=>{
   } 
 })   
 
-
 app.get('/api/viewListOfBatchesProducedByFactory', async (req, res) => {
   try {
     let result=[];          
     const factoryID= req.query.factoryID;
     let array =await contract.getAllBatchIDs()
-    // console.log(array)
+
     for(let i=0;i<array.length; i++){
       const batchData =await contract.BatchMapping(array[i]);
-      
-      
       if(batchData.FactoryID==factoryID){
-        // let productInfo=[]; 
-        // const productIDs =await contract.getProductIdsForaBatch(array[i]);
-        // for(let j=0; j<productIDs.length; j++){
-        //   let productData =await contract.ProductMapping(productIDs[j])
-        //   productInfo.push({
-        //     ProductID: productData[0].toNumber(),
-        //     BatchID:productData[1].toNumber(), 
-        //     ProductTemplateID:productData[2].toNumber(),
-        //     DOM:productData[3],
-        //     OwnerID:productData[4], 
-        //     RetailerID:productData[5],     
-        //     RetailerScanned:productData[6],    
-        //     DateWhenSold:productData[7].toNumber() 
-        //   });
-        // }
-        // console.log(productIDs);
         result.push({
           BatchID :batchData[0].toNumber(),
           BatchSize :batchData[1].toNumber(),
@@ -211,9 +189,8 @@ app.get('/api/viewListOfBatchesProducedByFactory', async (req, res) => {
           FactoryLocation:batchData[7],
           DateOfProduction:batchData[8],
           State:batchData[9].toNumber(),
-          // FactoryScanned:batchData[10], 
           DistributorScanned:batchData[10], 
-          AmountSoldTORetailer:batchData[11].toNumber() 
+          AmountLeftForSellingTORetailer:batchData[11].toNumber() 
         }
         // ,{productInfo}
         ) 
@@ -230,7 +207,6 @@ app.get('/api/viewListOfBatchesProducedByFactory', async (req, res) => {
   } 
 });
 
-
 app.get('/api/viewBatchRecordByBatchId', async (req, res) => {
   try {
     let result=[];          
@@ -246,10 +222,11 @@ app.get('/api/viewBatchRecordByBatchId', async (req, res) => {
         BatchID:productData[1].toNumber(), 
         ProductTemplateID:productData[2].toNumber(),
         DOM:productData[3],
-        OwnerID:productData[4], 
+        CustomerID:productData[4], 
         RetailerID:productData[5],     
         RetailerScanned:productData[6],    
-        DateWhenSold:productData[7].toNumber()
+        DateWhenSoldToRetailer:productData[7].toNumber(),
+        DateWhenSoldToCustomer:productData[8].toNumber()
       });
     }
       // console.log(productIDs);
@@ -264,9 +241,8 @@ app.get('/api/viewBatchRecordByBatchId', async (req, res) => {
       FactoryLocation:batchData[7],
       DateOfProduction:batchData[8],
       State:batchData[9].toNumber(),
-      // FactoryScanned:batchData[10], 
       DistributorScanned:batchData[10], 
-      AmountSoldTORetailer:batchData[11].toNumber() 
+      AmountLeftForSellingTORetailer:batchData[11].toNumber() 
     },{productInfo}) 
 
 
@@ -281,23 +257,6 @@ app.get('/api/viewBatchRecordByBatchId', async (req, res) => {
   } 
 });
 
-
-// app.post('/api/factoryScansBatch',async(req,res)=>{
-//   try {
-//     const batchID =req.body.batchID;
-//     const factoryID =req.body.factoryID; 
-//     const tx =await contract.factoryScansBatch(batchID,factoryID);
-//     tx.wait();
-//     console.log("Transaction completed!");
-
-//     res.status(200).json({status:"success", message:"Factory scans the batch"});
-//   } catch (error) {
-//     console.log(error.message);
-//     res.status(400).send({ error: error.message });
-//   }
-// })
-
-
 ////////////////// API FOR DISTIBUTOR ////////////////////
 
 
@@ -310,7 +269,7 @@ app.get('/api/viewReceivedBatchesForDistributor', async (req, res) => {
     for(let i=0; i<IDs.length; i++){ 
       const batchData =await contract.BatchMapping(IDs[i]);
       // console.log(batchData);
-      if(batchData.DistributorID==distibutorID && batchData.State==0){
+      if(batchData.DistributorID==distibutorID){
         // const productIDs= (await contract.getProductIdsForaBatch(IDs[i]));
         result.push(
           // "batchID":IDs[i].toNumber(),
@@ -326,9 +285,8 @@ app.get('/api/viewReceivedBatchesForDistributor', async (req, res) => {
             FactoryLocation:batchData[7],
             DateOfProduction:batchData[8],
             State:batchData[9].toNumber(),
-            // FactoryScanned:batchData[10], 
             DistributorScanned:batchData[10], 
-            AmountSoldTORetailer:batchData[11].toNumber()  
+            AmountLeftForSellingTORetailer:batchData[11].toNumber()  
           })
       } 
     }
@@ -361,49 +319,34 @@ app.post('/api/distributorScansBatch',async(req,res)=>{
 app.post('/api/distributorSellToRetailer',async(req,res)=>{
   try {
     const batchID =req.body.batchID;
-    const productIDs =req.body.productIDs;
-    const retailerIDs =req.body.retailerIDs;
-    const tx =await contract.distributorSellToRetailer(batchID,productIDs,retailerIDs);
+    const quantity =req.body.quantity;
+    const retailerID =req.body.retailerID;
+    const tx =await contract.distributorSellToRetailer(batchID,quantity,retailerID);
     tx.wait();
     console.log("Transaction completed!");
 
-    res.status(200).json({status:"success", message:"Products sold to the respective retailers"});
+    res.status(200).json({status:"success", message:"Products sold to the retailer"});
   } catch (error) {
     console.log(error.message);
     res.status(400).send({ error: error.message });
   }
 })  
 
-app.get('/api/viewBatchesSendToRetailers', async (req, res) => {
+app.get('/api/viewRecentSellsToRetailers', async (req, res) => {
   try {
     let result=[];
     const distributorID= req.query.distributorID;
-    const IDs =await contract.getAllBatchIDs(); 
-
-    for(let i=0; i<IDs.length; i++){
-      const batchData =await contract.BatchMapping(IDs[i]);
-      // console.log(batchData);
-      if(batchData.DistributorID==distributorID && batchData.State==1){
-        // const productIDs= (await contract.getProductIdsForaBatch(IDs[i]));
-        result.push(
-          // "batchID":IDs[i].toNumber(),
-          // "productIDs":productIDs ,
-          {
-            BatchID :batchData[0].toNumber(),
-            BatchSize :batchData[1].toNumber(),
-            AmountSoldTOCustomer :batchData[2].toNumber(),
-            BatchDescription :batchData[3],
-            ProductTemplateID: batchData[4].toNumber(),
-            FactoryID:batchData[5],
-            DistributorID:batchData[6],
-            FactoryLocation:batchData[7],
-            DateOfProduction:batchData[8],
-            State:batchData[9].toNumber(),
-            // FactoryScanned:batchData[10], 
-            DistributorScanned:batchData[10], 
-            AmountSoldTORetailer:batchData[11].toNumber() 
-          })
-      } 
+    const data =await contract.getDistributorIDToRetailerStruct(distributorID); 
+    // console.log(data);
+    for(let i=0; i<data.length;i++){
+      result.push({
+        DistributorID:data[i][0],     
+        RetailerID:data[i][1],
+        BatchID:data[i][2],
+        BatchID:data[i][2].toNumber(),
+        Quantity:data[i][3].toNumber(),
+        TimeStamp:data[i][4].toNumber()
+      }) 
     }
     if(result){
       res.status(200).json({status:"success", message:result});
@@ -421,41 +364,21 @@ app.get('/api/viewBatchesSendToRetailers', async (req, res) => {
 ////////////////// API FOR RETAILER ////////////////////
 
 
-app.get('/api/viewReceivedBatchesForRetailer', async (req, res) => {
+app.get('/api/viewRecentBuysFromDistributors', async (req, res) => {
   try {
     let result=[];
     const retailerID= req.query.retailerID;
-    const IDs =await contract.getAllBatchIDs();
-    for(let i=0; i<IDs.length; i++){
-      const batchData =await contract.BatchMapping(IDs[i]);
-      if(batchData.RetailerID==retailerID && batchData.State==1){
-        // let productInfo=[]; 
-        // const productIDs= await contract.getProductIdsForaBatch(IDs[i]);
-        // for(let j=0; j<productIDs.length; j++){
-        //   productInfo.push(await contract.ProductMapping(productIDs[j]));
-        // }
-        // console.log(productInfo[0]);
-        result.push(
-          // "batchID":IDs[i].toNumber(),
-          // "productIDs":productIDs ,
-          {
-            BatchID :batchData[0].toNumber(),
-            BatchSize :batchData[1].toNumber(),
-            AmountSoldTOCustomer :batchData[2].toNumber(),
-            BatchDescription :batchData[3],
-            ProductTemplateID: batchData[4].toNumber(),
-            FactoryID:batchData[5],
-            DistributorID:batchData[6],
-            FactoryLocation:batchData[7],
-            DateOfProduction:batchData[8],
-            State:batchData[9].toNumber(),
-            // FactoryScanned:batchData[10], 
-            DistributorScanned:batchData[10], 
-            AmountSoldTORetailer:batchData[11].toNumber() 
-          }
-          // "productInfo":productInfo
-        )
-      } 
+    const data =await contract.getRetailerIDToRetailerStruct(retailerID); 
+    // console.log(data);
+    for(let i=0; i<data.length;i++){
+      result.push({
+        DistributorID:data[i][0],     
+        RetailerID:data[i][1],
+        BatchID:data[i][2],
+        BatchID:data[i][2].toNumber(),
+        Quantity:data[i][3].toNumber(),
+        TimeStamp:data[i][4].toNumber()
+      }) 
     }
     if(result){
       res.status(200).json({status:"success", message:result});
@@ -465,7 +388,7 @@ app.get('/api/viewReceivedBatchesForRetailer', async (req, res) => {
   } catch (error) {
     console.log(error.message);
     res.status(400).send({ error: error.message });
-  }
+  } 
 });
 
 
@@ -521,7 +444,8 @@ app.get('/api/viewBatchDetails', async (req, res) => {
         OwnerID:productData[4], 
         RetailerID:productData[5],     
         RetailerScanned:productData[6],    
-        DateWhenSold:productData[7].toNumber()
+        DateWhenSoldToRetailer:productData[7].toNumber(),
+        DateWhenSoldToCustomer:productData[8].toNumber()
       });
     }
 
@@ -554,6 +478,7 @@ app.post('/api/sellToCustomer',async(req,res)=>{
 
 ////////////////// API FOR CUSTOMERS ////////////////////
 
+
 app.get('/api/viewProductBoughts', async (req, res) => {
   try {
     let result=[];
@@ -567,12 +492,15 @@ app.get('/api/viewProductBoughts', async (req, res) => {
       // console.log(batchData); 
       result.push({
         "productData":{
-          ProductID:productData[0].toNumber(),
-          BatchID:productData[1].toNumber(),
+          ProductID: productData[0].toNumber(),
+          BatchID:productData[1].toNumber(), 
           ProductTemplateID:productData[2].toNumber(),
           DOM:productData[3],
-          CustomerID:productData[4],
-          DateWhenSold:productData[5].toNumber()
+          OwnerID:productData[4], 
+          RetailerID:productData[5],     
+          RetailerScanned:productData[6],    
+          DateWhenSoldToRetailer:productData[7].toNumber(),
+          DateWhenSoldToCustomer:productData[8].toNumber()
         },
         "batchData":{
           BatchID :batchData[0].toNumber(),
@@ -585,9 +513,8 @@ app.get('/api/viewProductBoughts', async (req, res) => {
           FactoryLocation:batchData[7],
           DateOfProduction:batchData[8],
           State:batchData[9].toNumber(),
-          // FactoryScanned:batchData[10], 
           DistributorScanned:batchData[10], 
-          AmountSoldTORetailer:batchData[11].toNumber() 
+          AmountLeftForSellingTORetailer:batchData[11].toNumber()  
         }});  
     }
 
