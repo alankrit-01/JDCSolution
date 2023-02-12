@@ -40,11 +40,11 @@ const MainStatusCard = () => {
             // date="Since yesterday"
             />
             <StatusCard
-                color="blue"
+                color="Blue"
                 icon="groups"
                 title="All Batchs"
                 amount={allBatchData.length && allBatchData.length}
-            // percentage="12"
+            // percentage="12" 
             // percentageIcon="arrow_upward"
             // percentageColor="green"
             // date="Since last month"
