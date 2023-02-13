@@ -70,10 +70,7 @@ const BatchQr = () => {
     ////End need improve////
     const [url1, setUrl1] = useState();
     useMemo(() => {
-        const url = (
-            `BatchID:${batchtId} 
-          
-    `);
+        const url = (`${batchtId}`);
         setUrl1(url)
     }, [productName, productDescription, batchSize])
 

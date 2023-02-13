@@ -50,13 +50,15 @@ console.log("initialProductInfo",initialProductInfo)
 {
     initialProductInfo && initialProductInfo.map(initialProductInfoRes =>{
 
-        const urlc = (
-            `batchId:${batchID} 
-            productId:${initialProductInfoRes.ProductID } 
-            productTemplateID:${productTemplateID} 
-            batchSize:${batchSize} 
-            batchDescription:${batchDescription }
-        `);
+        // const urlc = (
+        //     `batchId:${batchID} 
+        //     productId:${initialProductInfoRes.ProductID } 
+        //     productTemplateID:${productTemplateID} 
+        //     batchSize:${batchSize} 
+        //     batchDescription:${batchDescription }
+        // `);
+
+        const urlc = (`${initialProductInfoRes.ProductID }`);
     allProductQrlist.push(
         
         <div className="qrCodeSection">

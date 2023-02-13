@@ -10,7 +10,7 @@ const MainStatusCard = () => {
 
 
     const [allBatchData, setAllBatchData] = useState([]);
-    const [ProductTemplates, setProductTemplates] = useState([]);
+    const [ProductTemplates, setProductTemplates] = useState(0);
 
    
     useEffect(() => {
