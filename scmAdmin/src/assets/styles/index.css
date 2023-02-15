@@ -45,3 +45,11 @@ span.rcheckRec {
 .bg-customm-color{
     background-color: #0a1d3d;
 }
+a.flex.items-center.gap-4.text-sm.text-white.font-light.px-4.py-3.rounded-lg.active {
+    background-color: #d79829;
+}
+
+a.flex.items-center.gap-4.text-sm.text-gray-700.font-light.px-4.py-3.rounded-lg.active {
+    background-color: #fb8c00;
+    color: #ffffff;
+}

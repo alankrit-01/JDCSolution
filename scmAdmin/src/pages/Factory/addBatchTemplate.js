@@ -51,6 +51,8 @@ const AddBatchTemplate = () => {
     const [batchDescription, setBatchDescription] = useState('');
     const [batchManufacture, setBatchManufacture] = useState('');
 
+     
+
     const handleSubmit = async (event) => {
         event.preventDefault();
         const productIds = [];

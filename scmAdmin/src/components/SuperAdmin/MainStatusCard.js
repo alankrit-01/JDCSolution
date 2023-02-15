@@ -28,7 +28,7 @@ const MainStatusCard = () => {
 
     return (
         <>
-        <StatusCard
+        {/* <StatusCard
                 color="blue"
                 icon="groups"
                 title="Company"
@@ -37,7 +37,7 @@ const MainStatusCard = () => {
             // percentageIcon="arrow_upward"
             // percentageColor="green"
             // date="Since last month"
-            />
+            /> */}
             <StatusCard
                 color="pink"
                 icon="groups"
