@@ -15,7 +15,7 @@ contract Supplychain{
     struct ProductTemplate{
         uint ProductTemplateID;
         string Name;
-        string Description;
+        string Description; 
         string FactoryID;
     }               
 
@@ -27,11 +27,14 @@ contract Supplychain{
         string CustomerID; 
         string RetailerID;     
         bool RetailerScanned;    
-        uint DateWhenSoldToRetailer;
-        uint DateWhenSoldToCustomer;
+        string RetailerScannedTimeStamp;    
+        string DateWhenSoldToRetailer;
+        string DateWhenSoldToCustomer;
     }           
                  
-    struct Batch{        
+    struct Batch{      
+        // string Name;
+        // string Description;   
         uint BatchID;     
         uint BatchSize;    
         uint AmountSoldTOCustomer;  
@@ -43,7 +46,8 @@ contract Supplychain{
         string DateOfProduction;
         uint State;            
         // bool FactoryScanned;   
-        bool DistributorScanned;   
+        bool DistributorScanned; 
+        string  DistributorScannedTimeStamp;
         uint AmountLeftForSellingTORetailer;  
     }                               
 
@@ -53,11 +57,11 @@ contract Supplychain{
     } 
 
     struct Retailer{
-        string DistributorID;     
-        string RetailerID;     
-        uint BatchID;
-        uint Quantity;
-        uint TimeStamp;
+        string DistributorID;
+        string RetailerID;   
+        uint BatchID; 
+        uint Quantity; 
+        string TimeStamp; 
     } 
 
     mapping(uint=>ProductTemplate) public ProductTemplateMAP;
@@ -84,7 +88,7 @@ contract Supplychain{
         string memory _description,
         uint _batchSize,
         string memory _factoryID
-    ) public{ 
+    ) public{   
         require(checkInBatchTemplateIDs(_batchTemplateID)==false,"This BatchTemplateID already exists in the system");
         require(checkInProductTemplateIDs(_productTemplateID)==true,"This ProductTemplateID does not exists in the system");
         BatchTemplateMAP[_batchTemplateID]=BatchTemplate({
@@ -92,10 +96,10 @@ contract Supplychain{
             ProductTemplateID:_productTemplateID,
             Description:_description,
             BatchSize:_batchSize,
-            FactoryID:_factoryID            
-        });
+            FactoryID:_factoryID  
+        });     
         BatchTemplateIDs.push(_batchTemplateID);
-    }       
+    }            
 
     function addProductTemplate(
         uint _productTemplateID,
@@ -142,6 +146,7 @@ contract Supplychain{
             State:0,
             // FactoryScanned:false,  
             DistributorScanned:false,
+            DistributorScannedTimeStamp:"",
             AmountLeftForSellingTORetailer:batchSize
             // RetailerScanned:false
         }); 
@@ -157,8 +162,9 @@ contract Supplychain{
                 CustomerID:"",
                 RetailerID:"",
                 RetailerScanned:false,
-                DateWhenSoldToRetailer:0,
-                DateWhenSoldToCustomer:0
+                RetailerScannedTimeStamp:"",
+                DateWhenSoldToRetailer:"",
+                DateWhenSoldToCustomer:""
             });
             ProductIDs.push(productIDs[i]);
         }   
@@ -170,10 +176,11 @@ contract Supplychain{
     //     BatchMapping[batchID].FactoryScanned=true;
     // }   
 
-    function distributorScansBatch(uint batchID, string memory _distributorID) public{
+    function distributorScansBatch(uint batchID, string memory _distributorID,string memory timeStamp) public{
         require(BatchMapping[batchID].DistributorScanned==false,"This batch is already scanned by the distributor");
         require(keccak256(abi.encodePacked(BatchMapping[batchID].DistributorID))== keccak256(abi.encodePacked(_distributorID)),"This batch is not owned by this distributor");
         BatchMapping[batchID].DistributorScanned=true;
+        BatchMapping[batchID].DistributorScannedTimeStamp=timeStamp;
     } 
 
     // distributor k saare sells?  DONE
@@ -198,7 +205,7 @@ contract Supplychain{
     // distributor -> retailerID ->retailerStruct[]
     // retailerStruct -> batchIDs, quantities 
 
-    function distributorSellToRetailer(uint batchID, uint quantity, string memory retailerID) public{
+    function distributorSellToRetailer(uint batchID, uint quantity, string memory retailerID, string memory timeStamp) public{
         uint amountLeft =BatchMapping[batchID].AmountLeftForSellingTORetailer;
         uint batchSize =BatchMapping[batchID].BatchSize;
         string memory d =BatchMapping[batchID].DistributorID;
@@ -211,7 +218,7 @@ contract Supplychain{
             uint ID =productIDs[i];
             Product memory p=ProductMapping[ID];
             p.RetailerID=retailerID;
-            p.DateWhenSoldToRetailer=block.timestamp;
+            p.DateWhenSoldToRetailer=timeStamp;
             ProductMapping[ID]=p;
         } 
         BatchMapping[batchID].AmountLeftForSellingTORetailer-=quantity;
@@ -221,22 +228,23 @@ contract Supplychain{
             RetailerID: retailerID,
             BatchID:batchID,
             Quantity:quantity,
-            TimeStamp:block.timestamp
+            TimeStamp:timeStamp
         }); 
         DistributorIDToRetailerStruct[d].push(r); 
         RetailerIDToRetailerStruct[retailerID].push(r); 
     }      
-     
-    function retailerScansProduct(uint _productID, string memory _retailerID) public{
+
+    function retailerScansProduct(uint _productID, string memory _retailerID,string memory timeStamp) public{
         require(ProductMapping[_productID].RetailerScanned==false,"This batch is already scanned by the retailer");
         require(keccak256(abi.encodePacked(ProductMapping[_productID].RetailerID))== keccak256(abi.encodePacked(_retailerID)),"This product is not owned by this retailer");
-        ProductMapping[_productID].RetailerScanned=true;
-    } 
+        ProductMapping[_productID].RetailerScanned=true; 
+        ProductMapping[_productID].RetailerScannedTimeStamp=timeStamp; 
+    }    
 
-    function retailerSellToCustomer(uint batchID,uint productID, string memory customerID) public {
+    function retailerSellToCustomer(uint batchID,uint productID, string memory customerID,string memory timeStamp) public {
         BatchMapping[batchID].AmountSoldTOCustomer +=1;
         ProductMapping[productID].CustomerID=customerID;
-        ProductMapping[productID].DateWhenSoldToCustomer=block.timestamp;
+        ProductMapping[productID].DateWhenSoldToCustomer=timeStamp;
         CustomerData[customerID].push(Customer({
             BatchID:batchID,
             ProductID:productID
