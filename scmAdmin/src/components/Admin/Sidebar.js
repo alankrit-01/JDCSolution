@@ -86,6 +86,36 @@ export default function Sidebar() {
                                 </NavLink>
                             </li>
                             <li className="rounded-lg mb-2">
+                                <NavLink
+                                    to="/admin/factoryFeedback"
+                                    className="flex items-center gap-4 text-sm text-gray-700 font-light px-4 py-3 rounded-lg"
+                                    activeClassName="bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md"
+                                >
+                                    <Icon name="person" size="2xl" />
+                                    Factory Feedback
+                                </NavLink>
+                            </li>
+                            <li className="rounded-lg mb-2">
+                                <NavLink
+                                    to="/admin/distributerFeedback"
+                                    className="flex items-center gap-4 text-sm text-gray-700 font-light px-4 py-3 rounded-lg"
+                                    activeClassName="bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md"
+                                >
+                                    <Icon name="person" size="2xl" />
+                                    Distributer Feedback
+                                </NavLink>
+                            </li>
+                            <li className="rounded-lg mb-2">
+                                <NavLink
+                                    to="/admin/retailerFeedback"
+                                    className="flex items-center gap-4 text-sm text-gray-700 font-light px-4 py-3 rounded-lg"
+                                    activeClassName="bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md"
+                                >
+                                    <Icon name="person" size="2xl" />
+                                    Retailer Feedback
+                                </NavLink>
+                            </li>
+                            <li className="rounded-lg mb-2">
                                 <button onClick={logout}
                                     className="flex items-center gap-4 text-sm text-gray-700 font-light px-4 py-3 rounded-lg"
                                     activeClassName="bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md"> <Icon name="person" size="2xl" />Logout

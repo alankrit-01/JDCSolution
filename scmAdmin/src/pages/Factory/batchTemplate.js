@@ -39,25 +39,25 @@ const BatchTemplate = () => {
             name: "Batch Id",
             selector: (row) => row.BatchID,
             sortable: true,
-            width: "150px"
+            width: "200px"
         },
         {
             name: "Product Template ID",
             selector: (row) => row.ProductTemplateID,
             sortable: true,
-            width: "150px"
+            width: "200px"
         },
         {
             name: "Batch Size",
             selector: (row) => row.BatchSize,
             sortable: true,
-            width: "150px"
+            width: "200px"
         },
         {
-            name: "Batch Description",
-            selector: (row) => row.BatchDescription,
+            name: "Batch Date", 
+            selector: (row) => row.DateOfProduction,
             sortable: true,
-            width: "400px"
+            width: "200px"
         },
         {
             name: "Action",
@@ -97,7 +97,7 @@ const BatchTemplate = () => {
     }, [initialBatchTemplatedata])
     useEffect(() => {
             const result = BatchTemplates.filter((allBatchTemplate) => {
-                return allBatchTemplate.BatchDescription.toLowerCase().match(Search.toLowerCase());
+                return allBatchTemplate.DateOfProduction.toLowerCase().match(Search.toLowerCase());
             })
             setFilterBatchTemplates(result)
         }, [Search])

@@ -7,12 +7,8 @@ const MainStatusCard = () => {
 
     const factoryData = useSelector((state) => state.FactoryLoginData);
     const [factoryUserHash, setFactoryUserHash] = useState(factoryData.currentFactoryUserHash);
-
-
     const [allBatchData, setAllBatchData] = useState([]);
-    const [ProductTemplates, setProductTemplates] = useState(0);
-
-   
+    const [ProductTemplates, setProductTemplates] = useState(0);   
     useEffect(() => {
         const data = {
             factoryID:factoryUserHash
@@ -25,7 +21,6 @@ const MainStatusCard = () => {
     useEffect(() => {
         setAllBatchData(initialBatchTemplatedata.batchTemplateRec.message)
         setProductTemplates(initialProductTemplatedata.productTemplateRec.message)
-
     }, [initialProductTemplatedata, initialBatchTemplatedata])
     return (
         <>
@@ -33,7 +28,7 @@ const MainStatusCard = () => {
                 color="purple"
                 icon="groups"
                 title="All Products"
-                amount={ProductTemplates.length && ProductTemplates.length}
+               // amount={ProductTemplates.length && ProductTemplates.length}
             // percentage="1.10"
             // percentageIcon="arrow_downward"
             // percentageColor="orange"
@@ -43,7 +38,7 @@ const MainStatusCard = () => {
                 color="Blue"
                 icon="groups"
                 title="All Batchs"
-                amount={allBatchData.length && allBatchData.length}
+             //   amount={allBatchData.length && allBatchData.length}
             // percentage="12" 
             // percentageIcon="arrow_upward"
             // percentageColor="green"

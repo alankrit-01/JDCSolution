@@ -62,6 +62,7 @@ console.log("initialProductInfo",initialProductInfo)
     allProductQrlist.push(
         
         <div className="qrCodeSection">
+            <span className="sidercheck">P-{initialProductInfoRes.ProductID}</span>
             <QRCodeSVG className="qrCode"
                 value={urlc}
                 size={280}

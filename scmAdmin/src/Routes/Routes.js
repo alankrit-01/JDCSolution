@@ -19,6 +19,10 @@ import AddMultiUser from "pages/Admin/Distributer/AddMultiUser";
 import Retailer from 'pages/Admin/Retailer';
 import AddRetailer from "pages/Admin/Retailer/AddRetailer";
 import Dashboard from 'pages/Admin/Dashboard';
+import FactoryFeedback from 'pages/Admin/Factory/FactoryFeedback';
+import DistributerFeedback from 'pages/Admin/Distributer/DistributerFeedback';
+import RetailerFeedback from 'pages/Admin/Retailer/RetailerFeedback';
+
 import FactoryDashboard from "pages/Factory/Dashboard";
 import FactorySetting from 'pages/Factory/Settings';
 import Products from "pages/Factory/Product";
@@ -60,6 +64,16 @@ const WebRoutes = () => {
             <Route path="/admin/retailer" index element={<Retailer />} />
             <Route path="/admin/addretailer" index element={<AddRetailer />} />
             <Route path="/admin/addMultiUser" index element={<AddMultiUser />} />
+
+            
+            <Route path="/admin/factoryFeedback" index element={<FactoryFeedback />} />
+            <Route path="/admin/viewdistributerFeedback" index element={<Distributer />} />
+            
+            <Route path="/admin/distributerFeedback" index element={<DistributerFeedback />} />
+            <Route path="/admin/viewdistributerFeedback" index element={<Distributer />} />
+
+            <Route path="/admin/retailerFeedback" index element={<RetailerFeedback />} />
+            <Route path="/admin/viewRetailerFeedback" index element={<Distributer />} />
             
             <Route path="/factory" index element={<FactoryLogin />} />
             <Route path="/factory/dashboard" index element={<FactoryDashboard />} />
@@ -73,8 +87,13 @@ const WebRoutes = () => {
             <Route path="/factory/productTemplate" index element={<ProductTemplate />} />
             <Route path="/factory/addProductTemplate" index element={<AddProductTemplate />} />
 
+
+            {/* Need Changes */}
             <Route path="/factory/product" index element={<Products />} />
             <Route path="/factory/addProduct" index element={<AddProduct />} />
+            {/* End Need Changes */}
+
+            
         </Routes>
     )
 }
