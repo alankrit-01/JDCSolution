@@ -4,7 +4,7 @@ const ethers = require('ethers');
 require('dotenv').config()
 const app = express(); 
 
-const cors = require('cors'); 
+// const cors = require('cors'); 
 const corsOptions ={
     origin:'http://localhost:3000', 
     credentials:true,            //access-control-allow-credentials:true
@@ -357,12 +357,14 @@ app.get('/api/viewRecentSellsToRetailers', async (req, res) => {
   
     // console.log(data);
     for(let i=0; i<data.length;i++){
+      const Batchdata =await contract.BatchMapping(data[i][2]); 
       result.push({
         DistributorID:data[i][0],     
         RetailerID:data[i][1],
         BatchID:data[i][2].toNumber(),
         Quantity:data[i][3].toNumber(),
-        TimeStamp:data[i][4]
+        TimeStamp:data[i][4],
+        ProductDescription:Batchdata[3]
       }) 
     }
     if(result){
@@ -388,12 +390,15 @@ app.get('/api/viewRecentBuysFromDistributors', async (req, res) => {
     const data =await contract.getRetailerIDToRetailerStruct(retailerID); 
     // console.log(data);
     for(let i=0; i<data.length;i++){
+      const Batchdata =await contract.BatchMapping(data[i][2]); 
+      // console.log(Batchdata);
       result.push({
         DistributorID:data[i][0],     
         RetailerID:data[i][1],
         BatchID:data[i][2].toNumber(),
         Quantity:data[i][3].toNumber(),
-        TimeStamp:data[i][4]
+        TimeStamp:data[i][4],
+        ProductDescription:Batchdata[3]
       }) 
     }
     if(result){

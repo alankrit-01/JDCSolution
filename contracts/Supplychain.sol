@@ -232,6 +232,35 @@ contract Supplychain{
         }); 
         DistributorIDToRetailerStruct[d].push(r); 
         RetailerIDToRetailerStruct[retailerID].push(r); 
+    }     
+
+    function retailerSellToAnotherRetailer(uint batchID, uint quantity, string memory retailerID, string memory timeStamp) public{
+        uint amountLeft =BatchMapping[batchID].AmountLeftForSellingTORetailer;
+        uint batchSize =BatchMapping[batchID].BatchSize;
+        string memory d =BatchMapping[batchID].DistributorID;
+        // require(amountLeft>=quantity,"Quantity is greater than the amount left to be sold in this batch");
+        require(quantity>0,"Quantity cannot be zero");
+        
+        uint sold = batchSize-amountLeft; 
+        uint[] memory productIDs =BatchIDToProductIDMapping[batchID];
+        for(uint i=sold; i<(sold+quantity); i++){
+            uint ID =productIDs[i];
+            Product memory p=ProductMapping[ID];
+            p.RetailerID=retailerID;
+            p.DateWhenSoldToRetailer=timeStamp;
+            ProductMapping[ID]=p;
+        } 
+        BatchMapping[batchID].AmountLeftForSellingTORetailer-=quantity;
+        // DistributorIDToRetailerStruct
+        Retailer memory r = Retailer({ 
+            DistributorID:d,
+            RetailerID: retailerID,
+            BatchID:batchID,
+            Quantity:quantity,
+            TimeStamp:timeStamp
+        }); 
+        DistributorIDToRetailerStruct[d].push(r); 
+        RetailerIDToRetailerStruct[retailerID].push(r); 
     }      
 
     function retailerScansProduct(uint _productID, string memory _retailerID,string memory timeStamp) public{
@@ -239,7 +268,7 @@ contract Supplychain{
         require(keccak256(abi.encodePacked(ProductMapping[_productID].RetailerID))== keccak256(abi.encodePacked(_retailerID)),"This product is not owned by this retailer");
         ProductMapping[_productID].RetailerScanned=true; 
         ProductMapping[_productID].RetailerScannedTimeStamp=timeStamp; 
-    }    
+    }        
 
     function retailerSellToCustomer(uint batchID,uint productID, string memory customerID,string memory timeStamp) public {
         BatchMapping[batchID].AmountSoldTOCustomer +=1;
