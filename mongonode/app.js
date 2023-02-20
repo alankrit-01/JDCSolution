@@ -13,15 +13,16 @@ const jwt = require('jsonwebtoken');
 const cors = require('cors');
 var nodemailer = require('nodemailer');
 
-jwtkey = "jwt";
-app.use(cors());
+jwtkey = "jwt"; 
+
+app.use(cors());  
 mongoose.connect('mongodb+srv://vipin:ldOGGLOXWNcP6OjK@cluster0.y8ufn.mongodb.net/nodedatabase?retryWrites=true&w=majority',
     {
         useNewUrlParser: true,
         useUnifiedTopology: true
     }).then(() => {
         console.warn("Connected");
-    })
+    }) 
 
 
 const upload = multer({
@@ -34,6 +35,7 @@ const upload = multer({
         }
     })
 }).single("image");
+
 app.post('/register', jsonParser, function (req, res) {
     const salt = bcrypt.genSaltSync(5);
     const defaultPassword = '123456';
@@ -86,8 +88,6 @@ function sendEmail(email,password) {
         }
     });
 }
-
-
 
 app.post('/addUser', jsonParser, function (req, res) {
     const salt = bcrypt.genSaltSync(5);
@@ -152,7 +152,6 @@ app.post('/addMultiUser', jsonParser, function (req, res) {
 
 })
 
-
 app.post('/uploads', upload, function (req, res) {
     res.status(200).json("File Upload");
 })
@@ -173,26 +172,6 @@ app.post('/factoryLogin', jsonParser, async function (req, res) {
         res.status(401).json({ error: "User does not exist" });
     }
 })
-
-// app.post('/login', jsonParser, async function (req, res) {
-//     const userData = await User.findOne({ email: req.body.email,  });
-//     if (userData) {
-//         // check user password with hashed password stored in the database
-//         const validPassword = await bcrypt.compare(req.body.password, userData.password);
-//         if (validPassword) {
-//             jwt.sign({ userData }, jwtkey, { expiresIn: '300s' }, (err, token) => {
-//                 //res.status(200).json({ token })
-//                 res.status(200).json({ token, userId: userData._id, userEmail: userData.email, userRole: userData.role, userName: userData.name, address: userData.address })
-
-
-//             })
-//         } else {
-//             res.status(400).json({ error: "Invalid Password" });
-//         }
-//     } else {
-//         res.status(401).json({ error: "User does not exist" });
-//     }
-// })
 
 app.post('/login', jsonParser, async function (req, res) {
     
@@ -429,13 +408,11 @@ app.get('/rawmaterialsupplier', function (req, res) {
     })
 })
 
-
 app.post('/retailerbylocation', jsonParser, function (req, res) {
     User.find({ address: req.body.location, role: req.body.role }).then((data) => {
         res.status(200).json(data[0])
     })
 })
-
 
 app.post('/location', jsonParser, async function (req, res) {
     const locationData = await User.findOne({ hashAddress: req.body.hashAddress });

@@ -237,7 +237,7 @@ contract Supplychain{
     function retailerSellToAnotherRetailer(uint batchID, uint quantity, string memory retailerID, string memory timeStamp) public{
         uint amountLeft =BatchMapping[batchID].AmountLeftForSellingTORetailer;
         uint batchSize =BatchMapping[batchID].BatchSize;
-        string memory d =BatchMapping[batchID].DistributorID;
+        string memory d =BatchMapping[batchID].DistributorID;   
         // require(amountLeft>=quantity,"Quantity is greater than the amount left to be sold in this batch");
         require(quantity>0,"Quantity cannot be zero");
         
@@ -251,7 +251,7 @@ contract Supplychain{
             ProductMapping[ID]=p;
         } 
         BatchMapping[batchID].AmountLeftForSellingTORetailer-=quantity;
-        // DistributorIDToRetailerStruct
+        
         Retailer memory r = Retailer({ 
             DistributorID:d,
             RetailerID: retailerID,
