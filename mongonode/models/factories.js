@@ -5,4 +5,4 @@ let factorySchema = new mongoose.Schema({
     name:String,
     location:String,
 })
-module.exports=mongoose.model('factories',factorySchema)
+module.exports=mongoose.model('factories',factorySchema)    

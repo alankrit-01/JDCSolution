@@ -1,9 +1,35 @@
 const express = require('express');
 const cors = require('cors');
 const ethers = require('ethers');
+var bodyParser = require('body-parser');
+var jsonParser = bodyParser.json();
+const mongoose = require('mongoose');
+const multer = require('multer');
+var util = require('util');
+var encoder = new util.TextEncoder('utf-8');
+const verificationData = require('./models/verificationData');
+
 require('dotenv').config()
 const app = express(); 
 
+<<<<<<< HEAD
+=======
+// const cors = require('cors'); 
+const corsOptions ={
+    origin:'http://localhost:3000', 
+    credentials:true,            //access-control-allow-credentials:true
+    optionSuccessStatus:200
+}
+app.use(cors(corsOptions));
+mongoose.connect('mongodb+srv://vipin:ldOGGLOXWNcP6OjK@cluster0.y8ufn.mongodb.net/nodedatabase?retryWrites=true&w=majority',
+    {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    }).then(() => {
+        console.warn("Connected");
+    }) 
+
+>>>>>>> 8cc751b7c54db10b00b71efadbcc74f97621de81
 const contractAbi = require('./artifacts/contracts/Supplychain.sol/Supplychain.json')
 
 let contractAddress ="0x9a9dD6be8b0bC5eC17FA5c548411862eEEfdB150"; 
@@ -197,11 +223,11 @@ app.get('/api/viewListOfBatchesProducedByFactory', async (req, res) => {
     }else {
       res.status(200).json({status:"success", message:"Returned data is empty"});
     }
-  } catch (error) {
-    console.log(error.message);
-    res.status(400).send({ error: error.message });
+  } catch (error) {                                   
+    console.log(error.message);                       
+    res.status(400).send({ error: error.message });   
   } 
-});
+}); 
 
 app.get('/api/viewBatchRecordByBatchId', async (req, res) => {
   try {
@@ -349,12 +375,14 @@ app.get('/api/viewRecentSellsToRetailers', async (req, res) => {
   
     // console.log(data);
     for(let i=0; i<data.length;i++){
+      const Batchdata =await contract.BatchMapping(data[i][2]); 
       result.push({
         DistributorID:data[i][0],     
         RetailerID:data[i][1],
         BatchID:data[i][2].toNumber(),
         Quantity:data[i][3].toNumber(),
-        TimeStamp:data[i][4]
+        TimeStamp:data[i][4],
+        ProductDescription:Batchdata[3]
       }) 
     }
     if(result){
@@ -380,12 +408,15 @@ app.get('/api/viewRecentBuysFromDistributors', async (req, res) => {
     const data =await contract.getRetailerIDToRetailerStruct(retailerID); 
     // console.log(data);
     for(let i=0; i<data.length;i++){
+      const Batchdata =await contract.BatchMapping(data[i][2]); 
+      // console.log(Batchdata);
       result.push({
         DistributorID:data[i][0],     
         RetailerID:data[i][1],
         BatchID:data[i][2].toNumber(),
         Quantity:data[i][3].toNumber(),
-        TimeStamp:data[i][4]
+        TimeStamp:data[i][4],
+        ProductDescription:Batchdata[3]
       }) 
     }
     if(result){
@@ -546,50 +577,68 @@ app.get('/api/viewProductBoughts', async (req, res) => {
   }
 });  
 
+
 app.get('/api/authenticateProduct',async(req,res)=>{
   try {
     let productID= req.query.productID;
     let data = await contract.ProductMapping(productID);
-    let batchID;
-    batchID =data[1].toNumber();
+    let batchID =data[1].toNumber(); 
     let data2 =await contract.BatchMapping(batchID);
-
+    let level;
+    let status;
     // Level 1 
 
     if(batchID==0){
-      res.status(200).json({status:"success", message:"Authentication Level 1 Falied: Product ID not found",level:"1"}); 
-    }
-    // Level 2
-    
-    // else if(data2.FactoryScanned ==false){
-    //   res.status(200).json({status:"success", message:"Authentication Level 2 Falied: Factory didn't scanned this product",level:"2"});
-    // }
-    // Level 2 
-    
-    else if(data2.DistributorScanned ==false){
-      res.status(200).json({status:"success", message:"Authentication Level 2 Falied: Distributor didn't scanned this product",level:"2"});
-    }
-    // Level 3 
-    
-    else if(data.RetailerScanned ==false){
-      res.status(200).json({status:"success", message:"Authentication Level 3 Falied: Retailer didn't scanned this product",level:"3"});
-    }
+      level =1;
+      status ="Authentication Level 1 Falied: Product ID not found";
+    }else if(data2.DistributorScanned ==false){
+      level =2;
+      status ="Authentication Level 2 Falied: Distributor didn't scanned this product";
+    }else if(data.RetailerScanned ==false){
+      level =3;
+      status ="Authentication Level 3 Falied: Retailer didn't scanned this product"
+    }else{
+      level =4;
+      status ="All Authentication Level Passed"
+    } 
 
-    else{
-      res.status(200).json({status:"success", message:"All Authentication Level Passed",level:"6"});
-    }
+    const Data= new verificationData({
+      _id: new mongoose.Types.ObjectId(),
+      factoryID:data2.FactoryID,
+      batchID:batchID,
+      productId:productID,
+      level:1
+    })
+    Data.save().then((result) => {
+      console.log(result);
+      res.status(200).json({status:"success", message:status,level:level}); 
 
-    // if(result){
-    //   res.status(200).json({status:"success", message:});
-    // }else {
-    //   res.status(200).json({status:"success", message:"Returned data is empty"});
-    // }
+    }).catch((err) => console.warn(err)) 
 
   } catch (error) {
     console.log(error.message);
     res.status(400).send({ error: error.message });
   }
 })
+
+
+/////////////////////////////// ADMIN APIS //////////////////////////////////////////
+
+app.get('/api/viewLevelCounts', async (req, res) => {
+  try {
+    let factoryID= req.query.factoryID;
+    let level= req.query.level;
+
+    verificationData.find({ $and : [{factoryID:factoryID},{level:level}]}).then((data) => {
+      console.log(data);
+      res.status(200).json({count:data.length})
+    })
+
+  } catch (error) {
+    console.log(error.message);
+    res.status(400).send({ error: error.message });
+  }
+});
 
 app.get('/api/viewProductIDsInBatch', async (req, res) => {
   try {
@@ -617,10 +666,3 @@ var server = app.listen(8082, function () {
     console.log("Example app listening at http://127:0:0:1:8082")
 })
 
-
-
-// Product ID -1 All Authentication level passed
-// Product ID -7 Fails at Level 4
-// Product ID -10 Fails at Level 3
-// Product ID -13 Fails at Level 2
-// Product ID -16 Fails at Level 1
