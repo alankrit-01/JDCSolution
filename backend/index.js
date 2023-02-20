@@ -602,6 +602,8 @@ app.get('/api/authenticateProduct',async(req,res)=>{
     const Data= new verificationData({
       _id: new mongoose.Types.ObjectId(),
       factoryID:data2.FactoryID,
+      distributorID:data2.DistributorID,
+      batchDescription:data2.BatchDescription,
       batchID:batchID,
       productId:productID,
       level:1
@@ -621,14 +623,13 @@ app.get('/api/authenticateProduct',async(req,res)=>{
 
 /////////////////////////////// ADMIN APIS //////////////////////////////////////////
 
+
 app.get('/api/viewLevelCounts', async (req, res) => {
   try {
-    let factoryID= req.query.factoryID;
-    let level= req.query.level;
-
-    verificationData.find({ $and : [{factoryID:factoryID},{level:level}]}).then((data) => {
+    // verificationData.find({ $and : [{factoryID:factoryID},{level:level}]}).then((data) => {
+    verificationData.find().then((data) => {
       console.log(data);
-      res.status(200).json({count:data.length})
+      res.status(200).json(data)
     })
 
   } catch (error) {
