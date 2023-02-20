@@ -52,21 +52,21 @@ const Company = () => {
         // },
         {
             name: <div className='text-base'>Action</div>,
-            selector: (row) => <Button variant="outline-success" onClick={() => navigate('/superAdmin/factory',{ state: { adminId:  row._id} } )}>Factory</Button>,
+            selector: (row) => <Button variant="outline-success" onClick={() => navigate('/superAdmin/factory',{ state: { adminId:  row._id} } )}>Factory <span>(1)</span></Button>,
             ignoreRowClick: true,
             allowOverflow: true,
             button: true,
             width: "150px"
         },
         {
-            selector: (row) => <Button variant="outline-success" onClick={() => navigate('/superAdmin/distributer',{ state: { adminId:  row._id} })}>Distributer</Button>,
+            selector: (row) => <Button variant="outline-success" onClick={() => navigate('/superAdmin/distributer',{ state: { adminId:  row._id} })}>Distributer <span>(1)</span></Button>,
             ignoreRowClick: true,
             allowOverflow: true,
             button: true,
             width: "150px"
         },
         {
-            selector: (row) => <Button variant="outline-success" onClick={() => navigate('/superAdmin/retailer',{ state: { adminId:  row._id} })}>Retailer</Button>,
+            selector: (row) => <Button variant="outline-success" onClick={() => navigate('/superAdmin/retailer',{ state: { adminId:  row._id} })}>Retailer <span>(1)</span></Button>,
             ignoreRowClick: true,
             allowOverflow: true,
             button: true,
@@ -129,6 +129,13 @@ const Company = () => {
                                     actions={<NavLink
                                         to="/superAdmin/addCompany"><Button>Add</Button></NavLink>}
                                     subHeader
+                                    subHeaderComponent={
+                                        <div className='w-full'>
+                                            <div className="float-left lg:w-6/12 d-flex pr-4 mb-10 font-light">
+                                                <Input type="text" color="purple" placeholder="Search Here" value={Search} onChange={(e) => setSearch(e.target.value)} />
+                                            </div>
+                                        </div>
+                                    }
                                     // subHeaderComponent={
                                     //     <div className='w-full'>
                                     //         <div className="float-left lg:w-6/12 d-flex pr-4 mb-10 font-light">

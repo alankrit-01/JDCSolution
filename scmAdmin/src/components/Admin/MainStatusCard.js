@@ -2,6 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { getDistributer, getFactory, getRetailers } from 'Services/action';
 import StatusCard from "./StatusCard";
+import PieRechartComponent from "./PieChart";
+
+
+
 const MainStatusCard = () => {
     const dispatch = useDispatch();
     const [Distributer, setDistributer] = useState([]);
@@ -18,9 +22,6 @@ const MainStatusCard = () => {
     const initialdata = useSelector((state) => state.DistributerRecord);
     const initialFactorydata = useSelector((state) => state.FactoryRecord);
     const initialRetailerdata = useSelector((state) => state.RetailerRecord);
-
-
-    console.log("initialFactorydata", initialFactorydata)
     useEffect(() => {
         setDistributer(initialdata.distributerRec.length)
         setFactories(initialFactorydata.factoryRec.length)
@@ -31,6 +32,7 @@ const MainStatusCard = () => {
 
     return (
         <>
+            
             <StatusCard
                 color="pink"
                 icon="groups"
@@ -72,6 +74,8 @@ const MainStatusCard = () => {
             // percentageColor="green"
             // date="Since last month"
             /> */}
+
+
         </>
     )
 }

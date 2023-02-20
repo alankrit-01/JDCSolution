@@ -42,8 +42,8 @@ const BatchTemplate = () => {
             width: "200px"
         },
         {
-            name: "Product Template ID",
-            selector: (row) => row.ProductTemplateID,
+            name: "Product Name",
+            selector: (row) => row.Name,
             sortable: true,
             width: "200px"
         },
@@ -97,7 +97,7 @@ const BatchTemplate = () => {
     }, [initialBatchTemplatedata])
     useEffect(() => {
             const result = BatchTemplates.filter((allBatchTemplate) => {
-                return allBatchTemplate.DateOfProduction.toLowerCase().match(Search.toLowerCase());
+                return allBatchTemplate.Name.toLowerCase().match(Search.toLowerCase());
             })
             setFilterBatchTemplates(result)
         }, [Search])

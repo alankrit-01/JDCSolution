@@ -88,9 +88,9 @@ const AddBatchTemplate = () => {
             factoryLocation:factoryUserLocation,
             dataOfProduction:batchManufacture 
         }
-        if(distributer){
-            data.push("companyProductIds",productIds);
-        }
+        // if(distributer){
+        //     data.push("companyProductIds",productIds);
+        // }
         dispatch(storeBatchTemplate(data))
         
 
@@ -159,14 +159,7 @@ const AddBatchTemplate = () => {
                     <div className="container mx-auto max-w-full">
                         <div className="grid grid-cols-1 xl:grid-cols-6">
                             <div className="xl:col-start-1 xl:col-end-7 px-4 mb-16">
-                                {/*
-                                <span><img src="https://www.govtsarkarivacancy.com/images/favicon.png"></span>
-                                <span>बेहतर न्यूज अनुभव</span>
-                                <span><a href="https://play.google.com/store/apps/details?id=matraex.govt_sarkari_vacancy" target="_blank">ऐप में पढ़े</a></span>
-                                <span><img src=""></span>
-                                <span>ब्राउज़र में ही </span>
-                                <span>जारी रखें</span>
-                                */}
+                               
                                 <Card>
                                     <CardHeader color="purple" contentPosition="none">
                                         <div className="w-full flex items-center justify-between">

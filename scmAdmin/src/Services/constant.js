@@ -41,6 +41,11 @@ export const Get_Distributer = 'Get_Distributer';
 export const Get_Distributer_By_Company = 'Get_Distributer_By_Company';
 export const Set_Distributer_By_Company_List = 'Set_Distributer_By_Company_List';
 
+export const Get_Feedback = 'Get_Feedback';
+export const Set_Feedback_List = 'Set_Feedback_List';
+
+
+
 export const Set_Distributer_List = 'Set_Distributer_List';
 export const Store_Multi_User = 'Store_Multi_User';
 export const Set_Store_Multi_User_Data = 'Set_Store_Multi_User_Data';
