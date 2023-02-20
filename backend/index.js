@@ -12,8 +12,6 @@ const verificationData = require('./models/verificationData');
 require('dotenv').config()
 const app = express(); 
 
-<<<<<<< HEAD
-=======
 // const cors = require('cors'); 
 const corsOptions ={
     origin:'http://localhost:3000', 
@@ -29,7 +27,6 @@ mongoose.connect('mongodb+srv://vipin:ldOGGLOXWNcP6OjK@cluster0.y8ufn.mongodb.ne
         console.warn("Connected");
     }) 
 
->>>>>>> 8cc751b7c54db10b00b71efadbcc74f97621de81
 const contractAbi = require('./artifacts/contracts/Supplychain.sol/Supplychain.json')
 
 let contractAddress ="0x9a9dD6be8b0bC5eC17FA5c548411862eEEfdB150"; 
