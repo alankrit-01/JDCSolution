@@ -12,21 +12,6 @@ const verificationData = require('./models/verificationData');
 require('dotenv').config()
 const app = express(); 
 
-// const cors = require('cors'); 
-const corsOptions ={
-    origin:'http://localhost:3000', 
-    credentials:true,            //access-control-allow-credentials:true
-    optionSuccessStatus:200
-}
-app.use(cors(corsOptions));
-mongoose.connect('mongodb+srv://vipin:ldOGGLOXWNcP6OjK@cluster0.y8ufn.mongodb.net/nodedatabase?retryWrites=true&w=majority',
-    {
-        useNewUrlParser: true,
-        useUnifiedTopology: true
-    }).then(() => {
-        console.warn("Connected");
-    }) 
-
 const contractAbi = require('./artifacts/contracts/Supplychain.sol/Supplychain.json')
 
 let contractAddress ="0x9a9dD6be8b0bC5eC17FA5c548411862eEEfdB150"; 
@@ -602,6 +587,8 @@ app.get('/api/authenticateProduct',async(req,res)=>{
     const Data= new verificationData({
       _id: new mongoose.Types.ObjectId(),
       factoryID:data2.FactoryID,
+      distributorID:data2.DistributorID,
+      batchDescription:data2.BatchDescription,
       batchID:batchID,
       productId:productID,
       level:1
@@ -621,14 +608,13 @@ app.get('/api/authenticateProduct',async(req,res)=>{
 
 /////////////////////////////// ADMIN APIS //////////////////////////////////////////
 
+
 app.get('/api/viewLevelCounts', async (req, res) => {
   try {
-    let factoryID= req.query.factoryID;
-    let level= req.query.level;
-
-    verificationData.find({ $and : [{factoryID:factoryID},{level:level}]}).then((data) => {
+    // verificationData.find({ $and : [{factoryID:factoryID},{level:level}]}).then((data) => {
+    verificationData.find().then((data) => {
       console.log(data);
-      res.status(200).json({count:data.length})
+      res.status(200).json(data)
     })
 
   } catch (error) {
