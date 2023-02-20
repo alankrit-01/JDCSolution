@@ -9,7 +9,7 @@ import DataTable from 'react-data-table-component';
 import { Button } from "@material-tailwind/react";
 import Input from '@material-tailwind/react/Input';
 
-const FactoryFeedback = () => {
+const ViewCompanyFeedback = () => {
     const admindata = useSelector((state) => state.AdminLoginData);
     const [adminUserHash, setAdminUserHash] = useState(admindata.adminUserHash);
     const dispatch = useDispatch();
@@ -102,6 +102,6 @@ const FactoryFeedback = () => {
         </>
     );
 }
-export default FactoryFeedback
+export default ViewCompanyFeedback
 
 

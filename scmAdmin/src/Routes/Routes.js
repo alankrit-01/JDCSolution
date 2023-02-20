@@ -8,6 +8,9 @@ import AddCompany from 'pages/SuperAdmin/Company/AddCompany';
 import SuperAdminFactory from 'pages/SuperAdmin/Factory';
 import SuperAdminDistributer from 'pages/SuperAdmin/Distributer';
 import SuperAdminRetailer from 'pages/SuperAdmin/Retailer';
+import CompanyFeedback from 'pages/SuperAdmin/Company/CompanyFeedback';
+import ViewCompanyFeedback from 'pages/SuperAdmin/Company/ViewCompanyFeedback';
+
 
 import AdminLogin from "pages/Admin/Login";
 import FactoryLogin from "pages/Factory/Login";
@@ -22,6 +25,9 @@ import Dashboard from 'pages/Admin/Dashboard';
 import FactoryFeedback from 'pages/Admin/Factory/FactoryFeedback';
 import DistributerFeedback from 'pages/Admin/Distributer/DistributerFeedback';
 import RetailerFeedback from 'pages/Admin/Retailer/RetailerFeedback';
+import AddCompanyFeedbak from 'pages/Admin/AddCompanyFeedbak';
+
+
 
 import FactoryDashboard from "pages/Factory/Dashboard";
 import FactorySetting from 'pages/Factory/Settings';
@@ -49,9 +55,9 @@ const WebRoutes = () => {
             <Route path="/superAdmin/factory" index element={<SuperAdminFactory />} />
             <Route path="/superAdmin/distributer" index element={<SuperAdminDistributer />} />
             <Route path="/superAdmin/retailer" index element={<SuperAdminRetailer />} />
-            
 
-
+            <Route path="/superAdmin/companyFeedback" index element={<CompanyFeedback />} />
+            <Route path="/superAdmin/viewCompanyFeedback" index element={<ViewCompanyFeedback />} />
             
             
             <Route path="/admin" index element={<AdminLogin />} />
@@ -74,6 +80,10 @@ const WebRoutes = () => {
 
             <Route path="/admin/retailerFeedback" index element={<RetailerFeedback />} />
             <Route path="/admin/viewRetailerFeedback" index element={<Distributer />} />
+
+            <Route path="/admin/addCompanyFeedbak" index element={<AddCompanyFeedbak />} />
+
+            
             
             <Route path="/factory" index element={<FactoryLogin />} />
             <Route path="/factory/dashboard" index element={<FactoryDashboard />} />

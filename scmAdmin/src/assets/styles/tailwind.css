@@ -954,11 +954,11 @@ video {
 	border-top-left-radius: 0px;
 	border-top-right-radius: 0px;
 }
-.border-2{
-	border-width: 2px;
-}
 .border{
 	border-width: 1px;
+}
+.border-2{
+	border-width: 2px;
 }
 .border-0{
 	border-width: 0px;

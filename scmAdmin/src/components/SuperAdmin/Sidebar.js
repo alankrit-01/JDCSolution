@@ -65,36 +65,16 @@ export default function SuperAdminSidebar() {
                                     Companies
                                 </NavLink>
                             </li>
-                            {/* <li className="rounded-lg mb-2">
-                                <NavLink
-                                    to="/admin/factory"
-                                    className="flex items-center gap-4 text-sm text-white font-light px-4 py-3 rounded-lg"
-                                    activeClassName="bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md"
-                                >
-                                    <Icon name="person" size="2xl" />
-                                    Factory
-                                </NavLink>
-                            </li> */}
-                            {/* <li className="rounded-lg mb-2">
-                                <NavLink
-                                    to="/admin/distributer"
-                                    className="flex items-center gap-4 text-sm text-white font-light px-4 py-3 rounded-lg"
-                                    activeClassName="bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md"
-                                >
-                                    <Icon name="person" size="2xl" />
-                                    Distributer
-                                </NavLink>
-                            </li>
                             <li className="rounded-lg mb-2">
                                 <NavLink
-                                    to="/admin/retailer"
+                                    to="/superAdmin/companyFeedback"
                                     className="flex items-center gap-4 text-sm text-white font-light px-4 py-3 rounded-lg"
                                     activeClassName="bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md"
                                 >
                                     <Icon name="person" size="2xl" />
-                                    Retailer
+                                    Companies Feedback
                                 </NavLink>
-                            </li> */}
+                            </li>
                             <li className="rounded-lg mb-2">
                                 <button onClick={logout}
                                     className="flex items-center gap-4 text-sm text-white font-light px-4 py-3 rounded-lg"

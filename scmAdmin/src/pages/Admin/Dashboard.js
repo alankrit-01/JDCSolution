@@ -1,7 +1,7 @@
 import MainStatusCard from 'components/Admin/MainStatusCard';
 import Sidebar from 'components/Admin/Sidebar';
 import Footer from 'components/Admin/Footer';
-
+import PieRechartComponent from 'components/Admin/PieChart';
 const Dashboard = () => {
     return (
         <>
@@ -13,6 +13,7 @@ const Dashboard = () => {
                         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 mb-4">
                             <MainStatusCard />
                         </div>
+                        <PieRechartComponent />
                     </div>
                 </div>
                 <Footer />

@@ -3,57 +3,63 @@ import Sidebar from 'components/Admin/Sidebar';
 import Footer from 'components/Admin/Footer';
 import { NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getDistributer } from 'Services/action';
+import { getFeedback } from 'Services/action';
 import { useEffect, useMemo, useState } from 'react';
 import DataTable from 'react-data-table-component';
 import { Button } from "@material-tailwind/react";
 import Input from '@material-tailwind/react/Input';
 
 const DistributerFeedback = () => {
+    const admindata = useSelector((state) => state.AdminLoginData);
+    const [adminUserHash, setAdminUserHash] = useState(admindata.adminUserHash);
     const dispatch = useDispatch();
-    const [Distributer, setDistributer] = useState([]);
+    const [Feedback, setFeedback] = useState([]);
     const [Search, setSearch] = useState("");
-    const [FilterDistributer, setFilterDistributer] = useState([]);
+    const [FilterFeedback, setFilterFeedback] = useState([]);
 
     const columns = [
         {
-            name: "Distributer Name",
+            name: "Name",
             selector: (row) => row.name,
             sortable: true,
         },
         {
-            name: "Distributer Email",
-            selector: (row) => row.email,
+            name: "Subject",
+            selector: (row) => row.subject,
             sortable: true,
         },
         {
-            name: "Distributer Address",
-            selector: (row) => row.address,
+            name: "Descrition",
+            selector: (row) => row.description,
             sortable: true,
         },
         {
-            name: "Distributer Hash Address",
-            selector: (row) => row.hashAddress,
+            name: "Date",
+            selector: (row) => row.date,
             sortable: true,
         },
     ];
 
     useEffect(() => {
-        dispatch(getDistributer())
+        const data = {
+            receiverUserID:adminUserHash,
+            role:'Distributer',
+        }
+        dispatch(getFeedback(data))
     }, [])
 
-    const initialdata = useSelector((state) => state.DistributerRecord);
+    const initialdata = useSelector((state) => state.FeedbackRecord);
 
     useEffect(() => {
-        setDistributer(initialdata.distributerRec)
-        setFilterDistributer(initialdata.distributerRec)
+        setFeedback(initialdata.feedbackRec)
+        setFilterFeedback(initialdata.feedbackRec)
     }, [initialdata])
 
     useEffect(() => {
-        const result = Distributer.filter((distributerval) => {
-            return distributerval.name.toLowerCase().match(Search.toLowerCase());
+        const result = Feedback.filter((feedbackval) => {
+            return feedbackval.name.toLowerCase().match(Search.toLowerCase());
         })
-        setFilterDistributer(result)
+        setFilterFeedback(result)
     }, [Search])
     return (
         <>
@@ -67,12 +73,13 @@ const DistributerFeedback = () => {
                     </div>
                 </div>
                 <div className="px-3 md:px-8 h-auto -mt-24">
+                   
                     <div className="container mx-auto max-w-full">
                         <div className="grid grid-cols-1 px-4 mb-16">
                             <DataTable
-                                title="Distributer Feedback List"
+                                title="Factory Feedback List"
                                 columns={columns}
-                                data={FilterDistributer}
+                                data={FilterFeedback}
                                 pagination
                                 fixedHeader
                                 selectableRows
