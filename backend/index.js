@@ -12,6 +12,7 @@ const verificationData = require('./models/verificationData');
 require('dotenv').config()
 const app = express(); 
 
+    optionSuccessStatus:200
 const contractAbi = require('./artifacts/contracts/Supplychain.sol/Supplychain.json')
 
 let contractAddress ="0x9a9dD6be8b0bC5eC17FA5c548411862eEEfdB150"; 
