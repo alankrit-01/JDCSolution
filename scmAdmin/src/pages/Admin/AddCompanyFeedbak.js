@@ -68,7 +68,7 @@ const AddCompanyFeedbak = () => {
                                         <div className="w-full flex items-center justify-between">
                                             <h2 className="text-white text-2xl">Add Feedback</h2>
                                         </div>
-                                    </CardHeader>
+                                    </CardHeader> 
                                     <CardBody>
                                         <form onSubmit={handleSubmit}>
                                         <div className="flex flex-wrap mt-10">
