@@ -10,8 +10,17 @@ var encoder = new util.TextEncoder('utf-8');
 const verificationData = require('./models/verificationData');
 
 require('dotenv').config()
-const app = express(); 
+const app = express();
 
+mongoose.connect('mongodb+srv://vipin:ldOGGLOXWNcP6OjK@cluster0.y8ufn.mongodb.net/nodedatabase?retryWrites=true&w=majority',
+    {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    }).then(() => {
+        console.warn("Connected");
+    }) 
+
+    optionSuccessStatus:200
 const contractAbi = require('./artifacts/contracts/Supplychain.sol/Supplychain.json')
 
 let contractAddress ="0x9a9dD6be8b0bC5eC17FA5c548411862eEEfdB150"; 
@@ -49,7 +58,6 @@ const connectToMatic = async () => {
 }
 
 connectToMatic();
-
 
 ////////////////// API FOR FACTORY ///////////////////////
 
