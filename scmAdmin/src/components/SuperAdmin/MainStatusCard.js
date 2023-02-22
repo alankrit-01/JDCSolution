@@ -1,24 +1,29 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { getDistributer, getFactory, getRetailers } from 'Services/action';
+import {getCompany, getDistributer, getFactory, getRetailers } from 'Services/action';
 import StatusCard from "./StatusCard";
 const MainStatusCard = () => {
     const dispatch = useDispatch();
+    const [Company, setCompany] = useState([]);
     const [Distributer, setDistributer] = useState([]);
     const [Factories, setFactories] = useState([]);
     const [Retailer, setRetailer] = useState([]);
 
 
     useEffect(() => {
+        dispatch(getCompany())
         dispatch(getDistributer())
         dispatch(getFactory())
         dispatch(getRetailers())
     }, [])
-
+    
+    const initialCompanydata = useSelector((state) => state.CompanyRecord);
     const initialdata = useSelector((state) => state.DistributerRecord);
     const initialFactorydata = useSelector((state) => state.FactoryRecord);
     const initialRetailerdata = useSelector((state) => state.RetailerRecord);
     useEffect(() => {
+        
+        setCompany(initialCompanydata.companyRec.length && initialCompanydata.companyRec.length)
         setDistributer(initialdata.distributerRec.length && initialdata.distributerRec.length)
         setFactories(initialFactorydata.factoryRec.length && initialFactorydata.factoryRec.length)
         setRetailer(initialRetailerdata.retailerRec.length && initialRetailerdata.retailerRec.length)
@@ -32,7 +37,7 @@ const MainStatusCard = () => {
                 color="blue"
                 icon="groups"
                 title="Company"
-                amount="1"
+                amount={Company}
             // percentage="12"
             // percentageIcon="arrow_upward"
             // percentageColor="green"

@@ -25,7 +25,8 @@ import Dashboard from 'pages/Admin/Dashboard';
 import FactoryFeedback from 'pages/Admin/Factory/FactoryFeedback';
 import DistributerFeedback from 'pages/Admin/Distributer/DistributerFeedback';
 import RetailerFeedback from 'pages/Admin/Retailer/RetailerFeedback';
-import AddCompanyFeedbak from 'pages/Admin/AddCompanyFeedbak';
+import AddCompanyFeedback from 'pages/Admin/AddCompanyFeedbak';
+import CompanySelfFeedback from "pages/Admin/CompanyFeedback";
 
 
 
@@ -40,6 +41,11 @@ import ProductTemplate from "pages/Factory/productTemplate";
 import AddProductTemplate from "pages/Factory/addProductTemplate";
 import AddProduct from "pages/Factory/addProduct";
 import Setting from 'pages/Admin/Settings';
+
+
+
+import AddFactoryFeedback from 'pages/Factory/AddFactoryFeedbak';
+import FactorySelfFeedback from "pages/Factory/FactorySelfFeedback";
 
 
 import { Route, Routes } from "react-router-dom";
@@ -81,8 +87,10 @@ const WebRoutes = () => {
             <Route path="/admin/retailerFeedback" index element={<RetailerFeedback />} />
             <Route path="/admin/viewRetailerFeedback" index element={<Distributer />} />
 
-            <Route path="/admin/addCompanyFeedbak" index element={<AddCompanyFeedbak />} />
+            <Route path="/admin/addCompanyFeedback" index element={<AddCompanyFeedback />} />
+            <Route path="/admin/companySelfFeedback" index element={<CompanySelfFeedback />} />
 
+            
             
             
             <Route path="/factory" index element={<FactoryLogin />} />
@@ -97,6 +105,8 @@ const WebRoutes = () => {
             <Route path="/factory/productTemplate" index element={<ProductTemplate />} />
             <Route path="/factory/addProductTemplate" index element={<AddProductTemplate />} />
 
+            <Route path="/factory/addFactoryFeedback" index element={<AddFactoryFeedback />} />
+            <Route path="/factory/factorySelfFeedback" index element={<FactorySelfFeedback />} />
 
             {/* Need Changes */}
             <Route path="/factory/product" index element={<Products />} />

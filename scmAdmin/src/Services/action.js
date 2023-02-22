@@ -1,4 +1,4 @@
-import { GETDETAILS,SuperAdminUserLogin,Get_SuperAdmin_Local_Store_Data,Store_Company,Check_Company_Success_data,Get_Company, SuperAdminUserLogout, AdminUserLogin, AdminUserLogout, Get_Local_Store_Data, Get_Retailers,Get_Retailer_By_Company, Get_Factory,Get_Factory_By_Company, Get_Distributer,Get_Distributer_By_Company, FactoryUserLogin, FactoryUserLogout, Get_Factory_Local_Store_Data, Store_Factory,Check_Factory_Success_data, Store_Distributer, Check_Distributer_Success_data, Store_Retailer,Check_Retailer_Success_data, Store_Multi_User, Store_Product_Template,Check_Product_Template_Success_data, Get_Product_Template, Store_Batch_Template,Check_Batch_Template_Success_data, Get_Batch_Template,Get_Batch_Detail, Get_Feedback } from "./constant"
+import { GETDETAILS,SuperAdminUserLogin,Get_SuperAdmin_Local_Store_Data,Store_Company,Check_Company_Success_data,Get_Company, SuperAdminUserLogout, AdminUserLogin, AdminUserLogout, Get_Local_Store_Data, Get_Retailers,Get_Retailer_By_Company, Get_Factory,Get_Factory_By_Company, Get_Distributer,Get_Distributer_By_Company, FactoryUserLogin, FactoryUserLogout, Get_Factory_Local_Store_Data, Store_Factory,Check_Factory_Success_data, Store_Distributer, Check_Distributer_Success_data, Store_Retailer,Check_Retailer_Success_data, Store_Company_Feedback,Check_Company_Feedback_Success_data,Get_Self_Feedback, Store_Multi_User, Store_Product_Template,Check_Product_Template_Success_data, Get_Product_Template, Store_Batch_Template,Check_Batch_Template_Success_data, Get_Batch_Template,Get_Batch_Detail, Get_Feedback } from "./constant"
 export const GetDetails = (data) => {
     return {
         type: GETDETAILS,
@@ -95,6 +95,7 @@ export const getDistributerByCompany = (data) =>{
         data:data 
     } 
 }
+
 export const getDistributer = (data) =>{
     return{
         type:Get_Distributer,
@@ -153,6 +154,25 @@ export const storeMultiUser = (data) =>{
     } 
 }
 
+export const storeCompanyFeedback = (data) =>{
+    return{
+        type:Store_Company_Feedback,
+        data:data 
+    } 
+}
+export const checkCompanyFeedbackSuccessdata = (data) =>{
+    return{
+        type:Check_Company_Feedback_Success_data,
+        data:data 
+    } 
+}
+
+export const getSelfFeedback = (data) =>{
+    return{
+        type:Get_Self_Feedback,
+        data:data 
+    } 
+}
 
 //////////Factory Module //////////////
 

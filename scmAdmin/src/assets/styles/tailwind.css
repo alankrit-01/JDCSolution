@@ -713,11 +713,11 @@ video {
 .h-5{
 	height: 1.25rem;
 }
-.h-40{
-	height: 10rem;
-}
 .h-auto{
 	height: auto;
+}
+.h-40{
+	height: 10rem;
 }
 .h-12{
 	height: 3rem;
@@ -3179,11 +3179,11 @@ span.sidercheck {
 	}
 }
 @media (min-width: 1280px){
-	.xl\:col-end-5{
-		grid-column-end: 5;
-	}
 	.xl\:col-end-7{
 		grid-column-end: 7;
+	}
+	.xl\:col-end-5{
+		grid-column-end: 5;
 	}
 	.xl\:col-start-1{
 		grid-column-start: 1;

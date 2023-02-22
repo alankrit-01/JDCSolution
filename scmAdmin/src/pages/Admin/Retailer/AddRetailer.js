@@ -18,6 +18,7 @@ const AddRetailer = () => {
     const [hashAddress, setHashAddress] = useState('');
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
+    const [phone, setPhone] = useState('');
     const [address, setAddress] = useState('');
     const [city, setCity] = useState('');
     const [country, setCountry] = useState('');
@@ -36,6 +37,7 @@ const AddRetailer = () => {
             hashAddress:hashAddress,
             name:name,
             email: email,
+            phone: phone,
             address:address,
             role:"Retailer",
             city:city,
@@ -100,6 +102,16 @@ const AddRetailer = () => {
                                                         placeholder="Email Address"
                                                         name="email"
                                                         value={email} onChange={(e) => setEmail(e.target.value)}
+                                                        required
+                                                    />
+                                                </div>
+                                                <div className="w-full pr-4 mb-10 font-light">
+                                                    <Input
+                                                        type="text"
+                                                        color="purple"
+                                                        placeholder="Phone No."
+                                                        name="phone"
+                                                        value={phone} onChange={(e) => setPhone(e.target.value)}
                                                         required
                                                     />
                                                 </div>

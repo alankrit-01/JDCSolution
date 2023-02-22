@@ -45,11 +45,19 @@ export const Get_Feedback = 'Get_Feedback';
 export const Set_Feedback_List = 'Set_Feedback_List';
 
 
+export const Get_Self_Feedback = 'Get_Self_Feedback';
+export const Set_Self_Feedback_List = 'Set_Self_Feedback_List';
+
+
+
+
 
 export const Set_Distributer_List = 'Set_Distributer_List';
 export const Store_Multi_User = 'Store_Multi_User';
 export const Set_Store_Multi_User_Data = 'Set_Store_Multi_User_Data';
 export const Set_Store_Multi_User_Data_Fail = 'Set_Store_Multi_User_Data_Fail';
+
+
 
 /////////////////Factory Module ////////////
 export const FactoryUserLogin = 'FactoryUserLogin';
@@ -80,6 +88,13 @@ export const Set_Store_Retailer_Data = 'Set_Store_Retailer_Data';
 export const Set_Store_Retailer_Data_Fail = 'Set_Store_Retailer_Data_Fail';
 export const Check_Retailer_Success_data = 'Check_Retailer_Success_data';
 export const Check_Retailer_Success_data_1 = 'Check_Retailer_Success_data_1';
+
+export const Store_Company_Feedback = 'Store_Company_Feedback';
+export const Store_Company_Feedback_Request = 'Store_Company_Feedback_Request';
+export const Set_Store_Company_Feedback_Data = 'Set_Store_Retailer_Data';
+export const Set_Store_Company_Feedback_Data_Fail = 'Set_Store_Company_Feedback_Data_Fail';
+export const Check_Company_Feedback_Success_data = 'Check_Company_Feedback_Success_data';
+export const Check_Company_Feedback_Success_data_1 = 'Check_Company_Feedback_Success_data_1';
 
 
 export const Store_Product_Template = 'Store_Product_Template';

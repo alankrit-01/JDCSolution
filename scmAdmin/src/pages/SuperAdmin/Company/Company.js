@@ -52,28 +52,27 @@ const Company = () => {
         // },
         {
             name: <div className='text-base'>Action</div>,
-            selector: (row) => <Button variant="outline-success" onClick={() => navigate('/superAdmin/factory',{ state: { adminId:  row._id} } )}>Factory <span>(1)</span></Button>,
+            selector: (row) => <Button variant="outline-success" onClick={() => navigate('/superAdmin/factory',{ state: { adminId:  row._id} } )}>Factory <span>({row.totalFactory})</span></Button>,
             ignoreRowClick: true,
             allowOverflow: true,
             button: true,
             width: "150px"
         },
         {
-            selector: (row) => <Button variant="outline-success" onClick={() => navigate('/superAdmin/distributer',{ state: { adminId:  row._id} })}>Distributer <span>(1)</span></Button>,
+            selector: (row) => <Button variant="outline-success" onClick={() => navigate('/superAdmin/distributer',{ state: { adminId:  row._id} })}>Distributer <span>({row.totalDistributer})</span></Button>,
             ignoreRowClick: true,
             allowOverflow: true,
             button: true,
             width: "150px"
         },
         {
-            selector: (row) => <Button variant="outline-success" onClick={() => navigate('/superAdmin/retailer',{ state: { adminId:  row._id} })}>Retailer <span>(1)</span></Button>,
+            selector: (row) => <Button variant="outline-success" onClick={() => navigate('/superAdmin/retailer',{ state: { adminId:  row._id} })}>Retailer <span>({row.totalRetailer})</span></Button>,
             ignoreRowClick: true,
             allowOverflow: true,
             button: true,
             width: "150px"
         },
     ];
-
     useEffect(() => {
         dispatch(getCompany())
     }, [])

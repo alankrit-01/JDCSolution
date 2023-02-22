@@ -19,6 +19,7 @@ const AddCompany = () => {
     const [hashAddress, setHashAddress] = useState('');
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
+    const [phone, setPhone] = useState('');
     const [address, setAddress] = useState('');
     const [city, setCity] = useState('');
     const [country, setCountry] = useState('');
@@ -38,6 +39,7 @@ const AddCompany = () => {
             adminId: initialdata.superAdminUserId,
             name: name,
             email: email,
+            phone: phone,
             address: address,
             role: "Admin",
             city: city,
@@ -114,6 +116,16 @@ const AddCompany = () => {
                                                             required
                                                         />
                                                     </div>
+                                                    <div className="w-full lg:w-12/12 mb-10">
+                                                    <Input
+                                                        type="text"
+                                                        color="purple"
+                                                        placeholder="Phone No."
+                                                        name="phone"
+                                                        value={phone} onChange={(e) => setPhone(e.target.value)}
+                                                        required
+                                                    />
+                                                </div>
                                                     <div className="w-full lg:w-12/12 mb-10">
                                                         <Input
                                                             type="text"

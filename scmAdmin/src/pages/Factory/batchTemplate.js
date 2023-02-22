@@ -16,9 +16,9 @@ const BatchTemplate = () => {
     const factoryData = useSelector((state) => state.FactoryLoginData);
     const [factoryUserHash, setFactoryUserHash] = useState(factoryData.currentFactoryUserHash);
     const successNotify = () => toast.success('Batch Added Successfully !.', {
-        position: "bottom-right",
+        position: "bottom-right", 
         autoClose: 5000,
-        hideProgressBar: false,
+        hideProgressBar: false, 
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
@@ -79,12 +79,11 @@ const BatchTemplate = () => {
         const data = {
             factoryID:factoryUserHash
         }
-        dispatch(getBatchTemplate(data))
+        dispatch(getBatchTemplate(data)) 
     }, [])
     const initialBatchTemplatedata = useSelector((state) => state.BatchTemplateRecord);
     const initialBatchTemplateStoredata = useSelector((state) => state.StoreBatchTemplateData);
 
-    console.log("initialBatchTemplatedata", initialBatchTemplatedata)
 
     useMemo(() => {
         if (initialBatchTemplateStoredata.success == true) {

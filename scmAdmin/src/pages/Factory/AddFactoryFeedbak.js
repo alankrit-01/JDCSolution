@@ -1,6 +1,6 @@
-import MainStatusCard from "components/Admin/MainStatusCard";
-import Sidebar from "components/Admin/Sidebar";
-import Footer from "components/Admin/Footer";
+import MainStatusCard from "components/Factory/MainStatusCard";
+import Sidebar from "components/Factory/Sidebar";
+import Footer from "components/Factory/Footer";
 import Card from '@material-tailwind/react/Card';
 import CardHeader from '@material-tailwind/react/CardHeader';
 import CardBody from '@material-tailwind/react/CardBody';
@@ -11,9 +11,9 @@ import { storeCompanyFeedback } from "Services/action";
 import React, { useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-const AddCompanyFeedbak = () => { 
-    const initialdata = useSelector((state) => state.AdminLoginData);   
-
+const AddFactoryFeedbak = () => { 
+    const initialdata = useSelector((state) => state.FactoryLoginData);   
+    console.log("initialdata",initialdata)
     const dispatch = useDispatch();
     const navigate = useNavigate();
     
@@ -33,11 +33,11 @@ const AddCompanyFeedbak = () => {
     const currentDate = new Date().toLocaleString();
      useMemo(() => {
         const data = {
-            senderUserID: initialdata.adminUserHash,
+            senderUserID: initialdata.currentFactoryUserHash,
             //receiverUserID: initialdata.superAdminId,
-            receiverUserID:"0xf39Fd6e51aad88F6F4ce6aB8827279cffFb91144",
-            name: initialdata.adminUserName,
-            role:"Admin",
+            receiverUserID:"0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92288",
+            name: initialdata.factoryUserName,
+            role:"Factory",
             subject:subject,
             description:description,
             date: currentDate,
@@ -51,7 +51,7 @@ const AddCompanyFeedbak = () => {
 
     useMemo(() => {
         if (initialSelfFeedbackRecordStoredata.success == true) {
-            navigate('/admin/companySelfFeedback')
+            navigate('/factory/factorySelfFeedback')
         }
     }, [initialSelfFeedbackRecordStoredata])
 
@@ -114,4 +114,4 @@ const AddCompanyFeedbak = () => {
         </>
     )
 }
-export default AddCompanyFeedbak
+export default AddFactoryFeedbak
