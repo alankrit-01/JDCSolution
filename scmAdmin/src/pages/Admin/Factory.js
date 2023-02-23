@@ -9,6 +9,7 @@ import DataTable from 'react-data-table-component';
 import { Button } from "@material-tailwind/react";
 import Input from '@material-tailwind/react/Input';
 import { CSVLink } from "react-csv";
+import React from "react";
 
 const Factory = () => {
     const dispatch = useDispatch();
@@ -16,6 +17,7 @@ const Factory = () => {
     const[Search,setSearch] = useState("");
     const[FilterFactories,setFilterFactories] = useState([]);
     const [excelData, setExcelData] = useState([]);
+    const [selectedData, setSelectedData] = React.useState([]);
 
     const columns = [
         {
@@ -71,17 +73,28 @@ const Factory = () => {
     },[Search]) 
 
     const getCsvData = () => {
-        const csvData = [];
-       
-        if (excelData.length > 0 && FilterFactories.length > 0) {
-          excelData.map((ex) => {
+      const csvData = [];
+  
+      if (excelData.length > 0 && FilterFactories.length > 0) {
+        excelData.map((ex) => {
+          csvData.push([
+            `${ex.name}`,
+            `${ex.email}`,
+            `${ex.address}`,
+            `${ex.hashAddress}`,
+          ]);
+        });
+        if (selRows.length > 0) {
+          selRows.map((val) => {
             csvData.push([
-              `${ex.name}`,
-              `${ex.email}`,
-              `${ex.address}`,
-              `${ex.hashAddress}`,
+              `${val.name}`,
+              `${val.email}`,
+              `${val.address}`,
+              `${val.hashAddress}`,
             ]);
           });
+        } 
+        else {
           FilterFactories.map((val) => {
             csvData.push([
               `${val.name}`,
@@ -90,9 +103,16 @@ const Factory = () => {
               `${val.hashAddress}`,
             ]);
           });
-        }    
-        return csvData;
-      };
+        }
+      }
+     
+      return csvData;
+    };
+
+    var selRows = selectedData;
+  const handleChange = (state) => {
+    setSelectedData(state.selectedRows);
+  };
     return (
         <>
             <Sidebar />
@@ -116,18 +136,19 @@ const Factory = () => {
                                 selectableRows
                                 selectableRowsHighlight
                                 highlightOnHover
+                                onSelectedRowsChange={handleChange}
                                 actions={ <NavLink
                                     to="/admin/addfactory"><Button>Add</Button></NavLink>}
                                 subHeader
                                 subHeaderComponent={
-                                    <div>
+                                  <div className='w-full'>
                                     <CSVLink filename="FactoryList.csv" data={getCsvData()}>
                                     {" "}
-                                    <div className="w-full lg:w-6/12 pr-4 mb-10 font-light">
+                                    <div className="float-left lg:w-6/12 d-flex pr-4 mb-10 font-light">
                                       <Button>Export CSV</Button>
                                     </div>
                                   </CSVLink>
-                                    <div className="w-full lg:w-6/12 pr-4 mb-10 font-light">
+                                  <div className="float-left lg:w-6/12 d-flex pr-4 mb-10 font-light">
                                         <Input type="text" color="purple" placeholder="Search Here" value={Search} onChange={(e) => setSearch(e.target.value)} />
                                     </div>
                                     </div>

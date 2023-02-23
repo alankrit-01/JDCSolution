@@ -8,12 +8,16 @@ import { useEffect, useState } from 'react';
 import DataTable from 'react-data-table-component';
 import { Button } from "@material-tailwind/react";
 import Input from '@material-tailwind/react/Input';
+import { CSVLink } from "react-csv";
+import React from "react";
 
 const Retailer = () => {
     const dispatch = useDispatch();
     const[Retailer,setRetailer] = useState([]);
     const[Search,setSearch] = useState("");
     const[FilterRetailer,setFilterRetailer] = useState([]);
+    const [excelData, setExcelData] = useState([]);
+    const [selectedData, setSelectedData] = React.useState([]);
 
     const columns = [
         {
@@ -39,6 +43,19 @@ const Retailer = () => {
     ];
 
     useEffect(() => {
+        const columns = [
+          {
+            name: "Factory Name",
+            email: "Factory Email",
+            address: "Factory Address",
+            hashAddress: "Factory Hash Address",
+          },
+        ];
+        setExcelData(columns);
+      }, []);
+
+
+    useEffect(() => {
         dispatch(getRetailers())
     }, [])
 
@@ -55,6 +72,49 @@ const Retailer = () => {
         })
         setFilterRetailer(result)
     },[Search]) 
+
+    const getCsvData = () => {
+        const csvData = [];
+    
+        if (excelData.length > 0 && FilterRetailer.length > 0) {
+          excelData.map((ex) => {
+            csvData.push([
+              `${ex.name}`,
+              `${ex.email}`,
+              `${ex.address}`,
+              `${ex.hashAddress}`,
+            ]);
+          });
+          if (selRows.length > 0) {
+            selRows.map((val) => {
+              csvData.push([
+                `${val.name}`,
+                `${val.email}`,
+                `${val.address}`,
+                `${val.hashAddress}`,
+              ]);
+            });
+          } 
+          else {
+            FilterRetailer.map((val) => {
+              csvData.push([
+                `${val.name}`,
+                `${val.email}`,
+                `${val.address}`,
+                `${val.hashAddress}`,
+              ]);
+            });
+          }
+        }
+       
+        return csvData;
+      };
+  
+      var selRows = selectedData;
+    const handleChange = (state) => {
+      setSelectedData(state.selectedRows);
+    };
+
     return (
         <>
             <Sidebar />
@@ -78,11 +138,18 @@ const Retailer = () => {
                                 selectableRows
                                 selectableRowsHighlight
                                 highlightOnHover
+                                onSelectedRowsChange={handleChange}
                                 actions={ <NavLink
                                     to="/admin/addretailer"><Button>Add</Button></NavLink>}
                                 subHeader
                                 subHeaderComponent={
                                     <div className='w-full'>
+                                         <CSVLink filename="RetailerList.csv" data={getCsvData()}>
+                                    {" "}
+                                    <div className="float-left lg:w-6/12 d-flex pr-4 mb-10 font-light">
+                                      <Button>Export CSV</Button>
+                                    </div>
+                                  </CSVLink>
                                         <div className="float-left lg:w-6/12 d-flex pr-4 mb-10 font-light">
                                         <Button><NavLink
                                     to="/admin/addMultiUser">Add Multi Retailer</NavLink></Button>
