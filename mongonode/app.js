@@ -5,6 +5,7 @@ var util = require('util');
 var encoder = new util.TextEncoder('utf-8');
 const mongoose = require('mongoose');
 const User = require('./models/users');
+const Consumer = require('./models/consumers');
 const Factory = require('./models/factories');
 var bodyParser = require('body-parser');
 var jsonParser = bodyParser.json();
@@ -440,4 +441,26 @@ function verifyToken(req, res, next) {
         res.json({ "result": "Token not Provided" })
     }
 }
+/***************Consumer Section********/
+app.post('/registerconsumer', jsonParser, async function (req, res) {
+    console.log(req.body.phone)
+    const checkConsumerExists = await Consumer.findOne({ phone: req.body.phone });
+    if (!checkConsumerExists) {
+        const data = new Consumer({
+            _id: new mongoose.Types.ObjectId(),
+            phone: req.body.phone,
+            created:Date.now()
+        
+        })
+        data.save().then((result) => {           
+            res.status(201).json(result);
+        })
+        .catch((err) => console.warn(err)
+        )
+    }else{        
+        res.status(201).json(checkConsumerExists);
+    }
+})
+
+
 app.listen(5155);
