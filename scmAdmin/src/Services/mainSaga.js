@@ -11,7 +11,6 @@ function* superAdminUserLogin(data) {
         const result = superAdminLoginRes.data;
         localStorage.setItem('superAdminUserId', superAdminLoginRes.data.userId);
         localStorage.setItem('superAdminUserName', superAdminLoginRes.data.userName);
-        localStorage.setItem('superAdminUserHash', superAdminLoginRes.data.userHash);
         localStorage.setItem('superAdminUserEmail', superAdminLoginRes.data.userEmail);
         localStorage.setItem('superAdmintoken', superAdminLoginRes.data.token);
         localStorage.setItem('superAdminUserRole', superAdminLoginRes.data.userRole);
@@ -32,7 +31,7 @@ function* getSuperAdminLocalStoreData() {
 }
 function* storeCompany(data) {
     const requestData = data.data
-    try {
+    try { 
         let uri = API_URL.concat('/addUser')
         const storeCompanyRes = yield call(Axios.post, uri, requestData)
         const result = storeCompanyRes.data;
@@ -71,7 +70,6 @@ function* adminUserLogin(data) {
         localStorage.setItem('adminUserId', adminLoginRes.data.userId);
         localStorage.setItem('superAdminId', adminLoginRes.data.superAdminId);
         localStorage.setItem('adminUserName', adminLoginRes.data.userName);
-        localStorage.setItem('adminUserHash', adminLoginRes.data.userHash);
         localStorage.setItem('adminUserEmail', adminLoginRes.data.userEmail);
         localStorage.setItem('admintoken', adminLoginRes.data.token);
         localStorage.setItem('adminUserRole', adminLoginRes.data.userRole);
@@ -178,7 +176,6 @@ function* factoryUserLogin(data) {
         let uri = API_URL.concat('/factoryLogin')
         const factoryLoginRes = yield call(Axios.post, uri, requestData)
         const result = factoryLoginRes.data;
-        localStorage.setItem('currentFactoryUserHash', factoryLoginRes.data.userHash);
         localStorage.setItem('factoryUserId', factoryLoginRes.data.userId);
         localStorage.setItem('factoryUserName', factoryLoginRes.data.userName);
         localStorage.setItem('factoryUserEmail', factoryLoginRes.data.userEmail);
@@ -288,16 +285,7 @@ function* storeMultiUser(data) {
         const valuesArray = [];
 
         requestData.map((value, index) => {
-            //  {value.map((val, i) => {
-
-            // valuesArray.push(['hashAddress',value[0]]);
-            // valuesArray.push(['name',value[1]]);
-            //valuesArray.push(['hashAddress:'+ value[0], 'name',value[1]])
             valuesArray.push([value[0], value[1], value[2], value[3], value[4], value[5], value[6], value[7], value[8]])
-
-
-            // })}
-
         })
 
         let uri = API_URL.concat('/addMultiUser')

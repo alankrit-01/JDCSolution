@@ -45,18 +45,19 @@ const Distributer = () => {
             sortable: true,
         },
         {
-            name: "Distributer Hash Address",
-            selector: (row) => row.hashAddress,
+            name: "Distributer Phone",
+            selector: (row) => row.phone,
             sortable: true,
         },
     ];
+
     useEffect(() => {
         const columns = [
           {
-            name: "Factory Name",
-            email: "Factory Email",
-            address: "Factory Address",
-            hashAddress: "Factory Hash Address",
+            name: "Distributer Name",
+            email: "Distributer Email",
+            address: "Distributer Address",
+            phone: "Distributer Phone",
           },
         ];
         setExcelData(columns);
@@ -89,7 +90,7 @@ const Distributer = () => {
               `${ex.name}`,
               `${ex.email}`,
               `${ex.address}`,
-              `${ex.hashAddress}`,
+              `${ex.phone}`,
             ]);
           });
           if (selRows.length > 0) {
@@ -98,7 +99,7 @@ const Distributer = () => {
                 `${val.name}`,
                 `${val.email}`,
                 `${val.address}`,
-                `${val.hashAddress}`,
+                `${val.phone}`,
               ]);
             });
           } 
@@ -108,7 +109,7 @@ const Distributer = () => {
                 `${val.name}`,
                 `${val.email}`,
                 `${val.address}`,
-                `${val.hashAddress}`,
+                `${val.phone}`,
               ]);
             });
           }

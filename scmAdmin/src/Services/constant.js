@@ -3,7 +3,7 @@ export const API_URL = "http://162.215.222.118:5155";
  export const BLOCKCHAIN_API_URL = "http://162.215.222.118:8085/api";
 // export const BLOCKCHAIN_API_URL = "http://192.168.1.101:8082/api";
 
-export const GETDETAILS = 'GETDETAILS';
+export const GETDETAILS = 'GETDETAILS'; 
 export const SuperAdminUserLogin = 'SuperAdminUserLogin';
 export const SuperAdminUserLogout = 'SuperAdminUserLogout';
 export const Get_SuperAdmin_Local_Store_Data = 'Get_SuperAdmin_Local_Store_Data';

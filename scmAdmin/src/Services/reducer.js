@@ -8,7 +8,6 @@ const superAdminData = {
     error: "",
     superAdminUserId: "",
     superAdminUserName: "",
-    superAdminUserHash: "",
     superAdminUserEmail: "",
     superAdmintoken: "",
     superAdminUserRole: "",
@@ -32,7 +31,6 @@ const adminData = {
     adminUserId: "",
     superAdminId:"",
     adminUsername: "",
-    adminUserHash: "",
     adminUserEmail: "",
     admintoken: "",
     adminUserRole: "",
@@ -82,7 +80,6 @@ const selffeedbackData = {
 
 const factoryloginRec = {
     error: "",
-    factoryUserHash: "",
     factoryUserId: "",
     factoryUsername: "",
     factoryUserEmail: "",
@@ -153,8 +150,6 @@ export const SuperAdminLoginData = (initialdata = superAdminData, action) => {
             initialdata = { ...initialdata, superAdminUserId: userId }
             let username = localStorage.getItem('superAdminUserName');
             initialdata = { ...initialdata, superAdminUserName: username }
-            let userhash = localStorage.getItem('superAdminUserHash');
-            initialdata = { ...initialdata, superAdminUserHash: userhash }
             let userEmail = localStorage.getItem('superAdminUserEmail');
             initialdata = { ...initialdata, superAdminUserEmail: userEmail }
             let token = localStorage.getItem('superAdmintoken');
@@ -182,8 +177,6 @@ export const SuperAdminLoginData = (initialdata = superAdminData, action) => {
             initialdata = { ...initialdata, superAdminUserId: userId1 }
             let username1 = localStorage.getItem('superAdminUserName');
             initialdata = { ...initialdata, superAdminUserName: username1 }
-            let userhash1 = localStorage.getItem('superAdminUserHash');
-            initialdata = { ...initialdata, superAdminUserHash: userhash1 }
             let userEmail1 = localStorage.getItem('superAdminUserEmail');
             initialdata = { ...initialdata, superAdminUserEmail: userEmail1 }
             let token1 = localStorage.getItem('superAdmintoken');
@@ -205,7 +198,6 @@ export const SuperAdminLoginData = (initialdata = superAdminData, action) => {
         case Set_SuperAdmin_Logout:
             localStorage.removeItem('superAdminUserId');
             localStorage.removeItem('superAdminUserName');
-            localStorage.removeItem('superAdminUserHash');
             localStorage.removeItem('superAdminUserEmail');
             localStorage.removeItem('superAdmintoken');
             localStorage.removeItem('superAdminUserRole');
@@ -216,7 +208,6 @@ export const SuperAdminLoginData = (initialdata = superAdminData, action) => {
             localStorage.removeItem('superAdminUserLongitude');
             initialdata = { ...initialdata, superAdminUserId: "" }
             initialdata = { ...initialdata, superAdminUserName: "" }
-            initialdata = { ...initialdata, superAdminUserHash: "" }
             initialdata = { ...initialdata, superAdminUserEmail: "" }
             initialdata = { ...initialdata, superAdmintoken: "" }
             initialdata = { ...initialdata, superAdminUserRole: "" }
@@ -285,8 +276,6 @@ export const AdminLoginData = (initialdata = adminData, action) => {
             initialdata = { ...initialdata, superAdminId: superAdminId }
             let username = localStorage.getItem('adminUserName');
             initialdata = { ...initialdata, adminUserName: username }
-            let userHash = localStorage.getItem('adminUserHash');
-            initialdata = { ...initialdata, adminUserHash: userHash }
             let userEmail = localStorage.getItem('adminUserEmail');
             initialdata = { ...initialdata, adminUserEmail: userEmail }
             let token = localStorage.getItem('admintoken');
@@ -317,8 +306,6 @@ export const AdminLoginData = (initialdata = adminData, action) => {
             initialdata = { ...initialdata, superAdminId: superAdminId1 }
             let username1 = localStorage.getItem('adminUserName');
             initialdata = { ...initialdata, adminUserName: username1 }
-            let userHash1 = localStorage.getItem('adminUserHash');
-            initialdata = { ...initialdata, adminUserHash: userHash1 }
             let userEmail1 = localStorage.getItem('adminUserEmail');
             initialdata = { ...initialdata, adminUserEmail: userEmail1 }
             let token1 = localStorage.getItem('admintoken');
@@ -341,7 +328,6 @@ export const AdminLoginData = (initialdata = adminData, action) => {
             localStorage.removeItem('adminUserId');
             localStorage.removeItem('superAdminId');
             localStorage.removeItem('adminUserName');
-            localStorage.removeItem('adminUserHash');
             localStorage.removeItem('adminUserEmail');
             localStorage.removeItem('admintoken');
             localStorage.removeItem('adminUserRole');
@@ -353,7 +339,6 @@ export const AdminLoginData = (initialdata = adminData, action) => {
             initialdata = { ...initialdata, adminUserId: "" }
             initialdata = { ...initialdata, superAdminId: "" }
             initialdata = { ...initialdata, adminUserName: "" }
-            initialdata = { ...initialdata, adminUserHash: "" }
             initialdata = { ...initialdata, adminUserEmail: "" }
             initialdata = { ...initialdata, admintoken: "" }
             initialdata = { ...initialdata, adminUserRole: "" }
@@ -441,8 +426,6 @@ export const FactoryLoginData = (initialdata = factoryloginRec, action) => {
             initialdata = { ...initialdata, factoryUserRole: userRole }
             let userAddress = localStorage.getItem('factoryUserAddress');
             initialdata = { ...initialdata, factoryUserAddress: userAddress } 
-            let currentFactoryUserHash = localStorage.getItem('currentFactoryUserHash');
-            initialdata = { ...initialdata, currentFactoryUserHash: currentFactoryUserHash }
             let userCity = localStorage.getItem('factoryUserCity');
             initialdata = { ...initialdata, factoryUserCity: userCity }
             let userCountry = localStorage.getItem('factoryUserCountry');
@@ -470,8 +453,6 @@ export const FactoryLoginData = (initialdata = factoryloginRec, action) => {
             initialdata = { ...initialdata, factoryUserRole: userRole1 }
             let userAddress1 = localStorage.getItem('factoryUserAddress');
             initialdata = { ...initialdata, factoryUserAddress: userAddress1 }
-            let currentFactoryUserHash1 = localStorage.getItem('currentFactoryUserHash');
-            initialdata = { ...initialdata, currentFactoryUserHash: currentFactoryUserHash1 }
             let userCity1 = localStorage.getItem('factoryUserCity');
             initialdata = { ...initialdata, factoryUserCity: userCity1 }
             let userCountry1 = localStorage.getItem('factoryUserCountry');
@@ -489,19 +470,16 @@ export const FactoryLoginData = (initialdata = factoryloginRec, action) => {
             localStorage.removeItem('factorytoken');
             localStorage.removeItem('factoryUserRole');
             localStorage.removeItem('factoryUserAddress');
-            localStorage.removeItem('currentFactoryUserHash');
             localStorage.removeItem('factoryUserCity');
             localStorage.removeItem('factoryUserCountry');
             localStorage.removeItem('factoryUserLatitude');
             localStorage.removeItem('factoryUserLongitude');
             initialdata = { ...initialdata, factoryUserId: "" }
-            initialdata = { ...initialdata, userHash: "" }
             initialdata = { ...initialdata, factoryUserName: "" }
             initialdata = { ...initialdata, factoryUserEmail: "" }
             initialdata = { ...initialdata, factorytoken: "" }
             initialdata = { ...initialdata, factoryUserRole: "" }
             initialdata = { ...initialdata, factoryUserAddress: "" }
-            initialdata = { ...initialdata, currentFactoryUserHash: "" }
             initialdata = { ...initialdata, factoryUserCity: "" }
             initialdata = { ...initialdata, factoryUserCountry: "" }
             initialdata = { ...initialdata, factoryUserLatitude: "" }

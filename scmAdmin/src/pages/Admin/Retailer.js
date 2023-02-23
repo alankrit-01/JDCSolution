@@ -36,8 +36,8 @@ const Retailer = () => {
             sortable:true,
         },
         {
-            name:"Retailer Hash Address",
-            selector:(row) => row.hashAddress,
+            name:"Retailer Phone",
+            selector:(row) => row.phone,
             sortable:true,
         },
     ];
@@ -45,10 +45,10 @@ const Retailer = () => {
     useEffect(() => {
         const columns = [
           {
-            name: "Factory Name",
-            email: "Factory Email",
-            address: "Factory Address",
-            hashAddress: "Factory Hash Address",
+            name: "Retailer Name",
+            email: "Retailer Email",
+            address: "Retailer Address",
+            phone: "Retailer Phone",
           },
         ];
         setExcelData(columns);
@@ -82,7 +82,7 @@ const Retailer = () => {
               `${ex.name}`,
               `${ex.email}`,
               `${ex.address}`,
-              `${ex.hashAddress}`,
+              `${ex.phone}`,
             ]);
           });
           if (selRows.length > 0) {
@@ -91,7 +91,7 @@ const Retailer = () => {
                 `${val.name}`,
                 `${val.email}`,
                 `${val.address}`,
-                `${val.hashAddress}`,
+                `${val.phone}`,
               ]);
             });
           } 
@@ -101,7 +101,7 @@ const Retailer = () => {
                 `${val.name}`,
                 `${val.email}`,
                 `${val.address}`,
-                `${val.hashAddress}`,
+                `${val.phone}`,
               ]);
             });
           }

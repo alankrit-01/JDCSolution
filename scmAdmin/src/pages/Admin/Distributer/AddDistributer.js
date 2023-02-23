@@ -15,7 +15,6 @@ const AddDistributer = () => {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [hashAddress, setHashAddress] = useState('');
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
@@ -34,7 +33,6 @@ const AddDistributer = () => {
 
      useMemo(() => {
         const data = {
-            hashAddress:hashAddress,
             name:name,
             email: email,
             phone: phone,
@@ -74,16 +72,7 @@ const AddDistributer = () => {
                                     <CardBody>
                                         <form onSubmit={handleSubmit}>
                                         <div className="flex flex-wrap mt-10">
-                                                <div className="w-full pr-4 mb-10 font-light">
-                                                    <Input
-                                                        type="text"
-                                                        color="purple"
-                                                        placeholder="Hash Address"
-                                                        name="hashAddress"
-                                                        value={hashAddress} onChange={(e) => setHashAddress(e.target.value)}
-                                                        required
-                                                    />
-                                                </div>
+                                                
                                                 <div className="w-full lg:w-6/12 pr-4 mb-10">
                                                     <Input
                                                         type="text"

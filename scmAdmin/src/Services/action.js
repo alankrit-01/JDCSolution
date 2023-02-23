@@ -11,7 +11,7 @@ export const superAdminLogin = (data) =>{
         type:SuperAdminUserLogin,
         data:data 
     } 
-}
+} 
 export const getSuperAdminLocalStoreData = (data) =>{
     return{
         type:Get_SuperAdmin_Local_Store_Data,

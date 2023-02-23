@@ -45,11 +45,11 @@ const Company = () => {
             selector: (row) => row.address,
             sortable: true,
         },
-        // {
-        //     name: <div className='text-base'>Company Hash Address</div>,
-        //     selector: (row) => row.hashAddress,
-        //     sortable: true,
-        // },
+        {
+            name: <div className='text-base'>Company Phone</div>,
+            selector: (row) => row.phone,
+            sortable: true,
+        },
         {
             name: <div className='text-base'>Action</div>,
             selector: (row) => <Button variant="outline-success" onClick={() => navigate('/superAdmin/factory',{ state: { adminId:  row._id} } )}>Factory <span>({row.totalFactory})</span></Button>,

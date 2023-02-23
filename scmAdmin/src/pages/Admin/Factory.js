@@ -36,8 +36,8 @@ const Factory = () => {
             sortable:true,
         },
         {
-            name:"Factory Hash Address",
-            selector:(row) => row.hashAddress,
+            name:"Factory Phone",
+            selector:(row) => row.phone,
             sortable:true,
         },
     ];
@@ -48,7 +48,7 @@ const Factory = () => {
             name: "Factory Name",
             email: "Factory Email",
             address: "Factory Address",
-            hashAddress: "Factory Hash Address",
+            phone: "Factory Phone",
           },
         ];
         setExcelData(columns);
@@ -81,7 +81,7 @@ const Factory = () => {
             `${ex.name}`,
             `${ex.email}`,
             `${ex.address}`,
-            `${ex.hashAddress}`,
+            `${ex.phone}`,
           ]);
         });
         if (selRows.length > 0) {
@@ -90,7 +90,7 @@ const Factory = () => {
               `${val.name}`,
               `${val.email}`,
               `${val.address}`,
-              `${val.hashAddress}`,
+              `${val.phone}`,
             ]);
           });
         } 
@@ -100,7 +100,7 @@ const Factory = () => {
               `${val.name}`,
               `${val.email}`,
               `${val.address}`,
-              `${val.hashAddress}`,
+              `${val.phone}`,
             ]);
           });
         }
