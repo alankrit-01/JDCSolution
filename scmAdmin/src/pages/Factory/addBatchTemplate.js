@@ -14,9 +14,6 @@ import Papa from 'papaparse';
 
 const AddBatchTemplate = () => {
     const factoryData = useSelector((state) => state.FactoryLoginData);
-
-    console.log("dfasdfasdf",factoryData)
-
     const [factoryUserLocation, setFactoryUserLocation] = useState(factoryData.factoryUserAddress);
     const [factoryUserId, setFactoryUserId] = useState(factoryData.factoryUserId);
     useEffect(() => {
@@ -112,12 +109,13 @@ const AddBatchTemplate = () => {
 
     const distributerdata = useSelector((state) => state.DistributerRecord);
     let distributerdatarec = distributerdata.distributerRec
+    console.log("distributerdatarec",distributerdatarec)
     const distributerlist = [];
     if (distributerdatarec && distributerdatarec.length > 0) {
         for (let i = 0; i < distributerdatarec.length; i++) {
             distributerlist.push(
                 <>
-                    <option value={distributerdatarec[i].name}>{distributerdatarec[i].name}</option>
+                    <option value={distributerdatarec[i]._id.toString()}>{distributerdatarec[i].name}</option>
                 </>
             )
         }

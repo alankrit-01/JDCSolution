@@ -81,6 +81,7 @@ const selffeedbackData = {
 const factoryloginRec = {
     error: "",
     factoryUserId: "",
+    factoryUserAdminId:"",
     factoryUsername: "",
     factoryUserEmail: "",
     factorytoken: "",
@@ -416,6 +417,8 @@ export const FactoryLoginData = (initialdata = factoryloginRec, action) => {
         case Set_Factory_Login:
             let userId = localStorage.getItem('factoryUserId');
             initialdata = { ...initialdata, factoryUserId: userId }
+            let userAdminId = localStorage.getItem('factoryUserAdminId');
+            initialdata = { ...initialdata, factoryUserAdminId: userAdminId }
             let username = localStorage.getItem('factoryUserName');
             initialdata = { ...initialdata, factoryUserName: username }
             let userEmail = localStorage.getItem('factoryUserEmail');
@@ -443,6 +446,8 @@ export const FactoryLoginData = (initialdata = factoryloginRec, action) => {
         case set_Factory_Local_Store_Data:
             let userId1 = localStorage.getItem('factoryUserId');
             initialdata = { ...initialdata, factoryUserId: userId1 }
+            let userAdminId1 = localStorage.getItem('factoryUserAdminId');
+            initialdata = { ...initialdata, factoryUserAdminId: userAdminId1 }
             let username1 = localStorage.getItem('factoryUserName');
             initialdata = { ...initialdata, factoryUserName: username1 }
             let userEmail1 = localStorage.getItem('factoryUserEmail');
@@ -465,6 +470,7 @@ export const FactoryLoginData = (initialdata = factoryloginRec, action) => {
             break;
         case Set_Factory_Logout:
             localStorage.removeItem('factoryUserId');
+            localStorage.removeItem('factoryUserAdminId');
             localStorage.removeItem('factoryUserName');
             localStorage.removeItem('factoryUserEmail');
             localStorage.removeItem('factorytoken');
@@ -475,6 +481,7 @@ export const FactoryLoginData = (initialdata = factoryloginRec, action) => {
             localStorage.removeItem('factoryUserLatitude');
             localStorage.removeItem('factoryUserLongitude');
             initialdata = { ...initialdata, factoryUserId: "" }
+            initialdata = { ...initialdata, factoryUserAdminId: "" }
             initialdata = { ...initialdata, factoryUserName: "" }
             initialdata = { ...initialdata, factoryUserEmail: "" }
             initialdata = { ...initialdata, factorytoken: "" }

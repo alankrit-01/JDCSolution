@@ -15,7 +15,7 @@ import { useDispatch, useSelector } from 'react-redux';
 const ProductTemplate = () => {
     const navigate = useNavigate();
     const factoryData = useSelector((state) => state.FactoryLoginData);
-    const [factoryUserHash, setFactoryUserHash] = useState(factoryData.currentFactoryUserHash);
+    const [factoryUserId, setFactoryUserId] = useState(factoryData.factoryUserId);
 
 
     const successNotify = () => toast.success('Product Template Added Successfully !.', {
@@ -52,7 +52,7 @@ const ProductTemplate = () => {
     ];
     useEffect(() => {
         const data = {
-            factoryID:factoryUserHash
+            factoryID:factoryUserId
         }
         dispatch(getProductTemplate(data))
     }, [])

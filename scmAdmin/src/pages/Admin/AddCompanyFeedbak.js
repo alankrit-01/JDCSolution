@@ -33,9 +33,8 @@ const AddCompanyFeedbak = () => {
     const currentDate = new Date().toLocaleString();
      useMemo(() => {
         const data = {
-            senderUserID: initialdata.adminUserHash,
-            //receiverUserID: initialdata.superAdminId,
-            receiverUserID:"0xf39Fd6e51aad88F6F4ce6aB8827279cffFb91144",
+            senderUserID: initialdata.adminUserId,
+            receiverUserID: initialdata.superAdminId,
             name: initialdata.adminUserName,
             role:"Admin",
             subject:subject,

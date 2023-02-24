@@ -13,7 +13,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 const AddFactoryFeedbak = () => { 
     const initialdata = useSelector((state) => state.FactoryLoginData);   
-    console.log("initialdata",initialdata)
     const dispatch = useDispatch();
     const navigate = useNavigate();
     
@@ -33,9 +32,8 @@ const AddFactoryFeedbak = () => {
     const currentDate = new Date().toLocaleString();
      useMemo(() => {
         const data = {
-            senderUserID: initialdata.currentFactoryUserHash,
-            //receiverUserID: initialdata.superAdminId,
-            receiverUserID:"0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92288",
+            senderUserID: initialdata.factoryUserId,
+            receiverUserID: initialdata.factoryUserAdminId,
             name: initialdata.factoryUserName,
             role:"Factory",
             subject:subject,

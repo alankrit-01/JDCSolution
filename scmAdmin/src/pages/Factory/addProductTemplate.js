@@ -17,7 +17,7 @@ const AddProductTemplate = () => {
     const [productId, setProductId] = useState(null);
     const [productNameError, setproductNameError] = useState('');
     const [productDescriptionError, setproductDescriptionError] = useState('')
-    const [factoryUserHash, setFactoryUserHash] = useState(factoryData.currentFactoryUserHash);
+    const [factoryUserId, setFactoryUserId] = useState(factoryData.factoryUserId);
     
     function randomProductId() {
         let currentTimestamp = Date.now()
@@ -50,7 +50,7 @@ const AddProductTemplate = () => {
             productTemplateID:productId,
             productName: productName,
             productDescription: productDescription,
-            factoryID:factoryUserHash
+            factoryID:factoryUserId
         }
         if (productNameError == true && productDescriptionError == true) {
             dispatch(storeProductTemplate(data))

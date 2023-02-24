@@ -14,7 +14,7 @@ import { getBatchTemplate, checkBatchTemplateSuccessdata } from 'Services/action
 const BatchTemplate = () => {
 
     const factoryData = useSelector((state) => state.FactoryLoginData);
-    const [factoryUserHash, setFactoryUserHash] = useState(factoryData.currentFactoryUserHash);
+    const [factoryUserID, setFactoryUserId] = useState(factoryData.factoryUserId);
     const successNotify = () => toast.success('Batch Added Successfully !.', {
         position: "bottom-right", 
         autoClose: 5000,
@@ -77,7 +77,7 @@ const BatchTemplate = () => {
     ];
     useEffect(() => {
         const data = {
-            factoryID:factoryUserHash
+            factoryID:factoryUserID
         }
         dispatch(getBatchTemplate(data)) 
     }, [])

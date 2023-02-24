@@ -33,8 +33,8 @@ const Products = () => {
             sortable:true,
         },
         {
-            name:"Factory Hash Address",
-            selector:(row) => row.hashAddress,
+            name:"Factory Phone",
+            selector:(row) => row.phone,
             sortable:true,
         },
     ];

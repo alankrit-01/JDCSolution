@@ -12,7 +12,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 const CompanySelfFeedback = () => {
     const admindata = useSelector((state) => state.AdminLoginData);
-    const [adminUserHash, setAdminUserHash] = useState(admindata.adminUserHash);
+    const [adminUserId, setAdminUserId] = useState(admindata.adminUserId);
 
 
     const successNotify = () => toast.success('Feedback Added Successfully !.', {
@@ -56,7 +56,7 @@ const CompanySelfFeedback = () => {
 
     useEffect(() => {
         const data = {
-            senderUserID:adminUserHash,
+            senderUserID:adminUserId,
         }
         dispatch(getSelfFeedback(data))
     }, [])

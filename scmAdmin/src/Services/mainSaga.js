@@ -60,7 +60,6 @@ function* getCompany(data) {
 function* superAdminUserLogout(data) {
     yield put({ type: Set_SuperAdmin_Logout })
 }
-
 function* adminUserLogin(data) {
     const requestData = data.data
     try {
@@ -177,6 +176,7 @@ function* factoryUserLogin(data) {
         const factoryLoginRes = yield call(Axios.post, uri, requestData)
         const result = factoryLoginRes.data;
         localStorage.setItem('factoryUserId', factoryLoginRes.data.userId);
+        localStorage.setItem('factoryUserAdminId', factoryLoginRes.data.adminId);
         localStorage.setItem('factoryUserName', factoryLoginRes.data.userName);
         localStorage.setItem('factoryUserEmail', factoryLoginRes.data.userEmail);
         localStorage.setItem('factorytoken', factoryLoginRes.data.token);
@@ -351,7 +351,6 @@ function* checkBatchTemplateSuccessdata(data) {
 }
 function* getBatchTemplate(data) {
     const requestData = data.data
-    console.log("requestData",requestData)
     try {
         let uri = BLOCKCHAIN_API_URL.concat('/viewListOfBatchesProducedByFactory?factoryID=')
         uri = uri.concat(requestData.factoryID)

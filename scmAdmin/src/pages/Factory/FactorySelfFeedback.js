@@ -55,7 +55,7 @@ const FactoryySelfFeedback = () => {
 
     useEffect(() => {
         const data = {
-            senderUserID:factorydata.currentFactoryUserHash,
+            senderUserID:factorydata.factoryUserId,
         }
         dispatch(getSelfFeedback(data))
     }, [])
