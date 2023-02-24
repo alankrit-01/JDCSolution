@@ -1,17 +1,30 @@
-import MainStatusCard from 'components/Admin/MainStatusCard';
-import Sidebar from 'components/Admin/Sidebar';
-import Footer from 'components/Admin/Footer';
+import MainStatusCard from "components/Factory/MainStatusCard";
+import Sidebar from 'components/Factory/Sidebar';
+import Footer from 'components/Factory/Footer';
 import { NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getFeedback } from 'Services/action';
+import { getSelfFeedback } from 'Services/action';
 import { useEffect, useMemo, useState } from 'react';
 import DataTable from 'react-data-table-component';
 import { Button } from "@material-tailwind/react";
 import Input from '@material-tailwind/react/Input';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+const FactoryySelfFeedback = () => {
+    const factorydata = useSelector((state) => state.FactoryLoginData);
 
-const DistributerFeedback = () => {
-    const admindata = useSelector((state) => state.AdminLoginData);
-    const [adminUserId, setAdminUserId] = useState(admindata.adminUserId);
+
+    const successNotify = () => toast.success('Feedback Added Successfully !.', {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false, 
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+    });
+
     const dispatch = useDispatch();
     const [Feedback, setFeedback] = useState([]);
     const [Search, setSearch] = useState("");
@@ -42,17 +55,21 @@ const DistributerFeedback = () => {
 
     useEffect(() => {
         const data = {
-            receiverUserID:adminUserId,
-            role:'Distributer',
+            senderUserID:factorydata.factoryUserId,
         }
-        dispatch(getFeedback(data))
+        dispatch(getSelfFeedback(data))
     }, [])
 
-    const initialdata = useSelector((state) => state.FeedbackRecord);
-
+    const initialdata = useSelector((state) => state.SelfFeedbackRecord);
+    const initialCompanyFeedbackStoredata = useSelector((state) => state.CompanyFeedbackStoreData);
+    useMemo(() => {
+        if (initialCompanyFeedbackStoredata.success == true) {
+            successNotify();
+        }
+    }, [initialCompanyFeedbackStoredata])
     useEffect(() => {
-        setFeedback(initialdata.feedbackRec)
-        setFilterFeedback(initialdata.feedbackRec)
+        setFeedback(initialdata.selffeedbackRec)
+        setFilterFeedback(initialdata.selffeedbackRec)
     }, [initialdata])
 
     useEffect(() => {
@@ -63,6 +80,7 @@ const DistributerFeedback = () => {
     }, [Search])
     return (
         <>
+                    <ToastContainer />
             <Sidebar />
             <div className="md:ml-64">
                 <div className="bg-light-blue-500 pt-14 pb-28 px-3 md:px-8 h-auto">
@@ -77,7 +95,7 @@ const DistributerFeedback = () => {
                     <div className="container mx-auto max-w-full">
                         <div className="grid grid-cols-1 px-4 mb-16">
                             <DataTable
-                                title="Factory Feedback List"
+                                title="Factory Self Feedback List"
                                 columns={columns}
                                 data={FilterFeedback}
                                 pagination
@@ -85,6 +103,8 @@ const DistributerFeedback = () => {
                                 selectableRows
                                 selectableRowsHighlight
                                 highlightOnHover
+                                actions={<NavLink
+                                    to="/factory/addFactoryFeedback"><Button>Add</Button></NavLink>}
                                 subHeader
                                 subHeaderComponent={
                                     <div className='w-full'>
@@ -102,6 +122,6 @@ const DistributerFeedback = () => {
         </>
     );
 }
-export default DistributerFeedback
+export default FactoryySelfFeedback
 
 

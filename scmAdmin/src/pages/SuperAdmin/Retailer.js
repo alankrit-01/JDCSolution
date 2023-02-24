@@ -31,8 +31,8 @@ const Retailer = () => {
             sortable: true,
         },
         {
-            name: <div className='text-base'>Retailer Hash Address</div>,
-            selector: (row) => row.hashAddress,
+            name: <div className='text-base'>Retailer Phone</div>,
+            selector: (row) => row.phone,
             sortable: true,
         },
     ];

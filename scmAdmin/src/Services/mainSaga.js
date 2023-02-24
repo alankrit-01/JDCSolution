@@ -1,5 +1,5 @@
 import { takeLatest, call, put } from 'redux-saga/effects'
-import {BLOCKCHAIN_API_URL, SuperAdminUserLogin,Set_SuperAdmin_Login, SuperAdmin_Login_Fail,Get_SuperAdmin_Local_Store_Data,set_SuperAdmin_Local_Store_Data,Store_Company,Set_Store_Company_Data, Set_Store_Company_Data_Fail, Check_Company_Success_data, Check_Company_Success_data_1,Get_Company,Set_Company_List, SuperAdminUserLogout,Set_SuperAdmin_Logout, AdminUserLogin, Set_Admin_Login, Admin_Login_Fail, AdminUserLogout, Set_Admin_Logout, Get_Local_Store_Data, set_Local_Store_Data, Get_Retailers,Get_Retailer_By_Company, Set_Retailer_List,Set_Retailer_By_Company_List, Get_Factory,Get_Factory_By_Company, Set_Factory_List,Set_Factory_By_Company_List, Get_Distributer,Get_Distributer_By_Company, Set_Distributer_List,Set_Distributer_By_Company_List, FactoryUserLogin, Set_Factory_Login, Factory_Login_Fail, FactoryUserLogout, Set_Factory_Logout, Get_Factory_Local_Store_Data, set_Factory_Local_Store_Data, Store_Factory, Set_Store_Factory_Data, Set_Store_Factory_Data_Fail, Check_Factory_Success_data, Check_Factory_Success_data_1, Store_Distributer, Set_Store_Distributer_Data, Set_Store_Distributer_Data_Fail, Check_Distributer_Success_data, Check_Distributer_Success_data_1, Store_Retailer, Set_Store_Retailer_Data, Set_Store_Retailer_Data_Fail,Check_Retailer_Success_data, Check_Retailer_Success_data_1, Store_Multi_User, Store_Product_Template, Set_Store_Product_Template_Data, Set_Store_Product_Template_Data_Fail, Check_Product_Template_Success_data, Check_Product_Template_Success_data_1,Get_Product_Template,Set_Product_Template_List, Store_Batch_Template, Set_Store_Batch_Template_Data, Set_Store_Batch_Template_Data_Fail, Check_Batch_Template_Success_data, Check_Batch_Template_Success_data_1,Get_Batch_Template,Set_Batch_Template_List,Get_Batch_Detail, Set_Batch_Detail_List,Get_Feedback,Set_Feedback_List } from "./constant"
+import {BLOCKCHAIN_API_URL, SuperAdminUserLogin,Set_SuperAdmin_Login, SuperAdmin_Login_Fail,Get_SuperAdmin_Local_Store_Data,set_SuperAdmin_Local_Store_Data,Store_Company,Set_Store_Company_Data, Set_Store_Company_Data_Fail, Check_Company_Success_data, Check_Company_Success_data_1,Get_Company,Set_Company_List, SuperAdminUserLogout,Set_SuperAdmin_Logout, AdminUserLogin, Set_Admin_Login, Admin_Login_Fail, AdminUserLogout, Set_Admin_Logout, Get_Local_Store_Data, set_Local_Store_Data, Get_Retailers,Get_Retailer_By_Company, Set_Retailer_List,Set_Retailer_By_Company_List, Get_Factory,Get_Factory_By_Company, Set_Factory_List,Set_Factory_By_Company_List, Get_Distributer,Get_Distributer_By_Company, Set_Distributer_List,Set_Distributer_By_Company_List, FactoryUserLogin, Set_Factory_Login, Factory_Login_Fail, FactoryUserLogout, Set_Factory_Logout, Get_Factory_Local_Store_Data, set_Factory_Local_Store_Data, Store_Factory, Set_Store_Factory_Data, Set_Store_Factory_Data_Fail, Check_Factory_Success_data, Check_Factory_Success_data_1, Store_Distributer, Set_Store_Distributer_Data, Set_Store_Distributer_Data_Fail, Check_Distributer_Success_data, Check_Distributer_Success_data_1, Store_Retailer, Set_Store_Retailer_Data, Set_Store_Retailer_Data_Fail,Check_Retailer_Success_data, Check_Retailer_Success_data_1,Store_Company_Feedback, Set_Store_Company_Feedback_Data, Set_Store_Company_Feedback_Data_Fail,Check_Company_Feedback_Success_data, Check_Company_Feedback_Success_data_1, Store_Multi_User, Store_Product_Template, Set_Store_Product_Template_Data, Set_Store_Product_Template_Data_Fail, Check_Product_Template_Success_data, Check_Product_Template_Success_data_1,Get_Product_Template,Set_Product_Template_List, Store_Batch_Template, Set_Store_Batch_Template_Data, Set_Store_Batch_Template_Data_Fail, Check_Batch_Template_Success_data, Check_Batch_Template_Success_data_1,Get_Batch_Template,Set_Batch_Template_List,Get_Batch_Detail, Set_Batch_Detail_List,Get_Feedback,Set_Feedback_List,Get_Self_Feedback,Set_Self_Feedback_List } from "./constant"
 import { API_URL } from "./constant"
 import Axios from "axios"
 
@@ -11,7 +11,6 @@ function* superAdminUserLogin(data) {
         const result = superAdminLoginRes.data;
         localStorage.setItem('superAdminUserId', superAdminLoginRes.data.userId);
         localStorage.setItem('superAdminUserName', superAdminLoginRes.data.userName);
-        localStorage.setItem('superAdminUserHash', superAdminLoginRes.data.userHash);
         localStorage.setItem('superAdminUserEmail', superAdminLoginRes.data.userEmail);
         localStorage.setItem('superAdmintoken', superAdminLoginRes.data.token);
         localStorage.setItem('superAdminUserRole', superAdminLoginRes.data.userRole);
@@ -32,7 +31,7 @@ function* getSuperAdminLocalStoreData() {
 }
 function* storeCompany(data) {
     const requestData = data.data
-    try {
+    try { 
         let uri = API_URL.concat('/addUser')
         const storeCompanyRes = yield call(Axios.post, uri, requestData)
         const result = storeCompanyRes.data;
@@ -61,7 +60,6 @@ function* getCompany(data) {
 function* superAdminUserLogout(data) {
     yield put({ type: Set_SuperAdmin_Logout })
 }
-
 function* adminUserLogin(data) {
     const requestData = data.data
     try {
@@ -69,8 +67,8 @@ function* adminUserLogin(data) {
         const adminLoginRes = yield call(Axios.post, uri, requestData)
         const result = adminLoginRes.data;
         localStorage.setItem('adminUserId', adminLoginRes.data.userId);
+        localStorage.setItem('superAdminId', adminLoginRes.data.superAdminId);
         localStorage.setItem('adminUserName', adminLoginRes.data.userName);
-        localStorage.setItem('adminUserHash', adminLoginRes.data.userHash);
         localStorage.setItem('adminUserEmail', adminLoginRes.data.userEmail);
         localStorage.setItem('admintoken', adminLoginRes.data.token);
         localStorage.setItem('adminUserRole', adminLoginRes.data.userRole);
@@ -177,8 +175,8 @@ function* factoryUserLogin(data) {
         let uri = API_URL.concat('/factoryLogin')
         const factoryLoginRes = yield call(Axios.post, uri, requestData)
         const result = factoryLoginRes.data;
-        localStorage.setItem('currentFactoryUserHash', factoryLoginRes.data.userHash);
         localStorage.setItem('factoryUserId', factoryLoginRes.data.userId);
+        localStorage.setItem('factoryUserAdminId', factoryLoginRes.data.adminId);
         localStorage.setItem('factoryUserName', factoryLoginRes.data.userName);
         localStorage.setItem('factoryUserEmail', factoryLoginRes.data.userEmail);
         localStorage.setItem('factorytoken', factoryLoginRes.data.token);
@@ -207,6 +205,7 @@ function* factoryUserLogout(data) {
 function* storeFactory(data) {
     const requestData = data.data
     try {
+        console.log("requestData requestData",requestData)
         let uri = API_URL.concat('/addUser')
         const storeFactoryRes = yield call(Axios.post, uri, requestData)
         const result = storeFactoryRes.data;
@@ -258,6 +257,27 @@ function* checkRetailerSuccessdata(data) {
     
 }
 
+function* storeCompanyFeedback(data) {
+    const requestData = data.data
+    try {
+        let uri = API_URL.concat('/addFeedback')
+        const storeCompanyFeedbackRes = yield call(Axios.post, uri, requestData)
+        const result = storeCompanyFeedbackRes.data;
+        console.log("requestData",result)
+
+        yield put({type: Set_Store_Company_Feedback_Data,result})
+    } catch (error) {
+        console.log("Error is ", error)
+        yield put({type:Set_Store_Company_Feedback_Data_Fail})
+    }
+}
+
+function* checkCompanyFeedbackSuccessdata(data) {
+    const requestData = data.data
+    yield put({type: Check_Company_Feedback_Success_data_1})
+    
+}
+
 function* storeMultiUser(data) {
     const requestData = data.data
     try {
@@ -265,16 +285,7 @@ function* storeMultiUser(data) {
         const valuesArray = [];
 
         requestData.map((value, index) => {
-            //  {value.map((val, i) => {
-
-            // valuesArray.push(['hashAddress',value[0]]);
-            // valuesArray.push(['name',value[1]]);
-            //valuesArray.push(['hashAddress:'+ value[0], 'name',value[1]])
             valuesArray.push([value[0], value[1], value[2], value[3], value[4], value[5], value[6], value[7], value[8]])
-
-
-            // })}
-
         })
 
         let uri = API_URL.concat('/addMultiUser')
@@ -340,7 +351,6 @@ function* checkBatchTemplateSuccessdata(data) {
 }
 function* getBatchTemplate(data) {
     const requestData = data.data
-    console.log("requestData",requestData)
     try {
         let uri = BLOCKCHAIN_API_URL.concat('/viewListOfBatchesProducedByFactory?factoryID=')
         uri = uri.concat(requestData.factoryID)
@@ -386,6 +396,19 @@ function* getFeedback(data) {
     }
 }
 
+function* getSelfFeedback(data) {
+    const requestData = data.data
+    try {
+        let uri = API_URL.concat('/getSelfFeedback?senderUserID=')
+        uri = uri.concat(requestData.senderUserID)
+        const feedbackRes = yield call(Axios.get, uri)
+        const result = feedbackRes.data;
+        yield put({ type: Set_Self_Feedback_List, result })
+    } catch (error) {
+        yield put({ type: Set_Self_Feedback_List, error })
+        console.log("Error is ", error)
+    }
+}
 
 function* mainSaga() { 
     yield takeLatest(SuperAdminUserLogin, superAdminUserLogin)
@@ -416,6 +439,11 @@ function* mainSaga() {
     yield takeLatest(Store_Factory, storeFactory)
     yield takeLatest(Store_Distributer, storeDistributer)
     yield takeLatest(Store_Retailer, storeRetailer)
+
+    yield takeLatest(Store_Company_Feedback, storeCompanyFeedback)
+    yield takeLatest(Check_Company_Feedback_Success_data, checkCompanyFeedbackSuccessdata)
+
+
     yield takeLatest(Store_Multi_User, storeMultiUser)
 
     yield takeLatest(Store_Product_Template, storeProductTemplate)
@@ -431,6 +459,10 @@ function* mainSaga() {
     yield takeLatest(Get_Batch_Detail, getBatchDetail)
 
     yield takeLatest(Get_Feedback, getFeedback)
+    yield takeLatest(Get_Self_Feedback, getSelfFeedback)
+
+
+    
 
 
     

@@ -15,7 +15,6 @@ const AddProduct = () => {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [hashAddress, setHashAddress] = useState('');
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [emailError, setemailError] = useState('');

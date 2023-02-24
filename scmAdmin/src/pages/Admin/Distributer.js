@@ -10,13 +10,17 @@ import { Button } from "@material-tailwind/react";
 import Input from '@material-tailwind/react/Input';
 import Papa from 'papaparse';
 import { storeMultiUser } from 'Services/action';
+import { CSVLink } from "react-csv";
+import React from "react";
+
 
 const Distributer = () => {
     const dispatch = useDispatch();
     const [Distributer, setDistributer] = useState([]);
     const [Search, setSearch] = useState("");
     const [FilterDistributer, setFilterDistributer] = useState([]);
-
+    const [excelData, setExcelData] = useState([]);
+    const [selectedData, setSelectedData] = React.useState([]);
 
     const [parsedData, setParsedData] = useState([]);
     //State to store table Column name
@@ -41,11 +45,23 @@ const Distributer = () => {
             sortable: true,
         },
         {
-            name: "Distributer Hash Address",
-            selector: (row) => row.hashAddress,
+            name: "Distributer Phone",
+            selector: (row) => row.phone,
             sortable: true,
         },
     ];
+
+    useEffect(() => {
+        const columns = [
+          {
+            name: "Distributer Name",
+            email: "Distributer Email",
+            address: "Distributer Address",
+            phone: "Distributer Phone",
+          },
+        ];
+        setExcelData(columns);
+      }, []);
 
     useEffect(() => {
         dispatch(getDistributer())
@@ -64,6 +80,49 @@ const Distributer = () => {
         })
         setFilterDistributer(result)
     }, [Search])
+
+    const getCsvData = () => {
+        const csvData = [];
+    
+        if (excelData.length > 0 && FilterDistributer.length > 0) {
+          excelData.map((ex) => {
+            csvData.push([
+              `${ex.name}`,
+              `${ex.email}`,
+              `${ex.address}`,
+              `${ex.phone}`,
+            ]);
+          });
+          if (selRows.length > 0) {
+            selRows.map((val) => {
+              csvData.push([
+                `${val.name}`,
+                `${val.email}`,
+                `${val.address}`,
+                `${val.phone}`,
+              ]);
+            });
+          } 
+          else {
+            FilterDistributer.map((val) => {
+              csvData.push([
+                `${val.name}`,
+                `${val.email}`,
+                `${val.address}`,
+                `${val.phone}`,
+              ]);
+            });
+          }
+        }
+       
+        return csvData;
+      };
+  
+      var selRows = selectedData;
+    const handleChange = (state) => {
+      setSelectedData(state.selectedRows);
+    };
+
     return (
         <>
             <Sidebar />
@@ -107,12 +166,19 @@ const Distributer = () => {
                                 selectableRows
                                 selectableRowsHighlight
                                 highlightOnHover
+                                onSelectedRowsChange={handleChange}
 
                                 actions={<NavLink
                                     to="/admin/adddistributer"><Button>Add</Button></NavLink>}
                                 subHeader
                                 subHeaderComponent={
                                     <div className='w-full'>
+                                         <CSVLink filename="DistributerList.csv" data={getCsvData()}>
+                                    {" "}
+                                    <div className="float-left lg:w-6/12 d-flex pr-4 mb-10 font-light">
+                                      <Button>Export CSV</Button>
+                                    </div>
+                                  </CSVLink>
                                         <div className="float-left lg:w-6/12 d-flex pr-4 mb-10 font-light">
                                         <Button><NavLink
                                     to="/admin/addMultiUser">Add Multi Distributer</NavLink></Button>

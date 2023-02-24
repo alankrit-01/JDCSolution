@@ -14,12 +14,11 @@ import Papa from 'papaparse';
 
 const AddBatchTemplate = () => {
     const factoryData = useSelector((state) => state.FactoryLoginData);
-
     const [factoryUserLocation, setFactoryUserLocation] = useState(factoryData.factoryUserAddress);
-    const [factoryUserHash, setFactoryUserHash] = useState(factoryData.currentFactoryUserHash);
+    const [factoryUserId, setFactoryUserId] = useState(factoryData.factoryUserId);
     useEffect(() => {
         const data = {
-            factoryID: factoryUserHash
+            factoryID: factoryUserId
         }
         dispatch(getProductTemplate(data))
     }, [])
@@ -83,7 +82,7 @@ const AddBatchTemplate = () => {
             batchSize:batchSizeData,
             batchDescription:batchDescription,
             productTemplateID:productId.toString(),
-            factoryID:factoryUserHash,
+            factoryID:factoryUserId,
             distributorID:distributer,
             factoryLocation:factoryUserLocation,
             dataOfProduction:batchManufacture 
@@ -110,12 +109,13 @@ const AddBatchTemplate = () => {
 
     const distributerdata = useSelector((state) => state.DistributerRecord);
     let distributerdatarec = distributerdata.distributerRec
+    console.log("distributerdatarec",distributerdatarec)
     const distributerlist = [];
     if (distributerdatarec && distributerdatarec.length > 0) {
         for (let i = 0; i < distributerdatarec.length; i++) {
             distributerlist.push(
                 <>
-                    <option value={distributerdatarec[i].hashAddress}>{distributerdatarec[i].name}</option>
+                    <option value={distributerdatarec[i]._id.toString()}>{distributerdatarec[i].name}</option>
                 </>
             )
         }

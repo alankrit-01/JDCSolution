@@ -17,7 +17,6 @@ const AddMultiUser = () => {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [hashAddress, setHashAddress] = useState('');
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [address, setAddress] = useState('');
@@ -67,7 +66,6 @@ const AddMultiUser = () => {
 
     // useMemo(() => {
     //     const data = {
-    //         hashAddress: hashAddress,
     //         name: name,
     //         email: email,
     //         address: address,

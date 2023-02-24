@@ -1,6 +1,6 @@
-import MainStatusCard from "components/Admin/MainStatusCard";
-import Sidebar from "components/Admin/Sidebar";
-import Footer from "components/Admin/Footer";
+import MainStatusCard from "components/Factory/MainStatusCard";
+import Sidebar from "components/Factory/Sidebar";
+import Footer from "components/Factory/Footer";
 import Card from '@material-tailwind/react/Card';
 import CardHeader from '@material-tailwind/react/CardHeader';
 import CardBody from '@material-tailwind/react/CardBody';
@@ -11,9 +11,8 @@ import { storeCompanyFeedback } from "Services/action";
 import React, { useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-const AddCompanyFeedbak = () => { 
-    const initialdata = useSelector((state) => state.AdminLoginData);   
-
+const AddFactoryFeedbak = () => { 
+    const initialdata = useSelector((state) => state.FactoryLoginData);   
     const dispatch = useDispatch();
     const navigate = useNavigate();
     
@@ -33,10 +32,10 @@ const AddCompanyFeedbak = () => {
     const currentDate = new Date().toLocaleString();
      useMemo(() => {
         const data = {
-            senderUserID: initialdata.adminUserId,
-            receiverUserID: initialdata.superAdminId,
-            name: initialdata.adminUserName,
-            role:"Admin",
+            senderUserID: initialdata.factoryUserId,
+            receiverUserID: initialdata.factoryUserAdminId,
+            name: initialdata.factoryUserName,
+            role:"Factory",
             subject:subject,
             description:description,
             date: currentDate,
@@ -50,7 +49,7 @@ const AddCompanyFeedbak = () => {
 
     useMemo(() => {
         if (initialSelfFeedbackRecordStoredata.success == true) {
-            navigate('/admin/companySelfFeedback')
+            navigate('/factory/factorySelfFeedback')
         }
     }, [initialSelfFeedbackRecordStoredata])
 
@@ -113,4 +112,4 @@ const AddCompanyFeedbak = () => {
         </>
     )
 }
-export default AddCompanyFeedbak
+export default AddFactoryFeedbak

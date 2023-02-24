@@ -11,7 +11,7 @@ import Input from '@material-tailwind/react/Input';
 
 const RetailerFeedback = () => {
     const admindata = useSelector((state) => state.AdminLoginData);
-    const [adminUserHash, setAdminUserHash] = useState(admindata.adminUserHash);
+    const [adminUserId, setAdminUserId] = useState(admindata.adminUserId);
     const dispatch = useDispatch();
     const [Feedback, setFeedback] = useState([]);
     const [Search, setSearch] = useState("");
@@ -42,7 +42,7 @@ const RetailerFeedback = () => {
 
     useEffect(() => {
         const data = {
-            receiverUserID:adminUserHash,
+            receiverUserID:adminUserId,
             role:'Retailer',
         }
         dispatch(getFeedback(data))

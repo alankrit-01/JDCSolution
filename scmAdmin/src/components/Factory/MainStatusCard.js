@@ -6,12 +6,12 @@ const MainStatusCard = () => {
     const dispatch = useDispatch();
 
     const factoryData = useSelector((state) => state.FactoryLoginData);
-    const [factoryUserHash, setFactoryUserHash] = useState(factoryData.currentFactoryUserHash);
+    const [factoryUserId, setFactoryUserId] = useState(factoryData.factoryUserId);
     const [allBatchData, setAllBatchData] = useState([]);
     const [ProductTemplates, setProductTemplates] = useState(0);   
     useEffect(() => {
         const data = {
-            factoryID:factoryUserHash
+            factoryID:factoryUserId
         }
         dispatch(getProductTemplate(data))
         dispatch(getBatchTemplate(data))

@@ -15,9 +15,9 @@ const AddRetailer = () => {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [hashAddress, setHashAddress] = useState('');
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
+    const [phone, setPhone] = useState('');
     const [address, setAddress] = useState('');
     const [city, setCity] = useState('');
     const [country, setCountry] = useState('');
@@ -33,9 +33,9 @@ const AddRetailer = () => {
 
     useMemo(() => {
         const data = {
-            hashAddress:hashAddress,
             name:name,
             email: email,
+            phone: phone,
             address:address,
             role:"Retailer",
             city:city,
@@ -72,16 +72,6 @@ const AddRetailer = () => {
                                     <CardBody>
                                     <form onSubmit={handleSubmit}>
                                         <div className="flex flex-wrap mt-10">
-                                                <div className="w-full pr-4 mb-10 font-light">
-                                                    <Input
-                                                        type="text"
-                                                        color="purple"
-                                                        placeholder="Hash Address"
-                                                        name="hashAddress"
-                                                        value={hashAddress} onChange={(e) => setHashAddress(e.target.value)}
-                                                        required
-                                                    />
-                                                </div>
                                                 <div className="w-full lg:w-6/12 pr-4 mb-10">
                                                     <Input
                                                         type="text"
@@ -100,6 +90,16 @@ const AddRetailer = () => {
                                                         placeholder="Email Address"
                                                         name="email"
                                                         value={email} onChange={(e) => setEmail(e.target.value)}
+                                                        required
+                                                    />
+                                                </div>
+                                                <div className="w-full pr-4 mb-10 font-light">
+                                                    <Input
+                                                        type="text"
+                                                        color="purple"
+                                                        placeholder="Phone No."
+                                                        name="phone"
+                                                        value={phone} onChange={(e) => setPhone(e.target.value)}
                                                         required
                                                     />
                                                 </div>

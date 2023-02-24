@@ -30,11 +30,11 @@ const Company = () => {
             selector: (row) => row.address,
             sortable: true,
         },
-        // {
-        //     name: <div className='text-base'>Company Hash Address</div>,
-        //     selector: (row) => row.hashAddress,
-        //     sortable: true,
-        // },
+        {
+            name: <div className='text-base'>Company Phone</div>,
+            selector: (row) => row.phone,
+            sortable: true,
+        },
     ];
 
     useEffect(() => {

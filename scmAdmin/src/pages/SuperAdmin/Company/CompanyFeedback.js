@@ -9,8 +9,7 @@ import Input from '@material-tailwind/react/Input';
 
 const CompanyFeedback = () => {
     const superadmindata = useSelector((state) => state.SuperAdminLoginData);
-    console.log("superadmindata", superadmindata)
-    const [superAdminUserHash, setSuperAdminUserHash] = useState(superadmindata.superAdminUserHash);
+    const [superAdminUserId, setSuperAdminUserId] = useState(superadmindata.superAdminUserId);
     const dispatch = useDispatch();
     const [Feedback, setFeedback] = useState([]);
     const [Search, setSearch] = useState("");
@@ -41,7 +40,7 @@ const CompanyFeedback = () => {
 
     useEffect(() => {
         const data = {
-            receiverUserID:superAdminUserHash,
+            receiverUserID:superAdminUserId,
             role:'Admin',
         }
         dispatch(getFeedback(data))

@@ -117,7 +117,7 @@ export default function Sidebar() {
                             </li>
                             <li className="rounded-lg mb-2">
                                 <NavLink
-                                    to="/admin/addCompanyFeedbak"
+                                    to="/admin/companySelfFeedback"
                                     className="flex items-center gap-4 text-sm text-gray-700 font-light px-4 py-3 rounded-lg"
                                     activeClassName="bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md"
                                 >

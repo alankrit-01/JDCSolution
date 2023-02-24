@@ -16,9 +16,9 @@ const AddCompany = () => {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [hashAddress, setHashAddress] = useState('');
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
+    const [phone, setPhone] = useState('');
     const [address, setAddress] = useState('');
     const [city, setCity] = useState('');
     const [country, setCountry] = useState('');
@@ -34,10 +34,10 @@ const AddCompany = () => {
 
     useMemo(() => {
         const data = {
-            hashAddress: hashAddress,
             adminId: initialdata.superAdminUserId,
             name: name,
             email: email,
+            phone: phone,
             address: address,
             role: "Admin",
             city: city,
@@ -83,16 +83,6 @@ const AddCompany = () => {
                                         <CardBody>
                                             <form onSubmit={handleSubmit}>
                                                 <div className="flex flex-wrap mt-10">
-                                                    <div className="w-full pr-4 mb-10 text-gray-900">
-                                                        <Input
-                                                            type="text"
-                                                            color="purple"
-                                                            placeholder="Hash Address"
-                                                            name="hashAddress"
-                                                            value={hashAddress} onChange={(e) => setHashAddress(e.target.value)}
-                                                            required
-                                                        /> 
-                                                    </div>
                                                     <div className="w-full lg:w-6/12 pr-4 mb-10">
                                                         <Input
                                                             type="text"
@@ -101,7 +91,6 @@ const AddCompany = () => {
                                                             name="name"
                                                             value={name} onChange={(e) => setName(e.target.value)}
                                                             required
-
                                                         />
                                                     </div>
                                                     <div className="w-full lg:w-6/12 pl-4 mb-10">
@@ -114,6 +103,16 @@ const AddCompany = () => {
                                                             required
                                                         />
                                                     </div>
+                                                    <div className="w-full lg:w-12/12 mb-10">
+                                                    <Input
+                                                        type="text"
+                                                        color="purple"
+                                                        placeholder="Phone No."
+                                                        name="phone"
+                                                        value={phone} onChange={(e) => setPhone(e.target.value)}
+                                                        required
+                                                    />
+                                                </div>
                                                     <div className="w-full lg:w-12/12 mb-10">
                                                         <Input
                                                             type="text"
