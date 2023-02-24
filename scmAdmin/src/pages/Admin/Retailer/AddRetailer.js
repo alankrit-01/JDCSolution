@@ -9,7 +9,7 @@ import Input from '@material-tailwind/react/Input';
 import Textarea from '@material-tailwind/react/Textarea';
 import { storeRetailer } from "Services/action";
 import React, { useMemo, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 const AddRetailer = () => {
 
@@ -47,6 +47,14 @@ const AddRetailer = () => {
             dispatch(storeRetailer(data))
         }
     }, [emailError])
+
+    const initialRetailerStoredata = useSelector((state) => state.RetailerStoreData);
+
+    useMemo(() => {
+        if (initialRetailerStoredata.success == true) {
+            navigate('/admin/retailer')
+        }
+    }, [initialRetailerStoredata])
 
     return (
         <>

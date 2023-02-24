@@ -82,7 +82,7 @@ const Company = () => {
     useMemo(() => {
         if (initialCompanyStoredata.success == true) {
             successNotify();
-        }
+        } 
     }, [initialCompanyStoredata])
 
     useEffect(() => {

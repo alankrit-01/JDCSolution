@@ -710,7 +710,7 @@ export const BatchDetailRecord = (initialdata = batchDetailData, action) => {
     switch (action.type) {
         case Get_Batch_Detail:
             return initialdata
-            break;
+            break; 
         case Set_Batch_Detail_List:
             initialdata = { ...initialdata, batchDetailRec: action.result }
             return initialdata

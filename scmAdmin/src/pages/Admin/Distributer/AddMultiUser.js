@@ -7,9 +7,8 @@ import CardBody from '@material-tailwind/react/CardBody';
 import Button from '@material-tailwind/react/Button';
 import Input from '@material-tailwind/react/Input';
 import Textarea from '@material-tailwind/react/Textarea';
-import { storeDistributer } from "Services/action";
 import React, { useMemo, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Papa from 'papaparse';
 import { storeMultiUser } from 'Services/action';
@@ -17,16 +16,6 @@ const AddMultiUser = () => {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [address, setAddress] = useState('');
-    const [city, setCity] = useState('');
-    const [country, setCountry] = useState('');
-    const [latitude, setLatitude] = useState('');
-    const [longitude, setLongitude] = useState('');
-    const [emailError, setemailError] = useState('');
-
-
     const [parsedData, setParsedData] = useState([]);
     //State to store table Column name
     const [tableRows, setTableRows] = useState([]);
@@ -64,22 +53,22 @@ const AddMultiUser = () => {
         });
     };
 
-    // useMemo(() => {
-    //     const data = {
-    //         name: name,
-    //         email: email,
-    //         address: address,
-    //         role: "Distributer",
-    //         city: city,
-    //         country: country,
-    //         latitude: latitude,
-    //         longitude: longitude,
-    //     }
-    //     if (emailError == true) {
-    //         dispatch(storeDistributer(data))
-    //     }
-    // }, [emailError])
+    const initialDistributerStoredata = useSelector((state) => state.DistributerStoreData);
+    const initialRetailerStoredata = useSelector((state) => state.RetailerStoreData);
 
+    console.log("initialDistributerStoredata",initialDistributerStoredata)
+    console.log("initialRetailerStoredata",initialRetailerStoredata)
+
+    useMemo(() => {
+        if (initialDistributerStoredata.success == true) {
+            navigate('/admin/distributer')
+        }
+    }, [initialDistributerStoredata])
+    useMemo(() => {
+        if (initialRetailerStoredata.success == true) {
+            navigate('/admin/retailer')
+        }
+    }, [initialRetailerStoredata])
     return (
         <>
             <Sidebar />
@@ -92,26 +81,6 @@ const AddMultiUser = () => {
                     </div>
                 </div>
                 <div className="px-3 md:px-8 h-auto -mt-24">
-                    {/* <table>
-                        <thead>
-                            <tr>
-                                {tableRows.map((rows, index) => {
-                                    return <th key={index}>{rows}</th>;
-                                })}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {values.map((value, index) => {
-                                return (
-                                    <tr key={index}>
-                                        {value.map((val, i) => {
-                                            return <td key={i}>{val}</td>;
-                                        })}
-                                    </tr>
-                                );
-                            })}
-                        </tbody>
-                    </table> */}
                     <div className="container mx-auto max-w-full">
                         <div className="grid grid-cols-1 xl:grid-cols-6">
                             <div className="xl:col-start-1 xl:col-end-7 px-4 mb-16">

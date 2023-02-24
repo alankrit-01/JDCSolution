@@ -20,7 +20,7 @@ export const getSuperAdminLocalStoreData = (data) =>{
 }
 export const storeCompany = (data) =>{
     return{
-        type:Store_Company,
+        type:Store_Company, 
         data:data 
     } 
 }
@@ -146,7 +146,6 @@ export const checkRetailerSuccessdata = (data) =>{
         data:data 
     } 
 }
-
 export const storeMultiUser = (data) =>{
     return{
         type:Store_Multi_User,

@@ -9,7 +9,7 @@ import Input from '@material-tailwind/react/Input';
 import Textarea from '@material-tailwind/react/Textarea';
 import { storeDistributer } from "Services/action";
 import React, { useMemo, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 const AddDistributer = () => { 
 
@@ -47,6 +47,14 @@ const AddDistributer = () => {
             dispatch(storeDistributer(data))
         }
     }, [emailError])
+
+    const initialDistributerStoredata = useSelector((state) => state.DistributerStoreData);
+
+    useMemo(() => {
+        if (initialDistributerStoredata.success == true) {
+            navigate('/admin/distributer')
+        }
+    }, [initialDistributerStoredata])
 
     return (
         <>

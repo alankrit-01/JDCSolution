@@ -9,7 +9,7 @@ import Input from '@material-tailwind/react/Input';
 import Textarea from '@material-tailwind/react/Textarea';
 import { storeFactory } from "Services/action";
 import React, { useMemo, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 const AddFactory = () => {
 
@@ -44,11 +44,18 @@ const AddFactory = () => {
             longitude: longitude,
         }
         if (emailError == true) {
-
-            console.log("data data",data)
             dispatch(storeFactory(data))
         }
     }, [emailError])
+
+
+    const initialFactoryStoredata = useSelector((state) => state.FactoryStoreData);
+
+    useMemo(() => {
+        if (initialFactoryStoredata.success == true) {
+            navigate('/admin/factory')
+        }
+    }, [initialFactoryStoredata])
 
     return (
         <>

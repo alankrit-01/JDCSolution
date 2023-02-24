@@ -80,8 +80,8 @@ const Company = () => {
                                     selectableRows
                                     selectableRowsHighlight
                                     highlightOnHover
-                                    actions={<NavLink
-                                        to="/superAdmin/addCompany"><Button>Add</Button></NavLink>}
+                                    // actions={<NavLink
+                                    //     to="/superAdmin/addCompany"><Button>Add</Button></NavLink>}
                                     subHeader
                                 // subHeaderComponent={
                                 //     <div className='w-full'>

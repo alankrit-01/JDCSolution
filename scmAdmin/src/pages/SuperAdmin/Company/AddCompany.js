@@ -48,7 +48,7 @@ const AddCompany = () => {
         if (emailError == true) {
             dispatch(storeCompany(data))
         }
-    }, [emailError])
+    }, [emailError]) 
 
     const initialCompanyStoredata = useSelector((state) => state.CompanyStoreData);
 

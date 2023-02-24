@@ -12,9 +12,20 @@ import Papa from 'papaparse';
 import { storeMultiUser } from 'Services/action';
 import { CSVLink } from "react-csv";
 import React from "react";
+import { ToastContainer, toast } from 'react-toastify';
 
 
 const Distributer = () => {
+    const successNotify = () => toast.success('Distributer Added Successfully !.', {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+    });
     const dispatch = useDispatch();
     const [Distributer, setDistributer] = useState([]);
     const [Search, setSearch] = useState("");
@@ -53,21 +64,28 @@ const Distributer = () => {
 
     useEffect(() => {
         const columns = [
-          {
-            name: "Distributer Name",
-            email: "Distributer Email",
-            address: "Distributer Address",
-            phone: "Distributer Phone",
-          },
+            {
+                name: "Distributer Name",
+                email: "Distributer Email",
+                address: "Distributer Address",
+                phone: "Distributer Phone",
+            },
         ];
         setExcelData(columns);
-      }, []);
+    }, []);
 
     useEffect(() => {
         dispatch(getDistributer())
     }, [])
 
     const initialdata = useSelector((state) => state.DistributerRecord);
+
+    const initialDistributerStoredata = useSelector((state) => state.DistributerStoreData);
+    useMemo(() => {
+        if (initialDistributerStoredata.success == true) {
+            successNotify();
+        }
+    }, [initialDistributerStoredata])
 
     useEffect(() => {
         setDistributer(initialdata.distributerRec)
@@ -83,48 +101,49 @@ const Distributer = () => {
 
     const getCsvData = () => {
         const csvData = [];
-    
+
         if (excelData.length > 0 && FilterDistributer.length > 0) {
-          excelData.map((ex) => {
-            csvData.push([
-              `${ex.name}`,
-              `${ex.email}`,
-              `${ex.address}`,
-              `${ex.phone}`,
-            ]);
-          });
-          if (selRows.length > 0) {
-            selRows.map((val) => {
-              csvData.push([
-                `${val.name}`,
-                `${val.email}`,
-                `${val.address}`,
-                `${val.phone}`,
-              ]);
+            excelData.map((ex) => {
+                csvData.push([
+                    `${ex.name}`,
+                    `${ex.email}`,
+                    `${ex.address}`,
+                    `${ex.phone}`,
+                ]);
             });
-          } 
-          else {
-            FilterDistributer.map((val) => {
-              csvData.push([
-                `${val.name}`,
-                `${val.email}`,
-                `${val.address}`,
-                `${val.phone}`,
-              ]);
-            });
-          }
+            if (selRows.length > 0) {
+                selRows.map((val) => {
+                    csvData.push([
+                        `${val.name}`,
+                        `${val.email}`,
+                        `${val.address}`,
+                        `${val.phone}`,
+                    ]);
+                });
+            }
+            else {
+                FilterDistributer.map((val) => {
+                    csvData.push([
+                        `${val.name}`,
+                        `${val.email}`,
+                        `${val.address}`,
+                        `${val.phone}`,
+                    ]);
+                });
+            }
         }
-       
+
         return csvData;
-      };
-  
-      var selRows = selectedData;
+    };
+
+    var selRows = selectedData;
     const handleChange = (state) => {
-      setSelectedData(state.selectedRows);
+        setSelectedData(state.selectedRows);
     };
 
     return (
         <>
+            <ToastContainer />
             <Sidebar />
             <div className="md:ml-64">
                 <div className="bg-light-blue-500 pt-14 pb-28 px-3 md:px-8 h-auto">
@@ -173,15 +192,15 @@ const Distributer = () => {
                                 subHeader
                                 subHeaderComponent={
                                     <div className='w-full'>
-                                         <CSVLink filename="DistributerList.csv" data={getCsvData()}>
-                                    {" "}
-                                    <div className="float-left lg:w-6/12 d-flex pr-4 mb-10 font-light">
-                                      <Button>Export CSV</Button>
-                                    </div>
-                                  </CSVLink>
+                                        <CSVLink filename="DistributerList.csv" data={getCsvData()}>
+                                            {" "}
+                                            <div className="float-left lg:w-6/12 d-flex pr-4 mb-10 font-light">
+                                                <Button>Export CSV</Button>
+                                            </div>
+                                        </CSVLink>
                                         <div className="float-left lg:w-6/12 d-flex pr-4 mb-10 font-light">
-                                        <Button><NavLink
-                                    to="/admin/addMultiUser">Add Multi Distributer</NavLink></Button>
+                                            <Button><NavLink
+                                                to="/admin/addMultiUser">Add Multi Distributer</NavLink></Button>
                                         </div>
                                         <div className="float-left lg:w-6/12 d-flex pr-4 mb-10 font-light">
                                             <Input type="text" color="purple" placeholder="Search Here" value={Search} onChange={(e) => setSearch(e.target.value)} />
