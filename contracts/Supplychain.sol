@@ -28,8 +28,7 @@ contract Supplychain{
         string CustomerID; 
         string RetailerID;     
         bool RetailerScanned;    
-        string RetailerScannedTimeStamp;    
-        string RetailerLatLong;    
+        string RetailerScannedTimeStamp;   
         string DateWhenSoldToRetailer;
         string DateWhenSoldToCustomer;
     }           
@@ -47,7 +46,6 @@ contract Supplychain{
         uint State;            
         bool DistributorScanned; 
         string  DistributorScannedTimeStamp;
-        string  DistributorLatLong;
         uint AmountLeftForSellingTORetailer;  
     }                               
 
@@ -98,7 +96,7 @@ contract Supplychain{
             FactoryID:_factoryID  
         });     
         BatchTemplateIDs.push(_batchTemplateID);
-    }            
+    } 
 
     function addProductTemplate(
         uint _productTemplateID,
@@ -143,7 +141,6 @@ contract Supplychain{
             State:0,
             DistributorScanned:false,
             DistributorScannedTimeStamp:"",
-            DistributorLatLong:"",
             AmountLeftForSellingTORetailer:batchSize
         }); 
         BatchIDs.push(batchID); 
@@ -160,7 +157,6 @@ contract Supplychain{
                 RetailerID:"",
                 RetailerScanned:false,
                 RetailerScannedTimeStamp:"",
-                RetailerLatLong:"",
                 DateWhenSoldToRetailer:"",
                 DateWhenSoldToCustomer:""
             });
@@ -168,13 +164,17 @@ contract Supplychain{
         }   
     }    
 
-    function distributorScansBatch(uint batchID, string memory _distributorID,string memory timeStamp, string memory _distributorLatLong) public{
+    // Cases  
+    // Distributor scans a batch -  
+    // Already data - distributor ID -> location 
+    // If distributor scans from another location - batch can't be scanned entry to central database (Location error detected)
+    // 
+    function distributorScansBatch(uint batchID, string memory _distributorID,string memory timeStamp) public{
         require(BatchMapping[batchID].DistributorScanned==false,"This batch is already scanned by the distributor");
         require(keccak256(abi.encodePacked(BatchMapping[batchID].DistributorID))== keccak256(abi.encodePacked(_distributorID)),"This batch is not owned by this distributor");
         BatchMapping[batchID].DistributorScanned=true;
         BatchMapping[batchID].DistributorScannedTimeStamp=timeStamp;
-        BatchMapping[batchID].DistributorLatLong=_distributorLatLong;
-    }  
+    }   
 
     function distributorSellToRetailer(uint batchID, uint quantity, string memory retailerID, string memory timeStamp) public{
         uint amountLeft =BatchMapping[batchID].AmountLeftForSellingTORetailer;
@@ -182,7 +182,6 @@ contract Supplychain{
         string memory d =BatchMapping[batchID].DistributorID;
         require(amountLeft>=quantity,"Quantity is greater than the amount left to be sold in this batch");
         require(quantity>0,"Quantity cannot be zero");
-        // require(BatchMapping[batchID].DistributorID==distributorID,"Quantity cannot be zero");
         uint sold = batchSize-amountLeft; 
         uint[] memory productIDs =BatchIDToProductIDMapping[batchID];
         for(uint i=sold; i<(sold+quantity); i++){
@@ -193,7 +192,7 @@ contract Supplychain{
             ProductMapping[ID]=p;
         } 
         BatchMapping[batchID].AmountLeftForSellingTORetailer-=quantity;
-        // DistributorIDToRetailerStruct 
+
         Retailer memory r = Retailer({ 
             DistributorID:d,
             RetailerID: retailerID,
@@ -205,12 +204,11 @@ contract Supplychain{
         RetailerIDToRetailerStruct[retailerID].push(r); 
     }       
 
-    function retailerScansProduct(uint _productID, string memory _retailerID, string memory timeStamp, string memory _retailerLatLong) public{
+    function retailerScansProduct(uint _productID, string memory _retailerID, string memory timeStamp) public{
         require(ProductMapping[_productID].RetailerScanned==false,"This batch is already scanned by the retailer");
         require(keccak256(abi.encodePacked(ProductMapping[_productID].RetailerID))== keccak256(abi.encodePacked(_retailerID)),"This product is not owned by this retailer");
         ProductMapping[_productID].RetailerScanned=true; 
-        ProductMapping[_productID].RetailerScannedTimeStamp=timeStamp; 
-        ProductMapping[_productID].RetailerLatLong=_retailerLatLong; 
+        ProductMapping[_productID].RetailerScannedTimeStamp=timeStamp;
     }        
 
     function retailerSellToCustomer(uint batchID,uint productID, string memory customerID,string memory timeStamp) public {
