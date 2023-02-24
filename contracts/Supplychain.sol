@@ -20,7 +20,8 @@ contract Supplychain{
     }               
 
     struct Product{
-        uint ProductID; 
+        uint ProductID;
+        uint CompanyProductID; 
         uint BatchID; 
         uint ProductTemplateID; 
         string DOM; 
@@ -28,6 +29,7 @@ contract Supplychain{
         string RetailerID;     
         bool RetailerScanned;    
         string RetailerScannedTimeStamp;    
+        string RetailerLatLong;    
         string DateWhenSoldToRetailer;
         string DateWhenSoldToCustomer;
     }           
@@ -45,6 +47,7 @@ contract Supplychain{
         uint State;            
         bool DistributorScanned; 
         string  DistributorScannedTimeStamp;
+        string  DistributorLatLong;
         uint AmountLeftForSellingTORetailer;  
     }                               
 
@@ -55,12 +58,10 @@ contract Supplychain{
 
     struct Retailer{
         string DistributorID;
-        string RetailerID;   
-        string NewRetailerID;   
+        string RetailerID;     
         uint BatchID; 
         uint Quantity; 
         string TimeStamp; 
-        string TransferTimeStamp; 
     } 
 
     uint[] public ProductTemplateIDs;
@@ -73,6 +74,7 @@ contract Supplychain{
     mapping(uint=>Product) public ProductMapping;  
     mapping(uint=>Batch) public BatchMapping; 
     mapping(uint=>uint[]) public BatchIDToProductIDMapping; 
+    // mapping(uint=>uint[]) public BatchIDToCompanyProductIDMapping; 
     mapping(string =>Customer[]) public CustomerData;
     
     mapping(string=>Retailer[]) public DistributorIDToRetailerStruct; 
@@ -117,6 +119,7 @@ contract Supplychain{
     function batchProduced(
         uint batchID, 
         uint[] memory productIDs, 
+        uint[] memory companyProductIDs, 
         uint batchSize, 
         string memory batchDescription, 
         uint productTemplateID, 
@@ -124,7 +127,6 @@ contract Supplychain{
         string memory distributor,  
         string memory factoryLocation,
         string memory dateOfProduction 
-        // 
     ) public{
         require(checkInBatchIDs(batchID)==false,"BatchID already exists in the system");
         require(productIDs.length==batchSize,"Size of productIDs array does not match with Batch size");
@@ -141,6 +143,7 @@ contract Supplychain{
             State:0,
             DistributorScanned:false,
             DistributorScannedTimeStamp:"",
+            DistributorLatLong:"",
             AmountLeftForSellingTORetailer:batchSize
         }); 
         BatchIDs.push(batchID); 
@@ -149,6 +152,7 @@ contract Supplychain{
             require(checkInProductIDs(productIDs[i])==false,"ProductID already exists in the system");
             ProductMapping[productIDs[i]]=Product({
                 ProductID:productIDs[i],
+                CompanyProductID:companyProductIDs[i],
                 BatchID:batchID,
                 ProductTemplateID:productTemplateID,
                 DOM:dateOfProduction,
@@ -156,6 +160,7 @@ contract Supplychain{
                 RetailerID:"",
                 RetailerScanned:false,
                 RetailerScannedTimeStamp:"",
+                RetailerLatLong:"",
                 DateWhenSoldToRetailer:"",
                 DateWhenSoldToCustomer:""
             });
@@ -163,12 +168,13 @@ contract Supplychain{
         }   
     }    
 
-    function distributorScansBatch(uint batchID, string memory _distributorID,string memory timeStamp) public{
+    function distributorScansBatch(uint batchID, string memory _distributorID,string memory timeStamp, string memory _distributorLatLong) public{
         require(BatchMapping[batchID].DistributorScanned==false,"This batch is already scanned by the distributor");
         require(keccak256(abi.encodePacked(BatchMapping[batchID].DistributorID))== keccak256(abi.encodePacked(_distributorID)),"This batch is not owned by this distributor");
         BatchMapping[batchID].DistributorScanned=true;
         BatchMapping[batchID].DistributorScannedTimeStamp=timeStamp;
-    } 
+        BatchMapping[batchID].DistributorLatLong=_distributorLatLong;
+    }  
 
     function distributorSellToRetailer(uint batchID, uint quantity, string memory retailerID, string memory timeStamp) public{
         uint amountLeft =BatchMapping[batchID].AmountLeftForSellingTORetailer;
@@ -197,17 +203,14 @@ contract Supplychain{
         }); 
         DistributorIDToRetailerStruct[d].push(r); 
         RetailerIDToRetailerStruct[retailerID].push(r); 
-    }     
+    }       
 
-    function retailerSellToRetailer(string memory oldRetailerID, string memory newRetailerID, string memory timeStamp) public {
-
-    }
-
-    function retailerScansProduct(uint _productID, string memory _retailerID,string memory timeStamp) public{
+    function retailerScansProduct(uint _productID, string memory _retailerID, string memory timeStamp, string memory _retailerLatLong) public{
         require(ProductMapping[_productID].RetailerScanned==false,"This batch is already scanned by the retailer");
         require(keccak256(abi.encodePacked(ProductMapping[_productID].RetailerID))== keccak256(abi.encodePacked(_retailerID)),"This product is not owned by this retailer");
         ProductMapping[_productID].RetailerScanned=true; 
         ProductMapping[_productID].RetailerScannedTimeStamp=timeStamp; 
+        ProductMapping[_productID].RetailerLatLong=_retailerLatLong; 
     }        
 
     function retailerSellToCustomer(uint batchID,uint productID, string memory customerID,string memory timeStamp) public {
