@@ -24,7 +24,7 @@ mongoose.connect('mongodb+srv://vipin:ldOGGLOXWNcP6OjK@cluster0.y8ufn.mongodb.ne
 optionSuccessStatus:200
 const contractAbi = require('./artifacts/contracts/Supplychain.sol/Supplychain.json')
 
-let contractAddress ="0x5a400Ff746A4D6b81681d6f83046941f0D7CE3f7"; 
+let contractAddress ="0x48df8c1c99780BabBe5E54F001dBA60e9B9C5429"; 
 let contract;
 app.use(express.json()); 
 app.use(cors());
@@ -78,6 +78,7 @@ app.post('/api/factoryAddProductTemplate',async(req,res)=>{
     res.status(400).send({ error: error.message });
   } 
 })    
+
 
 app.get('/api/viewListOfProductTemplates', async (req, res) => {
   // console.log('sdsd')
@@ -238,16 +239,17 @@ app.get('/api/viewBatchRecordByBatchId', async (req, res) => {
     
       productInfo.push({
         ProductID: productData[0].toNumber(),
-        BatchID:productData[1].toNumber(), 
-        ProductTemplateID:productData[2].toNumber(),
-        DOM:productData[3],
-        CustomerID:productData[4], 
-        RetailerID:productData[5],     
-        RetailerScanned:productData[6],    
-        RetailerScannedTimeStamp:productData[7],    
-        RetailerLatLong:productData[8],    
-        DateWhenSoldToRetailer:productData[9],
-        DateWhenSoldToCustomer:productData[10]
+        CompanyProductID: productData[1].toNumber(),
+        BatchID:productData[2].toNumber(), 
+        ProductTemplateID:productData[3].toNumber(),
+        DOM:productData[4],
+        CustomerID:productData[5], 
+        RetailerID:productData[6],     
+        RetailerScanned:productData[7],    
+        RetailerScannedTimeStamp:productData[8],    
+        RetailerLatLong:productData[9],    
+        DateWhenSoldToRetailer:productData[10],
+        DateWhenSoldToCustomer:productData[11]
       });
     }
       // console.log(productIDs);
@@ -298,23 +300,6 @@ app.get('/api/viewProductIDsInBatch', async (req, res) => {
     res.status(400).send({ error: error.message });
   }
 });  
-
-
-app.get('/api/getCompanyProductIDsByBatchId', async (req, res) => {
-  try {
-    let batchID= req.query.batchID;
-    let data = await contract.getCompanyProductIdsForaBatch(batchID);
-    let result =data.map(ID=>ID.toNumber())
-    if(result){
-      res.status(200).json({status:"success", message:result});
-    }else {
-      res.status(200).json({status:"success", message:"Returned data is empty"});
-    }
-  } catch (error) {
-    console.log(error.message);
-    res.status(400).send({ error: error.message });
-  } 
-});
 
 
 
@@ -496,16 +481,17 @@ app.get('/api/viewBatchDetails', async (req, res) => {
       let productData =await contract.ProductMapping(productIDs[j])
       productInfo.push({
         ProductID: productData[0].toNumber(),
-        BatchID:productData[1].toNumber(), 
-        ProductTemplateID:productData[2].toNumber(),
-        DOM:productData[3],
-        CustomerID:productData[4], 
-        RetailerID:productData[5],     
-        RetailerScanned:productData[6],    
-        RetailerScannedTimeStamp:productData[7],    
-        RetailerLatLong:productData[8],    
-        DateWhenSoldToRetailer:productData[9],
-        DateWhenSoldToCustomer:productData[10]
+        CompanyProductID: productData[1].toNumber(),
+        BatchID:productData[2].toNumber(), 
+        ProductTemplateID:productData[3].toNumber(),
+        DOM:productData[4],
+        CustomerID:productData[5], 
+        RetailerID:productData[6],     
+        RetailerScanned:productData[7],    
+        RetailerScannedTimeStamp:productData[8],    
+        RetailerLatLong:productData[9],    
+        DateWhenSoldToRetailer:productData[10],
+        DateWhenSoldToCustomer:productData[11]
       });
     }
 
@@ -558,16 +544,17 @@ app.get('/api/viewProductBoughts', async (req, res) => {
       result.push({
         "productData":{
           ProductID: productData[0].toNumber(),
-          BatchID:productData[1].toNumber(), 
-          ProductTemplateID:productData[2].toNumber(),
-          DOM:productData[3],
-          CustomerID:productData[4], 
-          RetailerID:productData[5],     
-          RetailerScanned:productData[6],    
-          RetailerScannedTimeStamp:productData[7],    
-          RetailerLatLong:productData[8],    
-          DateWhenSoldToRetailer:productData[9],
-          DateWhenSoldToCustomer:productData[10]
+          CompanyProductID: productData[1].toNumber(),
+          BatchID:productData[2].toNumber(), 
+          ProductTemplateID:productData[3].toNumber(),
+          DOM:productData[4],
+          CustomerID:productData[5], 
+          RetailerID:productData[6],     
+          RetailerScanned:productData[7],    
+          RetailerScannedTimeStamp:productData[8],    
+          RetailerLatLong:productData[9],    
+          DateWhenSoldToRetailer:productData[10],
+          DateWhenSoldToCustomer:productData[11]
         },
         "batchData":{
           BatchID :batchData[0].toNumber(),

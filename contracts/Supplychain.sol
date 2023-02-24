@@ -20,7 +20,8 @@ contract Supplychain{
     }               
 
     struct Product{
-        uint ProductID; 
+        uint ProductID;
+        uint CompanyProductID; 
         uint BatchID; 
         uint ProductTemplateID; 
         string DOM; 
@@ -73,7 +74,7 @@ contract Supplychain{
     mapping(uint=>Product) public ProductMapping;  
     mapping(uint=>Batch) public BatchMapping; 
     mapping(uint=>uint[]) public BatchIDToProductIDMapping; 
-    mapping(uint=>uint[]) public BatchIDToCompanyProductIDMapping; 
+    // mapping(uint=>uint[]) public BatchIDToCompanyProductIDMapping; 
     mapping(string =>Customer[]) public CustomerData;
     
     mapping(string=>Retailer[]) public DistributorIDToRetailerStruct; 
@@ -147,11 +148,11 @@ contract Supplychain{
         }); 
         BatchIDs.push(batchID); 
         BatchIDToProductIDMapping[batchID]= productIDs;
-        BatchIDToCompanyProductIDMapping[batchID]= companyProductIDs;
         for(uint i=0;i<batchSize; i++){
             require(checkInProductIDs(productIDs[i])==false,"ProductID already exists in the system");
             ProductMapping[productIDs[i]]=Product({
                 ProductID:productIDs[i],
+                CompanyProductID:companyProductIDs[i],
                 BatchID:batchID,
                 ProductTemplateID:productTemplateID,
                 DOM:dateOfProduction,
@@ -272,10 +273,6 @@ contract Supplychain{
 
     function getProductIdsForaBatch(uint batchID) public view returns(uint []memory){
         return BatchIDToProductIDMapping[batchID];
-    }
-
-    function getCompanyProductIdsForaBatch(uint batchID) public view returns(uint []memory){
-        return BatchIDToCompanyProductIDMapping[batchID];
     }
 
     function getDistributorIDToRetailerStruct(string memory distributorID) public view returns(Retailer []memory){
