@@ -12,7 +12,8 @@ import React, { useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 const AddDistributer = () => { 
-
+    const admindata = useSelector((state) => state.AdminLoginData);
+    const [adminUserId, setAdminUserId] = useState(admindata.adminUserId);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [name, setName] = useState('');
@@ -42,6 +43,7 @@ const AddDistributer = () => {
             country:country,
             latitude:latitude,
             longitude:longitude,
+            adminId:adminUserId,
         }
         if (emailError == true) {
             dispatch(storeDistributer(data))

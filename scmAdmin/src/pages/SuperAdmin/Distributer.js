@@ -3,12 +3,14 @@ import Sidebar from 'components/SuperAdmin/Sidebar';
 import Footer from 'components/SuperAdmin/Footer';
 import { useDispatch, useSelector } from 'react-redux';
 import { getDistributerByCompany } from 'Services/action';
+import {useLocation, NavLink } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import DataTable from 'react-data-table-component';
 import Input from '@material-tailwind/react/Input';
 
 const Distributer = () => {
-
+    let distributerAdminData = useLocation();
+    let distributerAdminId = distributerAdminData.state.adminId;
     const dispatch = useDispatch();
     const [Distributer, setDistributer] = useState([]);
     const [Search, setSearch] = useState("");
@@ -38,7 +40,7 @@ const Distributer = () => {
     ];
     useEffect(() => {
         const data = {
-            adminId: "637f29523bcd21b57592615b",
+            adminId: distributerAdminId,
         }
         dispatch(getDistributerByCompany(data))
     }, [])

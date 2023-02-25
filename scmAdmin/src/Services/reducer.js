@@ -1,5 +1,5 @@
 import { combineReducers } from "redux";
-import { GETDETAILS,SuperAdminUserLogin,Set_SuperAdmin_Login, SuperAdmin_Login_Fail,set_SuperAdmin_Local_Store_Data,Store_Company, Store_Company_Request, Set_Store_Company_Data, Set_Store_Company_Data_Fail,Check_Company_Success_data_1, Get_Company, Set_Company_List,Set_SuperAdmin_Logout, AdminUserLogin, Set_Admin_Login, Admin_Login_Fail, Get_Local_Store_Data, set_Local_Store_Data,Set_Retailer_By_Company_List, Set_Retailer_List, Set_Factory_List,Set_Factory_By_Company_List, Set_Distributer_List,Set_Distributer_By_Company_List, Set_Admin_Logout, FactoryUserLogin, Set_Factory_Login, Factory_Login_Fail, set_Factory_Local_Store_Data, Set_Factory_Logout, Store_Factory, Store_Factory_Request, Set_Store_Factory_Data, Set_Store_Factory_Data_Fail, Check_Factory_Success_data, Check_Factory_Success_data_1, Store_Distributer, Set_Store_Distributer_Data, Set_Store_Distributer_Data_Fail, Store_Distributer_Request, Check_Distributer_Success_data, Check_Distributer_Success_data_1, Store_Retailer, Set_Store_Retailer_Data, Set_Store_Retailer_Data_Fail, Store_Retailer_Request, Check_Retailer_Success_data, Check_Retailer_Success_data_1, Store_Company_Feedback, Set_Store_Company_Feedback_Data, Set_Store_Company_Feedback_Data_Fail, Store_Company_Feedback_Request, Check_Company_Feedback_Success_data, Check_Company_Feedback_Success_data_1, Store_Multi_User, Store_Product_Template, Set_Store_Product_Template_Data, Set_Store_Product_Template_Data_Fail, Store_Product_Template_Request, Check_Product_Template_Success_data, Check_Product_Template_Success_data_1,Get_Product_Template, Set_Product_Template_List, Store_Batch_Template, Set_Store_Batch_Template_Data, Set_Store_Batch_Template_Data_Fail, Store_Batch_Template_Request, Check_Batch_Template_Success_data, Check_Batch_Template_Success_data_1,Get_Batch_Template, Set_Batch_Template_List,Get_Batch_Detail, Set_Batch_Detail_List, Set_Feedback_List, Set_Self_Feedback_List } from "./constant";
+import { GETDETAILS,SuperAdminUserLogin,Set_SuperAdmin_Login, SuperAdmin_Login_Fail,set_SuperAdmin_Local_Store_Data,Store_Company, Store_Company_Request, Set_Store_Company_Data, Set_Store_Company_Data_Fail,Check_Company_Success_data_1, Get_Company, Set_Company_List, Set_Fraud_Scans_List, Set_SuperAdmin_Logout, AdminUserLogin, Set_Admin_Login, Admin_Login_Fail, Get_Local_Store_Data, set_Local_Store_Data,Set_Retailer_By_Company_List, Set_Retailer_List, Set_Factory_List,Set_Factory_By_Company_List, Set_Distributer_List,Set_Distributer_By_Company_List, Set_Admin_Logout, FactoryUserLogin, Set_Factory_Login, Factory_Login_Fail, set_Factory_Local_Store_Data, Set_Factory_Logout, Store_Factory, Store_Factory_Request, Set_Store_Factory_Data, Set_Store_Factory_Data_Fail, Check_Factory_Success_data, Check_Factory_Success_data_1, Store_Distributer, Set_Store_Distributer_Data, Set_Store_Distributer_Data_Fail, Store_Distributer_Request, Check_Distributer_Success_data, Check_Distributer_Success_data_1, Store_Retailer, Set_Store_Retailer_Data, Set_Store_Retailer_Data_Fail, Store_Retailer_Request, Check_Retailer_Success_data, Check_Retailer_Success_data_1, Store_Company_Feedback, Set_Store_Company_Feedback_Data, Set_Store_Company_Feedback_Data_Fail, Store_Company_Feedback_Request, Check_Company_Feedback_Success_data, Check_Company_Feedback_Success_data_1, Store_Multi_User, Store_Product_Template, Set_Store_Product_Template_Data, Set_Store_Product_Template_Data_Fail, Store_Product_Template_Request, Check_Product_Template_Success_data, Check_Product_Template_Success_data_1,Get_Product_Template, Set_Product_Template_List, Store_Batch_Template, Set_Store_Batch_Template_Data, Set_Store_Batch_Template_Data_Fail, Store_Batch_Template_Request, Check_Batch_Template_Success_data, Check_Batch_Template_Success_data_1,Get_Batch_Template, Set_Batch_Template_List,Get_Batch_Detail, Set_Batch_Detail_List, Set_Feedback_List, Set_Self_Feedback_List } from "./constant";
 const data = {
     error: ""
 }
@@ -53,7 +53,10 @@ const distributerData = {
     error: "",
     distributerRec: [],
 }
-
+const fraudScansData = {
+    error: "",
+    fraudScansRec: [],
+}
 const productTemplateData = {
     error: "",
     productTemplateRec: [],
@@ -352,6 +355,20 @@ export const AdminLoginData = (initialdata = adminData, action) => {
             break;
         default:
             return initialdata;
+            break;
+    }
+}
+
+
+
+export const FraudScansRecord = (initialdata = fraudScansData, action) => {
+    switch (action.type) {
+        case Set_Fraud_Scans_List:
+            initialdata = { ...initialdata, fraudScansRec: action.result }
+            return initialdata
+            break;
+        default:
+            return initialdata
             break;
     }
 }
@@ -751,4 +768,4 @@ export const SelfFeedbackRecord = (initialdata = selffeedbackData, action) => {
 
 
 
-export const finalrecord = combineReducers({ Details,SuperAdminLoginData,CompanyStoreData,CompanyRecord, AdminLoginData, RetailerRecord, FactoryRecord, DistributerRecord, FactoryLoginData, FactoryStoreData, DistributerStoreData, RetailerStoreData, CompanyFeedbackStoreData, MultiUserStoreData, StoreProductTemplateData,ProductTemplateRecord,StoreBatchTemplateData,BatchTemplateRecord, BatchDetailRecord, FeedbackRecord, SelfFeedbackRecord })
+export const finalrecord = combineReducers({ Details,SuperAdminLoginData,CompanyStoreData,CompanyRecord, AdminLoginData,FraudScansRecord, RetailerRecord, FactoryRecord, DistributerRecord, FactoryLoginData, FactoryStoreData, DistributerStoreData, RetailerStoreData, CompanyFeedbackStoreData, MultiUserStoreData, StoreProductTemplateData,ProductTemplateRecord,StoreBatchTemplateData,BatchTemplateRecord, BatchDetailRecord, FeedbackRecord, SelfFeedbackRecord })

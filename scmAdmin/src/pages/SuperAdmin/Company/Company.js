@@ -73,7 +73,7 @@ const Company = () => {
             width: "150px"
         },
         {
-            selector: (row) => <Button variant="outline-success" onClick={() => navigate('/superAdmin/retailer',{ state: { adminId:  row._id} })}>Deactivate</Button>,
+            selector: (row) => <Button variant="outline-success">Deactivate</Button>,
             ignoreRowClick: true,
             allowOverflow: true,
             button: true,

@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import {getCompany, getDistributer, getFactory, getRetailers } from 'Services/action';
+import { getCompany, getDistributer, getFactory, getRetailers } from 'Services/action';
 import StatusCard from "./StatusCard";
+import { Button } from "@material-tailwind/react";
+import { useNavigate } from 'react-router-dom';
+
 const MainStatusCard = () => {
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const [Company, setCompany] = useState([]);
     const [Distributer, setDistributer] = useState([]);
     const [Factories, setFactories] = useState([]);
     const [Retailer, setRetailer] = useState([]);
-
 
     useEffect(() => {
         dispatch(getCompany())
@@ -16,13 +19,12 @@ const MainStatusCard = () => {
         dispatch(getFactory())
         dispatch(getRetailers())
     }, [])
-    
+
     const initialCompanydata = useSelector((state) => state.CompanyRecord);
     const initialdata = useSelector((state) => state.DistributerRecord);
     const initialFactorydata = useSelector((state) => state.FactoryRecord);
     const initialRetailerdata = useSelector((state) => state.RetailerRecord);
     useEffect(() => {
-        
         setCompany(initialCompanydata.companyRec.length && initialCompanydata.companyRec.length)
         setDistributer(initialdata.distributerRec.length && initialdata.distributerRec.length)
         setFactories(initialFactorydata.factoryRec.length && initialFactorydata.factoryRec.length)
@@ -33,16 +35,18 @@ const MainStatusCard = () => {
 
     return (
         <>
-        <StatusCard
-                color="blue"
-                icon="groups"
-                title="Company"
-                amount={Company}
-            // percentage="12"
-            // percentageIcon="arrow_upward"
-            // percentageColor="green"
-            // date="Since last month"
-            />
+            <span style={{cursor: "pointer"}} onClick={() => navigate('/superAdmin/company')}>
+                <StatusCard
+                    color="blue"
+                    icon="groups"
+                    title="Company"
+                    amount={Company}
+                // percentage="12"
+                // percentageIcon="arrow_upward"
+                // percentageColor="green"
+                // date="Since last month"
+                />
+            </span>
             <StatusCard
                 color="pink"
                 icon="groups"
@@ -63,6 +67,7 @@ const MainStatusCard = () => {
             // percentageColor="orange"
             // date="Since yesterday"
             />
+
             <StatusCard
                 color="orange"
                 icon="groups"
@@ -74,7 +79,8 @@ const MainStatusCard = () => {
             // date="Since last week"
             />
 
-            
+
+
         </>
     )
 }

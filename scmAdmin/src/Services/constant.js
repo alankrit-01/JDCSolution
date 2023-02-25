@@ -1,7 +1,7 @@
 //export const API_URL = "http://127.0.0.1:5150";
 export const API_URL = "http://162.215.222.118:5155";
- export const BLOCKCHAIN_API_URL = "http://162.215.222.118:8085/api";
-// export const BLOCKCHAIN_API_URL = "http://192.168.1.101:8082/api";
+// export const BLOCKCHAIN_API_URL = "http://162.215.222.118:8085/api";
+ export const BLOCKCHAIN_API_URL = "http://192.168.1.101:8082/api";
 
 export const GETDETAILS = 'GETDETAILS'; 
 export const SuperAdminUserLogin = 'SuperAdminUserLogin';
@@ -38,6 +38,8 @@ export const Get_Factory_By_Company = 'Get_Factory_By_Company';
 export const Set_Factory_By_Company_List = 'Set_Factory_By_Company_List';
 export const Set_Factory_List = 'Set_Factory_List';
 export const Get_Distributer = 'Get_Distributer';
+export const Get_Fraud_Scans = 'Get_Fraud_Scans';
+export const Set_Fraud_Scans_List = 'Set_Fraud_Scans_List';
 export const Get_Distributer_By_Company = 'Get_Distributer_By_Company';
 export const Set_Distributer_By_Company_List = 'Set_Distributer_By_Company_List';
 

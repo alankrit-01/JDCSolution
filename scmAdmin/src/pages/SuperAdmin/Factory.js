@@ -1,18 +1,21 @@
 import MainStatusCard from 'components/SuperAdmin/MainStatusCard';
 import Sidebar from 'components/SuperAdmin/Sidebar';
 import Footer from 'components/SuperAdmin/Footer';
-import { NavLink } from 'react-router-dom';
+import {useLocation, NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCompany } from 'Services/action';
+import { getFactoryByCompany } from 'Services/action';
 import { useEffect, useState } from 'react';
 import DataTable from 'react-data-table-component';
 import { Button } from "@material-tailwind/react";
 
-const Company = () => {
+const Factory = () => {
+
+    let factoryAdminData = useLocation();
+    let factoryAdminId = factoryAdminData.state.adminId;
     const dispatch = useDispatch();
-    const [Company, setCompany] = useState([]);
+    const [Factory, setFactory] = useState([]);
     const [Search, setSearch] = useState("");
-    const [FilterCompany, setFilterCompany] = useState([]);
+    const [FilterFactory, setFilterFactory] = useState([]);
 
     const columns = [
         {
@@ -38,22 +41,25 @@ const Company = () => {
     ];
 
     useEffect(() => {
-        dispatch(getCompany())
+        const data = {
+            adminId: factoryAdminId,
+        }
+        dispatch(getFactoryByCompany(data))
     }, [])
 
-    const initialdata = useSelector((state) => state.CompanyRecord);
+    const initialdata = useSelector((state) => state.FactoryRecord);
 
 
     useEffect(() => {
-        setCompany(initialdata.companyRec)
-        setFilterCompany(initialdata.companyRec)
+        setFactory(initialdata.factoryRec)
+        setFilterFactory(initialdata.factoryRec)
     }, [initialdata])
 
     useEffect(() => {
-        const result = Company.filter((company) => {
-            return company.name.toLowerCase().match(Search.toLowerCase());
+        const result = Factory.filter((factory) => {
+            return factory.name.toLowerCase().match(Search.toLowerCase());
         })
-        setFilterCompany(result)
+        setFilterFactory(result)
     }, [Search])
 
     return (
@@ -74,7 +80,7 @@ const Company = () => {
                                 <DataTable
                                     title="Factory List"
                                     columns={columns}
-                                    data={FilterCompany}
+                                    data={FilterFactory}
                                     pagination
                                     fixedHeader
                                     selectableRows
@@ -104,4 +110,4 @@ const Company = () => {
         </>
     );
 }
-export default Company
+export default Factory

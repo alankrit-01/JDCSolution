@@ -6,9 +6,11 @@ import { getRetailerByCompany } from 'Services/action';
 import { useEffect, useState } from 'react';
 import DataTable from 'react-data-table-component';
 import Input from '@material-tailwind/react/Input';
+import {useLocation, NavLink } from 'react-router-dom';
 
 const Retailer = () => {
-
+    let retailerAdminData = useLocation();
+    let retailerAdminId = retailerAdminData.state.adminId;
     const dispatch = useDispatch();
     const [Retailer, setRetailer] = useState([]);
     const [Search, setSearch] = useState("");
@@ -38,7 +40,7 @@ const Retailer = () => {
     ];
     useEffect(() => {
         const data = {
-            adminId: "637f29523bcd21b57592615b",
+            adminId: retailerAdminId,
         }
         dispatch(getRetailerByCompany(data))
     }, [])
