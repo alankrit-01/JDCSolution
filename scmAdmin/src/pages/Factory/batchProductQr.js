@@ -18,96 +18,65 @@ const BatchProductQr = () => {
     const [batchDescription, setBatchDescription] = useState('');
     const [initialProductInfo, setInitialProductInfo] = useState('');
 
-    
+
     let batchData = useLocation();
     let batchID = batchData.state.BatchID;
 
     useEffect(() => {
         const data = {
-            batchID:batchID
+            batchID: batchID
         }
         dispatch(getBatchDetail(data))
     }, [])
-     const initialBatchDetaildata = useSelector((state) => state.BatchDetailRecord.batchDetailRec.message);
-console.log("initialBatchDetaildata",initialBatchDetaildata) 
-        useMemo(()=>{
-            setProductTemplateID(initialBatchDetaildata && initialBatchDetaildata[0].ProductTemplateID);
-            setBatchSize(initialBatchDetaildata && initialBatchDetaildata[0].BatchSize);
-            setBatchDescription(initialBatchDetaildata && initialBatchDetaildata[0].BatchDescription);
-            setInitialProductInfo(initialBatchDetaildata && initialBatchDetaildata[1].productInfo);
+    const initialBatchDetaildata = useSelector((state) => state.BatchDetailRecord.batchDetailRec.message);
+    useMemo(() => {
+        setProductTemplateID(initialBatchDetaildata && initialBatchDetaildata[0].ProductTemplateID);
+        setBatchSize(initialBatchDetaildata && initialBatchDetaildata[0].BatchSize);
+        setBatchDescription(initialBatchDetaildata && initialBatchDetaildata[0].BatchDescription);
+        setInitialProductInfo(initialBatchDetaildata && initialBatchDetaildata[1].productInfo);
 
-        },[initialBatchDetaildata])
-
-         
-
+    }, [initialBatchDetaildata])
 
     const allProductQrlist = [];
     const qrRef = useRef();
-console.log("initialProductInfo",initialProductInfo)
+    console.log("initialProductInfo", initialProductInfo)
+    {
+        initialProductInfo && initialProductInfo.map(initialProductInfoRes => {
 
+            // const urlc = (
+            //     `batchId:${batchID} 
+            //     productId:${initialProductInfoRes.ProductID } 
+            //     productTemplateID:${productTemplateID} 
+            //     batchSize:${batchSize} 
+            //     batchDescription:${batchDescription }
+            // `);
 
+            const urlc = (`${initialProductInfoRes.ProductID}`);
+            let sidecheck = '';
+            if(initialProductInfoRes.CompanyProductID !== 0){
+                let serialtext = "S";
+                let serialnbr = initialProductInfoRes.CompanyProductID;
+                 sidecheck = serialtext + serialnbr;
+                
+            }
+            allProductQrlist.push(
+                <div className="qrCodeSection">
+                    <span className="sidercheck">{sidecheck}</span>
+                    <QRCodeSVG className="qrCode"
+                        value={urlc}
+                        size={280}
+                        bgColor={"#ffffff"}
+                        imageSettings={{ src: "https://richmint.com/img/navbar-logo.png", excavate: true }}
+                        includeMargin
+                        level={"H"}
+                    />
+                    <span className="rcheckRec">P-{initialProductInfoRes.ProductID}</span>
+                </div>
 
-{
-    initialProductInfo && initialProductInfo.map(initialProductInfoRes =>{
-
-        // const urlc = (
-        //     `batchId:${batchID} 
-        //     productId:${initialProductInfoRes.ProductID } 
-        //     productTemplateID:${productTemplateID} 
-        //     batchSize:${batchSize} 
-        //     batchDescription:${batchDescription }
-        // `);
-
-        const urlc = (`${initialProductInfoRes.ProductID }`);
-    allProductQrlist.push(
-        
-        <div className="qrCodeSection">
-            <span className="sidercheck">P-{initialProductInfoRes.ProductID}</span>
-            <QRCodeSVG className="qrCode"
-                value={urlc}
-                size={280}
-                bgColor={"#ffffff"}
-                imageSettings={{ src: "https://richmint.com/img/navbar-logo.png", excavate: true }}
-                includeMargin
-                level={"H"}
-            />
-            <span className="rcheckRec">P-{initialProductInfoRes.ProductID}</span>
-
-        </div>
-        
-    )
-}
-    )
-    
-}
-
-
-
-
-
-
-    // for (let i = 0; i <  initialProductInfo.length; i++) {
-    //     const urlc = (
-    //         `batchId:${batchID} 
-    //         productTemplateID:${productTemplateID} 
-    //         batchSize:${batchSize} 
-    //         batchDescription:${batchDescription } 
-    //     `);
-    //     allProductQrlist.push(
-    //         <div className="qrCodeSection">
-    //             <QRCodeSVG className="qrCode"
-    //                 value={urlc}
-    //                 size={280}
-    //                 bgColor={"#ffffff"}
-    //                 imageSettings={{ src: "https://richmint.com/img/navbar-logo.png", excavate: true }}
-    //                 includeMargin
-    //                 level={"H"}
-    //             />
-    //             <span className="rcheckRec">P-{initialProductInfo[i].ProductID}</span>
-
-    //         </div>
-    //     )
-    // }
+            )
+        }
+        )
+    }
     const Print = () => {
         let printContents = document.getElementById('qrcode__container').innerHTML;
         var winPrint = window.open();
