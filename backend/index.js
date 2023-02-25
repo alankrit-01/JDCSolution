@@ -25,7 +25,7 @@ mongoose.connect('mongodb+srv://vipin:ldOGGLOXWNcP6OjK@cluster0.y8ufn.mongodb.ne
 optionSuccessStatus:200
 const contractAbi = require('./artifacts/contracts/Supplychain.sol/Supplychain.json')
 
-let contractAddress ="0x331662355DAd530bcfac2440cABB088D34D271cA"; 
+let contractAddress ="0xE7594A401DE03D188675645d7f20BE18fAf967Ab"; 
 let contract;
 app.use(express.json()); 
 app.use(cors());
@@ -36,23 +36,6 @@ const connectToMatic = async () => {
     const signer = new ethers.Wallet(process.env.PRIVATEKEY, provider);  
     const contractInstance = new ethers.Contract(contractAddress, contractAbi.abi, signer);
     contract =contractInstance;  
-
-    // console.log(await contractInstance.getAllProductTemplateIDs())
-    // const tx =await contractInstance.addProductTemplate(1234132,"Tommy Hilfiger Watch","Men Black Analogue Watch Black");
-    // const tx =await contractInstance.batchProduced(                                      
-    //   1738105,// batchID                                                 
-    //   [477175,382175,173725], // Array of product Ids               
-    //   3,// Batch Size                                               
-    //   "Batch of 3 Jeans",// Batch Description                                        
-    //   1234132,// Product temlplate ID                                    
-    //   1234,// factoryID     
-    //   1235,// distributorID
-    //   "My Factory location",// factory Location                             
-    //   "1223123"// dateOfProduction                                         
-    // )   
-    // await tx.wait(); 
-    // console.log("Transaction completed!");
-
   } catch (err) {
     console.log(err);
     throw new Error(err?.message || "Something Went Wrong");
@@ -356,14 +339,15 @@ app.post('/api/distributorScansBatch',async(req,res)=>{
     const isValid =req.body.isValid; 
     const latitude =req.body.latitude; 
     const longitude =req.body.longitude; 
-    if (isValid){
+    const location =req.body.location; 
+
+    if (isValid==true){
       const tx =await contract.distributorScansBatch(batchID,distributorID,timeStamp);
       tx.wait();
       console.log("Transaction completed!");
   
       res.status(200).json({status:"success", message:"Distributor scans the batch"});
-    }
-    else{  
+    } else if(isValid==false){  
       const Data= new fraudScan({
         _id: new mongoose.Types.ObjectId(),
         isDistributor:true,
@@ -374,7 +358,8 @@ app.post('/api/distributorScansBatch',async(req,res)=>{
         productId:0,
         timestamp:timeStamp,
         latitude:latitude,
-        longitude:longitude
+        longitude:longitude,
+        location:location
       })
       Data.save().then((result) => {
         // console.log(result);
@@ -481,14 +466,15 @@ app.post('/api/retailerScansProduct',async(req,res)=>{
     const isValid =req.body.isValid; 
     const latitude =req.body.latitude; 
     const longitude =req.body.longitude; 
+    const location =req.body.location; 
 
-    if(isValid){
+    if(isValid==true){
       const tx =await contract.retailerScansProduct(productID,retailerID,timeStamp);
       tx.wait();
-      console.log("Transaction completed!");
+      console.log("Transaction completed!"); 
 
       res.status(200).json({status:"success", message:"Retailer scans the product"});
-    }else{
+    }else if(isValid==false){
       const Data= new fraudScan({
         _id: new mongoose.Types.ObjectId(),
         isDistributor:false,
@@ -499,7 +485,8 @@ app.post('/api/retailerScansProduct',async(req,res)=>{
         productId:productID,
         timestamp:timeStamp,
         latitude:latitude,
-        longitude:longitude 
+        longitude:longitude, 
+        location:location 
       })
       Data.save().then((result) => {
         // console.log(result);
