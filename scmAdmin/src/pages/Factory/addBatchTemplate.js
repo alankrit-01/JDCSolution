@@ -52,6 +52,8 @@ const AddBatchTemplate = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         const productIds = [];
+        const companyProductIDs = [];
+        
 
         let batchSizeData = '';
 
@@ -62,23 +64,27 @@ const AddBatchTemplate = () => {
             for (let i = 0; i < values.length; i++) {
 
                 let arr = parseInt(values[i])
+                companyProductIDs.push(arr)
                 productIds.push(
-                    arr
+                    batchTemplateId + i
                 )
             }
+           
+
         } else {
             for (let i = 1; i <= batchSize; i++) {
                 productIds.push(
                     batchTemplateId + i
                 )
+                companyProductIDs.push(0)
             }
             batchSizeData = batchSize
-
         }
 
         const data = {
             batchID:batchTemplateId.toString(),
             productIDs:productIds,
+            companyProductIDs:companyProductIDs,
             batchSize:batchSizeData,
             batchDescription:batchDescription,
             productTemplateID:productId.toString(),
@@ -87,16 +93,12 @@ const AddBatchTemplate = () => {
             factoryLocation:factoryUserLocation,
             dataOfProduction:batchManufacture 
         }
-        // if(distributer){
-        //     data.push("companyProductIds",productIds);
-        // }
-        dispatch(storeBatchTemplate(data))
-        
 
+        console.log("data data", data)
+        dispatch(storeBatchTemplate(data))
     }
 
     const initialBatchTemplateStoredata = useSelector((state) => state.StoreBatchTemplateData);
-
         useMemo(() => {
             if (initialBatchTemplateStoredata.success == true) {
                 navigate('/factory/batchTemplate')
@@ -109,7 +111,6 @@ const AddBatchTemplate = () => {
 
     const distributerdata = useSelector((state) => state.DistributerRecord);
     let distributerdatarec = distributerdata.distributerRec
-    console.log("distributerdatarec",distributerdatarec)
     const distributerlist = [];
     if (distributerdatarec && distributerdatarec.length > 0) {
         for (let i = 0; i < distributerdatarec.length; i++) {
