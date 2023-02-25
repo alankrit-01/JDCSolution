@@ -77,7 +77,6 @@ const ProductTemplate = () => {
     return (
         <>
             <ToastContainer />
-
             <FactorySidebar />
             <div className="md:ml-64">
                 <div className="bg-light-blue-500 pt-14 pb-28 px-3 md:px-8 h-auto">

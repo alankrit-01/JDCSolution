@@ -19,8 +19,8 @@ const MainStatusCard = () => {
     const initialBatchTemplatedata = useSelector((state) => state.BatchTemplateRecord);
     const initialProductTemplatedata = useSelector((state) => state.ProductTemplateRecord);
     useEffect(() => {
-        setAllBatchData(initialBatchTemplatedata.batchTemplateRec.message)
-        setProductTemplates(initialProductTemplatedata.productTemplateRec.message)
+        // setAllBatchData(initialBatchTemplatedata.batchTemplateRec.message)
+        // setProductTemplates(initialProductTemplatedata.productTemplateRec.message)
     }, [initialProductTemplatedata, initialBatchTemplatedata])
     return (
         <>
@@ -28,7 +28,7 @@ const MainStatusCard = () => {
                 color="purple"
                 icon="groups"
                 title="All Products"
-               // amount={ProductTemplates.length && ProductTemplates.length}
+                //amount={ProductTemplates.length && ProductTemplates.length}
             // percentage="1.10"
             // percentageIcon="arrow_downward"
             // percentageColor="orange"
@@ -38,7 +38,7 @@ const MainStatusCard = () => {
                 color="Blue"
                 icon="groups"
                 title="All Batchs"
-             //   amount={allBatchData.length && allBatchData.length}
+                //amount={allBatchData.length && allBatchData.length}
             // percentage="12" 
             // percentageIcon="arrow_upward"
             // percentageColor="green"
