@@ -8,10 +8,12 @@ import Button from '@material-tailwind/react/Button';
 import Input from '@material-tailwind/react/Input';
 import Textarea from '@material-tailwind/react/Textarea';
 import { storeCompanyFeedback } from "Services/action";
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 const AddCompanyFeedbak = () => { 
+    const dataFetchedRef = useRef(false);
+
     const initialdata = useSelector((state) => state.AdminLoginData);   
 
     const dispatch = useDispatch();
@@ -42,6 +44,8 @@ const AddCompanyFeedbak = () => {
             date: currentDate,
         }
         if (subjectError == true && descriptionError == true) {
+            if (dataFetchedRef.current) return;
+            dataFetchedRef.current = true;
             dispatch(storeCompanyFeedback(data))
         }
     }, [subjectError,descriptionError])

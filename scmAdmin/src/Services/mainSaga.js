@@ -57,11 +57,10 @@ function* getCompany(data) {
         console.log("Error is ", error)
     }
 }
-
+ 
 function* getFraudScans() {
     try {
-        //let uri = API_URL.concat('/getFraudScans')
-        let uri = "http://127.0.01:8082/api/getFraudScans";
+        let uri = BLOCKCHAIN_API_URL.concat('/getFraudScans')
         const fraudScansListRes = yield call(Axios.get, uri)
         const result = fraudScansListRes.data;
         yield put({ type: Set_Fraud_Scans_List, result })
@@ -296,17 +295,18 @@ function* storeMultiUser(data) {
     try {
         const valuesArray = [];
         requestData.map((value, index) => {
-            valuesArray.push([value[0], value[1], value[2], value[3], value[4], value[5], value[6], value[7], value[8]])
+            valuesArray.push([value[0], value[1], value[2], value[3], value[4], value[5], value[6], value[7], value[8],value[9]])
         })
-
         let uri = API_URL.concat('/addMultiUser')
-        const storeDistributerRes = yield call(Axios.post, uri, valuesArray)
+        console.log("uri",uri && uri)
+        const storeDistributerRes =  yield call(Axios.post, uri, valuesArray)
+        console.log("storeDistributerRes",storeDistributerRes && storeDistributerRes)
         const result = storeDistributerRes.data;
-        if (valuesArray[0].pop() == 'Distributer') {
-            yield put({ type: Set_Store_Distributer_Data, result })
-        } else if (valuesArray[0].pop() == 'Retailer') {
-            yield put({ type: Set_Store_Retailer_Data, result })
-        }
+        // if (valuesArray[0].pop() == 'Distributer') {
+        //     yield put({ type: Set_Store_Distributer_Data, result })
+        // } else if (valuesArray[0].pop() == 'Retailer') {
+        //     yield put({ type: Set_Store_Retailer_Data, result })
+        // }
     } catch (error) {
         console.log("Error is ", error)
             yield put({ type: Set_Store_Distributer_Data_Fail })

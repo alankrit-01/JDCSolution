@@ -8,10 +8,11 @@ import Button from '@material-tailwind/react/Button';
 import Input from '@material-tailwind/react/Input';
 import Textarea from '@material-tailwind/react/Textarea';
 import { storeDistributer } from "Services/action";
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 const AddDistributer = () => { 
+    const dataFetchedRef = useRef(false);
     const admindata = useSelector((state) => state.AdminLoginData);
     const [adminUserId, setAdminUserId] = useState(admindata.adminUserId);
     const dispatch = useDispatch();
@@ -46,6 +47,10 @@ const AddDistributer = () => {
             adminId:adminUserId,
         }
         if (emailError == true) {
+
+            if (dataFetchedRef.current) return;
+            dataFetchedRef.current = true;
+
             dispatch(storeDistributer(data))
         }
     }, [emailError])

@@ -554,6 +554,7 @@ export const DistributerStoreData = (initialdata = distributerStoreData, action)
             break;
         case Set_Store_Distributer_Data:
             initialdata = { ...initialdata, success: true, store_request: false, error: false }
+            console.log("initialdata",initialdata)
             return initialdata;
             break;
         case Check_Distributer_Success_data_1:

@@ -8,10 +8,12 @@ import Button from '@material-tailwind/react/Button';
 import Input from '@material-tailwind/react/Input';
 import Textarea from '@material-tailwind/react/Textarea';
 import { storeCompany } from "Services/action";
-import React, { useMemo, useState } from "react";
+import React, { useMemo,useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 const AddCompany = () => {
+    const dataFetchedRef = useRef(false);
+
     const initialdata = useSelector((state) => state.SuperAdminLoginData);    
 
     const dispatch = useDispatch();
@@ -46,6 +48,8 @@ const AddCompany = () => {
             longitude: longitude,
         }
         if (emailError == true) {
+            if (dataFetchedRef.current) return;
+            dataFetchedRef.current = true;
             dispatch(storeCompany(data))
         }
     }, [emailError]) 

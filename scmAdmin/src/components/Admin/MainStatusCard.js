@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { getDistributer, getFactory, getRetailers, getFraudScans } from 'Services/action';
+import { getDistributer, getFactory, getRetailers } from 'Services/action';
 import StatusCard from "./StatusCard";
-import PieRechartComponent from "./PieChart";
 import { useNavigate } from 'react-router-dom';
 
 
@@ -13,17 +12,14 @@ const MainStatusCard = () => {
     const [Distributer, setDistributer] = useState([]);
     const [Factories, setFactories] = useState([]);
     const [Retailer, setRetailer] = useState([]);
-    const [LevelFraudScans, setLevelFraudScans] = useState([]);
 
 
     useEffect(() => {
         dispatch(getDistributer())
         dispatch(getFactory())
         dispatch(getRetailers())
-        dispatch(getFraudScans())
 
     }, [])
-    const initialFraudScansdata = useSelector((state) => state.FraudScansRecord);
     const initialdata = useSelector((state) => state.DistributerRecord);
     const initialFactorydata = useSelector((state) => state.FactoryRecord);
     const initialRetailerdata = useSelector((state) => state.RetailerRecord);
@@ -34,13 +30,7 @@ const MainStatusCard = () => {
 
     }, [initialdata, initialFactorydata, initialRetailerdata])
 
-    let allFraudScansData = initialFraudScansdata.fraudScansRec
-    useEffect(() => {
-        let level1FailData = allFraudScansData.filter((arr) => arr.isDistributor === true);
-        setLevelFraudScans(level1FailData)
-    }, [initialFraudScansdata])
-
-   // console.log("LevelFraudScans",LevelFraudScans)
+    
     return (
         <>
             <span style={{ cursor: "pointer" }} onClick={() => navigate('/admin/factory')}>
@@ -55,6 +45,7 @@ const MainStatusCard = () => {
                 // date="Since last month"
                 />
             </span>
+            
             <span style={{ cursor: "pointer" }} onClick={() => navigate('/admin/distributer')}>
                 <StatusCard
                     color="purple"
@@ -67,6 +58,7 @@ const MainStatusCard = () => {
                 // date="Since yesterday"
                 />
             </span>
+
             <span style={{ cursor: "pointer" }} onClick={() => navigate('/admin/retailer')}>
 
                 <StatusCard

@@ -22,6 +22,10 @@ const AddMultiUser = () => {
     //State to store the values
     const [values, setValues] = useState([]);
 
+    
+    const admindata = useSelector((state) => state.AdminLoginData);
+    const [adminUserId, setAdminUserId] = useState(admindata.adminUserId);
+
     const changeHandler = (event) => {
         // Passing file data (event.target.files[0]) to parse using Papa.parse
         Papa.parse(event.target.files[0], {
@@ -30,21 +34,16 @@ const AddMultiUser = () => {
             complete: function (results) {
                 const rowsArray = [];
                 const valuesArray = [];
-
                 // Iterating data to get column name and their values
                 results.data.map((d) => {
+                    const currentvalarray = Object.values(d);
+                    currentvalarray.splice(3,0, adminUserId)
                     rowsArray.push(Object.keys(d));
-                    valuesArray.push(Object.values(d));
+                    valuesArray.push(currentvalarray);
                 });
-
-                // Parsed Data Response in array format
                 setParsedData(results.data);
-
-                // Filtered Column Names
                 setTableRows(rowsArray[0]);
-
-                // Filtered Values
-                //console.log("valuesArray", valuesArray)
+                // Filtered Values 
                 dispatch(storeMultiUser(valuesArray))
                 setValues(valuesArray);
             },
@@ -53,10 +52,6 @@ const AddMultiUser = () => {
 
     const initialDistributerStoredata = useSelector((state) => state.DistributerStoreData);
     const initialRetailerStoredata = useSelector((state) => state.RetailerStoreData);
-
-    console.log("initialDistributerStoredata",initialDistributerStoredata)
-    console.log("initialRetailerStoredata",initialRetailerStoredata)
-
     useMemo(() => {
         if (initialDistributerStoredata.success == true) {
             navigate('/admin/distributer')
