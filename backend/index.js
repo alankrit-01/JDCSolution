@@ -25,7 +25,7 @@ mongoose.connect('mongodb+srv://vipin:ldOGGLOXWNcP6OjK@cluster0.y8ufn.mongodb.ne
 optionSuccessStatus:200
 const contractAbi = require('./artifacts/contracts/Supplychain.sol/Supplychain.json')
 
-let contractAddress ="0xE7594A401DE03D188675645d7f20BE18fAf967Ab"; 
+let contractAddress ="0x36c6E98C6ff44e5c2B3b7e0c25B8D1bC67c0b4ae"; 
 let contract;
 app.use(express.json()); 
 app.use(cors());
@@ -66,8 +66,8 @@ app.post('/api/factoryAddProductTemplate',async(req,res)=>{
 
 app.get('/api/viewListOfProductTemplates', async (req, res) => {
   // console.log('sdsd')
-  try {
-    let result=[];          
+  try { 
+    let result=[];
     const factoryID= req.query.factoryID;
     let array =await contract.getAllProductTemplateIDs()
     // console.log(array)
@@ -460,6 +460,7 @@ app.get('/api/viewRecentBuysFromDistributors', async (req, res) => {
 
 app.post('/api/retailerScansProduct',async(req,res)=>{
   try {
+
     const productID =req.body.productID; 
     const retailerID =req.body.retailerID; 
     const timeStamp =req.body.timeStamp; 
@@ -472,8 +473,8 @@ app.post('/api/retailerScansProduct',async(req,res)=>{
       const tx =await contract.retailerScansProduct(productID,retailerID,timeStamp);
       tx.wait();
       console.log("Transaction completed!"); 
-
       res.status(200).json({status:"success", message:"Retailer scans the product"});
+
     }else if(isValid==false){
       const Data= new fraudScan({
         _id: new mongoose.Types.ObjectId(),
@@ -482,18 +483,16 @@ app.post('/api/retailerScansProduct',async(req,res)=>{
         isRetailer:true,
         RetailerID:retailerID,
         batchID:0,
-        productId:productID,
-        timestamp:timeStamp,
-        latitude:latitude,
+        productId:productID, 
+        timestamp:timeStamp, 
+        latitude:latitude, 
         longitude:longitude, 
         location:location 
       })
       Data.save().then((result) => {
         // console.log(result);
         res.status(200).json({status:"success", message:"Incorrect scan location fraud detected"}) 
-
       }).catch((err) => console.warn(err)) 
-
     }
   } catch (error) {
     console.log(error.message);
@@ -563,7 +562,6 @@ app.post('/api/sellToCustomer',async(req,res)=>{
 
 
 ////////////////// API FOR CUSTOMERS ////////////////////
-
 
 app.get('/api/viewProductBoughts', async (req, res) => {
   try {
