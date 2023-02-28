@@ -1,29 +1,59 @@
 import React, { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
-import { getFraudScans } from 'Services/action';
+import { getFraudScans, getAllLevelFails } from 'Services/action';
 import { useDispatch, useSelector } from 'react-redux';
 
 
 const PieRechartComponent = () => {
    const dispatch = useDispatch();
-
    const [Level1FraudScans, setLevel1FraudScans] = useState([]);
    const [Level2FraudScans, setLevel2FraudScans] = useState([]);
 
+   const [Failedlevel1, setFailedlevel1] = useState([]);
+   const [Failedlevel2, setFailedlevel2] = useState([]);
+   const [Failedlevel3, setFailedlevel3] = useState([]);
+   const [Failedlevel4, setFailedlevel4] = useState([]);
+   const [Failedlevel5, setFailedlevel5] = useState([]);
+
    useEffect(() => {
       dispatch(getFraudScans())
+      dispatch(getAllLevelFails())
   }, [])
 
   const initialFraudScansdata = useSelector((state) => state.FraudScansRecord);
+  const initialFailsLeveldata = useSelector((state) => state.FailsLevelRecord);
+
+
+  
   let allFraudScansData = initialFraudScansdata.fraudScansRec
+  let allFailsLevelData = initialFailsLeveldata.failsLevelRec
+
+
     useEffect(() => {
         let level1FailData = allFraudScansData.filter((arr) => arr.isDistributor === true);
         let level2FailData = allFraudScansData.filter((arr) => arr.isRetailer === true);
         setLevel1FraudScans(level1FailData)
         setLevel2FraudScans(level2FailData)
 
-    }, [initialFraudScansdata])
+        let FailDatalevel1 = allFailsLevelData.filter((failsLevel) => failsLevel.level === 1);
+        let FailDatalevel2 = allFailsLevelData.filter((failsLevel) => failsLevel.level === 2);
+        let FailDatalevel3 = allFailsLevelData.filter((failsLevel) => failsLevel.level === 3);
+        let FailDatalevel4 = allFailsLevelData.filter((failsLevel) => failsLevel.level === 4);
+        let FailDatalevel5 = allFailsLevelData.filter((failsLevel) => failsLevel.level === 5);
+
+
+        setFailedlevel1(FailDatalevel1)
+        setFailedlevel2(FailDatalevel2)
+        setFailedlevel3(FailDatalevel3)
+        setFailedlevel4(FailDatalevel4)
+        setFailedlevel5(FailDatalevel5)
+
+
+
+
+    }, [initialFraudScansdata,initialFailsLeveldata])
+
 
    const COLORS = ["#8884d8", "#82ca9d"];
    const pieData = [
@@ -47,32 +77,27 @@ const PieRechartComponent = () => {
     return null;
  };
  
-
-
-
-
- 
  const AuthenticationLevelCOLORS = ["#8884d8", "#82ca9d", "#FFBB28", "#FF8042", "#AF19FF"];
  const AuthenticationLevelData = [
      {
         name: "Failed on Level 1",
-        value: 30
+        value: Failedlevel1.length && Failedlevel1.length
      },
      {
         name: "Failed on Level 2",
-        value: 20
+        value: Failedlevel2.length && Failedlevel2.length
      },
      {
         name: "Failed on Level 3",
-        value: 16
+        value: Failedlevel3.length && Failedlevel3.length
      },
      {
         name: "Failed on Level 4",
-        value: 16
+        value: Failedlevel4.length && Failedlevel4.length
      },
      {
         name: "Failed on Level 5",
-        value: 70
+        value: Failedlevel5.length && Failedlevel5.length
      }
   ];
   const AuthenticationLevelTooltip = ({ active, payload, label }) => {

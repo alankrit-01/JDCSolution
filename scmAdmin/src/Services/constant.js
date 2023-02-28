@@ -40,6 +40,9 @@ export const Set_Factory_List = 'Set_Factory_List';
 export const Get_Distributer = 'Get_Distributer';
 export const Get_Fraud_Scans = 'Get_Fraud_Scans';
 export const Set_Fraud_Scans_List = 'Set_Fraud_Scans_List';
+export const Get_All_Level_Fails = 'Get_All_Level_Fails';
+export const Set_All_Level_Fails_List = 'Set_All_Level_Fails_List';
+
 export const Get_Distributer_By_Company = 'Get_Distributer_By_Company';
 export const Set_Distributer_By_Company_List = 'Set_Distributer_By_Company_List';
 
