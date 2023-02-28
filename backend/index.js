@@ -655,7 +655,7 @@ app.get('/api/authenticateProduct',async(req,res)=>{
       batchDescription:data2.BatchDescription,
       batchID:batchID,
       productId:productID,
-      level:1
+      level:level
     })
     Data.save().then((result) => {
       console.log(result);
