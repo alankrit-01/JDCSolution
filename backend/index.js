@@ -25,7 +25,7 @@ mongoose.connect('mongodb+srv://vipin:ldOGGLOXWNcP6OjK@cluster0.y8ufn.mongodb.ne
 optionSuccessStatus:200
 const contractAbi = require('./artifacts/contracts/Supplychain.sol/Supplychain.json')
 
-let contractAddress ="0x36c6E98C6ff44e5c2B3b7e0c25B8D1bC67c0b4ae"; 
+let contractAddress ="0xf7B7BDD5538ef2793EE2BCdF91707d3c2a806B5F"; 
 let contract;
 app.use(express.json()); 
 app.use(cors());
@@ -231,7 +231,9 @@ app.get('/api/viewBatchRecordByBatchId', async (req, res) => {
         RetailerScanned:productData[7],    
         RetailerScannedTimeStamp:productData[8],
         DateWhenSoldToRetailer:productData[9],
-        DateWhenSoldToCustomer:productData[10]
+        DateWhenSoldToCustomer:productData[10],
+        RetailerLatitude:productData[11],
+        RetailerLongitude:productData[12]
       });
     }
       // console.log(productIDs);
@@ -470,7 +472,7 @@ app.post('/api/retailerScansProduct',async(req,res)=>{
     const location =req.body.location; 
 
     if(isValid==true){
-      const tx =await contract.retailerScansProduct(productID,retailerID,timeStamp);
+      const tx =await contract.retailerScansProduct(productID,retailerID,timeStamp,latitude,longitude);
       tx.wait();
       console.log("Transaction completed!"); 
       res.status(200).json({status:"success", message:"Retailer scans the product"});
@@ -489,6 +491,7 @@ app.post('/api/retailerScansProduct',async(req,res)=>{
         longitude:longitude, 
         location:location 
       })
+
       Data.save().then((result) => {
         // console.log(result);
         res.status(200).json({status:"success", message:"Incorrect scan location fraud detected"}) 
@@ -519,7 +522,9 @@ app.get('/api/viewBatchDetails', async (req, res) => {
         RetailerScanned:productData[7],    
         RetailerScannedTimeStamp:productData[8],
         DateWhenSoldToRetailer:productData[9],
-        DateWhenSoldToCustomer:productData[10]
+        DateWhenSoldToCustomer:productData[10],
+        RetailerLatitude:productData[11],
+        RetailerLongitude:productData[12]
       });
     }
 
@@ -588,7 +593,9 @@ app.get('/api/viewProductBoughts', async (req, res) => {
           RetailerScanned:productData[7],    
           RetailerScannedTimeStamp:productData[8],
           DateWhenSoldToRetailer:productData[9],
-          DateWhenSoldToCustomer:productData[10]
+          DateWhenSoldToCustomer:productData[10],
+          RetailerLatitude:productData[11],
+          RetailerLongitude:productData[12]
         },
         "batchData":{
           BatchID :batchData[0].toNumber(),
@@ -623,13 +630,27 @@ app.get('/api/viewProductBoughts', async (req, res) => {
 app.get('/api/authenticateProduct',async(req,res)=>{
   try {
     let productID= req.query.productID;
+    let latitude= req.query.latitude; 
+    let longitude= req.query.longitude; 
     let data = await contract.ProductMapping(productID);
     let batchID =data[2].toNumber(); 
     let data2 =await contract.BatchMapping(batchID); 
 
-    let level;
-    let status;
-    // Level 1 
+    let level;  
+    let status;  
+
+    lat1=data.RetailerLatitude
+    lon1=data.RetailerLongitude
+
+    var R = 6371; 
+    var dLat = (latitude-lat1) * Math.PI / 180;
+    var dLon = (longitude-lon1) * Math.PI / 180;
+    var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+      Math.cos(lat1 * Math.PI / 180 ) * Math.cos(latitude * Math.PI / 180 ) *
+      Math.sin(dLon/2) * Math.sin(dLon/2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    var d = R * c;
+    console.log(d)
 
     if(batchID==0){
       level =1;
@@ -640,11 +661,14 @@ app.get('/api/authenticateProduct',async(req,res)=>{
     }else if(data.RetailerScanned ==false){
       level =3;
       status ="Authentication Level 3 Falied: Retailer didn't scanned this product"
-    }else if(data.CustomerID==""){
+    }else if(d>0.100){
       level =4;
-      status ="Authentication Level 4 Falied: This product is alredy sold"
-    }else{
+      status ="Authentication Level 4 Falied: Consumer location dosen't match retailer location"
+    }else if(data.CustomerID!=""){
       level =5;
+      status ="Authentication Level 5 Falied: This product is alredy sold"
+    }else{ 
+      level =6;
       status ="All Authentication Level Passed"
     } 
 
@@ -668,6 +692,7 @@ app.get('/api/authenticateProduct',async(req,res)=>{
     res.status(400).send({ error: error.message });
   }
 })
+
 
 
 /////////////////////////////// ADMIN APIS //////////////////////////////////////////
