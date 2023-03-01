@@ -75,7 +75,7 @@ function sendEmail(email,password) {
     var mailOptions = {
         from: 'vipinyadav.vy1994@gmail.com',
         to: email,
-        subject: 'Congratulation To Supply Chain Management',
+        subject: 'Welcome To Richmint SCM',
         html: '<p>Hello </p> Congratulations on your new venture! It sounds like an exciting opportunity, and I am looking forward to watching your progress as the business develops.</p><p> You can login with these details </p><p>Email : '+ email +' </p><p>Password : '+ password +'</p>'
     };
 

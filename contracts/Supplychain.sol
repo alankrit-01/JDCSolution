@@ -49,6 +49,7 @@ contract Supplychain{
         bool DistributorScanned; 
         string  DistributorScannedTimeStamp;
         uint AmountLeftForSellingTORetailer;  
+        uint CompanyBatchID;     
     }                               
 
     struct Customer{
@@ -118,6 +119,7 @@ contract Supplychain{
     
     function batchProduced(
         uint batchID, 
+        uint companyBatchID, 
         uint[] memory productIDs, 
         uint[] memory companyProductIDs, 
         uint batchSize, 
@@ -143,7 +145,8 @@ contract Supplychain{
             State:0,
             DistributorScanned:false,
             DistributorScannedTimeStamp:"",
-            AmountLeftForSellingTORetailer:batchSize
+            AmountLeftForSellingTORetailer:batchSize,
+            CompanyBatchID:companyBatchID
         }); 
         BatchIDs.push(batchID); 
         BatchIDToProductIDMapping[batchID]= productIDs;

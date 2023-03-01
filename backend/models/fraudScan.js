@@ -8,9 +8,13 @@ let fraudScan = new mongoose.Schema({
     batchID:Number,
     productId:Number,
     timestamp:String,
-    latitude:String, 
-    longitude:String,
-    location:String 
+    currentLatitude:String, 
+    currentLongitude:String, 
+    currentLocation:String,
+    Name:String,
+    Email:String,
+    orignalLocation:String, 
+    distanceSeprated:Number
 })
 
 module.exports=mongoose.model('fraudScan',fraudScan)    
