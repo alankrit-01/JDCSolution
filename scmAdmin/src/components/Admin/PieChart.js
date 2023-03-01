@@ -76,7 +76,6 @@ const PieRechartComponent = () => {
     }
     return null;
  };
- 
  const AuthenticationLevelCOLORS = ["#8884d8", "#82ca9d", "#FFBB28", "#FF8042", "#AF19FF"];
  const AuthenticationLevelData = [
      {
