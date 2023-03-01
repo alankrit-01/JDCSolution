@@ -15,4 +15,4 @@ let userSchema = new mongoose.Schema({
     longitude:String,
     image:String,
 })
-module.exports=mongoose.model('users',userSchema)
+module.exports=mongoose.model('users',userSchema)   
