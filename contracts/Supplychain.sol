@@ -31,6 +31,8 @@ contract Supplychain{
         string RetailerScannedTimeStamp;   
         string DateWhenSoldToRetailer;
         string DateWhenSoldToCustomer;
+        string RetailerLatitude;
+        string RetailerLongitude;
     }           
                  
     struct Batch{       
@@ -158,7 +160,9 @@ contract Supplychain{
                 RetailerScanned:false,
                 RetailerScannedTimeStamp:"",
                 DateWhenSoldToRetailer:"",
-                DateWhenSoldToCustomer:""
+                DateWhenSoldToCustomer:"",
+                RetailerLatitude:"",
+                RetailerLongitude:""
             });
             ProductIDs.push(productIDs[i]);
         }   
@@ -204,11 +208,13 @@ contract Supplychain{
         RetailerIDToRetailerStruct[retailerID].push(r); 
     }       
 
-    function retailerScansProduct(uint _productID, string memory _retailerID, string memory timeStamp) public{
+    function retailerScansProduct(uint _productID, string memory _retailerID, string memory timeStamp, string memory latitude, string memory longitude) public{
         require(ProductMapping[_productID].RetailerScanned==false,"This batch is already scanned by the retailer");
         require(keccak256(abi.encodePacked(ProductMapping[_productID].RetailerID))== keccak256(abi.encodePacked(_retailerID)),"This product is not owned by this retailer");
         ProductMapping[_productID].RetailerScanned=true; 
         ProductMapping[_productID].RetailerScannedTimeStamp=timeStamp;
+        ProductMapping[_productID].RetailerLatitude=latitude;
+        ProductMapping[_productID].RetailerLongitude=longitude;
     }        
 
     function retailerSellToCustomer(uint batchID,uint productID, string memory customerID,string memory timeStamp) public {

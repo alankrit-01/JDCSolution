@@ -8,8 +8,8 @@ let fraudScan = new mongoose.Schema({
     batchID:Number,
     productId:Number,
     timestamp:String,
-    latitude:Number, 
-    longitude:Number,
+    latitude:String, 
+    longitude:String,
     location:String 
 })
 
