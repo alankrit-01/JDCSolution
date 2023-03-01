@@ -22,6 +22,9 @@ import AddMultiUser from "pages/Admin/Distributer/AddMultiUser";
 import Retailer from 'pages/Admin/Retailer';
 import AddRetailer from "pages/Admin/Retailer/AddRetailer";
 import Dashboard from 'pages/Admin/Dashboard';
+import DistributerScansFail from "pages/Admin/DistributerScansFail";
+import RetailerScansFail from "pages/Admin/RetailerScansFail";
+
 import FactoryFeedback from 'pages/Admin/Factory/FactoryFeedback';
 import DistributerFeedback from 'pages/Admin/Distributer/DistributerFeedback';
 import RetailerFeedback from 'pages/Admin/Retailer/RetailerFeedback';
@@ -68,6 +71,8 @@ const WebRoutes = () => {
             
             <Route path="/admin" index element={<AdminLogin />} />
             <Route path="/admin/dashboard" index element={<Dashboard />} />    
+            <Route path="/admin/distributerscansfail" index element={<DistributerScansFail />} /> 
+            <Route path="/admin/retailerscansfail" index element={<RetailerScansFail />} /> 
             <Route path="/admin/settings" index element={<Setting />} />
             <Route path="/admin/factory" index element={<Factory />} />
             <Route path="/admin/addfactory" index element={<AddFactory />} />

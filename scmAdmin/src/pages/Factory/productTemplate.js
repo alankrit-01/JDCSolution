@@ -65,8 +65,8 @@ const ProductTemplate = () => {
         }
     }, [initialProductTemplateStoredata])
     useEffect(() => {
-        setProductTemplates(initialProductTemplatedata.productTemplateRec.message)
-        setFilterProductTemplates(initialProductTemplatedata.productTemplateRec.message)
+        setProductTemplates(initialProductTemplatedata.productTemplateRec.message && initialProductTemplatedata.productTemplateRec.message)
+        setFilterProductTemplates(initialProductTemplatedata.productTemplateRec.message && initialProductTemplatedata.productTemplateRec.message)
     }, [initialProductTemplatedata])
     useEffect(() => {
             const result = ProductTemplates.filter((allProductTemplate) => {

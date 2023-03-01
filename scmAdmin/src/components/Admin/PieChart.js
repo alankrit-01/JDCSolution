@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
 import { getFraudScans, getAllLevelFails } from 'Services/action';
 import { useDispatch, useSelector } from 'react-redux';
+import Button from '@material-tailwind/react/Button';
 
 
 const PieRechartComponent = () => {
+   const navigate = useNavigate();
    const dispatch = useDispatch();
    const [Level1FraudScans, setLevel1FraudScans] = useState([]);
    const [Level2FraudScans, setLevel2FraudScans] = useState([]);
@@ -49,9 +51,6 @@ const PieRechartComponent = () => {
         setFailedlevel4(FailDatalevel4)
         setFailedlevel5(FailDatalevel5)
 
-
-
-
     }, [initialFraudScansdata,initialFailsLeveldata])
 
 
@@ -70,7 +69,7 @@ const PieRechartComponent = () => {
        if (active) {
           return (
           <div className="custom-tooltip" style={{ backgroundColor: "#ffff", padding: "5px", border: "1px solid #cccc" }}>
-             <label onClick={() => Navigate('/factory/BatchQr', { state: { BatchID: "2" } })}>{`${payload[0].name} : ${payload[0].value}`}</label>
+             <label>{`${payload[0].name} : ${payload[0].value}`}{label}</label>
           </div>
        );
     }
@@ -103,7 +102,7 @@ const PieRechartComponent = () => {
      if (active) {
         return (
         <div className="custom-tooltip" style={{ backgroundColor: "#ffff", padding: "5px", border: "1px solid #cccc" }}>
-           <label onClick={() => Navigate('/factory/BatchQr', { state: { BatchID: "2" } })}>{`${payload[0].name} : ${payload[0].value}`}</label>
+           <label>{`${payload[0].name} : ${payload[0].value}`}</label>
         </div>
      );
   }
@@ -117,7 +116,7 @@ const PieRechartComponent = () => {
       <div  style={{width: "50%",float:"left"}}>
       <h2>Distributer & Retailer Scan Fail History</h2>
        <PieChart width={400} height={400}>
-       <Pie
+       <Pie 
           data={pieData}
           color="#000000"
           dataKey="value"
@@ -135,8 +134,11 @@ const PieRechartComponent = () => {
           ))}
        </Pie>
        <Tooltip content={<CustomTooltip />} />
-       <Legend />
+       {/* <Legend /> */}
        </PieChart>
+       <Button style={{float:"left"}} onClick={() => navigate('/admin/distributerscansfail')} >Distributer Scans Failed</Button>
+       <Button style={{float:"left"}} onClick={() => navigate('/admin/retailerscansfail')} >Retailer Scans Failed</Button>
+
        </div>
        <div style={{width: "50%",float:"right"}}>
       <h2>Authentication Fail History</h2>
@@ -159,79 +161,11 @@ const PieRechartComponent = () => {
           ))}
        </Pie>
        <Tooltip content={<AuthenticationLevelTooltip />} />
-       <Legend />
+       {/* <Legend /> */}
        </PieChart>
        </div>
        </>
        );
  }
  export default PieRechartComponent;
-
-
-
-
-
-
-
-//  import React from 'react';
-// import { PieChart, Pie, Cell, Tooltip, Legend } from 'recharts';
-
-
-// const PieRechartComponent = () => {
-
-//    const COLORS = ["#8884d8", "#82ca9d", "#FFBB28", "#FF8042", "#AF19FF"];
-
-//    const pieData = [
-//       {
-//          name: "Failed on Level 1",
-//          value: 54
-//       },
-//       {
-//          name: "Failed on Level 2",
-//          value: 47
-//       },
-//       {
-//          name: "Failed on Level 3",
-//          value: 16
-//       },
-//       {
-//          name: "Failed on Level 4",
-//          value: 16
-//       },
-//       {
-//          name: "Failed on Level 5",
-//          value: 10
-//       }
-//    ];
-
-
-//    return (
-//       <PieChart width={730} height={300}>
-//          <Pie
-//             data={pieData}
-//             color="#000000"
-//             dataKey="value"
-//             nameKey="name"
-//             cx="50%"
-//             cy="50%"
-//             outerRadius={120}
-//             fill="#8884d8"
-//          >
-//             {pieData.map((entry, index) => (
-//                <Cell
-//                   key={`cell-${index}`}
-//                   fill={COLORS[index % COLORS.length]}
-//                />
-//             ))}
-//          </Pie>
-//          <Legend />
-//       </PieChart>
-
-//    );
-// }
-
-// export default PieRechartComponent;
-
-
-
 
