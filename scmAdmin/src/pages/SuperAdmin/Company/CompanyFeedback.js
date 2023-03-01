@@ -6,6 +6,7 @@ import { getFeedback } from 'Services/action';
 import { useEffect, useState } from 'react';
 import DataTable from 'react-data-table-component';
 import Input from '@material-tailwind/react/Input';
+import loader from "assets/img/loading.gif";
 
 const CompanyFeedback = () => {
     const superadmindata = useSelector((state) => state.SuperAdminLoginData);
@@ -14,6 +15,8 @@ const CompanyFeedback = () => {
     const [Feedback, setFeedback] = useState([]);
     const [Search, setSearch] = useState("");
     const [FilterFeedback, setFilterFeedback] = useState([]);
+    const [loading, setLoading] = useState(false);
+
     const columns = [
         {
             name: "Name",
@@ -49,8 +52,22 @@ const CompanyFeedback = () => {
     const initialdata = useSelector((state) => state.FeedbackRecord);
     
     useEffect(() => {
-        setFeedback(initialdata.feedbackRec)
-        setFilterFeedback(initialdata.feedbackRec)
+        
+        var a = [{ subject: "There are no record to display" }];
+        setFeedback(initialdata.feedbackRec);
+    
+        setLoading(true);
+        if (
+          initialdata.feedbackRec != 0 &&
+          initialdata.feedbackRec != null &&
+          initialdata.feedbackRec != ""
+        ) {
+            setFilterFeedback(initialdata.feedbackRec);
+        } else {
+          setLoading(false);
+    
+          setFilterFeedback(a);
+        }
     }, [initialdata])
 
     useEffect(() => {
@@ -77,6 +94,15 @@ const CompanyFeedback = () => {
                                 <DataTable
                                     title="Company Feedback List"
                                     columns={columns}
+                                    noDataComponent={
+                                        <div>
+                                          <h4>Loading....</h4>
+                                          <img
+                                            style={{ width: "20px", height: "20px" }}
+                                            src={loader}
+                                          ></img>
+                                        </div>
+                                      }
                                     data={FilterFeedback}
                                     pagination
                                     fixedHeader

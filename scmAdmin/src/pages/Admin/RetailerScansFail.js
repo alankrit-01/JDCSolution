@@ -13,7 +13,7 @@ import { storeMultiUser } from 'Services/action';
 import { CSVLink } from "react-csv";
 import React from "react";
 import { ToastContainer, toast } from 'react-toastify';
-
+import loader from "assets/img/loading.gif";
 
 const RetailerScansFail = () => {
    
@@ -23,32 +23,36 @@ const RetailerScansFail = () => {
     const [FilterDistributerScansFail, setFilterDistributerScansFail] = useState([]);
     const [excelData, setExcelData] = useState([]);
     const [selectedData, setSelectedData] = React.useState([]);
-
+    const [loading, setLoading] = useState(false);
     const [parsedData, setParsedData] = useState([]);
-    //State to store table Column name
     const [tableRows, setTableRows] = useState([]);
     //State to store the values
     const [values, setValues] = useState([]);
 
     const columns = [
         {
-            name: "Distributer Name",
-            selector: (row) => row.name,
+            name: "Name",
+            selector: (row) => row.Name,
             sortable: true,
         },
         {
-            name: "Distributer Email",
-            selector: (row) => row.email,
+            name: "Email",
+            selector: (row) => row.Email,
             sortable: true,
         },
         {
-            name: "Distributer Address",
-            selector: (row) => row.address,
+            name: "Scanned Distance",
+            selector: (row) => row.distanceSeprated + " Km",
             sortable: true,
         },
         {
-            name: "Distributer Phone",
-            selector: (row) => row.phone,
+            name: "Scanned Location",
+            selector: (row) => row.currentLocation,
+            sortable: true,
+        },
+        {
+            name: "Actual Location",
+            selector: (row) => row.orignalLocation,
             sortable: true,
         },
     ];
@@ -56,10 +60,11 @@ const RetailerScansFail = () => {
     useEffect(() => {
         const columns = [
             {
-                name: "Distributer Name",
-                email: "Distributer Email",
-                address: "Distributer Address",
-                phone: "Distributer Phone",
+                Name: "Name",
+                Email: "Email",
+                scannedDistance: "Scanned Distance",
+                scannedLocation: "Scanned Location",
+                orignalLocation:"Actual Location",
             },
         ];
         setExcelData(columns);
@@ -72,18 +77,33 @@ const RetailerScansFail = () => {
     const initialFraudScansdata = useSelector((state) => state.FraudScansRecord);
     let allFraudScansData = initialFraudScansdata.fraudScansRec
 
-    console.log("allFraudScansData",allFraudScansData)
-
     useEffect(() => {
-        let distributerFailData = allFraudScansData.filter((arr) => arr.isDistributor === true);
+        let distributerFailData = allFraudScansData.filter((arr) => arr.isRetailer === true);
 
         setDistributerScansFail(distributerFailData)
-        setFilterDistributerScansFail(distributerFailData)
+        
+        
+        var a = [{ scannedDistance: "There are no record to display" }];
+        
+    
+        setLoading(true);
+        if (
+            distributerFailData != 0 &&
+            distributerFailData != null &&
+            distributerFailData != ""
+        ) {
+            setFilterDistributerScansFail(distributerFailData);
+        } else {
+          setLoading(false);
+    
+          setFilterDistributerScansFail(a);
+        }
+
     }, [initialFraudScansdata])
 
     useEffect(() => {
         const result = DistributerScansFail.filter((distributerfailval) => {
-            return distributerfailval.name.toLowerCase().match(Search.toLowerCase());
+            return distributerfailval.Name.toLowerCase().match(Search.toLowerCase());
         })
         setFilterDistributerScansFail(result)
     }, [Search])
@@ -93,28 +113,31 @@ const RetailerScansFail = () => {
         if (excelData.length > 0 && DistributerScansFail.length > 0) {
             excelData.map((ex) => {
                 csvData.push([
-                    `${ex.name}`,
-                    `${ex.email}`,
-                    `${ex.address}`,
-                    `${ex.phone}`,
+                    `${ex.Name}`,
+                    `${ex.Email}`,
+                    `${ex.scannedDistance}`,
+                    `${ex.scannedLocation}`,
+                    `${ex.orignalLocation}`,
                 ]);
             });
             if (selRows.length > 0) {
                 selRows.map((val) => {
                     csvData.push([
-                        `${val.name}`,
-                        `${val.email}`,
-                        `${val.address}`,
-                        `${val.phone}`,
+                        `${val.Name}`,
+                        `${val.Email}`,
+                        `${val.distanceSeprated}`,
+                        `${val.currentLocation}`,
+                        `${val.orignalLocation}`,
+
                     ]);
                 });
             }else {
                 FilterDistributerScansFail.map((val) => {
                     csvData.push([
-                        `${val.name}`,
-                        `${val.email}`,
-                        `${val.address}`,
-                        `${val.phone}`,
+                        `${val.Name}`,
+                        `${val.Email}`,
+                        `${val.distanceSeprated}`,
+                        `${val.currentLocation}`,
                     ]);
                 });
             }
@@ -141,8 +164,17 @@ const RetailerScansFail = () => {
                     <div className="container mx-auto max-w-full">
                         <div className="grid grid-cols-1 px-4 mb-16">
                             <DataTable
-                                title="Distributer Failed Scan List"
+                                title="Retailer Failed Scan List"
                                 columns={columns}
+                                noDataComponent={
+                                    <div>
+                                      <h4>Loading....</h4>
+                                      <img
+                                        style={{ width: "20px", height: "20px" }}
+                                        src={loader}
+                                      ></img>
+                                    </div>
+                                  }
                                 data={FilterDistributerScansFail}
                                 pagination
                                 fixedHeader

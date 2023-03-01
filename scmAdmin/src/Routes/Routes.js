@@ -31,8 +31,6 @@ import RetailerFeedback from 'pages/Admin/Retailer/RetailerFeedback';
 import AddCompanyFeedback from 'pages/Admin/AddCompanyFeedbak';
 import CompanySelfFeedback from "pages/Admin/CompanyFeedback";
 
-
-
 import FactoryDashboard from "pages/Factory/Dashboard";
 import FactorySetting from 'pages/Factory/Settings';
 import Products from "pages/Factory/Product";
@@ -64,11 +62,8 @@ const WebRoutes = () => {
             <Route path="/superAdmin/factory" index element={<SuperAdminFactory />} />
             <Route path="/superAdmin/distributer" index element={<SuperAdminDistributer />} />
             <Route path="/superAdmin/retailer" index element={<SuperAdminRetailer />} />
-
             <Route path="/superAdmin/companyFeedback" index element={<CompanyFeedback />} />
             <Route path="/superAdmin/viewCompanyFeedback" index element={<ViewCompanyFeedback />} />
-            
-            
             <Route path="/admin" index element={<AdminLogin />} />
             <Route path="/admin/dashboard" index element={<Dashboard />} />    
             <Route path="/admin/distributerscansfail" index element={<DistributerScansFail />} /> 

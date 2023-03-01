@@ -1,34 +1,37 @@
-import MainStatusCard from 'components/Admin/MainStatusCard';
-import Sidebar from 'components/Admin/Sidebar';
-import Footer from 'components/Admin/Footer';
-import { NavLink } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { getRetailers } from 'Services/action';
-import { useEffect, useMemo, useState } from 'react';
-import DataTable from 'react-data-table-component';
+import MainStatusCard from "components/Admin/MainStatusCard";
+import Sidebar from "components/Admin/Sidebar";
+import Footer from "components/Admin/Footer";
+import { NavLink } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getRetailers } from "Services/action";
+import { useEffect, useMemo, useState } from "react";
+import DataTable from "react-data-table-component";
 import { Button } from "@material-tailwind/react";
-import Input from '@material-tailwind/react/Input';
+import Input from "@material-tailwind/react/Input";
 import { CSVLink } from "react-csv";
 import React from "react";
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer, toast } from "react-toastify";
+import loader from "assets/img/loading.gif";
 
 const Retailer = () => {
-  const successNotify = () => toast.success('Retailer Added Successfully !.', {
-    position: "bottom-right",
-    autoClose: 5000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-    theme: "light",
-  });
+  const successNotify = () =>
+    toast.success("Retailer Added Successfully !.", {
+      position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
   const dispatch = useDispatch();
   const [Retailer, setRetailer] = useState([]);
   const [Search, setSearch] = useState("");
   const [FilterRetailer, setFilterRetailer] = useState([]);
   const [excelData, setExcelData] = useState([]);
   const [selectedData, setSelectedData] = React.useState([]);
+  const [loading, setLoading] = useState(false);
 
   const columns = [
     {
@@ -65,31 +68,45 @@ const Retailer = () => {
     setExcelData(columns);
   }, []);
 
-
   useEffect(() => {
-    dispatch(getRetailers())
-  }, [])
+    dispatch(getRetailers());
+  }, []);
 
   const initialdata = useSelector((state) => state.RetailerRecord);
 
-  const initialRetailerStoredata = useSelector((state) => state.RetailerStoreData);
+  const initialRetailerStoredata = useSelector(
+    (state) => state.RetailerStoreData
+  );
   useMemo(() => {
     if (initialRetailerStoredata.success == true) {
       successNotify();
     }
-  }, [initialRetailerStoredata])
+  }, [initialRetailerStoredata]);
 
   useEffect(() => {
-    setRetailer(initialdata.retailerRec)
-    setFilterRetailer(initialdata.retailerRec)
-  }, [initialdata])
+    var a = [{ subject: "There are no record to display" }];
+    setRetailer(initialdata.retailerRec);
+
+    setLoading(true);
+    if (
+      initialdata.retailerRec != 0 &&
+      initialdata.retailerRec != null &&
+      initialdata.retailerRec != ""
+    ) {
+      setFilterRetailer(initialdata.retailerRec);
+    } else {
+      setLoading(false);
+
+      setFilterRetailer(a);
+    }
+  }, [initialdata]);
 
   useEffect(() => {
     const result = Retailer.filter((retailer) => {
       return retailer.name.toLowerCase().match(Search.toLowerCase());
-    })
-    setFilterRetailer(result)
-  }, [Search])
+    });
+    setFilterRetailer(result);
+  }, [Search]);
 
   const getCsvData = () => {
     const csvData = [];
@@ -112,8 +129,7 @@ const Retailer = () => {
             `${val.phone}`,
           ]);
         });
-      }
-      else {
+      } else {
         FilterRetailer.map((val) => {
           csvData.push([
             `${val.name}`,
@@ -151,6 +167,16 @@ const Retailer = () => {
               <DataTable
                 title="Retailer List"
                 columns={columns}
+                noDataComponent={
+                  <div>
+                    <h4>Loading....</h4>
+                    <img
+                      style={{ width: "20px", height: "20px" }}
+                      src={loader}
+                    ></img>
+                  </div>
+                }
+                
                 data={FilterRetailer}
                 pagination
                 fixedHeader
@@ -158,11 +184,14 @@ const Retailer = () => {
                 selectableRowsHighlight
                 highlightOnHover
                 onSelectedRowsChange={handleChange}
-                actions={<NavLink
-                  to="/admin/addretailer"><Button>Add</Button></NavLink>}
+                actions={
+                  <NavLink to="/admin/addretailer">
+                    <Button>Add</Button>
+                  </NavLink>
+                }
                 subHeader
                 subHeaderComponent={
-                  <div className='w-full'>
+                  <div className="w-full">
                     <CSVLink filename="RetailerList.csv" data={getCsvData()}>
                       {" "}
                       <div className="float-left lg:w-6/12 d-flex pr-4 mb-10 font-light">
@@ -170,11 +199,20 @@ const Retailer = () => {
                       </div>
                     </CSVLink>
                     <div className="float-left lg:w-6/12 d-flex pr-4 mb-10 font-light">
-                      <Button><NavLink
-                        to="/admin/addMultiUser">Add Multi Retailer</NavLink></Button>
+                      <Button>
+                        <NavLink to="/admin/addMultiUser">
+                          Add Multi Retailer
+                        </NavLink>
+                      </Button>
                     </div>
                     <div className="float-left lg:w-6/12 d-flex pr-4 mb-10 font-light">
-                      <Input type="text" color="purple" placeholder="Search Here" value={Search} onChange={(e) => setSearch(e.target.value)} />
+                      <Input
+                        type="text"
+                        color="purple"
+                        placeholder="Search Here"
+                        value={Search}
+                        onChange={(e) => setSearch(e.target.value)}
+                      />
                     </div>
                   </div>
                 }
@@ -186,5 +224,5 @@ const Retailer = () => {
       </div>
     </>
   );
-}
-export default Retailer
+};
+export default Retailer;

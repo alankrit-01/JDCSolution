@@ -13,61 +13,11 @@ const BatchQr = () => {
 
     let batchData = useLocation();
     let batchtId = batchData.state.BatchID;
+    let companybatchtId = batchData.state.BatchID;
     const [batchSize, setBatchSize] = useState('');
     const [productName, setProductName] = useState('');
     const [productDescription, setProductDescription] = useState('');
-    ////need improve////
-    const [defaultAccount, setDefaultAccount] = useState('');
-    const [connButtonText, setConnButtonText] = useState('Connect Wallet');
-    const [errorMessage, setErrorMessage] = useState(null)
-    const [provider, setProvider] = useState(null);
-    const [signer, setSigner] = useState(null);
-    const [supplychainContract, setsupplychainContract] = useState('');
-    // useEffect(() => {
-    //     connectWalletHandler();
-    // }, [])
-    // const connectWalletHandler = () => {
-    //     if (window.ethereum && window.ethereum.isMetaMask) {
-    //         window.ethereum.request({ method: 'eth_requestAccounts' })
-    //             .then(result => {
-    //                 accountChangedHandler(result[0]);
-    //                 setConnButtonText('Wallet Connected');
-    //             })
-    //             .catch(error => {
-    //                 console.log("error", error);
-    //                 setErrorMessage()
-    //             });
-    //     } else {
-    //         console.log('Need to install MetaMask');
-    //         setErrorMessage('Please install MetaMask browser extension to interact');
 
-    //     }
-    // }
-
-    // const accountChangedHandler = (newAccount) => {
-    //     setDefaultAccount(newAccount);
-    //     updateEthers();
-    // }
-    // const chainChangedHandler = () => {
-    //     window.location.reload();
-    // }
-    // listen for account changes
-    // window.ethereum.on('accountsChanged', accountChangedHandler);
-    // window.ethereum.on('chainChanged', chainChangedHandler);
-    // useEffect(() => {
-    //     updateEthers()
-    // }, [])
-    // const updateEthers = async () => {
-    //     let tempProvider = new ethers.providers.Web3Provider(window.ethereum);
-    //     setProvider(tempProvider);
-    //     let tempSigner = tempProvider.getSigner();
-    //     setSigner(tempSigner);
-    //     let supplychainContract = new ethers.Contract(supplyChainAddress, Supplychain_abi.abi, tempSigner);
-    //     //console.log("Ether updates", supplychainContract)
-    //     setsupplychainContract(supplychainContract);
-    // }
-    
-    ////End need improve////
     const [url1, setUrl1] = useState();
     useMemo(() => {
         const url = (`${batchtId}`);
@@ -113,14 +63,17 @@ const BatchQr = () => {
                                     <Button type="button" onClick={Print} > Print</Button>
                                 </div>
                                 <div id="qrcode__container" className="qrcode__container">
-                                    <div className="mainBatch" ref={qrRef}>
-                                        {qrcode}
-                                        <span className="mainBatchNumber">B-{batchtId && batchtId}</span>
+                                    <div className="batchqrCodeSection">
+                                        <span className="sidercheckbatch">S-{companybatchtId && companybatchtId}</span>
+                                        <div className="mainBatch" ref={qrRef}>
+                                            {qrcode}
+                                            <span className="mainBatchNumber">B-{batchtId && batchtId}</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div> 
+                    </div>
                 </div>
                 <Footer />
             </div>

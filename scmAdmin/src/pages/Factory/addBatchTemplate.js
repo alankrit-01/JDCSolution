@@ -46,7 +46,7 @@ const AddBatchTemplate = () => {
     const [distributer, setDistributer] = useState('');
     const [batchSize, setBatchSize] = useState('');
     const [batchDescription, setBatchDescription] = useState('');
-
+    const [companyBatchID, setCompanyBatchID] = useState('');
      const batchManufacture = new Date().toLocaleString();
 
     const handleSubmit = async (event) => {
@@ -83,6 +83,7 @@ const AddBatchTemplate = () => {
 
         const data = {
             batchID:batchTemplateId.toString(),
+            companyBatchID:companyBatchID,
             productIDs:productIds,
             companyProductIDs:companyProductIDs,
             batchSize:batchSizeData,
@@ -94,7 +95,7 @@ const AddBatchTemplate = () => {
             dataOfProduction:batchManufacture 
         }
 
-        console.log("data data", data)
+        //console.log("data data", data)
         dispatch(storeBatchTemplate(data))
     }
 
@@ -173,6 +174,16 @@ const AddBatchTemplate = () => {
                                         {productIdsData}
                                         <form onSubmit={handleSubmit}>
                                             <div className="flex flex-wrap mt-10">
+                                            <div className="w-screen flex flex-wrap mt-10 font-light">
+                                                        <span><b>Company Batch ID</b></span>
+                                                        <Input
+                                                            type="text"
+                                                            color="purple"
+                                                            name="companyBatchID"
+                                                            required
+                                                            value={companyBatchID} onChange={(e) => setCompanyBatchID(e.target.value)}
+                                                        />
+                                                    </div>
                                                 <div className="w-screen flex flex-wrap mt-10 font-light">
                                                     <span><b>Product Template ID</b></span>
                                                     <select id="productId" name="productId" color="purple" class="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer" onChange={(e) => setProductId(e.target.value)}>
@@ -188,7 +199,7 @@ const AddBatchTemplate = () => {
                                                 </div>
                                                 <div className="w-screen flex flex-wrap mt-10 font-light">
                                                     <span><b>Select Product Id</b></span>
-                                                    <select id="distributer" name="distributer" color="purple" class="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer" defaultValue={materialtype} onChange={(e) => setMaterialtype(e.target.value)}>
+                                                    <select id="distributer" name="distributer" color="purple" required class="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer" defaultValue={materialtype} onChange={(e) => setMaterialtype(e.target.value)}>
                                                         {/* <option selected>Select Product Id</option> */}
                                                         <option value={'Auto'} selected>Auto Generate</option>
                                                         <option value={'csv'}>Import Product CSV</option>

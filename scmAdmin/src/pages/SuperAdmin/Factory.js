@@ -7,6 +7,7 @@ import { getFactoryByCompany } from 'Services/action';
 import { useEffect, useState } from 'react';
 import DataTable from 'react-data-table-component';
 import { Button } from "@material-tailwind/react";
+import loader from "assets/img/loading.gif";
 
 const Factory = () => {
 
@@ -16,7 +17,7 @@ const Factory = () => {
     const [Factory, setFactory] = useState([]);
     const [Search, setSearch] = useState("");
     const [FilterFactory, setFilterFactory] = useState([]);
-
+    const [loading, setLoading] = useState(false);
     const columns = [
         {
             name: <div className='text-base'>Factory Name</div>,
@@ -51,8 +52,22 @@ const Factory = () => {
 
 
     useEffect(() => {
-        setFactory(initialdata.factoryRec)
-        setFilterFactory(initialdata.factoryRec)
+       
+        var a = [{ email: "There are no record to display" }];
+        setFactory(initialdata.factoryRec);
+
+    setLoading(true);
+    if (
+      initialdata.factoryRec != 0 &&
+      initialdata.factoryRec != null &&
+      initialdata.factoryRec != ""
+    ) {
+        setFilterFactory(initialdata.factoryRec);
+    } else {
+      setLoading(false);
+
+      setFilterFactory(a);
+    }
     }, [initialdata])
 
     useEffect(() => {
@@ -80,26 +95,23 @@ const Factory = () => {
                                 <DataTable
                                     title="Factory List"
                                     columns={columns}
+                                    noDataComponent={
+                                        <div>
+                                          <h4>Loading....</h4>
+                                          <img
+                                            style={{ width: "20px", height: "20px" }}
+                                            src={loader}
+                                          ></img>
+                                        </div>
+                                      }
                                     data={FilterFactory}
                                     pagination
                                     fixedHeader
                                     selectableRows
                                     selectableRowsHighlight
                                     highlightOnHover
-                                    // actions={<NavLink
-                                    //     to="/superAdmin/addCompany"><Button>Add</Button></NavLink>}
                                     subHeader
-                                // subHeaderComponent={
-                                //     <div className='w-full'>
-                                //         <div className="float-left lg:w-6/12 d-flex pr-4 mb-10 font-light">
-                                //             <Button><NavLink
-                                //                 to="/admin/addMultiUser">Add Multi Company</NavLink></Button>
-                                //         </div>
-                                //         <div className="float-left lg:w-6/12 d-flex pr-4 mb-10 font-light">
-                                //             <Input type="text" color="purple" placeholder="Search Here" value={Search} onChange={(e) => setSearch(e.target.value)} />
-                                //         </div>
-                                //     </div>
-                                // }
+                                
                                 />
                             </div>
                         </div>

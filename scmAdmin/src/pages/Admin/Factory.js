@@ -1,36 +1,36 @@
-import MainStatusCard from 'components/Admin/MainStatusCard';
-import Sidebar from 'components/Admin/Sidebar';
-import Footer from 'components/Admin/Footer';
-import { NavLink } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { getFactory } from 'Services/action';
-import { useEffect, useMemo, useState } from 'react';
-import DataTable from 'react-data-table-component';
+import MainStatusCard from "components/Admin/MainStatusCard";
+import Sidebar from "components/Admin/Sidebar";
+import Footer from "components/Admin/Footer";
+import { NavLink } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getFactory } from "Services/action";
+import { useEffect, useMemo, useState } from "react";
+import DataTable from "react-data-table-component";
 import { Button } from "@material-tailwind/react";
-import Input from '@material-tailwind/react/Input';
+import Input from "@material-tailwind/react/Input";
 import { CSVLink } from "react-csv";
 import React from "react";
-import { ToastContainer, toast } from 'react-toastify';
-
+import { ToastContainer, toast } from "react-toastify";
+import loader from "assets/img/loading.gif";
 const Factory = () => {
-
-  const successNotify = () => toast.success('Factory Added Successfully !.', {
-    position: "bottom-right",
-    autoClose: 5000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-    theme: "light",
-  });
+  const successNotify = () =>
+    toast.success("Factory Added Successfully !.", {
+      position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
   const dispatch = useDispatch();
   const [Factories, setFactories] = useState([]);
   const [Search, setSearch] = useState("");
   const [FilterFactories, setFilterFactories] = useState([]);
   const [excelData, setExcelData] = useState([]);
   const [selectedData, setSelectedData] = React.useState([]);
-
+  const [loading, setLoading] = useState(false);
   const columns = [
     {
       name: "Factory Name",
@@ -67,29 +67,44 @@ const Factory = () => {
   }, []);
 
   useEffect(() => {
-    dispatch(getFactory())
-  }, [])
+    dispatch(getFactory());
+  }, []);
 
   const initialdata = useSelector((state) => state.FactoryRecord);
 
-  const initialFactoryStoredata = useSelector((state) => state.FactoryStoreData);
+  const initialFactoryStoredata = useSelector(
+    (state) => state.FactoryStoreData
+  );
   useMemo(() => {
     if (initialFactoryStoredata.success == true) {
       successNotify();
     }
-  }, [initialFactoryStoredata])
+  }, [initialFactoryStoredata]);
 
   useEffect(() => {
-    setFactories(initialdata.factoryRec)
-    setFilterFactories(initialdata.factoryRec)
-  }, [initialdata])
+    var a = [{ subject: "There are no record to display" }];
+    setFactories(initialdata.factoryRec);
+
+    setLoading(true);
+    if (
+      initialdata.factoryRec != 0 &&
+      initialdata.factoryRec != null &&
+      initialdata.factoryRec != ""
+    ) {
+      setFilterFactories(initialdata.factoryRec);
+    } else {
+      setLoading(false);
+
+      setFilterFactories(a);
+    }
+  }, [initialdata]);
 
   useEffect(() => {
     const result = Factories.filter((retailer) => {
       return retailer.name.toLowerCase().match(Search.toLowerCase());
-    })
-    setFilterFactories(result)
-  }, [Search])
+    });
+    setFilterFactories(result);
+  }, [Search]);
 
   const getCsvData = () => {
     const csvData = [];
@@ -112,8 +127,7 @@ const Factory = () => {
             `${val.phone}`,
           ]);
         });
-      }
-      else {
+      } else {
         FilterFactories.map((val) => {
           csvData.push([
             `${val.name}`,
@@ -150,6 +164,15 @@ const Factory = () => {
               <DataTable
                 title="Factory List"
                 columns={columns}
+                noDataComponent={
+                  <div>
+                    <h4>Loading....</h4>
+                    <img
+                      style={{ width: "20px", height: "20px" }}
+                      src={loader}
+                    ></img>
+                  </div>
+                }
                 data={FilterFactories}
                 pagination
                 fixedHeader
@@ -157,11 +180,14 @@ const Factory = () => {
                 selectableRowsHighlight
                 highlightOnHover
                 onSelectedRowsChange={handleChange}
-                actions={<NavLink
-                  to="/admin/addfactory"><Button>Add</Button></NavLink>}
+                actions={
+                  <NavLink to="/admin/addfactory">
+                    <Button>Add</Button>
+                  </NavLink>
+                }
                 subHeader
                 subHeaderComponent={
-                  <div className='w-full'>
+                  <div className="w-full">
                     <CSVLink filename="FactoryList.csv" data={getCsvData()}>
                       {" "}
                       <div className="float-left lg:w-6/12 d-flex pr-4 mb-10 font-light">
@@ -169,7 +195,13 @@ const Factory = () => {
                       </div>
                     </CSVLink>
                     <div className="float-left lg:w-6/12 d-flex pr-4 mb-10 font-light">
-                      <Input type="text" color="purple" placeholder="Search Here" value={Search} onChange={(e) => setSearch(e.target.value)} />
+                      <Input
+                        type="text"
+                        color="purple"
+                        placeholder="Search Here"
+                        value={Search}
+                        onChange={(e) => setSearch(e.target.value)}
+                      />
                     </div>
                   </div>
                 }
@@ -181,6 +213,5 @@ const Factory = () => {
       </div>
     </>
   );
-}
-export default Factory
-
+};
+export default Factory;

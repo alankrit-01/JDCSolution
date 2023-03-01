@@ -10,9 +10,11 @@ import { Button } from "@material-tailwind/react";
 import Input from '@material-tailwind/react/Input';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import loader from "assets/img/loading.gif";
+
 const FactoryySelfFeedback = () => {
     const factorydata = useSelector((state) => state.FactoryLoginData);
-
+    const [loading, setLoading] = useState(false);
 
     const successNotify = () => toast.success('Feedback Added Successfully !.', {
         position: "bottom-right",
@@ -70,6 +72,22 @@ const FactoryySelfFeedback = () => {
     useEffect(() => {
         setFeedback(initialdata.selffeedbackRec)
         setFilterFeedback(initialdata.selffeedbackRec)
+      
+        var a = [{ subject: "There are no record to display" }];
+       
+        setLoading(true);
+        if (
+            initialdata.selffeedbackRec != 0 &&
+            initialdata.selffeedbackRec != null &&
+            initialdata.selffeedbackRec != ""
+        ) {
+            setFilterFeedback(initialdata.selffeedbackRec);
+            
+        } else {
+          setLoading(false);
+    
+          setFilterFeedback(a);
+        }
     }, [initialdata])
 
     useEffect(() => {
@@ -97,6 +115,15 @@ const FactoryySelfFeedback = () => {
                             <DataTable
                                 title="Factory Self Feedback List"
                                 columns={columns}
+                                noDataComponent={
+                                    <div>
+                                      <h4>Loading....</h4>
+                                      <img
+                                        style={{ width: "20px", height: "20px" }}
+                                        src={loader}
+                                      ></img>
+                                    </div>
+                                  }
                                 data={FilterFeedback}
                                 pagination
                                 fixedHeader

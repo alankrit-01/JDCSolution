@@ -10,7 +10,7 @@ import Input from '@material-tailwind/react/Input';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {getCompany, checkCompanySuccessdata } from 'Services/action';
-
+import loader from "assets/img/loading.gif";
 const Company = () => {
     const navigate = useNavigate();
     const successNotify = () => toast.success('Company Added Successfully !.', {
@@ -28,7 +28,7 @@ const Company = () => {
     const [Company, setCompany] = useState([]);
     const [Search, setSearch] = useState("");
     const [FilterCompany, setFilterCompany] = useState([]);
-
+    const [loading, setLoading] = useState(false);
     const columns = [
         {
             name: <div className='text-base'>Company Name</div>,
@@ -93,8 +93,22 @@ const Company = () => {
     }, [initialCompanyStoredata])
 
     useEffect(() => {
-        setCompany(initialdata.companyRec)
-        setFilterCompany(initialdata.companyRec)
+       
+        var a = [{address: "There are no record to display" }];
+        setCompany(initialdata.companyRec);
+    
+        setLoading(true);
+        if (
+          initialdata.companyRec != 0 &&
+          initialdata.companyRec != null &&
+          initialdata.companyRec != ""
+        ) {
+            setFilterCompany(initialdata.companyRec);
+        } else {
+          setLoading(false);
+    
+          setFilterCompany(a);
+        }
     }, [initialdata])
 
     useEffect(() => {
@@ -126,6 +140,15 @@ const Company = () => {
                                 <DataTable
                                     title="Company List"
                                     columns={columns}
+                                    noDataComponent={
+                                        <div>
+                                          <h4>Loading....</h4>
+                                          <img
+                                            style={{ width: "20px", height: "20px" }}
+                                            src={loader}
+                                          ></img>
+                                        </div>
+                                      }
                                     data={FilterCompany}
                                     pagination
                                     fixedHeader
@@ -142,17 +165,6 @@ const Company = () => {
                                             </div>
                                         </div>
                                     }
-                                    // subHeaderComponent={
-                                    //     <div className='w-full'>
-                                    //         <div className="float-left lg:w-6/12 d-flex pr-4 mb-10 font-light">
-                                    //             <Button><NavLink
-                                    //                 to="/admin/addMultiUser">Add Multi Company</NavLink></Button>
-                                    //         </div>
-                                    //         <div className="float-left lg:w-6/12 d-flex pr-4 mb-10 font-light">
-                                    //             <Input type="text" color="purple" placeholder="Search Here" value={Search} onChange={(e) => setSearch(e.target.value)} />
-                                    //         </div>
-                                    //     </div>
-                                    // }
                                 />
                             </div>
                         </div>

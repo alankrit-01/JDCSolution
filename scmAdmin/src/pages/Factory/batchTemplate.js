@@ -10,9 +10,10 @@ import Input from '@material-tailwind/react/Input';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { getBatchTemplate, checkBatchTemplateSuccessdata } from 'Services/action';
+import loader from "assets/img/loading.gif";
 
 const BatchTemplate = () => {
-
+    const [loading, setLoading] = useState(false);
     const factoryData = useSelector((state) => state.FactoryLoginData);
     const [factoryUserID, setFactoryUserId] = useState(factoryData.factoryUserId);
     const successNotify = () => toast.success('Batch Added Successfully !.', {
@@ -90,10 +91,28 @@ const BatchTemplate = () => {
             successNotify();
         }
     }, [initialBatchTemplateStoredata])
+
     useEffect(() => {
         setBatchTemplates(initialBatchTemplatedata.batchTemplateRec.message && initialBatchTemplatedata.batchTemplateRec.message)
         setFilterBatchTemplates(initialBatchTemplatedata.batchTemplateRec.message && initialBatchTemplatedata.batchTemplateRec.message)
+
+        var a = [{ BatchSize: "There are no record to display" }];
+       
+        setLoading(true);
+        if (
+            initialBatchTemplatedata.batchTemplateRec.message != 0 &&
+            initialBatchTemplatedata.batchTemplateRec.message != null &&
+            initialBatchTemplatedata.batchTemplateRec.message.message != ""
+        ) {
+            setFilterBatchTemplates(initialBatchTemplatedata.batchTemplateRec.message && initialBatchTemplatedata.batchTemplateRec.message);
+            
+        } else {
+          setLoading(false);
+    
+          setFilterBatchTemplates(a);
+        }
     }, [initialBatchTemplatedata])
+
     useEffect(() => {
             const result = BatchTemplates.filter((allBatchTemplate) => {
                 return allBatchTemplate.Name.toLowerCase().match(Search.toLowerCase());
@@ -119,6 +138,15 @@ const BatchTemplate = () => {
                             <DataTable
                                 title="Batch List"
                                 columns={columns}
+                                noDataComponent={
+                                    <div>
+                                      <h4>Loading....</h4>
+                                      <img
+                                        style={{ width: "20px", height: "20px" }}
+                                        src={loader}
+                                      ></img>
+                                    </div>
+                                  }
                                 data={FilterBatchTemplates}
                                 pagination
                                 fixedHeader

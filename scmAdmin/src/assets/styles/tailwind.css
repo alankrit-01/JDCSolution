@@ -2914,14 +2914,14 @@ span.rcheckRec {
     font-size: 14px;
     left: 30%;
     position: absolute;
-    bottom: -10px;
+    bottom: 5px;
 }
 .mainBatch{
     position: relative;
 }
 .mainBatchNumber{
     position: absolute;
-    bottom: 0;
+    bottom: 25px;
     left: 10%;
 }
 .text-gray-400 {
@@ -2943,6 +2943,17 @@ span.sidercheck {
     position: absolute;
     top: 100px;
     left: 10px;
+}
+.batchqrCodeSection {
+    position: relative;
+}
+span.sidercheckbatch {
+    writing-mode: vertical-lr;
+    display: flex;
+    position: absolute;
+    top: 100px;
+    left: 25px;
+    z-index: 999;
 }
 .hover\:scale-105:hover{
 	--tw-scale-x: 1.05;

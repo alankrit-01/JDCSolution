@@ -11,12 +11,13 @@ import 'react-toastify/dist/ReactToastify.css';
 import { getProductTemplate, checkProductTemplateSuccessdata } from 'Services/action';
 
 import { useDispatch, useSelector } from 'react-redux';
+import loader from "assets/img/loading.gif";
 
 const ProductTemplate = () => {
     const navigate = useNavigate();
     const factoryData = useSelector((state) => state.FactoryLoginData);
     const [factoryUserId, setFactoryUserId] = useState(factoryData.factoryUserId);
-
+    const [loading, setLoading] = useState(false);
 
     const successNotify = () => toast.success('Product Template Added Successfully !.', {
         position: "bottom-right",
@@ -64,9 +65,27 @@ const ProductTemplate = () => {
             successNotify();
         }
     }, [initialProductTemplateStoredata])
+
+
     useEffect(() => {
         setProductTemplates(initialProductTemplatedata.productTemplateRec.message && initialProductTemplatedata.productTemplateRec.message)
-        setFilterProductTemplates(initialProductTemplatedata.productTemplateRec.message && initialProductTemplatedata.productTemplateRec.message)
+        // setFilterProductTemplates(initialProductTemplatedata.productTemplateRec.message && initialProductTemplatedata.productTemplateRec.message)
+
+        var a = [{ ProductName: "There are no record to display" }];
+       
+        setLoading(true);
+        if (
+            initialProductTemplatedata.productTemplateRec.message != 0 &&
+            initialProductTemplatedata.productTemplateRec.message != null &&
+            initialProductTemplatedata.productTemplateRec.message != ""
+        ) {
+            setFilterProductTemplates(initialProductTemplatedata.productTemplateRec.message && initialProductTemplatedata.productTemplateRec.message);
+            
+        } else {
+          setLoading(false);
+    
+          setFilterProductTemplates(a);
+        }
     }, [initialProductTemplatedata])
     useEffect(() => {
             const result = ProductTemplates.filter((allProductTemplate) => {
@@ -92,6 +111,15 @@ const ProductTemplate = () => {
                             <DataTable
                                 title="Product Template List"
                                 columns={columns}
+                                noDataComponent={
+                                    <div>
+                                      <h4>Loading....</h4>
+                                      <img
+                                        style={{ width: "20px", height: "20px" }}
+                                        src={loader}
+                                      ></img>
+                                    </div>
+                                  }
                                 data={FilterProductTemplates}
                                 pagination
                                 fixedHeader
