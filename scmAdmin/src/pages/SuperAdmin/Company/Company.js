@@ -131,7 +131,6 @@ const Company = () => {
             dispatch(getCompany(userID))
        
   };
-
   useEffect(() => {
     dispatch(getCompany());
   }, []);
