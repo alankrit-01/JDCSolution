@@ -82,7 +82,7 @@ const Factory = () => {
   }, [initialFactoryStoredata]);
 
   useEffect(() => {
-    var a = [{ subject: "There are no record to display" }];
+    var a = [{ email: "There are no record to display" }];
     setFactories(initialdata.factoryRec);
 
     setLoading(true);

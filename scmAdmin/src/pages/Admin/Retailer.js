@@ -84,7 +84,7 @@ const Retailer = () => {
   }, [initialRetailerStoredata]);
 
   useEffect(() => {
-    var a = [{ subject: "There are no record to display" }];
+    var a = [{ email: "There are no record to display" }];
     setRetailer(initialdata.retailerRec);
 
     setLoading(true);

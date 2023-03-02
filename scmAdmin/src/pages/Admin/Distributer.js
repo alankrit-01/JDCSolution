@@ -92,7 +92,7 @@ const Distributer = () => {
   }, [initialDistributerStoredata]);
 
   useEffect(() => {
-    var a = [{ subject: "There are no record to display" }];
+    var a = [{ email: "There are no record to display" }];
     setDistributer(initialdata.distributerRec);
 
     setLoading(true);

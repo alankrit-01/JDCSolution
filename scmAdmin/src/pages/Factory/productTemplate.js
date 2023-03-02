@@ -71,7 +71,7 @@ const ProductTemplate = () => {
         setProductTemplates(initialProductTemplatedata.productTemplateRec.message && initialProductTemplatedata.productTemplateRec.message)
         // setFilterProductTemplates(initialProductTemplatedata.productTemplateRec.message && initialProductTemplatedata.productTemplateRec.message)
 
-        var a = [{ ProductName: "There are no record to display" }];
+        var a = [{ Name: "There are no record to display" }];
        
         setLoading(true);
         if (
