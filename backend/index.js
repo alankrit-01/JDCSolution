@@ -196,7 +196,7 @@ app.get('/api/viewListOfBatchesProducedByFactory', async (req, res) => {
           DistributorScannedTimeStamp :batchData[11],      
           AmountLeftForSellingTORetailer:batchData[12].toNumber(), 
           CompanyBatchID:batchData[13].toNumber() 
-        }) 
+        })              
       } 
     }  
     if(result){
