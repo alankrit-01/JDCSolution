@@ -56,7 +56,6 @@ const CompanySelfFeedback = () => {
       sortable: true,
     },
   ];
-
   useEffect(() => {
     const data = {
       senderUserID: adminUserId,

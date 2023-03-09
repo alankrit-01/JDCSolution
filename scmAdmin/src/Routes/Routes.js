@@ -76,8 +76,6 @@ const WebRoutes = () => {
             <Route path="/admin/retailer" index element={<Retailer />} />
             <Route path="/admin/addretailer" index element={<AddRetailer />} />
             <Route path="/admin/addMultiUser" index element={<AddMultiUser />} />
-
-            
             <Route path="/admin/factoryFeedback" index element={<FactoryFeedback />} />
             <Route path="/admin/viewdistributerFeedback" index element={<Distributer />} />
             

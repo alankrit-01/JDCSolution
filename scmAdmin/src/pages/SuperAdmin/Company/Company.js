@@ -114,6 +114,7 @@ const Company = () => {
             }
           }}
         >
+            
           Deactivate
         </Button>
       ),
