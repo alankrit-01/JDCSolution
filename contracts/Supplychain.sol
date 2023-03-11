@@ -33,6 +33,7 @@ contract Supplychain{
         string DateWhenSoldToCustomer;
         string RetailerLatitude;
         string RetailerLongitude;
+        string CustomerName;
     }           
                  
     struct Batch{       
@@ -55,6 +56,8 @@ contract Supplychain{
     struct Customer{
         uint BatchID;
         uint ProductID;
+        string CustomerID;
+        string CustomerName;
     } 
 
     struct Retailer{
@@ -165,7 +168,8 @@ contract Supplychain{
                 DateWhenSoldToRetailer:"",
                 DateWhenSoldToCustomer:"",
                 RetailerLatitude:"",
-                RetailerLongitude:""
+                RetailerLongitude:"",
+                CustomerName:""
             });
             ProductIDs.push(productIDs[i]);
         }   
@@ -220,13 +224,16 @@ contract Supplychain{
         ProductMapping[_productID].RetailerLongitude=longitude;
     }        
 
-    function retailerSellToCustomer(uint batchID,uint productID, string memory customerID,string memory timeStamp) public {
+    function retailerSellToCustomer(uint batchID,uint productID, string memory customerID,string memory customerName,string memory timeStamp) public {
         BatchMapping[batchID].AmountSoldTOCustomer +=1;
         ProductMapping[productID].CustomerID=customerID;
+        ProductMapping[productID].CustomerName=customerName;
         ProductMapping[productID].DateWhenSoldToCustomer=timeStamp;
         CustomerData[customerID].push(Customer({
             BatchID:batchID,
-            ProductID:productID
+            ProductID:productID,
+            CustomerID:customerID,
+            CustomerName:customerName
         }));
     }        
 
