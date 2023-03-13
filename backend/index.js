@@ -26,7 +26,7 @@ mongoose.connect('mongodb+srv://vipin:ldOGGLOXWNcP6OjK@cluster0.y8ufn.mongodb.ne
 optionSuccessStatus:200
 const contractAbi = require('./artifacts/contracts/Supplychain.sol/Supplychain.json')
 
-let contractAddress ="0xF9d88Db7498E3aBC59eb31b7833b8304A5901405"; 
+let contractAddress ="0x07f80cc185BB93761cBd68b139aD9208eF1B2219"; 
 let contract;
 app.use(express.json()); 
 app.use(cors());
@@ -236,7 +236,8 @@ app.get('/api/viewBatchRecordByBatchId', async (req, res) => {
         DateWhenSoldToRetailer:productData[9],
         DateWhenSoldToCustomer:productData[10],
         RetailerLatitude:productData[11],
-        RetailerLongitude:productData[12]
+        RetailerLongitude:productData[12],
+        CustomerName:productData[13],
       });
     }
       // console.log(productIDs);
@@ -554,7 +555,8 @@ app.get('/api/viewBatchDetails', async (req, res) => {
         DateWhenSoldToRetailer:productData[9],
         DateWhenSoldToCustomer:productData[10],
         RetailerLatitude:productData[11],
-        RetailerLongitude:productData[12]
+        RetailerLongitude:productData[12],
+        CustomerName:productData[13]
       });
     }
 
@@ -576,11 +578,12 @@ app.post('/api/sellToCustomer',async(req,res)=>{
     const productID =req.body.productID;
     const customerID =req.body.customerID;
     const timeStamp =req.body.timeStamp; 
+    const customerName =req.body.customerName; 
 
 
     const productData =await contract.ProductMapping(productID);
     if(productData.RetailerScanned==true){
-      const tx =await contract.retailerSellToCustomer(batchID,productID,customerID,timeStamp);
+      const tx =await contract.retailerSellToCustomer(batchID,productID,customerID,customerName,timeStamp);
       tx.wait();
       console.log("Transaction completed!");
       res.status(200).json({status:"success", message:"Product sold to customer"});
@@ -625,7 +628,8 @@ app.get('/api/viewProductBoughts', async (req, res) => {
           DateWhenSoldToRetailer:productData[9],
           DateWhenSoldToCustomer:productData[10],
           RetailerLatitude:productData[11],
-          RetailerLongitude:productData[12]
+          RetailerLongitude:productData[12],
+          CustomerName:productData[13]
         },
         "batchData":{
           BatchID :batchData[0].toNumber(),
