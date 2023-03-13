@@ -713,6 +713,15 @@ video {
 .h-5{
 	height: 1.25rem;
 }
+.h-16{
+	height: 4rem;
+}
+.h-24{
+	height: 6rem;
+}
+.h-8{
+	height: 2rem;
+}
 .h-auto{
 	height: auto;
 }
@@ -724,9 +733,6 @@ video {
 }
 .h-\[600px\]{
 	height: 600px;
-}
-.h-8{
-	height: 2rem;
 }
 .h-6{
 	height: 1.5rem;
@@ -746,8 +752,8 @@ video {
 .w-48{
 	width: 12rem;
 }
-.w-64{
-	width: 16rem;
+.w-32{
+	width: 8rem;
 }
 .w-10{
 	width: 2.5rem;
@@ -761,6 +767,15 @@ video {
 .w-56{
 	width: 14rem;
 }
+.w-24{
+	width: 6rem;
+}
+.w-16{
+	width: 4rem;
+}
+.w-8{
+	width: 2rem;
+}
 .w-1\/4{
 	width: 25%;
 }
@@ -772,6 +787,9 @@ video {
 }
 .w-6{
 	width: 1.5rem;
+}
+.w-64{
+	width: 16rem;
 }
 .w-5\/6{
 	width: 83.333333%;
@@ -1050,6 +1068,9 @@ video {
 }
 .p-1{
 	padding: 0.25rem;
+}
+.p-0{
+	padding: 0px;
 }
 .p-6{
 	padding: 1.5rem;
@@ -2916,10 +2937,10 @@ span.rcheckRec {
     position: absolute;
     bottom: 5px;
 }
-.mainBatch{
+.mainBatch {
     position: relative;
 }
-.mainBatchNumber{
+.mainBatchNumber {
     position: absolute;
     bottom: 25px;
     left: 10%;
@@ -2927,15 +2948,16 @@ span.rcheckRec {
 .text-gray-400 {
     color: #000000 !important;
 }
-.bg-customm-color{
+.bg-customm-color {
     background-color: #0a1d3d;
 }
-a.flex.items-center.gap-4.text-sm.text-white.font-light.px-4.py-3.rounded-lg.active {
-    background-color: #d79829;
-}
 a.flex.items-center.gap-4.text-sm.text-gray-700.font-light.px-4.py-3.rounded-lg.active {
-    background-color: #fb8c00;
     color: #ffffff;
+    border-right: 5px solid #d79829;
+    border-radius: 0;
+    color: #ffffff;
+    border-right: 5px solid #d79829;
+    border-radius: 0;
 }
 span.sidercheck {
     writing-mode: vertical-lr;
@@ -2954,6 +2976,48 @@ span.sidercheckbatch {
     top: 100px;
     left: 25px;
     z-index: 999;
+}
+.custom-sidebar {
+    background: linear-gradient(#ffffff6b, #0c3f6a);
+}
+.custom-navbar {
+    background: linear-gradient(45deg, #ffffff6b, #0c3f6a);
+}
+.main-tiles {
+    background: #0c3f6a;
+}
+.inner-tiles {
+    display: block;
+}
+.inner-tiles img{
+    margin: auto;
+}
+.tiles-title h5 {
+    color: #fff;
+    padding: 15px;
+}
+.tiles-title-bottom h5 {
+    color: #fff;
+    padding: 15px;
+    text-align: center;
+}
+.add-batch-dashboard-section{
+    background: #335980;
+    color: #ffffff;
+    display: inline-block;
+    width: 90%;
+    margin: 15px;
+}
+.add-batch-dashboard-plus{
+background: #cccccc;
+float: left;
+padding: 15px;
+font-size: 20px;
+}
+h5.add-batch-dashboard-title {
+    margin: 15px;
+    float: left;
+    font-size: 20px;
 }
 .hover\:scale-105:hover{
 	--tw-scale-x: 1.05;
@@ -3075,8 +3139,8 @@ span.sidercheckbatch {
 	.md\:left-0{
 		left: 0px;
 	}
-	.md\:ml-64{
-		margin-left: 16rem;
+	.md\:ml-32{
+		margin-left: 8rem;
 	}
 	.md\:mb-6{
 		margin-bottom: 1.5rem;
@@ -3207,5 +3271,11 @@ span.sidercheckbatch {
 	}
 	.xl\:grid-cols-6{
 		grid-template-columns: repeat(6, minmax(0, 1fr));
+	}
+	.xl\:grid-cols-5{
+		grid-template-columns: repeat(5, minmax(0, 1fr));
+	}
+	.xl\:grid-cols-3{
+		grid-template-columns: repeat(3, minmax(0, 1fr));
 	}
 }

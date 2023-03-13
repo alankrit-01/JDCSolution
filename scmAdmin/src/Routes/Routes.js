@@ -78,19 +78,12 @@ const WebRoutes = () => {
             <Route path="/admin/addMultiUser" index element={<AddMultiUser />} />
             <Route path="/admin/factoryFeedback" index element={<FactoryFeedback />} />
             <Route path="/admin/viewdistributerFeedback" index element={<Distributer />} />
-            
             <Route path="/admin/distributerFeedback" index element={<DistributerFeedback />} />
             <Route path="/admin/viewdistributerFeedback" index element={<Distributer />} />
-
             <Route path="/admin/retailerFeedback" index element={<RetailerFeedback />} />
             <Route path="/admin/viewRetailerFeedback" index element={<Distributer />} />
-
             <Route path="/admin/addCompanyFeedback" index element={<AddCompanyFeedback />} />
             <Route path="/admin/companySelfFeedback" index element={<CompanySelfFeedback />} />
-
-            
-            
-            
             <Route path="/factory" index element={<FactoryLogin />} />
             <Route path="/factory/dashboard" index element={<FactoryDashboard />} />
             <Route path="/factory/settings" index element={<FactorySetting />} />

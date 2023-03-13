@@ -9,13 +9,25 @@ import { Button } from "@material-tailwind/react";
 import Input from "@material-tailwind/react/Input";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { getCompany, checkCompanySuccessdata } from "Services/action";
+import { getCompany, checkCompanySuccessdata, handleUserStatus } from "Services/action";
 import loader from "assets/img/loading.gif";
 const Company = () => {
-    const dataFetchedRef = useRef(false);
+  const dataFetchedRef = useRef(false);
   const navigate = useNavigate();
   const successNotify = () =>
     toast.success("Company Added Successfully !.", {
+      position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+
+    const userStatusUpdate = () =>
+    toast.success("Status updated successfully !.", {
       position: "bottom-right",
       autoClose: 5000,
       hideProgressBar: false,
@@ -101,21 +113,36 @@ const Company = () => {
       button: true,
       width: "150px",
     },
+
+
     {
       selector: (row) => (
         <Button
           variant="outline-success"
           onClick={() => {
-            const confirmBox = window.confirm(
-              "Do you really want to deactive this Record?"
-            );
+            let confirmBox = '';
+            if(row.userStatus == "Active"){
+               confirmBox = window.confirm(
+                "Are you sure you want to deactive this Record?"
+              );
+            }
+
+            if(row.userStatus == "Deactive"){
+              confirmBox = window.confirm(
+                "Are you sure you want to activate this Record?"
+              );
+            }
             if (confirmBox === true) {
-              handleDeleteRecord(row._id);
+              if(row.userStatus === 'Active'){
+                handleDeactivateRecord(row._id, "Deactive");
+              }else if(row.userStatus === 'Deactive'){
+                handleDeactivateRecord(row._id, "Active");
+
+              }
             }
           }}
         >
-            
-          Deactivate
+         {row.userStatus.startsWith('D') ? 'Activate' : 'Deactivate'}
         </Button>
       ),
       ignoreRowClick: true,
@@ -124,19 +151,27 @@ const Company = () => {
       width: "150px",
     },
   ];
-  const handleDeleteRecord = (userID) => {
+  const handleDeactivateRecord = (userID, userStatus) => {
 
-    console.log(userID)
-            if (dataFetchedRef.current) return;
-            dataFetchedRef.current = true;
-            dispatch(getCompany(userID))
-       
+    if (dataFetchedRef.current) return;
+    dataFetchedRef.current = true;
+    const data = {
+      userID: userID,
+      userStatus:userStatus
+  }
+    dispatch(handleUserStatus(data))
+
   };
   useEffect(() => {
     dispatch(getCompany());
+    
   }, []);
 
   const initialdata = useSelector((state) => state.CompanyRecord);
+
+  const initialUserStatusdata = useSelector((state) => state.handleUserStatusData);
+
+
   const initialCompanyStoredata = useSelector(
     (state) => state.CompanyStoreData
   );
@@ -145,7 +180,12 @@ const Company = () => {
       successNotify();
     }
   }, [initialCompanyStoredata]);
-
+  
+  useMemo(() => {
+    if (initialUserStatusdata.success == true) {
+      userStatusUpdate();
+    }
+  }, [initialUserStatusdata]);
   useEffect(() => {
     var a = [{ address: "There are no record to display" }];
     setCompany(initialdata.companyRec);
@@ -179,10 +219,10 @@ const Company = () => {
       <ToastContainer />
       <div className="main-section bg-gray-500">
         <Sidebar />
-        <div className="md:ml-64">
+        <div className="md:ml-32">
           <div className="bg-gray-500 pt-14 pb-28 px-3 md:px-8 h-auto">
             <div className="container mx-auto max-w-full">
-              <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4">
+              <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-5">
                 <MainStatusCard />
               </div>
             </div>

@@ -66,10 +66,10 @@ const AddDistributer = () => {
     return (
         <>
             <Sidebar />
-            <div className="md:ml-64">
-                <div className="bg-light-blue-500 pt-14 pb-28 px-3 md:px-8 h-auto">
+            <div className="md:ml-32">
+                <div className="pt-14 pb-28 px-3 md:px-8 h-auto">
                     <div className="container mx-auto max-w-full">
-                        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4">
+                        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-5">
                             <MainStatusCard />
                         </div>
                     </div>

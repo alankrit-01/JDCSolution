@@ -1,7 +1,7 @@
-//export const API_URL = "http://127.0.0.1:5150";
-export const API_URL = "http://162.215.222.118:5155";
- export const BLOCKCHAIN_API_URL = "http://162.215.222.118:8085/api";
-// export const BLOCKCHAIN_API_URL = "http://192.168.1.101:8082/api";
+export const API_URL = "http://127.0.0.1:5155";
+//export const API_URL = "http://162.215.222.118:5155";
+// export const BLOCKCHAIN_API_URL = "http://162.215.222.118:8085/api";
+ export const BLOCKCHAIN_API_URL = "http://192.168.1.101:8082/api";
 
 export const GETDETAILS = 'GETDETAILS'; 
 export const SuperAdminUserLogin = 'SuperAdminUserLogin';
@@ -10,6 +10,9 @@ export const Get_SuperAdmin_Local_Store_Data = 'Get_SuperAdmin_Local_Store_Data'
 export const set_SuperAdmin_Local_Store_Data = "set_SuperAdmin_Local_Store_Data";
 export const Set_SuperAdmin_Login = 'Set_SuperAdmin_Login'; 
 export const SuperAdmin_Login_Fail = 'SuperAdmin_Login_Fail';
+export const Handle_User_Status = 'Handle_User_Status';
+export const Set_Handle_User_Status_Data = 'Set_Handle_User_Status_Data';
+export const Set_Handle_User_Status_Data_Fail = 'Set_Handle_User_Status_Data_Fail';
 export const Store_Company = 'Store_Company';
 export const Store_Company_Request = 'Store_Company_Request';
 export const Set_Store_Company_Data = 'Set_Store_Company_Data';
