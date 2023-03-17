@@ -11,7 +11,7 @@ import { storeDistributer } from "Services/action";
 import React, { useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-const AddDistributer = () => { 
+const AddDistributer = () => {
     const dataFetchedRef = useRef(false);
     const admindata = useSelector((state) => state.AdminLoginData);
     const [adminUserId, setAdminUserId] = useState(admindata.adminUserId);
@@ -27,24 +27,24 @@ const AddDistributer = () => {
     const [longitude, setLongitude] = useState('');
     const [emailError, setemailError] = useState('');
 
-     function handleSubmit(event) {
-         event.preventDefault();
-         const emailRegex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-         { email == '' ? setemailError("Email is required") : (emailRegex.test(email) === false ? setemailError("Invalid Email") : setemailError(true)) }
-     }
+    function handleSubmit(event) {
+        event.preventDefault();
+        const emailRegex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+        { email == '' ? setemailError("Email is required") : (emailRegex.test(email) === false ? setemailError("Invalid Email") : setemailError(true)) }
+    }
 
-     useMemo(() => {
+    useMemo(() => {
         const data = {
-            name:name,
+            name: name,
             email: email,
             phone: phone,
-            address:address,
-            role:"Distributer",
-            city:city,
-            country:country,
-            latitude:latitude,
-            longitude:longitude,
-            adminId:adminUserId,
+            address: address,
+            role: "Distributer",
+            city: city,
+            country: country,
+            latitude: latitude,
+            longitude: longitude,
+            adminId: adminUserId,
         }
         if (emailError == true) {
 
@@ -69,9 +69,7 @@ const AddDistributer = () => {
             <div className="md:ml-32">
                 <div className="pt-14 pb-28 px-3 md:px-8 h-auto">
                     <div className="container mx-auto max-w-full">
-                        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-5">
-                            <MainStatusCard />
-                        </div>
+                        <MainStatusCard />
                     </div>
                 </div>
                 <div className="px-3 md:px-8 h-auto -mt-24">
@@ -86,8 +84,8 @@ const AddDistributer = () => {
                                     </CardHeader>
                                     <CardBody>
                                         <form onSubmit={handleSubmit}>
-                                        <div className="flex flex-wrap mt-10">
-                                                
+                                            <div className="flex flex-wrap mt-10">
+
                                                 <div className="w-full lg:w-6/12 pr-4 mb-10">
                                                     <Input
                                                         type="text"
@@ -96,7 +94,7 @@ const AddDistributer = () => {
                                                         name="name"
                                                         value={name} onChange={(e) => setName(e.target.value)}
                                                         required
-                                                        
+
                                                     />
                                                 </div>
                                                 <div className="w-full lg:w-6/12 pl-4 mb-10 font-light">
@@ -171,12 +169,12 @@ const AddDistributer = () => {
                                                 </div>
                                             </div>
                                             <div className="flex">
-                                            <div className="w-full lg:w-6/12 pr-4 mb-10 font-light">
-                                            <Button type="submit">Submit</Button>
-                                            </div>
+                                                <div className="w-full lg:w-6/12 pr-4 mb-10 font-light">
+                                                    <Button type="submit">Submit</Button>
+                                                </div>
                                             </div>
                                         </form>
-                                    </CardBody> 
+                                    </CardBody>
                                 </Card>
                             </div>
                         </div>

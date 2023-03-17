@@ -104,9 +104,7 @@ const CompanySelfFeedback = () => {
       <div className="md:ml-32">
         <div className="pt-14 pb-28 px-3 md:px-8 h-auto">
           <div className="container mx-auto max-w-full">
-            <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-5">
-              <MainStatusCard />
-            </div>
+            <MainStatusCard />
           </div>
         </div>
         <div className="px-3 md:px-8 h-auto -mt-24">
@@ -116,15 +114,15 @@ const CompanySelfFeedback = () => {
                 title="Company Self Feedback List"
                 columns={columns}
                 noDataComponent={
-                    <div>
-                      <h4>Loading....</h4>
-                      <img
-                        style={{ width: "20px", height: "20px" }}
-                        src={loader}
-                      ></img>
-                    </div>
-                  }
-                  
+                  <div>
+                    <h4>Loading....</h4>
+                    <img
+                      style={{ width: "20px", height: "20px" }}
+                      src={loader}
+                    ></img>
+                  </div>
+                }
+
                 data={FilterFeedback}
                 pagination
                 fixedHeader

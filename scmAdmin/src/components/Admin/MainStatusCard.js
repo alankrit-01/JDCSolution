@@ -5,6 +5,19 @@ import StatusCard from "./StatusCard";
 import { useNavigate } from 'react-router-dom';
 
 
+import Carousel from 'react-multi-carousel';
+import 'react-multi-carousel/lib/styles.css';
+
+import Card from '@material-tailwind/react/Card';
+import CardRow from '@material-tailwind/react/CardRow';
+import CardStatus from '@material-tailwind/react/CardStatus';
+
+import DashboardImg from 'assets/img/distributer.png';
+import ProductTempImg from 'assets/img/products-template.png';
+import BatchImg from 'assets/img/batches-sent.png';
+import FeedbackImg from 'assets/img/reports.png';
+
+
 
 const MainStatusCard = () => {
     const navigate = useNavigate();
@@ -30,10 +43,115 @@ const MainStatusCard = () => {
 
     }, [initialdata, initialFactorydata, initialRetailerdata])
 
-    
+
+
+    const responsive = {
+        superLargeDesktop: {
+            // the naming can be any, depends on you.
+            breakpoint: { max: 4000, min: 3000 },
+            items: 5
+        },
+        desktop: {
+            breakpoint: { max: 3000, min: 1024 },
+            items: 3
+        },
+        tablet: {
+            breakpoint: { max: 1024, min: 464 },
+            items: 2
+        },
+        mobile: {
+            breakpoint: { max: 464, min: 0 },
+            items: 1
+        }
+    };
+
     return (
         <>
-            <span style={{ cursor: "pointer" }} onClick={() => navigate('/admin/factory')}>
+            <Carousel responsive={responsive}>
+                <div className="px-5 mb-10 main-tiles-section">
+                    <Card className="main-tiles p-0">
+                        <CardRow className="inner-tiles">
+                            <CardStatus className="tiles-title" title={100} />
+                            <img src={DashboardImg} className="w-24 h-24" />
+                            <CardStatus className="tiles-title-bottom" title={"Distributer"} />
+                        </CardRow>
+                    </Card>
+                </div>
+                <div className="px-5 mb-10 main-tiles-section">
+                    <Card className="main-tiles p-0">
+                        <CardRow className="inner-tiles">
+                            <CardStatus className="tiles-title" title={100} />
+                            <img src={DashboardImg} className="w-24 h-24" />
+                            <CardStatus className="tiles-title-bottom" title={"Distributer"} />
+                        </CardRow>
+                    </Card>
+                </div>
+                <div className="px-5 mb-10 main-tiles-section">
+                    <Card className="main-tiles p-0">
+                        <CardRow className="inner-tiles">
+                            <CardStatus className="tiles-title" title={100} />
+                            <img src={DashboardImg} className="w-24 h-24" />
+                            <CardStatus className="tiles-title-bottom" title={"Distributer"} />
+                        </CardRow>
+                    </Card>
+                </div>
+                <div className="px-5 mb-10 main-tiles-section">
+                    <Card className="main-tiles p-0">
+                        <CardRow className="inner-tiles">
+                            <CardStatus className="tiles-title" title={100} />
+                            <img src={DashboardImg} className="w-24 h-24" />
+                            <CardStatus className="tiles-title-bottom" title={"Distributer"} />
+                        </CardRow>
+                    </Card>
+                </div>
+                <div className="px-5 mb-10 main-tiles-section">
+                    <Card className="main-tiles p-0">
+                        <CardRow className="inner-tiles">
+                            <CardStatus className="tiles-title" title={100} />
+                            <img src={DashboardImg} className="w-24 h-24" />
+                            <CardStatus className="tiles-title-bottom" title={"Distributer"} />
+                        </CardRow>
+                    </Card>
+                </div>
+            </Carousel>
+
+            {/* <div className="px-4 mb-10 main-tiles-section">
+                <Card className="main-tiles p-0">
+                    <CardRow className="inner-tiles">
+                        <CardStatus className="tiles-title" title={100} />
+                        <img src={DashboardImg} className="w-24 h-24" />
+                        <CardStatus className="tiles-title-bottom" title={"Distributer"} />
+                    </CardRow>
+                </Card>
+            </div>
+            <div className="px-4 mb-10 main-tiles-section">
+                <Card className="main-tiles p-0">
+                    <CardRow className="inner-tiles">
+                        <CardStatus className="tiles-title" title={100} />
+                        <img src={BatchImg} className="w-24 h-24" />
+                        <CardStatus className="tiles-title-bottom" title={"Batches Sent"} />
+                    </CardRow>
+                </Card>
+            </div>
+            <div className="px-4 mb-10 main-tiles-section">
+                <Card className="main-tiles p-0">
+                    <CardRow className="inner-tiles">
+                        <CardStatus className="tiles-title" title={100} />
+                        <img src={ProductTempImg} className="w-24 h-24" />
+                        <CardStatus className="tiles-title-bottom" title={"Products Sent"} />
+                    </CardRow>
+                </Card>
+            </div>
+            <div className="px-4 mb-10 main-tiles-section">
+                <Card className="main-tiles p-0">
+                    <CardRow className="inner-tiles">
+                        <CardStatus className="tiles-title" title={100} />
+                        <img src={FeedbackImg} className="w-24 h-24" />
+                        <CardStatus className="tiles-title-bottom" title={"Reports Received"} />
+                    </CardRow>
+                </Card>
+            </div> */}
+            {/* <span style={{ cursor: "pointer" }} onClick={() => navigate('/admin/factory')}>
                 <StatusCard
                     color="pink"
                     icon="groups"
@@ -44,9 +162,9 @@ const MainStatusCard = () => {
                 // percentageColor="green"
                 // date="Since last month"
                 />
-            </span>
-            
-            <span style={{ cursor: "pointer" }} onClick={() => navigate('/admin/distributer')}>
+            </span> */}
+
+            {/* <span style={{ cursor: "pointer" }} onClick={() => navigate('/admin/distributer')}>
                 <StatusCard
                     color="purple"
                     icon="groups"
@@ -57,9 +175,9 @@ const MainStatusCard = () => {
                 // percentageColor="orange"
                 // date="Since yesterday"
                 />
-            </span>
+            </span> */}
 
-            <span style={{ cursor: "pointer" }} onClick={() => navigate('/admin/retailer')}>
+            {/* <span style={{ cursor: "pointer" }} onClick={() => navigate('/admin/retailer')}>
 
                 <StatusCard
                     color="orange"
@@ -71,20 +189,7 @@ const MainStatusCard = () => {
                 // percentageColor="red"
                 // date="Since last week"
                 />
-            </span>
-
-            {/* <StatusCard
-                color="blue"
-                icon="groups"
-                title="Products"
-                amount="10"
-            // percentage="12"
-            // percentageIcon="arrow_upward"
-            // percentageColor="green"
-            // date="Since last month"
-            /> */}
-
-
+            </span> */}
         </>
     )
 }

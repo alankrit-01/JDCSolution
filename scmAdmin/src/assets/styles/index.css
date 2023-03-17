@@ -131,3 +131,16 @@ h5.add-batch-dashboard-title {
     float: left;
     font-size: 20px;
 }
+
+.profile-section {
+    position: relative;
+    display: inherit;
+    margin-right: 10px;
+    justify-content: center;
+}
+.profile-section img{
+    padding-right: 10px;
+}
+.profile-button .leading-normal {
+    line-height: 1.9;
+}

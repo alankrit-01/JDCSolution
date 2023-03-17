@@ -7,6 +7,13 @@ import H6 from "@material-tailwind/react/Heading6";
 import { Button } from "@material-tailwind/react";
 import { useDispatch, useSelector } from "react-redux";
 
+import RichmintLogo from 'assets/img/richmint-logo.png';
+import DashboardImg from 'assets/img/distributer.png';
+import ProductTempImg from 'assets/img/products-template.png';
+import BatchImg from 'assets/img/batches-sent.png';
+import FeedbackImg from 'assets/img/reports.png';
+import LogoutImg from 'assets/img/setting.png';
+
 export default function Sidebar() {
   const [showSidebar, setShowSidebar] = useState("-left-64");
   const dispatch = useDispatch();
@@ -28,11 +35,11 @@ export default function Sidebar() {
     <>
       <AdminNavbar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
       <div
-        className={`h-screen custom-sidebar custom-sidebar fixed top-0 md:left-0 ${showSidebar} overflow-y-auto flex-row flex-nowrap overflow-hidden shadow-xl bg-white w-32 z-10 py-4 px-6 transition-all duration-300`}
+        className={`h-screen custom-sidebar custom-sidebar fixed top-0 md:left-0 ${showSidebar} overflow-y-auto flex-row flex-nowrap overflow-hidden shadow-xl bg-white w-32 z-10 py-4 transition-all duration-300`}
       >
         <div className="flex-col items-stretch min-h-full flex-nowrap px-0 relative">
           <NavLink to="/" className="mt-2 text-center w-full inline-block">
-            <H6 color="gray">SCM</H6>
+            <img className="w-16 h-16" src={RichmintLogo} style={{ margin: "auto" }} />
           </NavLink>
           <div className="flex flex-col">
             <hr className="my-4 min-w-full" />
@@ -45,8 +52,9 @@ export default function Sidebar() {
                   className="flex items-center gap-4 text-sm text-gray-700 font-light px-4 py-3 rounded-lg"
                   activeClassName="bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md"
                 >
-                  <Icon name="dashboard" size="2xl" />
-                  Dashboard
+                  {/* <Icon name="dashboard" size="2xl" />
+                  Dashboard */}
+                  <img src={DashboardImg} className="w-8 h-8" style={{ margin: "auto" }} />
                 </NavLink>
               </li>
               <li className="rounded-lg mb-2">
@@ -55,8 +63,7 @@ export default function Sidebar() {
                   className="flex items-center gap-4 text-sm text-gray-700 font-light px-4 py-3 rounded-lg"
                   activeClassName="bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md"
                 >
-                  <Icon name="person" size="2xl" />
-                  Factory
+                  <img src={DashboardImg} className="w-8 h-8" style={{ margin: "auto" }} />
                 </NavLink>
               </li>
               <li className="rounded-lg mb-2">
@@ -65,8 +72,7 @@ export default function Sidebar() {
                   className="flex items-center gap-4 text-sm text-gray-700 font-light px-4 py-3 rounded-lg"
                   activeClassName="bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md"
                 >
-                  <Icon name="person" size="2xl" />
-                  Distributer
+                  <img src={DashboardImg} className="w-8 h-8" style={{ margin: "auto" }} />
                 </NavLink>
               </li>
               <li className="rounded-lg mb-2">
@@ -75,8 +81,7 @@ export default function Sidebar() {
                   className="flex items-center gap-4 text-sm text-gray-700 font-light px-4 py-3 rounded-lg"
                   activeClassName="bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md"
                 >
-                  <Icon name="person" size="2xl" />
-                  Retailer
+                  <img src={DashboardImg} className="w-8 h-8" style={{ margin: "auto" }} />
                 </NavLink>
               </li>
               <li className="rounded-lg mb-2">
@@ -85,8 +90,9 @@ export default function Sidebar() {
                   className="flex items-center gap-4 text-sm text-gray-700 font-light px-4 py-3 rounded-lg"
                   activeClassName="bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md"
                 >
-                  <Icon name="person" size="2xl" />
-                  Factory Feedback
+                  {/* <Icon name="person" size="2xl" />
+                  Factory Feedback */}
+                  <img src={FeedbackImg} className="w-8 h-8" style={{ margin: "auto" }} />
                 </NavLink>
               </li>
               <li className="rounded-lg mb-2">
@@ -95,8 +101,9 @@ export default function Sidebar() {
                   className="flex items-center gap-4 text-sm text-gray-700 font-light px-4 py-3 rounded-lg"
                   activeClassName="bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md"
                 >
-                  <Icon name="person" size="2xl" />
-                  Distributer Feedback
+                  {/* <Icon name="person" size="2xl" />
+                  Distributer Feedback */}
+                  <img src={FeedbackImg} className="w-8 h-8" style={{ margin: "auto" }} />
                 </NavLink>
               </li>
               <li className="rounded-lg mb-2">
@@ -105,8 +112,9 @@ export default function Sidebar() {
                   className="flex items-center gap-4 text-sm text-gray-700 font-light px-4 py-3 rounded-lg"
                   activeClassName="bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md"
                 >
-                  <Icon name="person" size="2xl" />
-                  Retailer Feedback
+                  {/* <Icon name="person" size="2xl" />
+                  Retailer Feedback */}
+                  <img src={FeedbackImg} className="w-8 h-8" style={{ margin: "auto" }} />
                 </NavLink>
               </li>
               <li className="rounded-lg mb-2">
@@ -115,8 +123,9 @@ export default function Sidebar() {
                   className="flex items-center gap-4 text-sm text-gray-700 font-light px-4 py-3 rounded-lg"
                   activeClassName="bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md"
                 >
-                  <Icon name="person" size="2xl" />
-                  Help
+                  {/* <Icon name="person" size="2xl" />
+                  Help */}
+                  <img src={FeedbackImg} className="w-8 h-8" style={{ margin: "auto" }} />
                 </NavLink>
               </li>
               <li className="rounded-lg mb-2">
@@ -129,10 +138,12 @@ export default function Sidebar() {
                   }}
                   className="flex items-center gap-4 text-sm text-gray-700 font-light px-4 py-3 rounded-lg"
                   activeClassName="bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md"
+                  style={{margin: "auto"}}
                 >
                   {" "}
-                  <Icon name="person" size="2xl" />
-                  Logout
+                  {/* <Icon name="person" size="2xl" />
+                  Logout */}
+                  <img src={LogoutImg} className="w-8 h-8" style={{ margin: "auto" }} />
                 </button>
               </li>
             </ul>

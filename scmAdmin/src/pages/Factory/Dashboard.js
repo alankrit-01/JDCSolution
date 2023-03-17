@@ -8,6 +8,8 @@ import CardStatus from '@material-tailwind/react/CardStatus';
 import MapExample from 'components/Factory/MapExample';
 import DashboardVector from 'assets/img/vactor.jpg';
 
+import PieRechartComponent from 'components/Factory/PieChart';
+
 const FactoryDashboard = () => {
     return (
         <>
@@ -27,14 +29,14 @@ const FactoryDashboard = () => {
                                     </CardRow>
                                 </Card>
                             </div>
+                            <div className="px-4 mb-10 main-tiles-section">
+                            <PieRechartComponent/>
+                            </div>
+                            <div className="px-4 mb-10 main-tiles-section">
+                            <MapExample/>
+                            </div>
                         </div>
-                        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 mb-4">
-
-                        <MapExample />
-
-                        </div>
-
-                        
+                      
                     </div>
                 </div>
                 <Footer />
@@ -42,5 +44,4 @@ const FactoryDashboard = () => {
         </>
     );
 }
-
 export default FactoryDashboard

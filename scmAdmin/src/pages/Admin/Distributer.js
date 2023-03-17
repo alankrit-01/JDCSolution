@@ -4,7 +4,7 @@ import Footer from "components/Admin/Footer";
 import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getDistributer } from "Services/action";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState,useRef} from "react";
 import DataTable from "react-data-table-component";
 import { Button } from "@material-tailwind/react";
 import Input from "@material-tailwind/react/Input";
@@ -14,8 +14,9 @@ import { CSVLink } from "react-csv";
 import React from "react";
 import { ToastContainer, toast } from "react-toastify";
 import loader from "assets/img/loading.gif";
-
+import {handleUserStatus } from "Services/action";
 const Distributer = () => {
+  const dataFetchedRef = useRef(false);
   const successNotify = () =>
     toast.success("Distributer Added Successfully !.", {
       position: "bottom-right",
@@ -62,7 +63,57 @@ const Distributer = () => {
       selector: (row) => row.phone,
       sortable: true,
     },
+    {
+      name: <div className="text-base">Action</div>,
+      if: row => row.userStatus.includes('Active'),
+      selector: (row) => (
+        <Button
+          variant="outline-success"
+          onClick={() => {
+            let confirmBox = '';
+            if(row.userStatus == "Active"){
+               confirmBox = window.confirm(
+                "Are you sure you want to deactive this Record?"
+               );
+            }
+  
+            if(row.userStatus == "Deactive"){
+              confirmBox = window.confirm(
+                "Are you sure you want to activate this Record?"
+              );
+            }
+            if (confirmBox === true) {
+              if(row.userStatus === 'Active'){
+                handleDeactivateRecord(row._id, "Deactive");
+              }else if(row.userStatus === 'Deactive'){
+                handleDeactivateRecord(row._id, "Active");
+  
+              }
+            }
+          }}
+        >
+         {row.userStatus.startsWith('D') ? 'Activate' : 'Deactivate'}
+        </Button>
+      ),
+      ignoreRowClick: true,
+      allowOverflow: true, 
+      button: true,
+      width: "150px",
+    }
   ];
+
+  const handleDeactivateRecord = (userID, userStatus) => {
+
+    if (dataFetchedRef.current) return;
+    dataFetchedRef.current = true;
+    const data = {
+      userID: userID,
+      userStatus:userStatus
+  }
+    dispatch(handleUserStatus(data))
+
+  };
+
 
   useEffect(() => {
     const columns = [
@@ -164,9 +215,7 @@ const Distributer = () => {
       <div className="md:ml-32">
         <div className="pt-14 pb-28 px-3 md:px-8 h-auto">
           <div className="container mx-auto max-w-full">
-            <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-5">
               <MainStatusCard />
-            </div>
           </div>
         </div>
         <div className="px-3 md:px-8 h-auto -mt-24">

@@ -692,14 +692,23 @@ video {
 .hidden{
 	display: none;
 }
+.h-16{
+	height: 4rem;
+}
 .h-96{
 	height: 24rem;
+}
+.h-24{
+	height: 6rem;
 }
 .h-full{
 	height: 100%;
 }
 .h-screen{
 	height: 100vh;
+}
+.h-8{
+	height: 2rem;
 }
 .h-10{
 	height: 2.5rem;
@@ -712,15 +721,6 @@ video {
 }
 .h-5{
 	height: 1.25rem;
-}
-.h-16{
-	height: 4rem;
-}
-.h-24{
-	height: 6rem;
-}
-.h-8{
-	height: 2rem;
 }
 .h-auto{
 	height: auto;
@@ -746,14 +746,20 @@ video {
 .w-full{
 	width: 100%;
 }
-.w-12{
-	width: 3rem;
+.w-24{
+	width: 6rem;
 }
 .w-48{
 	width: 12rem;
 }
 .w-32{
 	width: 8rem;
+}
+.w-16{
+	width: 4rem;
+}
+.w-8{
+	width: 2rem;
 }
 .w-10{
 	width: 2.5rem;
@@ -767,14 +773,8 @@ video {
 .w-56{
 	width: 14rem;
 }
-.w-24{
-	width: 6rem;
-}
-.w-16{
-	width: 4rem;
-}
-.w-8{
-	width: 2rem;
+.w-12{
+	width: 3rem;
 }
 .w-1\/4{
 	width: 25%;
@@ -1057,6 +1057,9 @@ video {
 .fill-current{
 	fill: currentColor;
 }
+.p-0{
+	padding: 0px;
+}
 .p-4{
 	padding: 1rem;
 }
@@ -1068,9 +1071,6 @@ video {
 }
 .p-1{
 	padding: 0.25rem;
-}
-.p-0{
-	padding: 0px;
 }
 .p-6{
 	padding: 1.5rem;
@@ -1098,6 +1098,10 @@ video {
 	padding-left: 4rem;
 	padding-right: 4rem;
 }
+.px-5{
+	padding-left: 1.25rem;
+	padding-right: 1.25rem;
+}
 .px-2{
 	padding-left: 0.5rem;
 	padding-right: 0.5rem;
@@ -1106,13 +1110,13 @@ video {
 	padding-top: 1rem;
 	padding-bottom: 1rem;
 }
-.px-6{
-	padding-left: 1.5rem;
-	padding-right: 1.5rem;
-}
 .px-0{
 	padding-left: 0px;
 	padding-right: 0px;
+}
+.px-6{
+	padding-left: 1.5rem;
+	padding-right: 1.5rem;
 }
 .py-12{
 	padding-top: 3rem;
@@ -1186,17 +1190,17 @@ video {
 .align-middle{
 	vertical-align: middle;
 }
-.text-sm{
-	font-size: 0.875rem;
-	line-height: 1.25rem;
+.text-2xl{
+	font-size: 1.5rem;
+	line-height: 2rem;
 }
 .text-xs{
 	font-size: 0.75rem;
 	line-height: 1rem;
 }
-.text-2xl{
-	font-size: 1.5rem;
-	line-height: 2rem;
+.text-sm{
+	font-size: 0.875rem;
+	line-height: 1.25rem;
 }
 .text-xl{
 	font-size: 1.25rem;
@@ -3019,6 +3023,18 @@ h5.add-batch-dashboard-title {
     float: left;
     font-size: 20px;
 }
+.profile-section {
+    position: relative;
+    display: inherit;
+    margin-right: 10px;
+    justify-content: center;
+}
+.profile-section img{
+    padding-right: 10px;
+}
+.profile-button .leading-normal {
+    line-height: 1.9;
+}
 .hover\:scale-105:hover{
 	--tw-scale-x: 1.05;
 	--tw-scale-y: 1.05;
@@ -3265,9 +3281,6 @@ h5.add-batch-dashboard-title {
 	}
 	.xl\:col-start-5{
 		grid-column-start: 5;
-	}
-	.xl\:grid-cols-4{
-		grid-template-columns: repeat(4, minmax(0, 1fr));
 	}
 	.xl\:grid-cols-6{
 		grid-template-columns: repeat(6, minmax(0, 1fr));

@@ -113,8 +113,6 @@ const Company = () => {
       button: true,
       width: "150px",
     },
-
-
     {
       selector: (row) => (
         <Button
@@ -126,7 +124,6 @@ const Company = () => {
                 "Are you sure you want to deactive this Record?"
               );
             }
-
             if(row.userStatus == "Deactive"){
               confirmBox = window.confirm(
                 "Are you sure you want to activate this Record?"
@@ -137,7 +134,6 @@ const Company = () => {
                 handleDeactivateRecord(row._id, "Deactive");
               }else if(row.userStatus === 'Deactive'){
                 handleDeactivateRecord(row._id, "Active");
-
               }
             }
           }}
@@ -160,18 +156,13 @@ const Company = () => {
       userStatus:userStatus
   }
     dispatch(handleUserStatus(data))
-
   };
   useEffect(() => {
     dispatch(getCompany());
-    
   }, []);
 
   const initialdata = useSelector((state) => state.CompanyRecord);
-
   const initialUserStatusdata = useSelector((state) => state.handleUserStatusData);
-
-
   const initialCompanyStoredata = useSelector(
     (state) => state.CompanyStoreData
   );

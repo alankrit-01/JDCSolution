@@ -16,7 +16,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import loader from "assets/img/loading.gif";
 
 const DistributerScansFail = () => {
-   
+
     const dispatch = useDispatch();
     const [DistributerScansFail, setDistributerScansFail] = useState([]);
     const [Search, setSearch] = useState("");
@@ -64,7 +64,7 @@ const DistributerScansFail = () => {
                 Email: "Email",
                 scannedDistance: "Scanned Distance",
                 scannedLocation: "Scanned Location",
-                orignalLocation:"Actual Location",
+                orignalLocation: "Actual Location",
             },
         ];
         setExcelData(columns);
@@ -77,18 +77,18 @@ const DistributerScansFail = () => {
     const initialFraudScansdata = useSelector((state) => state.FraudScansRecord);
     let allFraudScansData = initialFraudScansdata.fraudScansRec
 
-    console.log("allFraudScansData",allFraudScansData)
+    console.log("allFraudScansData", allFraudScansData)
 
     useEffect(() => {
         let distributerFailData = allFraudScansData.filter((arr) => arr.isDistributor === true);
 
         setDistributerScansFail(distributerFailData)
         setFilterDistributerScansFail(distributerFailData)
-        
+
 
         var a = [{ scannedDistance: "There are no record to display" }];
-        
-    
+
+
         setLoading(true);
         if (
             distributerFailData != 0 &&
@@ -97,9 +97,9 @@ const DistributerScansFail = () => {
         ) {
             setFilterDistributerScansFail(distributerFailData);
         } else {
-          setLoading(false);
-    
-          setFilterDistributerScansFail(a);
+            setLoading(false);
+
+            setFilterDistributerScansFail(a);
         }
 
     }, [initialFraudScansdata])
@@ -134,7 +134,7 @@ const DistributerScansFail = () => {
 
                     ]);
                 });
-            }else {
+            } else {
                 FilterDistributerScansFail.map((val) => {
                     csvData.push([
                         `${val.Name}`,
@@ -158,9 +158,7 @@ const DistributerScansFail = () => {
             <div className="md:ml-32">
                 <div className="pt-14 pb-28 px-3 md:px-8 h-auto">
                     <div className="container mx-auto max-w-full">
-                        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-5">
-                            <MainStatusCard />
-                        </div>
+                        <MainStatusCard />
                     </div>
                 </div>
                 <div className="px-3 md:px-8 h-auto -mt-24">
@@ -171,13 +169,13 @@ const DistributerScansFail = () => {
                                 columns={columns}
                                 noDataComponent={
                                     <div>
-                                      <h4>Loading....</h4>
-                                      <img
-                                        style={{ width: "20px", height: "20px" }}
-                                        src={loader}
-                                      ></img>
+                                        <h4>Loading....</h4>
+                                        <img
+                                            style={{ width: "20px", height: "20px" }}
+                                            src={loader}
+                                        ></img>
                                     </div>
-                                  }
+                                }
                                 data={FilterDistributerScansFail}
                                 pagination
                                 fixedHeader

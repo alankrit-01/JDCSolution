@@ -11,8 +11,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getDistributer, getProductTemplate, storeBatchTemplate } from 'Services/action';
 import Papa from 'papaparse';
-
+import Select from "react-select";
 const AddBatchTemplate = () => {
+    const [selectedOptions, setSelectedOptions] = useState();
     const factoryData = useSelector((state) => state.FactoryLoginData);
     const [factoryUserLocation, setFactoryUserLocation] = useState(factoryData.factoryUserAddress);
     const [factoryUserId, setFactoryUserId] = useState(factoryData.factoryUserId);
@@ -47,13 +48,13 @@ const AddBatchTemplate = () => {
     const [batchSize, setBatchSize] = useState('');
     const [batchDescription, setBatchDescription] = useState('');
     const [companyBatchID, setCompanyBatchID] = useState('');
-     const batchManufacture = new Date().toLocaleString();
+    const batchManufacture = new Date().toLocaleString();
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         const productIds = [];
         const companyProductIDs = [];
-        
+
 
         let batchSizeData = '';
 
@@ -69,7 +70,7 @@ const AddBatchTemplate = () => {
                     batchTemplateId + i
                 )
             }
-           
+
 
         } else {
             for (let i = 1; i <= batchSize; i++) {
@@ -82,17 +83,17 @@ const AddBatchTemplate = () => {
         }
 
         const data = {
-            batchID:batchTemplateId.toString(),
-            companyBatchID:companyBatchID,
-            productIDs:productIds,
-            companyProductIDs:companyProductIDs,
-            batchSize:batchSizeData,
-            batchDescription:batchDescription,
-            productTemplateID:productId.toString(),
-            factoryID:factoryUserId,
-            distributorID:distributer,
-            factoryLocation:factoryUserLocation,
-            dataOfProduction:batchManufacture 
+            batchID: batchTemplateId.toString(),
+            companyBatchID: companyBatchID,
+            productIDs: productIds,
+            companyProductIDs: companyProductIDs,
+            batchSize: batchSizeData,
+            batchDescription: batchDescription,
+            productTemplateID: productId.toString(),
+            factoryID: factoryUserId,
+            distributorID: distributer,
+            factoryLocation: factoryUserLocation,
+            dataOfProduction: batchManufacture
         }
 
         //console.log("data data", data)
@@ -100,11 +101,11 @@ const AddBatchTemplate = () => {
     }
 
     const initialBatchTemplateStoredata = useSelector((state) => state.StoreBatchTemplateData);
-        useMemo(() => {
-            if (initialBatchTemplateStoredata.success == true) {
-                navigate('/factory/batchTemplate')
-            }
-        }, [initialBatchTemplateStoredata])
+    useMemo(() => {
+        if (initialBatchTemplateStoredata.success == true) {
+            navigate('/factory/batchTemplate')
+        }
+    }, [initialBatchTemplateStoredata])
 
     useEffect(() => {
         dispatch(getDistributer())
@@ -146,6 +147,11 @@ const AddBatchTemplate = () => {
             },
         });
     };
+
+    function handleSelect(data) {
+        setSelectedOptions(data);
+    }
+
     return (
         <>
             <FactorySidebar />
@@ -161,7 +167,7 @@ const AddBatchTemplate = () => {
                     <div className="container mx-auto max-w-full">
                         <div className="grid grid-cols-1 xl:grid-cols-6">
                             <div className="xl:col-start-1 xl:col-end-7 px-4 mb-16">
-                               
+
                                 <Card>
                                     <CardHeader color="purple" contentPosition="none">
                                         <div className="w-full flex items-center justify-between">
@@ -174,19 +180,34 @@ const AddBatchTemplate = () => {
                                         {productIdsData}
                                         <form onSubmit={handleSubmit}>
                                             <div className="flex flex-wrap mt-10">
-                                            <div className="w-screen flex flex-wrap mt-10 font-light">
-                                                        <span><b>Company Batch ID</b></span>
-                                                        <Input
-                                                            type="text"
-                                                            color="purple"
-                                                            name="companyBatchID"
-                                                            required
-                                                            value={companyBatchID} onChange={(e) => setCompanyBatchID(e.target.value)}
-                                                        />
-                                                    </div>
+                                                <div className="w-screen flex flex-wrap mt-10 font-light">
+                                                    <span><b>Company Batch ID</b></span>
+                                                    <Input
+                                                        type="text"
+                                                        color="purple"
+                                                        name="companyBatchID"
+                                                        required
+                                                        value={companyBatchID} onChange={(e) => setCompanyBatchID(e.target.value)}
+                                                    />
+                                                </div>
                                                 <div className="w-screen flex flex-wrap mt-10 font-light">
                                                     <span><b>Product Template ID</b></span>
-                                                    <select id="productId" name="productId" color="purple" class="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer" onChange={(e) => setProductId(e.target.value)}>
+
+                                                    <Select
+                                                        id="productId"
+                                                        name="productId"
+                                                        color="purple"
+                                                        className="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
+                                                        options={allProductTemplatedata}
+                                                        placeholder="Choose a Product Template Id"
+                                                        value={selectedOptions}
+                                                        onChange={handleSelect}
+                                                        isSearchable={true}
+                                                        getOptionValue={(option) => option.ProductTemplateID}
+                                                        getOptionLabel={(option) => `${option.ProductTemplateID} - ${option.Name}`}
+
+                                                    />
+                                                    {/* <select id="productId" name="productId" color="purple" class="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer" onChange={(e) => setProductId(e.target.value)}>
                                                         <option selected>Choose a Product Template Id</option>
                                                         {
                                                             allProductTemplatedata && allProductTemplatedata.map((allProductTemplateRec) =>
@@ -195,7 +216,7 @@ const AddBatchTemplate = () => {
                                                                 </option>
                                                             )
                                                         }
-                                                    </select>
+                                                    </select> */}
                                                 </div>
                                                 <div className="w-screen flex flex-wrap mt-10 font-light">
                                                     <span><b>Select Product Id</b></span>
@@ -240,12 +261,25 @@ const AddBatchTemplate = () => {
                                                 </div>
                                                 <div className="w-screen flex flex-wrap mt-10 font-light">
                                                     <span><b>Select Distributer</b></span>
-                                                    <select id="distributer" name="distributer" color="purple" class="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer" onChange={(e) => setDistributer(e.target.value)}>
+                                                    {/* <select id="distributer" name="distributer" color="purple" class="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer" onChange={(e) => setDistributer(e.target.value)}>
                                                         <option selected>Choose a Distributer </option>
                                                         {distributerlist}
-                                                    </select>
+                                                    </select> */}
+
+                                                    <Select
+                                                        id="distributer"
+                                                        name="distributer"
+                                                        color="purple"
+                                                        className="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
+                                                        options={distributerlist}
+                                                        placeholder="Choose a Distributer"
+                                                        value={selectedOptions}
+                                                        onChange={handleSelect}
+                                                        getOptionLabel={(option) => `${option.name}`}
+                                                        isSearchable={true}
+                                                    />
                                                 </div>
-                                              
+
                                             </div>
                                             <div className="flex mt-10">
                                                 <div className="w-full lg:w-6/12 pr-4 mb-10 font-light">
