@@ -8,6 +8,9 @@ const multer = require('multer');
 var util = require('util'); 
 var encoder = new util.TextEncoder('utf-8'); 
 const verificationData = require('./models/verificationData'); 
+const productTemplate = require('./models/productTemplate'); 
+const batchTemplate = require('./models/batchTemplate'); 
+const batch = require('./models/batch'); 
 const fraudScan = require('./models/fraudScan'); 
 const User = require('./models/users');
 
@@ -26,7 +29,7 @@ mongoose.connect('mongodb+srv://vipin:ldOGGLOXWNcP6OjK@cluster0.y8ufn.mongodb.ne
 optionSuccessStatus:200
 const contractAbi = require('./artifacts/contracts/Supplychain.sol/Supplychain.json')
 
-let contractAddress ="0x07f80cc185BB93761cBd68b139aD9208eF1B2219"; 
+let contractAddress ="0x0b440C24Fa3844Cb0067a4702Ce6b961023e1A6b"; 
 let contract;
 app.use(express.json()); 
 app.use(cors());
@@ -47,6 +50,7 @@ connectToMatic();
 
 ////////////////// API FOR FACTORY ///////////////////////
 
+
 app.post('/api/factoryAddProductTemplate',async(req,res)=>{
   try {
     const productTemplateID =req.body.productTemplateID;
@@ -57,6 +61,20 @@ app.post('/api/factoryAddProductTemplate',async(req,res)=>{
     tx.wait();
     console.log("Transaction completed!");
 
+    const Data= new productTemplate({
+      _id: new mongoose.Types.ObjectId(),
+      ProductTemplateID:productTemplateID,
+      Name:productName,
+      Description:productDescription,
+      FactoryID:factoryID,
+    })
+
+    Data.save().then((result) => {
+      console.log(result);
+      // res.status(200).json({status:"success",}); 
+      // res.status(400).send({ error: error.message });
+    }).catch((err) => console.warn(err)) 
+
     res.status(200).json({status:"success", message:"Product template added"});
   } catch (error) {
     console.log(error.message);
@@ -66,29 +84,26 @@ app.post('/api/factoryAddProductTemplate',async(req,res)=>{
 
 
 app.get('/api/viewListOfProductTemplates', async (req, res) => {
-  // console.log('sdsd')
   try { 
     let result=[];
     const factoryID= req.query.factoryID;
-    let array =await contract.getAllProductTemplateIDs()
-    // console.log(array)
-    for(let i=0;i<array.length; i++){
-      let data =await contract.ProductTemplateMAP(array[i]);  
-      if(data.FactoryID==factoryID){
-        // console.log(data);   
-        result.push({
-          ProductTemplateID :data[0].toNumber(),
-          Name :data[1],
-          Description :data[2],
-          FactoryID :data[3], 
-        })
-      } 
-    }  
-    if(result){
+    productTemplate.find().then((array) => {
+      for(let i=0;i<array.length; i++){
+        data =array[i];
+        if(data.FactoryID==factoryID){
+          result.push({
+            ProductTemplateID :data.ProductTemplateID,
+            Name :data.Name,
+            Description :data.Description,
+            FactoryID :data.FactoryID, 
+          })
+        } 
+      }  
       res.status(200).json({status:"success", message:result});
-    }else {
+    }).catch((error) => {
+      console.log(error);
       res.status(200).json({status:"success", message:"Returned data is empty"});
-    }
+    })
   } catch (error) {
     console.log(error.message);
     res.status(400).send({ error: error.message });
@@ -106,6 +121,21 @@ app.post('/api/factoryAddBatchTemplate',async(req,res)=>{
     tx.wait();
     console.log("Transaction completed!");
 
+    const Data= new batchTemplate({
+      _id: new mongoose.Types.ObjectId(),
+      BatchTemplateID:batchTemplateID,
+      ProductTemplateID:productTemplateID,
+      Description:batchDescription,
+      BatchSize:batchSize,
+      FactoryID:factoryID
+    })
+
+    Data.save().then((result) => {
+      console.log(result);
+      // res.status(200).json({status:"success",}); 
+      // res.status(400).send({ error: error.message });
+    }).catch((err) => console.warn(err)) 
+
     res.status(200).json({status:"success", message:"Batch template added"});
   } catch (error) {
     console.log(error.message);
@@ -114,33 +144,31 @@ app.post('/api/factoryAddBatchTemplate',async(req,res)=>{
 })   
 
 app.get('/api/viewListOfBatchTemplates', async (req, res) => {
-  try {
-    let result=[];          
+  try { 
+    let result=[];
     const factoryID= req.query.factoryID;
-    let array =await contract.getAllBatchTemplateIDs()
-    // console.log(array)
-    for(let i=0;i<array.length; i++){
-      let data =await contract.BatchTemplateMAP(array[i]);  
-      if(data.FactoryID==factoryID){
-        // console.log(data);   
-        result.push({
-          BatchTemplateID:data[0].toNumber(),
-          ProductTemplateID :data[1].toNumber(),
-          Description :data[2],
-          BatchSize :data[3].toNumber(),
-          FactoryID :data[4], 
-        })
-      } 
-    }  
-    if(result){
+    batchTemplate.find().then((array) => {
+      for(let i=0;i<array.length; i++){
+        data =array[i];
+        if(data.FactoryID==factoryID){
+          result.push({
+            BatchTemplateID :data.BatchTemplateID,
+            ProductTemplateID :data.ProductTemplateID,
+            Description :data.Description,
+            BatchSize :data.BatchSize, 
+            FactoryID: data.FactoryID
+          })
+        } 
+      }  
       res.status(200).json({status:"success", message:result});
-    }else {
+    }).catch((error) => {
+      console.log(error);
       res.status(200).json({status:"success", message:"Returned data is empty"});
-    }
+    })
   } catch (error) {
     console.log(error.message);
     res.status(400).send({ error: error.message });
-  } 
+  }
 });
 
 app.post('/api/factoryAddBatch',async(req,res)=>{
@@ -155,11 +183,35 @@ app.post('/api/factoryAddBatch',async(req,res)=>{
     const factoryID =req.body.factoryID; 
     const distributorID =req.body.distributorID; 
     const factoryLocation =req.body.factoryLocation; 
-    const dataOfProduction =req.body.dataOfProduction; 
+    const dateOfProduction =req.body.dateOfProduction; 
 
-    const tx =await contract.batchProduced(batchID,companyBatchID,productIDs,companyProductIDs,batchSize,batchDescription,productTemplateID,factoryID,distributorID,factoryLocation,dataOfProduction);
+    const tx =await contract.batchProduced(batchID,companyBatchID,productIDs,companyProductIDs,batchSize,batchDescription,productTemplateID,factoryID,distributorID,factoryLocation,dateOfProduction);
     tx.wait();
     console.log("Transaction completed!");
+
+    const Data= new batch({
+      _id: new mongoose.Types.ObjectId(),
+      BatchID:batchID,     
+      BatchSize:batchSize,  
+      AmountSoldTOCustomer:0,  
+      BatchDescription:batchDescription,     
+      ProductTemplateID:productTemplateID,    
+      FactoryID:factoryID,
+      DistributorID:distributorID,
+      FactoryLocation:factoryLocation,
+      DateOfProduction:dateOfProduction,
+      State: 0,
+      DistributorScanned: false,
+      DistributorScannedTimeStamp: "",
+      AmountLeftForSellingTORetailer:batchSize,
+      CompanyBatchID:companyBatchID
+    })
+
+    Data.save().then((result) => {
+      console.log(result);
+      // res.status(200).json({status:"success",}); 
+      // res.status(400).send({ error: error.message });
+    }).catch((err) => console.warn(err)) 
 
     res.status(200).json({status:"success", message:"Factory adds a batch"});
   } catch (error) {
@@ -170,44 +222,42 @@ app.post('/api/factoryAddBatch',async(req,res)=>{
 
 
 app.get('/api/viewListOfBatchesProducedByFactory', async (req, res) => {
-  try {
-    let result=[];          
+  try { 
+    let result=[];
     const factoryID= req.query.factoryID;
-    let array =await contract.getAllBatchIDs()
-
-    for(let i=0;i<array.length; i++){
-      const batchData =await contract.BatchMapping(array[i]);
-      if(batchData.FactoryID==factoryID){
-        let productTemplateData =await contract.ProductTemplateMAP(batchData[4]);
-
-        result.push({
-          BatchID :batchData[0].toNumber(),
-          BatchSize :batchData[1].toNumber(),
-          AmountSoldTOCustomer :batchData[2].toNumber(),
-          BatchDescription :batchData[3],
-          Name: productTemplateData[1],
-          Description: productTemplateData[2],
-          FactoryID:batchData[5],
-          DistributorID:batchData[6],
-          FactoryLocation:batchData[7],
-          DateOfProduction:batchData[8],
-          State:batchData[9].toNumber(),
-          DistributorScanned:batchData[10], 
-          DistributorScannedTimeStamp :batchData[11],      
-          AmountLeftForSellingTORetailer:batchData[12].toNumber(), 
-          CompanyBatchID:batchData[13].toNumber() 
-        })              
-      } 
-    }  
-    if(result){
+    batch.find().then((array) => {
+      for(let i=0;i<array.length; i++){
+        batchData =array[i];
+        if(batchData.FactoryID==factoryID){
+          result.push({
+            BatchID :batchData.BatchID,
+            BatchSize :batchData.BatchSize,
+            AmountSoldTOCustomer :batchData.AmountSoldTOCustomer,
+            BatchDescription :batchData.BatchDescription,
+            Name: batchData.Name,
+            Description: batchData.Description,
+            FactoryID:batchData.FactoryID,
+            DistributorID:batchData.DistributorID,
+            FactoryLocation:batchData.FactoryLocation,
+            DateOfProduction:batchData.DateOfProduction,
+            State:batchData.State,
+            DistributorScanned:batchData.DistributorScanned, 
+            DistributorScannedTimeStamp :batchData.DistributorScannedTimeStamp,      
+            AmountLeftForSellingTORetailer:batchData.AmountLeftForSellingTORetailer, 
+            CompanyBatchID:batchData.CompanyBatchID
+          })
+        } 
+      }  
       res.status(200).json({status:"success", message:result});
-    }else {
+    }).catch((error) => {
+      console.log(error);
       res.status(200).json({status:"success", message:"Returned data is empty"});
-    }
-  } catch (error) {                                   
-    console.log(error.message);                       
-    res.status(400).send({ error: error.message });   
-  } 
+    })
+  } catch (error) {
+    console.log(error.message);
+    res.status(400).send({ error: error.message });
+  }
+
 }); 
 
 app.get('/api/viewBatchRecordByBatchId', async (req, res) => {
@@ -219,7 +269,7 @@ app.get('/api/viewBatchRecordByBatchId', async (req, res) => {
     let productInfo=[]; 
     const productIDs =await contract.getProductIdsForaBatch(batchID);
     let productTemplateData =await contract.ProductTemplateMAP(batchData[4])
-
+    
     for(let j=0; j<productIDs.length; j++){
       let productData =await contract.ProductMapping(productIDs[j])
     
