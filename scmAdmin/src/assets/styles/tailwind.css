@@ -2953,7 +2953,7 @@ span.rcheckRec {
     color: #000000 !important;
 }
 .bg-customm-color {
-    background-color: #0a1d3d;
+    background-color: #0c3f6a;
 }
 a.flex.items-center.gap-4.text-sm.text-gray-700.font-light.px-4.py-3.rounded-lg.active {
     color: #ffffff;
@@ -3034,6 +3034,11 @@ h5.add-batch-dashboard-title {
 }
 .profile-button .leading-normal {
     line-height: 1.9;
+}
+.heading-background{
+    background: #0c3f6a;
+    color: #ffffff;
+    padding: 5px 10px;
 }
 .hover\:scale-105:hover{
 	--tw-scale-x: 1.05;

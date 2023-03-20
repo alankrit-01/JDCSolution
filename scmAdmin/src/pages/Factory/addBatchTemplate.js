@@ -271,11 +271,11 @@ const AddBatchTemplate = () => {
                                                         name="distributer"
                                                         color="purple"
                                                         className="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
-                                                        options={distributerlist}
+                                                        options={distributerdatarec}
                                                         placeholder="Choose a Distributer"
                                                         value={selectedOptions}
                                                         onChange={handleSelect}
-                                                        getOptionLabel={(option) => `${option.name}`}
+                                                        getOptionLabel={(option) => `${option.name} ( ${option.address} )` }
                                                         isSearchable={true}
                                                     />
                                                 </div>

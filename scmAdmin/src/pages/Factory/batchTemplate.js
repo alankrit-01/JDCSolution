@@ -83,6 +83,8 @@ const BatchTemplate = () => {
     const initialBatchTemplatedata = useSelector((state) => state.BatchTemplateRecord);
     const initialBatchTemplateStoredata = useSelector((state) => state.StoreBatchTemplateData);
 
+    console.log("initialBatchTemplatedata",initialBatchTemplatedata)
+
 
     useMemo(() => {
         if (initialBatchTemplateStoredata.success == true) {

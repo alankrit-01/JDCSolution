@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Papa from 'papaparse';
 import { storeMultiUser } from 'Services/action';
-const AddMultiUser = () => {
+const AddMultiUser = () => { 
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -25,7 +25,7 @@ const AddMultiUser = () => {
     
     const admindata = useSelector((state) => state.AdminLoginData);
     const [adminUserId, setAdminUserId] = useState(admindata.adminUserId);
-
+ 
     const changeHandler = (event) => {
         // Passing file data (event.target.files[0]) to parse using Papa.parse
         Papa.parse(event.target.files[0], {

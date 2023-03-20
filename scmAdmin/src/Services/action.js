@@ -170,9 +170,8 @@ export const storeMultiUser = (data) =>{
     return{
         type:Store_Multi_User,
         data:data 
-    } 
-}
-
+    }  
+} 
 export const storeCompanyFeedback = (data) =>{
     return{
         type:Store_Company_Feedback,
