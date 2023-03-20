@@ -5,7 +5,7 @@ let batch = new mongoose.Schema({
     BatchSize:Number,  
     AmountSoldTOCustomer:Number,  
     BatchDescription:String,     
-    ProductTemplateID:Number,    
+    ProductTemplateID:Number,   
     FactoryID:String,
     DistributorID:String,
     FactoryLocation:String,
@@ -14,7 +14,8 @@ let batch = new mongoose.Schema({
     DistributorScanned: Boolean,
     DistributorScannedTimeStamp: String,
     AmountLeftForSellingTORetailer:Number,
-    CompanyBatchID:Number
+    CompanyBatchID:Number,
+    ProductIDs:[Number]
 })
 module.exports=mongoose.model('batch',batch)    
 

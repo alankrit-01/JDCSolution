@@ -152,7 +152,7 @@ contract Supplychain{
             CompanyBatchID:companyBatchID
         }); 
         BatchIDs.push(batchID); 
-        BatchIDToProductIDMapping[batchID]= productIDs;
+        BatchIDToProductIDMapping[batchID]= productIDs; 
         for(uint i=0;i<batchSize; i++){
             require(checkInProductIDs(productIDs[i])==false,"ProductID already exists in the system");
             ProductMapping[productIDs[i]]=Product({
@@ -174,12 +174,7 @@ contract Supplychain{
             ProductIDs.push(productIDs[i]);
         }   
     }    
-
-    // Cases  
-    // Distributor scans a batch -  
-    // Already data - distributor ID -> location 
-    // If distributor scans from another location - batch can't be scanned entry to central database (Location error detected)
-    //          
+       
     function distributorScansBatch(uint batchID, string memory _distributorID,string memory timeStamp) public{
         require(BatchMapping[batchID].DistributorScanned==false,"This batch is already scanned by the distributor");
         require(keccak256(abi.encodePacked(BatchMapping[batchID].DistributorID))== keccak256(abi.encodePacked(_distributorID)),"This batch is not owned by this distributor");
