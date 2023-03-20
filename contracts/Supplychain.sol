@@ -179,7 +179,7 @@ contract Supplychain{
     // Distributor scans a batch -  
     // Already data - distributor ID -> location 
     // If distributor scans from another location - batch can't be scanned entry to central database (Location error detected)
-    // 
+    //          
     function distributorScansBatch(uint batchID, string memory _distributorID,string memory timeStamp) public{
         require(BatchMapping[batchID].DistributorScanned==false,"This batch is already scanned by the distributor");
         require(keccak256(abi.encodePacked(BatchMapping[batchID].DistributorID))== keccak256(abi.encodePacked(_distributorID)),"This batch is not owned by this distributor");
