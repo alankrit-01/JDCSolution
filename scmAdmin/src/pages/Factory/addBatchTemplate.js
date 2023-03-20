@@ -13,7 +13,9 @@ import { getDistributer, getProductTemplate, storeBatchTemplate } from 'Services
 import Papa from 'papaparse';
 import Select from "react-select";
 const AddBatchTemplate = () => {
-    const [selectedOptions, setSelectedOptions] = useState();
+    const [selectedProduct, setSelectedProduct] = useState();
+    const [selectedDistributer, setSelectedDistributer] = useState();
+
     const factoryData = useSelector((state) => state.FactoryLoginData);
     const [factoryUserLocation, setFactoryUserLocation] = useState(factoryData.factoryUserAddress);
     const [factoryUserId, setFactoryUserId] = useState(factoryData.factoryUserId);
@@ -81,7 +83,6 @@ const AddBatchTemplate = () => {
             }
             batchSizeData = batchSize
         }
-
         const data = {
             batchID: batchTemplateId.toString(),
             companyBatchID: companyBatchID,
@@ -89,9 +90,9 @@ const AddBatchTemplate = () => {
             companyProductIDs: companyProductIDs,
             batchSize: batchSizeData,
             batchDescription: batchDescription,
-            productTemplateID: productId.toString(),
+            productTemplateID: selectedProduct.ProductTemplateID.toString(),
             factoryID: factoryUserId,
-            distributorID: distributer,
+            distributorID: selectedDistributer._id.toString(),
             factoryLocation: factoryUserLocation,
             dataOfProduction: batchManufacture
         }
@@ -113,16 +114,16 @@ const AddBatchTemplate = () => {
 
     const distributerdata = useSelector((state) => state.DistributerRecord);
     let distributerdatarec = distributerdata.distributerRec
-    const distributerlist = [];
-    if (distributerdatarec && distributerdatarec.length > 0) {
-        for (let i = 0; i < distributerdatarec.length; i++) {
-            distributerlist.push(
-                <>
-                    <option value={distributerdatarec[i]._id.toString()}>{distributerdatarec[i].name}</option>
-                </>
-            )
-        }
-    }
+    // const distributerlist = [];
+    // if (distributerdatarec && distributerdatarec.length > 0) {
+    //     for (let i = 0; i < distributerdatarec.length; i++) {
+    //         distributerlist.push(
+    //             <>
+    //                 <option value={distributerdatarec[i]._id.toString()}>{distributerdatarec[i].name}</option>
+    //             </>
+    //         )
+    //     }
+    // }
 
     const [parsedData, setParsedData] = useState([]);
     //State to store the values
@@ -148,8 +149,11 @@ const AddBatchTemplate = () => {
         });
     };
 
-    function handleSelect(data) {
-        setSelectedOptions(data);
+    function selectDistibuter(data) {
+        setSelectedDistributer(data);
+    }
+    function selectProductTem(data) {
+        setSelectedProduct(data);
     }
 
     return (
@@ -200,8 +204,8 @@ const AddBatchTemplate = () => {
                                                         className="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
                                                         options={allProductTemplatedata}
                                                         placeholder="Choose a Product Template Id"
-                                                        value={selectedOptions}
-                                                        onChange={handleSelect}
+                                                        value={selectedProduct}
+                                                        onChange={selectProductTem}
                                                         isSearchable={true}
                                                         getOptionValue={(option) => option.ProductTemplateID}
                                                         getOptionLabel={(option) => `${option.ProductTemplateID} - ${option.Name}`}
@@ -273,9 +277,10 @@ const AddBatchTemplate = () => {
                                                         className="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
                                                         options={distributerdatarec}
                                                         placeholder="Choose a Distributer"
-                                                        value={selectedOptions}
-                                                        onChange={handleSelect}
-                                                        getOptionLabel={(option) => `${option.name} ( ${option.address} )` }
+                                                        value={selectedDistributer}
+                                                        onChange={selectDistibuter}
+                                                        getOptionValue={(option) => option._id.toString()}
+                                                        getOptionLabel={(option) => `${option.name}`}
                                                         isSearchable={true}
                                                     />
                                                 </div>

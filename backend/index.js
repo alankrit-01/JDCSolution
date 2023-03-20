@@ -778,8 +778,6 @@ app.get('/api/authenticateProduct',async(req,res)=>{
   }
 })
 
-
-
 /////////////////////////////// ADMIN APIS //////////////////////////////////////////
 
 app.get('/api/getFraudScans', function (req, res) {
@@ -802,21 +800,15 @@ app.get('/api/viewLevelCounts', async (req, res) => {
       // console.log(data);
       res.status(200).json(data)
     })
-    
-
   } catch (error) {
     console.log(error.message);
     res.status(400).send({ error: error.message });
   }
 });
-
-
 app.get('/', function (req, res) {
     // console.log(web3)
     res.send('Hello World');
 })
-
-
 var server = app.listen(8082, function () {
     console.log("Example app listening at http://127:0:0:1:8082")
 })
