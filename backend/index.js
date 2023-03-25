@@ -22,12 +22,13 @@ var encoder = new util.TextEncoder('utf-8');
 require('dotenv').config() 
 const app = express();     
 
-mongoose.connect(process.env.MONGO_URL, {useNewUrlParser: true, useUnifiedTopology: true}).then(()=>console.log("Connected"));
+MONGO_URL="mongodb+srv://vipin:vipinrichmint@cluster0.y8ufn.mongodb.net/nodedatabase?retryWrites=true&w=majority"
+mongoose.connect(MONGO_URL, {useNewUrlParser: true, useUnifiedTopology: true}).then(()=>console.log("Connected"));
 
 optionSuccessStatus:200
 const contractAbi = require('./artifacts/contracts/Supplychain.sol/Supplychain.json')
 
-let contractAddress ="0xa16d65f6d06795e9fE09a2766A208687e377aFf8";  
+let contractAddress ="0x737513adcf847108f1A97bA9e8f02674B0b9cE43";  
 let contract; 
 app.use(express.json()); 
 app.use(cors()); 
@@ -49,7 +50,7 @@ connectToMatic();
 
 const connectToMongoDB = async () => {
   try {    
-    let client = await MongoClient.connect(process.env.MONGO_URL);
+    let client = await MongoClient.connect(MONGO_URL);
     let db = client.db();
     let session = client.startSession();
     let transactionOptions = {
@@ -217,37 +218,6 @@ app.post('/api/factoryAddBatch',async(req,res)=>{
 
   let {client,session,transactionOptions} =await connectToMongoDB(); 
 
-  // const products=[];
-  // for(let i=0; i<batchSize; i++){
-  //   const p =new product({
-  //     _id: new mongoose.Types.ObjectId(),
-  //     ProductID:productIDs[i],
-  //     CompanyProductID:companyBatchID[i], 
-  //     BatchID:batchID,
-  //     ProductTemplateID:productTemplateID, 
-  //     DOM:dateOfProduction,
-  //     CustomerID:"",
-  //     RetailerID:"",
-  //     RetailerScanned:false,    
-  //     RetailerScannedTimeStamp:"",
-  //     DateWhenSoldToRetailer:"",
-  //     DateWhenSoldToCustomer:"",
-  //     RetailerLatitude:"",
-  //     RetailerLongitude:"",
-  //     CustomerName:""
-  //   })
-  //   products.push(p);
-  // }
-
-  // console.log(products);
-  // product.insertMany(products).then(function(){
-  //       console.log("Data inserted") 
-  //   }).catch(function(error){
-  //       console.log(error)     
-  //   });
-
-
-
   try {
     await session.withTransaction(async () => {
       const tx =await contract.batchProduced(batchID,companyBatchID,productIDs,companyProductIDs,batchSize,batchDescription,productTemplateID,factoryID,distributorID,factoryLocation,dateOfProduction);
@@ -271,7 +241,37 @@ app.post('/api/factoryAddBatch',async(req,res)=>{
         AmountLeftForSellingTORetailer:batchSize,
         CompanyBatchID:companyBatchID
       }) 
-    
+
+      // const products=[];
+      // for(let i=0; i<batchSize; i++){
+      //   const p =new product({
+      //     _id: new mongoose.Types.ObjectId(),
+      //     ProductID:productIDs[i],
+      //     CompanyProductID:companyBatchID[i], 
+      //     BatchID:batchID,
+      //     ProductTemplateID:productTemplateID, 
+      //     DOM:dateOfProduction,
+      //     CustomerID:"",
+      //     RetailerID:"",
+      //     RetailerScanned:false,    
+      //     RetailerScannedTimeStamp:"",
+      //     DateWhenSoldToRetailer:"",
+      //     DateWhenSoldToCustomer:"",
+      //     RetailerLatitude:"",
+      //     RetailerLongitude:"",
+      //     CustomerName:""
+      //   })
+      //   products.push(p);
+      // }
+
+      // console.log(products);
+      
+      // product.insertMany(products,{session}).then(function(){
+      //     console.log("Data inserted") 
+      // }).catch(function(error){
+      //     console.log(error)     
+      // });
+      
       Data.save({session}).then(result=>console.log(result));
 
     }, transactionOptions);

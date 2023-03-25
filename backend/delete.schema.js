@@ -8,8 +8,10 @@ const globalID = require('./models/globalID');
 const fraudScan = require('./models/fraudScan'); 
 
 require('dotenv').config() 
-mongoose.connect(process.env.MONGO_URL, {useNewUrlParser: true, useUnifiedTopology: true}).then(()=>console.log("Connected"));
-
+// mongoose.connect(process.env.MONGO_URL, {useNewUrlParser: true, useUnifiedTopology: true}).then(()=>console.log("Connected"));
+mongoose.connect("mongodb+srv://vipin:vipinrichmint@cluster0.y8ufn.mongodb.net/nodedatabase?retryWrites=true&w=majority", {useNewUrlParser: true, useUnifiedTopology: true}).then(()=>console.log("Connected"));
+// vipinrichmint
+// ldoggloxwncp6ojk
 
 verificationData.deleteMany({}, (err) => {
   if (err) {
