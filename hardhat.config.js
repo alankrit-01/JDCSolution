@@ -1,15 +1,9 @@
-// require("@nomicfoundation/hardhat-toolbox");
 require("@nomiclabs/hardhat-etherscan");
 require('hardhat-contract-sizer');
 require("@nomiclabs/hardhat-waffle");
-// require("@nomiclabs/hardhat-waffle");
 
-/** @type import('hardhat/config').HardhatUserConfig */
-// set proxy  
-// const { ProxyAgent, setGlobalDispatcher } = require("undici");
-// const proxyAgent = new ProxyAgent('http://127.0.0.1:7890'); // change to yours
-// setGlobalDispatcher(proxyAgent);   
-
+require('dotenv').config() 
+ 
 module.exports = {
   solidity: {
     version: "0.8.17",
@@ -27,13 +21,13 @@ module.exports = {
     goerli: {
       url: "https://goerli.infura.io/v3/08d0a9d1045146dc888e62677f83e772", //Infura url with projectId
       accounts: [
-        "9ddfdc9f5611dae1fd7dd3874529480f54cd14d5e511e9c0dddc88c38fba69ce",
+        process.env.PRIVATEKEY,
       ], // add the account that will deploy the contract (private key)
       // ["ALANKRIT 2"]
     },    
     matic: {
       url: "https://rpc-mumbai.maticvigil.com",
-      accounts: ["9ddfdc9f5611dae1fd7dd3874529480f54cd14d5e511e9c0dddc88c38fba69ce"]  // Alankrit private key
+      accounts: [process.env.PRIVATEKEY]  // Alankrit private key
     }
   },
   etherscan: {
