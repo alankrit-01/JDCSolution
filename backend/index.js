@@ -20,19 +20,21 @@ var encoder = new util.TextEncoder('utf-8');
 
 
 require('dotenv').config() 
-const app = express();      
+const app = express();     
 
 mongoose.connect(process.env.MONGO_URL, {useNewUrlParser: true, useUnifiedTopology: true}).then(()=>console.log("Connected"));
 
 optionSuccessStatus:200
 const contractAbi = require('./artifacts/contracts/Supplychain.sol/Supplychain.json')
 
-let contractAddress ="0xA924F941338aF7Eb12C77efC851D60A0641AC4E8"; 
-let contract;
+let contractAddress ="0xa16d65f6d06795e9fE09a2766A208687e377aFf8";  
+let contract; 
 app.use(express.json()); 
-app.use(cors());
+app.use(cors()); 
 
 const connectToMatic = async () => {
+  optionSuccessStatus:200
+  const contractAbi = require('./artifacts/contracts/Supplychain.sol/Supplychain.json')
   try {    
     const provider = new ethers.providers.JsonRpcProvider("https://rpc-mumbai.maticvigil.com");
     const signer = new ethers.Wallet(process.env.PRIVATEKEY, provider);  
@@ -99,8 +101,9 @@ app.post('/api/factoryAddProductTemplate',async(req,res)=>{
   } finally {
     await session.endSession();
     await client.close();
-  } 
+  }   
 })    
+
 
 
 app.get('/api/viewListOfProductTemplates', async (req, res) => {
@@ -198,19 +201,6 @@ app.get('/api/viewListOfBatchTemplates', async (req, res) => {
   }
 });
 
-// function checkInBatchIDs( _productID){
-//   for(let i=0; i<ProductIDs.length; i++){
-//       if(ProductIDs[i]==_productID) return true;
-//   } 
-//   return false;
-// } 
-
-// function checkInProductIDs( _productID){
-//   for(let i=0; i<ProductIDs.length; i++){
-//       if(ProductIDs[i]==_productID) return true;
-//   } 
-//   return false;
-// } 
 
 app.post('/api/factoryAddBatch',async(req,res)=>{
   const batchID =req.body.batchID;
@@ -226,59 +216,68 @@ app.post('/api/factoryAddBatch',async(req,res)=>{
   const dateOfProduction =req.body.dateOfProduction; 
 
   let {client,session,transactionOptions} =await connectToMongoDB(); 
+
+  // const products=[];
+  // for(let i=0; i<batchSize; i++){
+  //   const p =new product({
+  //     _id: new mongoose.Types.ObjectId(),
+  //     ProductID:productIDs[i],
+  //     CompanyProductID:companyBatchID[i], 
+  //     BatchID:batchID,
+  //     ProductTemplateID:productTemplateID, 
+  //     DOM:dateOfProduction,
+  //     CustomerID:"",
+  //     RetailerID:"",
+  //     RetailerScanned:false,    
+  //     RetailerScannedTimeStamp:"",
+  //     DateWhenSoldToRetailer:"",
+  //     DateWhenSoldToCustomer:"",
+  //     RetailerLatitude:"",
+  //     RetailerLongitude:"",
+  //     CustomerName:""
+  //   })
+  //   products.push(p);
+  // }
+
+  // console.log(products);
+  // product.insertMany(products).then(function(){
+  //       console.log("Data inserted") 
+  //   }).catch(function(error){
+  //       console.log(error)     
+  //   });
+
+
+
   try {
     await session.withTransaction(async () => {
-    const tx =await contract.batchProduced(batchID,companyBatchID,productIDs,companyProductIDs,batchSize,batchDescription,productTemplateID,factoryID,distributorID,factoryLocation,dateOfProduction);
-    tx.wait();
-    console.log("Transaction completed!");
+      const tx =await contract.batchProduced(batchID,companyBatchID,productIDs,companyProductIDs,batchSize,batchDescription,productTemplateID,factoryID,distributorID,factoryLocation,dateOfProduction);
+      tx.wait();
+      console.log("Transaction completed!"); 
 
-    const Data= new batch({
-      _id: new mongoose.Types.ObjectId(),
-      BatchID:batchID,     
-      BatchSize:batchSize,  
-      AmountSoldTOCustomer:0,  
-      BatchDescription:batchDescription,     
-      ProductTemplateID:productTemplateID,    
-      FactoryID:factoryID,
-      DistributorID:distributorID,
-      FactoryLocation:factoryLocation,
-      DateOfProduction:dateOfProduction,
-      State: 0,
-      DistributorScanned: false,
-      DistributorScannedTimeStamp: "",
-      AmountLeftForSellingTORetailer:batchSize,
-      CompanyBatchID:companyBatchID
-    }) 
-
-    // for(let i=0;i<batchSize; i++){
-    //   const newProduct= new batch({   
-    //     _id:mongoose.Schema.Types.ObjectId,
-    //     ProductID:productIDs[i],
-    //     CompanyProductID:companyProductIDs[i], 
-    //     BatchID:batchID,
-    //     ProductTemplateID:productTemplateID, 
-    //     DOM:dateOfProduction,
-    //     CustomerID:"",
-    //     RetailerID:"",
-    //     RetailerScanned:false,    
-    //     RetailerScannedTimeStamp:"",
-    //     DateWhenSoldToRetailer:"",
-    //     DateWhenSoldToCustomer:"",
-    //     RetailerLatitude:"",
-    //     RetailerLongitude:"",
-    //     CustomerName:""
-    //   })   
-    //   console.log(newProduct)
-    //   ProductINFO.push(newProduct);
-    // }
-    // console.log(ProductINFO);
-
-    Data.save({session}).then(result=>console.log(result));
+      const Data= new batch({
+        _id: new mongoose.Types.ObjectId(),
+        BatchID:batchID,     
+        BatchSize:batchSize,  
+        AmountSoldTOCustomer:0,  
+        BatchDescription:batchDescription,     
+        ProductTemplateID:productTemplateID,    
+        FactoryID:factoryID,
+        DistributorID:distributorID,
+        FactoryLocation:factoryLocation,
+        DateOfProduction:dateOfProduction,
+        State: 0,
+        DistributorScanned: false,
+        DistributorScannedTimeStamp: "",
+        AmountLeftForSellingTORetailer:batchSize,
+        CompanyBatchID:companyBatchID
+      }) 
+    
+      Data.save({session}).then(result=>console.log(result));
 
     }, transactionOptions);
 
     console.log('Transaction committed');
-    res.status(200).json({status:"success", message:"Factory adds a batch"});
+    res.status(200).json({status:"success", message:"New Batch added"});
 
   } catch (err) {
     console.log('Transaction aborted due to error:', err);
@@ -286,7 +285,7 @@ app.post('/api/factoryAddBatch',async(req,res)=>{
     await session.endSession();
     await client.close();
   }
- 
+
 })   
 
 
@@ -331,55 +330,54 @@ app.get('/api/viewListOfBatchesProducedByFactory', async (req, res) => {
 
 app.get('/api/viewBatchRecordByBatchId', async (req, res) => {
   try {
-    // let result=[];          
+    let result=[];          
     const batchID= req.query.batchID; 
     // console.log(array) 
-    // const batchData =await contract.BatchMapping(batchID);
+    const batchData =await contract.BatchMapping(batchID);
     // console.log(batchData) 
-    // let productInfo=[]; 
-    const batchData =await contract.getProductIdsForaBatch(batchID);
-    console.log(batchData) 
-    // [101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191, 192, 193, 194, 195, 196, 197, 198, 199, 200],
-    // let productTemplateData =await contract.ProductTemplateMAP(batchData[4])
+    let productInfo=[]; 
+    // const batchData =await contract.getProductIdsForaBatch(batchID);
+    // console.log(batchData) 
+    let productTemplateData =await contract.ProductTemplateMAP(batchData[4])
     
-    // for(let j=0; j<productIDs.length; j++){
-    //   let productData =await contract.ProductMapping(productIDs[j])
+    for(let j=0; j<productIDs.length; j++){
+      let productData =await contract.ProductMapping(productIDs[j])
     
-    //   productInfo.push({
-    //     ProductID: productData[0].toNumber(),
-    //     CompanyProductID: productData[1].toNumber(),
-    //     BatchID:productData[2].toNumber(), 
-    //     ProductTemplateID:productData[3].toNumber(),
-    //     DOM:productData[4],
-    //     CustomerID:productData[5], 
-    //     RetailerID:productData[6],     
-    //     RetailerScanned:productData[7],    
-    //     RetailerScannedTimeStamp:productData[8],
-    //     DateWhenSoldToRetailer:productData[9],
-    //     DateWhenSoldToCustomer:productData[10],
-    //     RetailerLatitude:productData[11],
-    //     RetailerLongitude:productData[12],
-    //     CustomerName:productData[13],
-    //   });
-    // }
-    //   // console.log(productIDs);
-    // result.push({
-    //     BatchID :batchData[0].toNumber(),
-    //     BatchSize :batchData[1].toNumber(),
-    //     AmountSoldTOCustomer :batchData[2].toNumber(),
-    //     BatchDescription :batchData[3],
-    //     Name: productTemplateData[1],
-    //     Description: productTemplateData[2],
-    //     FactoryID:batchData[5],
-    //     DistributorID:batchData[6],
-    //     FactoryLocation:batchData[7],
-    //     DateOfProduction:batchData[8],
-    //     State:batchData[9].toNumber(),
-    //     DistributorScanned:batchData[10], 
-    //     DistributorScannedTimeStamp :batchData[11],
-    //     AmountLeftForSellingTORetailer:batchData[12].toNumber(),  
-    //     CompanyBatchID:batchData[13].toNumber()  
-    // },{productInfo}) 
+      productInfo.push({
+        ProductID: productData[0].toNumber(),
+        CompanyProductID: productData[1].toNumber(),
+        BatchID:productData[2].toNumber(), 
+        ProductTemplateID:productData[3].toNumber(),
+        DOM:productData[4],
+        CustomerID:productData[5], 
+        RetailerID:productData[6],     
+        RetailerScanned:productData[7],    
+        RetailerScannedTimeStamp:productData[8],
+        DateWhenSoldToRetailer:productData[9],
+        DateWhenSoldToCustomer:productData[10],
+        RetailerLatitude:productData[11],
+        RetailerLongitude:productData[12],
+        CustomerName:productData[13],
+      });
+    }
+      // console.log(productIDs);
+    result.push({
+        BatchID :batchData[0].toNumber(),
+        BatchSize :batchData[1].toNumber(),
+        AmountSoldTOCustomer :batchData[2].toNumber(),
+        BatchDescription :batchData[3],
+        Name: productTemplateData[1],
+        Description: productTemplateData[2],
+        FactoryID:batchData[5],
+        DistributorID:batchData[6],
+        FactoryLocation:batchData[7],
+        DateOfProduction:batchData[8],
+        State:batchData[9].toNumber(),
+        DistributorScanned:batchData[10], 
+        DistributorScannedTimeStamp :batchData[11],
+        AmountLeftForSellingTORetailer:batchData[12].toNumber(),  
+        CompanyBatchID:batchData[13].toNumber()  
+    },{productInfo}) 
 
 
     if(batchData){
@@ -850,6 +848,8 @@ app.get('/api/authenticateProduct',async(req,res)=>{
   }
 })
 
+
+
 /////////////////////////////// ADMIN APIS //////////////////////////////////////////
 
 app.get('/api/getFraudScans', function (req, res) {
@@ -872,15 +872,21 @@ app.get('/api/viewLevelCounts', async (req, res) => {
       // console.log(data);
       res.status(200).json(data)
     })
+    
+
   } catch (error) {
     console.log(error.message);
     res.status(400).send({ error: error.message });
   }
 });
+
+
 app.get('/', function (req, res) {
     // console.log(web3)
     res.send('Hello World');
 })
+
+
 var server = app.listen(8082, function () {
     console.log("Example app listening at http://127:0:0:1:8082")
 })
