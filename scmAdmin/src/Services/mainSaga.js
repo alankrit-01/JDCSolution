@@ -342,10 +342,8 @@ function* storeMultiUser(data) {
 }
 function* storeProductTemplate(data) {
     const requestData = data.data
-    console.log("requestData", requestData)
     try {
         let uri = BLOCKCHAIN_API_URL.concat('/factoryAddProductTemplate')
-        console.log("uri", uri)
         const storeProductTemplateRes = yield call(Axios.post, uri, requestData)
         const result = storeProductTemplateRes.data;
         yield put({ type: Set_Store_Product_Template_Data, result })
@@ -377,8 +375,10 @@ function* storeBatchTemplate(data) {
     const requestData = data.data
     try {
         let uri = BLOCKCHAIN_API_URL.concat('/factoryAddBatch')
+        console.log("requestData",requestData)
         const storeBatchTemplateRes = yield call(Axios.post, uri, requestData)
         const result = storeBatchTemplateRes.data;
+        console.log("result",result)
         yield put({ type: Set_Store_Batch_Template_Data, result })
     } catch (error) {
         console.log("Error is ", error)
@@ -388,7 +388,6 @@ function* storeBatchTemplate(data) {
 function* checkBatchTemplateSuccessdata(data) {
     const requestData = data.data
     yield put({ type: Check_Batch_Template_Success_data_1 })
-
 }
 function* getBatchTemplate(data) {
     const requestData = data.data
@@ -400,7 +399,6 @@ function* getBatchTemplate(data) {
         yield put({ type: Set_Batch_Template_List, result })
     } catch (error) {
         yield put({ type: Set_Batch_Template_List, error })
-
         console.log("Error is ", error)
     }
 }

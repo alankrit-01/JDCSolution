@@ -10,7 +10,41 @@ import DashboardVector from 'assets/img/vactor.jpg';
 
 import PieRechartComponent from 'components/Factory/PieChart';
 
+import  GoogleMapReact  from 'google-map-react';
+import  AnyReactComponent  from 'google-map-react';
+
 const FactoryDashboard = () => {
+
+
+
+    const responsive = {
+        superLargeDesktop: {
+            // the naming can be any, depends on you.
+            breakpoint: { max: 4000, min: 3000 },
+            items: 5
+        },
+        desktop: {
+            breakpoint: { max: 3000, min: 1024 },
+            items: 3
+        },
+        tablet: {
+            breakpoint: { max: 1024, min: 464 },
+            items: 2
+        },
+        mobile: {
+            breakpoint: { max: 464, min: 0 },
+            items: 1
+        }
+    };
+
+    const defaultProps = {
+        center: {
+            lat: 26.859970,
+            lng: 75.806236
+        },
+        zoom: 11
+    };
+
     return (
         <>
             <FactorySidebar />
@@ -30,13 +64,34 @@ const FactoryDashboard = () => {
                                 </Card>
                             </div>
                             <div className="px-4 mb-10 main-tiles-section">
-                            <PieRechartComponent/>
+                                <PieRechartComponent />
                             </div>
                             <div className="px-4 mb-10 main-tiles-section">
-                            <MapExample/>
+                                <div className='w-80 h-96'>
+
+                                    {/* <div style={{ height: '100vh', width: '100%' }}> */}
+                                    <GoogleMapReact
+                                        bootstrapURLKeys={{ key: "AIzaSyChufzuq8C_rWT2fSVe_0WLEqjiktQen-Q" }}
+                                        defaultCenter={defaultProps.center}
+                                        defaultZoom={defaultProps.zoom}
+                                    >
+                                        <AnyReactComponent
+                                    lat={26.859970}
+                                    lng={75.806236}
+                                    text="My Marker"
+                                /> 
+                                    </GoogleMapReact>
+                                    {/* </div> */}
+
+
+                                </div>
+                            </div>
+
+                            <div>
+                                <MapExample />
                             </div>
                         </div>
-                      
+
                     </div>
                 </div>
                 <Footer />

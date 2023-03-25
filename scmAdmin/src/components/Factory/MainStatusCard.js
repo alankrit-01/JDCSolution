@@ -9,7 +9,7 @@ import CardStatus from '@material-tailwind/react/CardStatus';
 import DashboardImg from 'assets/img/distributer.png';
 import ProductTempImg from 'assets/img/products-template.png';
 import BatchImg from 'assets/img/batches-sent.png';
-import FeedbackImg from 'assets/img/reports.png';
+import FeedbackImg from 'assets/img/Reports.png';
 
 
 

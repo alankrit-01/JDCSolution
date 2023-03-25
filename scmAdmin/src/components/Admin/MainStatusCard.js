@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getDistributer, getFactory, getRetailers } from 'Services/action';
 import StatusCard from "./StatusCard";
 import { useNavigate } from 'react-router-dom';
+import { NavLink } from "react-router-dom";
 
 
 import Carousel from 'react-multi-carousel';
@@ -13,9 +14,18 @@ import CardRow from '@material-tailwind/react/CardRow';
 import CardStatus from '@material-tailwind/react/CardStatus';
 
 import DashboardImg from 'assets/img/distributer.png';
-import ProductTempImg from 'assets/img/products-template.png';
-import BatchImg from 'assets/img/batches-sent.png';
-import FeedbackImg from 'assets/img/reports.png';
+import ProductIcon from 'assets/img/Productcovered.png';
+import BatchIcon from 'assets/img/Batchcovered.png';
+import FactoryIcon from 'assets/img/Factory.png';
+import DistributerIcon from 'assets/img/distributer.png';
+import RetailerIcon from 'assets/img/Retailer.png';
+import FraudsDetectedIcon from 'assets/img/Frauds-detected.png';
+import ReportsIcon from 'assets/img/Reports.png';
+import FeedbackIcon from 'assets/img/Feedback.png';
+
+
+
+
 
 
 
@@ -31,7 +41,6 @@ const MainStatusCard = () => {
         dispatch(getDistributer())
         dispatch(getFactory())
         dispatch(getRetailers())
-
     }, [])
     const initialdata = useSelector((state) => state.DistributerRecord);
     const initialFactorydata = useSelector((state) => state.FactoryRecord);
@@ -68,51 +77,85 @@ const MainStatusCard = () => {
     return (
         <>
             <Carousel responsive={responsive}>
-                <div className="px-5 mb-10 main-tiles-section">
+                <div className="px-6 mb-10 main-tiles-section">
+                    <NavLink to="/admin/factory">
+                        <Card className="main-tiles p-0">
+                            <CardRow className="inner-tiles">
+                                <CardStatus className="tiles-title" title={100} />
+                                <img src={FactoryIcon} className="w-24 h-24" />
+                                <CardStatus className="tiles-title-bottom" title={"Factory"} />
+                            </CardRow>
+                        </Card>
+                    </NavLink>
+                </div>
+                <div className="px-6 mb-10 main-tiles-section">
+                <NavLink to="/admin/distributer">
                     <Card className="main-tiles p-0">
                         <CardRow className="inner-tiles">
                             <CardStatus className="tiles-title" title={100} />
-                            <img src={DashboardImg} className="w-24 h-24" />
+                            <img src={DistributerIcon} className="w-24 h-24" />
                             <CardStatus className="tiles-title-bottom" title={"Distributer"} />
                         </CardRow>
                     </Card>
+                    </NavLink>
                 </div>
-                <div className="px-5 mb-10 main-tiles-section">
+                <div className="px-6 mb-10 main-tiles-section">
+                <NavLink to="/admin/retailer">
                     <Card className="main-tiles p-0">
                         <CardRow className="inner-tiles">
                             <CardStatus className="tiles-title" title={100} />
-                            <img src={DashboardImg} className="w-24 h-24" />
-                            <CardStatus className="tiles-title-bottom" title={"Distributer"} />
+                            <img src={RetailerIcon} className="w-32 h-24" />
+                            <CardStatus className="tiles-title-bottom" title={"Retailer"} />
                         </CardRow>
                     </Card>
+                    </NavLink>
                 </div>
-                <div className="px-5 mb-10 main-tiles-section">
+                <div className="px-6 mb-10 main-tiles-section">
                     <Card className="main-tiles p-0">
                         <CardRow className="inner-tiles">
                             <CardStatus className="tiles-title" title={100} />
-                            <img src={DashboardImg} className="w-24 h-24" />
-                            <CardStatus className="tiles-title-bottom" title={"Distributer"} />
+                            <img src={FraudsDetectedIcon} className="w-24 h-24" />
+                            <CardStatus className="tiles-title-bottom" title={"Total Fraud Detected"} />
                         </CardRow>
                     </Card>
                 </div>
-                <div className="px-5 mb-10 main-tiles-section">
+                <div className="px-6 mb-10 main-tiles-section">
                     <Card className="main-tiles p-0">
                         <CardRow className="inner-tiles">
                             <CardStatus className="tiles-title" title={100} />
-                            <img src={DashboardImg} className="w-24 h-24" />
-                            <CardStatus className="tiles-title-bottom" title={"Distributer"} />
+                            <img src={ReportsIcon} className="w-24 h-24" />
+                            <CardStatus className="tiles-title-bottom" title={"Reports Received"} />
                         </CardRow>
                     </Card>
                 </div>
-                <div className="px-5 mb-10 main-tiles-section">
+                <div className="px-6 mb-10 main-tiles-section">
                     <Card className="main-tiles p-0">
                         <CardRow className="inner-tiles">
                             <CardStatus className="tiles-title" title={100} />
-                            <img src={DashboardImg} className="w-24 h-24" />
-                            <CardStatus className="tiles-title-bottom" title={"Distributer"} />
+                            <img src={ProductIcon} className="w-24 h-24" />
+                            <CardStatus className="tiles-title-bottom" title={"Products Covered"} />
                         </CardRow>
                     </Card>
                 </div>
+                <div className="px-6 mb-10 main-tiles-section">
+                    <Card className="main-tiles p-0">
+                        <CardRow className="inner-tiles">
+                            <CardStatus className="tiles-title" title={100} />
+                            <img src={BatchIcon} className="w-24 h-24" />
+                            <CardStatus className="tiles-title-bottom" title={"Batches Covered"} />
+                        </CardRow>
+                    </Card>
+                </div>
+                <div className="px-6 mb-10 main-tiles-section">
+                    <Card className="main-tiles p-0">
+                        <CardRow className="inner-tiles">
+                            <CardStatus className="tiles-title" title={100} />
+                            <img src={FeedbackIcon} className="w-24 h-24" />
+                            <CardStatus className="tiles-title-bottom" title={"Reports Received"} />
+                        </CardRow>
+                    </Card>
+                </div>
+
             </Carousel>
 
             {/* <div className="px-4 mb-10 main-tiles-section">

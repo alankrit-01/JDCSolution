@@ -13,6 +13,7 @@ import React from "react";
 import { ToastContainer, toast } from "react-toastify";
 import loader from "assets/img/loading.gif";
 import {handleUserStatus } from "Services/action";
+import Arrowdown from 'assets/img/down-arrow.png';
 
 const Retailer = () => {
   const dataFetchedRef = useRef(false);
@@ -205,16 +206,39 @@ const Retailer = () => {
       <ToastContainer />
       <Sidebar />
       <div className="md:ml-32">
-        <div className="pt-14 pb-28 px-3 md:px-8 h-auto">
+        <div className="pt-14 pb-20 px-3 md:px-8 h-auto">
           <div className="container mx-auto max-w-full">
-              <MainStatusCard />
+              {/* <MainStatusCard /> */}
           </div>
         </div>
         <div className="px-3 md:px-8 h-auto -mt-24">
           <div className="container mx-auto max-w-full">
             <div className="grid grid-cols-1 px-4 mb-16">
+
+            <div class="grid grid-cols-3 gap-4">
+                <div>
+                  <h2 className="head-cust-color">Retailer List - {FilterRetailer.length && FilterRetailer.length}</h2>
+                </div> 
+                <div>
+                  <input type="text" className="cust-input" placeholder="Search" value={Search}
+                    onChange={(e) => setSearch(e.target.value)} />
+                </div>
+                <div className="right-button-section">
+                  <CSVLink filename="RetailerList.csv" data={getCsvData()}>
+                    {" "}
+                    <div className="">
+                      <button className="cust-export-button">Export CSV <img src={Arrowdown} className="w-3 h-3" style={{ margin: "2px 0px 2px 2px" }} /> </button>
+                    </div>
+                  </CSVLink>
+                  <NavLink to="/admin/addretailer">
+                    <button className="cust-button">Add +</button>
+                  </NavLink>
+                  {/* <NavLink to="/admin/addMultiUser">
+                    <button className="cust-button">Add Multi User+</button>
+                  </NavLink> */}
+                </div>
+              </div>
               <DataTable
-                title="Retailer List"
                 columns={columns}
                 noDataComponent={
                   <div>
@@ -225,7 +249,6 @@ const Retailer = () => {
                     ></img>
                   </div>
                 }
-                
                 data={FilterRetailer}
                 pagination
                 fixedHeader
@@ -233,38 +256,6 @@ const Retailer = () => {
                 selectableRowsHighlight
                 highlightOnHover
                 onSelectedRowsChange={handleChange}
-                actions={
-                  <NavLink to="/admin/addretailer">
-                    <Button>Add</Button>
-                  </NavLink>
-                }
-                subHeader
-                subHeaderComponent={
-                  <div className="w-full">
-                    <CSVLink filename="RetailerList.csv" data={getCsvData()}>
-                      {" "}
-                      <div className="float-left lg:w-6/12 d-flex pr-4 mb-10 font-light">
-                        <Button>Export CSV</Button>
-                      </div>
-                    </CSVLink>
-                    <div className="float-left lg:w-6/12 d-flex pr-4 mb-10 font-light">
-                      <Button>
-                        <NavLink to="/admin/addMultiUser">
-                          Add Multi Retailer
-                        </NavLink>
-                      </Button>
-                    </div>
-                    <div className="float-left lg:w-6/12 d-flex pr-4 mb-10 font-light">
-                      <Input
-                        type="text"
-                        color="purple"
-                        placeholder="Search Here"
-                        value={Search}
-                        onChange={(e) => setSearch(e.target.value)}
-                      />
-                    </div>
-                  </div>
-                }
               />
             </div>
           </div>

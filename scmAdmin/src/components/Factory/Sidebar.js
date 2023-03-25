@@ -10,7 +10,7 @@ import RichmintLogo from 'assets/img/richmint-logo.png';
 import DashboardImg from 'assets/img/distributer.png';
 import ProductTempImg from 'assets/img/products-template.png';
 import BatchImg from 'assets/img/batches-sent.png';
-import FeedbackImg from 'assets/img/reports.png';
+import FeedbackImg from 'assets/img/Reports.png';
 import LogoutImg from 'assets/img/setting.png';
 
 

@@ -31,10 +31,8 @@ const Dashboard = () => {
       <Sidebar />
       <div className="md:ml-32">
         <div className="px-3 md:px-8 h-40" />
-        <div className="px-3 md:px-8 -mt-24">
-          <div>
+        <div className="px-4 md:px-8 -mt-24">
             <MainStatusCard />
-          </div>
           <div>
             <ProgressCard />
           </div>

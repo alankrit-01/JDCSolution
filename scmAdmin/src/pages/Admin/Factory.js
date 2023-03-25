@@ -1,4 +1,3 @@
-import MainStatusCard from "components/Admin/MainStatusCard";
 import Sidebar from "components/Admin/Sidebar";
 import Footer from "components/Admin/Footer";
 import { NavLink } from "react-router-dom";
@@ -13,6 +12,9 @@ import React from "react";
 import { ToastContainer, toast } from "react-toastify";
 import loader from "assets/img/loading.gif";
 import { handleUserStatus } from "Services/action";
+import Arrowdown from 'assets/img/down-arrow.png';
+
+
 
 const Factory = () => {
   const dataFetchedRef = useRef(false);
@@ -63,28 +65,28 @@ const Factory = () => {
           variant="outline-success"
           onClick={() => {
             let confirmBox = '';
-            if(row.userStatus == "Active"){
-               confirmBox = window.confirm(
+            if (row.userStatus == "Active") {
+              confirmBox = window.confirm(
                 "Are you sure you want to deactive this Record?"
-               );
+              );
             }
-  
-            if(row.userStatus == "Deactive"){
+
+            if (row.userStatus == "Deactive") {
               confirmBox = window.confirm(
                 "Are you sure you want to activate this Record?"
               );
             }
             if (confirmBox === true) {
-              if(row.userStatus === 'Active'){
+              if (row.userStatus === 'Active') {
                 handleDeactivateRecord(row._id, "Deactive");
-              }else if(row.userStatus === 'Deactive'){
+              } else if (row.userStatus === 'Deactive') {
                 handleDeactivateRecord(row._id, "Active");
-  
+
               }
             }
           }}
         >
-         {row.userStatus.startsWith('D') ? 'Activate' : 'Deactivate'}
+          {row.userStatus.startsWith('D') ? 'Activate' : 'Deactivate'}
         </Button>
       ),
       ignoreRowClick: true,
@@ -201,16 +203,35 @@ const Factory = () => {
       <ToastContainer />
       <Sidebar />
       <div className="md:ml-32">
-        <div className="pt-14 pb-28 px-3 md:px-8 h-auto">
+        <div className="pt-14 pb-20 px-3 md:px-8 h-auto">
           <div className="container mx-auto max-w-full">
-              <MainStatusCard />
+            {/* <MainStatusCard /> */}
           </div>
         </div>
         <div className="px-3 md:px-8 h-auto -mt-24">
           <div className="container mx-auto max-w-full">
             <div className="grid grid-cols-1 px-4 mb-16">
+              <div class="grid grid-cols-3 gap-4">
+                <div>
+                  <h2 className="head-cust-color">Factory List - {FilterFactories.length && FilterFactories.length}</h2>
+                </div> 
+                <div>
+                  <input type="text" className="cust-input" placeholder="Search" value={Search}
+                    onChange={(e) => setSearch(e.target.value)} />
+                </div>
+                <div className="right-button-section">
+                  <CSVLink filename="FactoryList.csv" data={getCsvData()}>
+                    {" "}
+                    <div className="">
+                      <button className="cust-export-button">Export CSV <img src={Arrowdown} className="w-3 h-3" style={{ margin: "2px 0px 2px 2px" }} /> </button>
+                    </div>
+                  </CSVLink>
+                  <NavLink to="/admin/addfactory">
+                    <button className="cust-button">Add +</button>
+                  </NavLink>
+                </div>
+              </div>
               <DataTable
-                title="Factory List"
                 columns={columns}
                 noDataComponent={
                   <div>
@@ -228,31 +249,6 @@ const Factory = () => {
                 selectableRowsHighlight
                 highlightOnHover
                 onSelectedRowsChange={handleChange}
-                actions={
-                  <NavLink to="/admin/addfactory">
-                    <Button>Add</Button>
-                  </NavLink>
-                }
-                subHeader
-                subHeaderComponent={
-                  <div className="w-full">
-                    <CSVLink filename="FactoryList.csv" data={getCsvData()}>
-                      {" "}
-                      <div className="float-left lg:w-6/12 d-flex pr-4 mb-10 font-light">
-                        <Button>Export CSV</Button>
-                      </div>
-                    </CSVLink>
-                    <div className="float-left lg:w-6/12 d-flex pr-4 mb-10 font-light">
-                      <Input
-                        type="text"
-                        color="purple"
-                        placeholder="Search Here"
-                        value={Search}
-                        onChange={(e) => setSearch(e.target.value)}
-                      />
-                    </div>
-                  </div>
-                }
               />
             </div>
           </div>
