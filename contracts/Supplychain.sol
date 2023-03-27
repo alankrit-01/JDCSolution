@@ -133,7 +133,7 @@ contract Supplychain{
         string memory factoryLocation,
         string memory dateOfProduction 
     ) public{
-        require(checkInBatchIDs(batchID)==false,"BatchID already exists in the system");
+        require(checkInBatchIDs(batchID)==false,"BatchID already exists in the system"); 
         require(productIDs.length==batchSize,"Size of productIDs array does not match with Batch size");
         BatchMapping[batchID]=Batch({
             BatchID:batchID,    

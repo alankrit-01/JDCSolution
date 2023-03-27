@@ -28,10 +28,10 @@ mongoose.connect(MONGO_URL, {useNewUrlParser: true, useUnifiedTopology: true}).t
 optionSuccessStatus:200
 const contractAbi = require('./artifacts/contracts/Supplychain.sol/Supplychain.json')
 
-let contractAddress ="0xdDe85AaB17ccF95461e3D4C0bc132c32D6f8d682";  
+let contractAddress ="0x170063e4bdD654291FAAc6ad3c863D1B9C7b4d36";  
 let contract; 
 app.use(express.json()); 
-app.use(cors()); 
+app.use(cors());  
 
 const connectToMatic = async () => {
   optionSuccessStatus:200
@@ -145,60 +145,88 @@ app.post('/api/factoryAddBatch',async(req,res)=>{
   const distributorID =req.body.distributorID; 
   const factoryLocation =req.body.factoryLocation; 
   const dateOfProduction =req.body.dateOfProduction; 
-  
+    
   try { 
-    const Data= new batch({
-      _id: new mongoose.Types.ObjectId(),
-      BatchID:batchID,     
-      BatchSize:batchSize,  
-      AmountSoldTOCustomer:0,  
-      BatchDescription:batchDescription,     
-      ProductTemplateID:productTemplateID,    
-      FactoryID:factoryID,
-      DistributorID:distributorID,
-      FactoryLocation:factoryLocation,
-      DateOfProduction:dateOfProduction,
-      State: 0,
-      DistributorScanned: false,
-      DistributorScannedTimeStamp: "",
-      AmountLeftForSellingTORetailer:batchSize,
-      CompanyBatchID:companyBatchID
-    }) 
+    // const entry = await globalID.findOne();
+    // if(entry===null){
+    //   const Data= new globalID({
+    //     _id: new mongoose.Types.ObjectId(),
+    //     batchIDs:[batchID],
+    //     productIDs:productIDs,
+    //   }) 
+    //   Data.save().then(result=>console.log(result));
+    // }else{
+    //   const newBatchEntry = await globalID.findOne({ batchIDs: batchID });
+    //   if(newBatchEntry!=null){
+    //     res.status(500).json({ error:"BatchID already exists in the system" });
+    //   }
+      
+    //   for(let i=0;i<productIDs[i].length;i++){
+    //     const newProductEntry = await globalID.findOne({ productIDs: productIDs[i] });
+    //     if(newProductEntry!=null){
+    //       res.status(500).json({ error:"ProductID already exists in the system" });
+    //     } 
+    //   } 
 
-    const products=[];
-    for(let i=0; i<batchSize; i++){
-      const p =new product({
-        _id: new mongoose.Types.ObjectId(),
-        ProductID:productIDs[i],
-        CompanyProductID:companyBatchID[i], 
-        BatchID:batchID,
-        ProductTemplateID:productTemplateID, 
-        DOM:dateOfProduction,
-        CustomerID:"",
-        RetailerID:"",
-        RetailerScanned:false,    
-        RetailerScannedTimeStamp:"",
-        DateWhenSoldToRetailer:"",
-        DateWhenSoldToCustomer:"",
-        RetailerLatitude:"",
-        RetailerLongitude:"",
-        CustomerName:""
-      })
-      products.push(p);
-    }
+    //   entry.batchIDs.push(batchID);
+    //   await entry.save();
+    //   for(let i=0;i<productIDs[i].length;i++){
+    //     entry.productIDs.push(productIDs[i]);
+    //     await entry.save();
+    //   }
+    // }
+
+    // const Data= new batch({
+    //   _id: new mongoose.Types.ObjectId(),
+    //   BatchID:batchID,     
+    //   BatchSize:batchSize,  
+    //   AmountSoldTOCustomer:0,  
+    //   BatchDescription:batchDescription,     
+    //   ProductTemplateID:productTemplateID,    
+    //   FactoryID:factoryID,
+    //   DistributorID:distributorID,
+    //   FactoryLocation:factoryLocation,
+    //   DateOfProduction:dateOfProduction,
+    //   State: 0,
+    //   DistributorScanned: false,
+    //   DistributorScannedTimeStamp: "",
+    //   AmountLeftForSellingTORetailer:batchSize,
+    //   CompanyBatchID:companyBatchID
+    // }) 
+
+    // const products=[];
+    // for(let i=0; i<batchSize; i++){
+    //   const p =new product({
+    //     _id: new mongoose.Types.ObjectId(),
+    //     ProductID:productIDs[i],
+    //     CompanyProductID:companyBatchID[i], 
+    //     BatchID:batchID,
+    //     ProductTemplateID:productTemplateID, 
+    //     DOM:dateOfProduction,
+    //     CustomerID:"",
+    //     RetailerID:"",
+    //     RetailerScanned:false,    
+    //     RetailerScannedTimeStamp:"",
+    //     DateWhenSoldToRetailer:"",
+    //     DateWhenSoldToCustomer:"",
+    //     RetailerLatitude:"",
+    //     RetailerLongitude:"",
+    //     CustomerName:""
+    //   })
+    //   products.push(p);
+    // }
     
-    product.insertMany(products).then(function(){
-      console.log("Products Saved") 
-    }).catch(function(error){
-      console.log(error)     
-    }); 
+    // product.insertMany(products).then(function(){
+    //   console.log("Products Saved") 
+    // }).catch(function(error){
+    //   console.log(error)     
+    // }); 
     
-    Data.save().then(result=>console.log("Batch Saved"));
-    
-    
-    const tx =await contract.batchProduced(batchID,companyBatchID,productIDs,companyProductIDs,batchSize,batchDescription,productTemplateID,factoryID,distributorID,factoryLocation,dateOfProduction);
-    tx.wait();
-    console.log("Transaction completed!");
+    // Data.save().then(result=>console.log("Batch Saved"));
+
+    // const tx =await contract.batchProduced(batchID,companyBatchID,productIDs,companyProductIDs,batchSize,batchDescription,productTemplateID,factoryID,distributorID,factoryLocation,dateOfProduction);
+    // tx.wait();
+    // console.log("Transaction completed!");
     res.status(200).json({status:"success", message:"Batch added successfully"});
   } 
   catch (error) {
@@ -207,6 +235,21 @@ app.post('/api/factoryAddBatch',async(req,res)=>{
 
 })   
 
+
+app.get('/api/test', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const doc = await globalID.findOne({ ids: id });
+    if (doc) {
+      res.status(200).json({ message: 'ID exists' });
+    } else {
+      res.status(404).json({ message: 'ID not found' });
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+}); 
 
 app.get('/api/viewListOfBatchesProducedByFactory', async (req, res) => {
   try { 
