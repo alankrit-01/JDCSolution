@@ -78,64 +78,85 @@ const AddFactory = () => {
                                 <div>
                                     <h2 className="head-cust-color">Add New Factory</h2>
                                 </div>
-                                <Card className="bg-gray rounded-none">
+                                <Card className="background-gray rounded-none">
                                     <CardBody>
-                                        <form onSubmit={handleSubmit}>
+                                        <form className="custom-form" onSubmit={handleSubmit}>
                                             <div className="flex flex-wrap mt-10">
                                                 <div className="w-full lg:w-12/12 mb-10 font-light">
                                                     <Input
                                                         type="text"
-                                                        color="blue"
+                                                        color="white"
                                                         placeholder="Name"
                                                         name="name"
                                                         value={name} onChange={(e) => setName(e.target.value)}
                                                         required
                                                     />
                                                 </div>
-                                                <div className="w-full lg:w-6/12 pl-4 mb-10 font-light">
-                                                    <Input
-                                                        type="email"
-                                                        color="purple"
-                                                        placeholder="Email Address"
-                                                        name="email"
-                                                        value={email} onChange={(e) => setEmail(e.target.value)}
-                                                        required
-                                                    />
-                                                </div>
-                                                <div className="w-full pr-4 mb-10 font-light">
+                                                <div className="w-full lg:w-6/12 pr-4 mb-10 font-light">
                                                     <Input
                                                         type="text"
-                                                        color="purple"
+                                                        color="white"
                                                         placeholder="Phone No."
                                                         name="phone"
                                                         value={phone} onChange={(e) => setPhone(e.target.value)}
                                                         required
                                                     />
                                                 </div>
-                                                <div className="w-full lg:w-12/12 mb-10 font-light">
+                                                <div className="w-full lg:w-6/12 pl-4 mb-10 font-light">
+                                                    <Input
+                                                        type="email"
+                                                        color="white"
+                                                        placeholder="Email Address"
+                                                        name="email"
+                                                        value={email} onChange={(e) => setEmail(e.target.value)}
+                                                        required
+                                                    />
+                                                </div>
+                                                
+                                                <div className="w-full lg:w-8/12 pr-4 mb-10 font-light">
                                                     <Input
                                                         type="text"
-                                                        color="purple"
+                                                        color="white"
                                                         placeholder="Address"
                                                         name="address"
                                                         value={address} onChange={(e) => setAddress(e.target.value)}
                                                         required
                                                     />
                                                 </div>
-                                                <div className="w-full lg:w-6/12 pr-4 mb-10 font-light">
+                                                <div className="w-full lg:w-4/12 pl-4 mb-10 font-light">
                                                     <Input
                                                         type="text"
-                                                        color="purple"
+                                                        color="white"
                                                         placeholder="City"
                                                         name="city"
                                                         value={city} onChange={(e) => setCity(e.target.value)}
                                                         required
                                                     />
                                                 </div>
-                                                <div className="w-full lg:w-6/12 px-4 mb-10 font-light">
+                                                <div className="w-full lg:w-4/12 pr-4 mb-10 font-light">
                                                     <Input
                                                         type="text"
-                                                        color="purple"
+                                                        color="white"
+                                                        placeholder="State"
+                                                        name="State"
+                                                        value={city} onChange={(e) => setCity(e.target.value)}
+                                                        required
+                                                    />
+                                                </div>
+                                                <div className="w-full lg:w-4/12 pl-4 pr-4 mb-10 font-light">
+                                                    <Input
+                                                        type="text"
+                                                        color="white"
+                                                        placeholder="Pincode"
+                                                        name="city"
+                                                        value={city} onChange={(e) => setCity(e.target.value)}
+                                                        required
+                                                    />
+                                                </div>
+                                                <div className="w-full lg:w-4/12 pl-4 mb-10 font-light">
+                                                    <Input
+                                                        type="text"
+                                                        color="white"
                                                         placeholder="Country"
                                                         name="country"
                                                         value={country} onChange={(e) => setCountry(e.target.value)}
@@ -145,8 +166,8 @@ const AddFactory = () => {
                                                 <div className="w-full lg:w-6/12 pr-4 mb-10 font-light">
                                                     <Input
                                                         type="text"
-                                                        color="purple"
-                                                        placeholder="Latitude"
+                                                        color="white"
+                                                        placeholder="Latitude: 17.3850 N"
                                                         name="latitude"
                                                         value={latitude} onChange={(e) => setLatitude(e.target.value)}
                                                         required
@@ -155,8 +176,19 @@ const AddFactory = () => {
                                                 <div className="w-full lg:w-6/12 pl-4 mb-10 font-light">
                                                     <Input
                                                         type="text"
-                                                        color="purple"
-                                                        placeholder="Longitude"
+                                                        color="white"
+                                                        placeholder="Longitude: 78.4867 E"
+                                                        name="longitude"
+                                                        value={longitude} onChange={(e) => setLongitude(e.target.value)}
+                                                        required
+                                                    />
+                                                </div>
+                                                <div className="w-full lg:w-2/12 pl-4 mb-10 font-light"></div>
+                                                <div className="w-full lg:w-8/12 pr-4 pl-4 mb-10 font-light custom-background">
+                                                    <Input
+                                                        type="text"
+                                                        color="white"
+                                                        placeholder="Location Url"
                                                         name="longitude"
                                                         value={longitude} onChange={(e) => setLongitude(e.target.value)}
                                                         required
@@ -164,8 +196,9 @@ const AddFactory = () => {
                                                 </div>
                                             </div>
                                             <div className="flex">
-                                                <div className="w-full lg:w-6/12 pr-4 mb-10 font-light">
-                                                    <Button type="submit">Submit</Button>
+                                                <div className="w-full lg:w-6/12 pr-4 mb-10 font-light btn-w-full">
+                                                    <Button className="form-button " type="submit">Submit</Button>
+
                                                 </div>
                                             </div>
                                         </form>

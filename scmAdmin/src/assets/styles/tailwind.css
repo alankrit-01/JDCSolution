@@ -3158,6 +3158,30 @@ h5.add-batch-dashboard-title {
     color: #ffffff;
     padding: 5px 10px;
 }
+.custom-profile .bg-white{background-color: #CCCCCC!important;}
+.ceo-img-part{text-align: center; border: 6px solid #DBE4E7; border-radius: 40px; width: 80px;
+    height: 80px; margin: auto;}
+.nothing-part{text-align: center; padding: 10px 0;}
+.nothing-part span{ font-size: 28px!important; font-weight:500; color: #013464;}
+.click-open-btn{left: 28%; position: relative; display: flex;}
+.click-open-btn span{font-size: 18px!important;
+        margin-top: 2px;
+        width: 26px;
+        margin-bottom: 16px;}
+.click-open-btn a{color: #013464; font-size: 16px;}
+.click-open-btn2{text-align: center; color: #013464; font-size: 16px; padding: 30px 0px 0px 0px;}
+.box-set{text-align: center; margin-bottom: 30px; display: flex;}
+.box-set span{font-size: 16px;}
+.box-set a{font-size: 13px; border: 1px solid #7FA4B1; padding: 4px; color: #013464;}
+.sign-button-p{text-align: center; width: 180px; margin: auto; background-color: #013464; 
+        border-radius: 25px; }
+.sign-button-p:hover{ border-radius: 25px!important; width: 180px;}
+.sign-button-p span{color: #fff; margin-bottom: 15px; font-size: 16px;}
+.sign-button-p span:hover{border-radius: 25px!important; width: 180px;}
+.form-button{text-align: center; width: 180px; margin: auto; background-color: #013464; 
+        border-radius: 25px; }
+.form-button:hover{ border-radius: 25px!important; width: 180px;  background-color: #042646}
+.camera-section{position: absolute; top: 70px;  width: 20px;  margin: auto; left: 54%;}
 .head-cust-color{
 color: #0c3f6a;
     font-size: 24px;
@@ -3191,6 +3215,21 @@ padding: 5px 10px;
 .sc-jrcTuL:nth-of-type(even) {
         background: #edf6fb;
     }
+.background-gray {
+        background-color: #cccccc;
+        border-radius: unset;
+    }
+.custom-form .w-full {    border: none;}
+.custom-form .w-full input:focus {    border: none;}
+.custom-form input {
+    background-color: #f2f2f2;
+    border-radius: 25px;}
+.custom-form .text-gray-400 {color: #003466 !important;
+    font-weight: 500;
+    padding: 15px;
+    font-size: 15px;}
+.custom-form .custom-background input{background: #ebaf8d;}
+.custom-form .btn-w-full{width:100%;}
 .hover\:scale-105:hover{
 	--tw-scale-x: 1.05;
 	--tw-scale-y: 1.05;
@@ -3393,6 +3432,12 @@ padding: 5px 10px;
 	}
 	.lg\:w-1\/3{
 		width: 33.333333%;
+	}
+	.lg\:w-8\/12{
+		width: 66.666667%;
+	}
+	.lg\:w-2\/12{
+		width: 16.666667%;
 	}
 	.lg\:grid-cols-2{
 		grid-template-columns: repeat(2, minmax(0, 1fr));
