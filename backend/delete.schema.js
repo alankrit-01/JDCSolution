@@ -6,6 +6,7 @@ const batch = require('./models/batch');
 const product = require('./models/product'); 
 const distributorRetailer = require('./models/distributorRetailer'); 
 const fraudScan = require('./models/fraudScan'); 
+const customerData = require('./models/customerData'); 
 
 require('dotenv').config() 
 // mongoose.connect(process.env.MONGO_URL, {useNewUrlParser: true, useUnifiedTopology: true}).then(()=>console.log("Connected"));
@@ -66,5 +67,13 @@ fraudScan.deleteMany({}, (err) => {
     console.error(err);
   } else {
     console.log('Successfully deleted all documents in the collection fraudScan');
+  }
+});
+
+customerData.deleteMany({}, (err) => {
+  if (err) {
+    console.error(err);
+  } else {
+    console.log('Successfully deleted all documents in the collection customerData');
   }
 });

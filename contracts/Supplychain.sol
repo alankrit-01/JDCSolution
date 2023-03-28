@@ -219,7 +219,7 @@ contract Supplychain{
         ProductMapping[_productID].RetailerLongitude=longitude;
     }        
 
-    function retailerSellToCustomer(uint batchID,uint productID, string memory customerID,string memory customerName,string memory timeStamp) public {
+    function retailerSellToCustomer(uint batchID,uint productID, string memory customerID,string memory customerName) public {
         BatchMapping[batchID].AmountSoldTOCustomer +=1;
         // ProductMapping[productID].CustomerID=customerID;
         // ProductMapping[productID].CustomerName=customerName;

@@ -17,6 +17,7 @@ const User = require('./models/users');
 
 var bodyParser = require('body-parser'); 
 var util = require('util'); 
+const { collection } = require('./models/users');
 var jsonParser = bodyParser.json(); 
 var encoder = new util.TextEncoder('utf-8'); 
 
@@ -29,7 +30,7 @@ mongoose.connect(MONGO_URL, {useNewUrlParser: true, useUnifiedTopology: true}).t
 // optionSuccessStatus:200
 // const contractAbi = require('./artifacts/contracts/Supplychain.sol/Supplychain.json')
 
-let contractAddress ="0x56910515b7072661c21a812AABA33DE4182f3b21";  
+let contractAddress ="0xef9dAF7BB111Fd9F3244626327521c73eD3a99BA";  
 let contract; 
 app.use(express.json()); 
 app.use(cors());  
@@ -464,10 +465,10 @@ app.post('/api/retailerScansProduct',async(req,res)=>{
       // console.log("Transaction completed!"); 
       
       let document =await product.findOne({ProductID});
-      if(document.RetailerScanned===false){
+      if(document.RetailerScanned!=false){
         res.status(400).send({ error: "This batch is already scanned by the retailer" }); 
       }
-      if(retailerID===document.RetailerID){
+      if(retailerID!=document.RetailerID){
         res.status(400).send({ error: "This product is not owned by this retailer" }); 
       }
       await document.updateOne( 
@@ -528,7 +529,7 @@ app.post('/api/sellToCustomer',async(req,res)=>{
 
     const productData =await product.findOne({ProductID});
     if(productData.RetailerScanned==true){
-      const tx =await contract.retailerSellToCustomer(batchID,ProductID,customerID,customerName,timeStamp);
+      const tx =await contract.retailerSellToCustomer(batchID,ProductID,customerID,customerName);
       tx.wait();
       console.log("Transaction completed!");
 
@@ -536,12 +537,12 @@ app.post('/api/sellToCustomer',async(req,res)=>{
         CustomerID:customerID,
         CustomerName:customerName,
         DateWhenSoldToCustomer:timeStamp,
-      })
+      }) 
 
       const data= new customerData({
         _id: new mongoose.Types.ObjectId(),
         BatchID:batchID,
-        ProductID:ProductID,
+        ProductRef:productData._id,
         CustomerID:customerID,
         CustomerName:customerName,
         TimeStamp:timeStamp
@@ -563,55 +564,17 @@ app.post('/api/sellToCustomer',async(req,res)=>{
 
 app.get('/api/viewProductBoughts', async (req, res) => {
   try {
-    let result=[];
-    let customerID= req.query.customerID;
-    let data =await contract.getAllProductsBought(customerID);
-    
-    for(let i=0; i<data.length; i++){       
-      const batchData =await contract.BatchMapping(data[i][0]);
-      const productData =await contract.ProductMapping(data[i][1]);
-      let productTemplateData =await contract.ProductTemplateMAP(batchData[4])
-      
-      // console.log(productData[0]);
-      // console.log(batchData); 
-      result.push({
-        "productData":{
-          ProductID: productData[0].toNumber(),
-          CompanyProductID: productData[1].toNumber(),
-          BatchID:productData[2].toNumber(), 
-          ProductTemplateID:productData[3].toNumber(),
-          DOM:productData[4],
-          CustomerID:productData[5], 
-          RetailerID:productData[6],     
-          RetailerScanned:productData[7],    
-          RetailerScannedTimeStamp:productData[8],
-          DateWhenSoldToRetailer:productData[9],
-          DateWhenSoldToCustomer:productData[10],
-          RetailerLatitude:productData[11],
-          RetailerLongitude:productData[12],
-          CustomerName:productData[13]
-        },
-        "batchData":{
-          BatchID :batchData[0].toNumber(),
-          BatchSize :batchData[1].toNumber(),
-          AmountSoldTOCustomer :batchData[2].toNumber(),
-          BatchDescription :batchData[3],
-          Name: productTemplateData[1],
-          Description: productTemplateData[2],
-          FactoryID:batchData[5],
-          DistributorID:batchData[6],
-          FactoryLocation:batchData[7],
-          DateOfProduction:batchData[8],
-          State:batchData[9].toNumber(),
-          DistributorScanned:batchData[10], 
-          DistributorScannedTimeStamp :batchData[11],       
-          AmountLeftForSellingTORetailer:batchData[12].toNumber(),  
-          CompanyBatchID:batchData[13].toNumber()
-        }});                          
-    }
-    
-    if(result){
-      res.status(200).json({status:"success", message:result});
+    let CustomerID= req.query.customerID;
+    const documents = await customerData.find({ CustomerID :CustomerID })
+    .populate("ProductRef")
+    // .populate({
+    //   path: 'ProductID',
+    //   model: 'product',
+    //   select: 'DOM', 
+    // });
+    console.log(documents);
+    if(documents){
+      res.status(200).json({status:"success", message:documents});
     }else {
       res.status(200).json({status:"success", message:"Returned data is empty"});
     }
@@ -620,7 +583,6 @@ app.get('/api/viewProductBoughts', async (req, res) => {
     res.status(400).send({ error: error.message });
   }
 });  
-
 
 app.get('/api/authenticateProduct',async(req,res)=>{
   try {
@@ -797,3 +759,8 @@ var server = app.listen(8082, function () {
 })
 
 
+// pm2 start index.js
+// pm2 list        // list all processes
+// pm2 restart 0   // restart process with id 0
+// pm2 stop 0      // stop process with id 0
+// pm2 logs        // view logs for all processes
