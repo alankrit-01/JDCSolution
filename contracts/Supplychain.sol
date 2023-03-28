@@ -124,7 +124,7 @@ contract Supplychain{
         uint batchID, 
         uint companyBatchID, 
         uint[] memory productIDs, 
-        uint[] memory companyProductIDs, 
+        // uint[] memory companyProductIDs, 
         uint batchSize, 
         string memory batchDescription, 
         uint productTemplateID, 
@@ -133,8 +133,8 @@ contract Supplychain{
         string memory factoryLocation,
         string memory dateOfProduction 
     ) public{
-        require(checkInBatchIDs(batchID)==false,"BatchID already exists in the system");
-        require(productIDs.length==batchSize,"Size of productIDs array does not match with Batch size");
+        require(checkInBatchIDs(batchID)==false,"BatchID already exists in the system"); 
+        require(productIDs.length==batchSize,"Size of productIDs array does not match with Batch size"); 
         BatchMapping[batchID]=Batch({
             BatchID:batchID,    
             BatchSize:batchSize,
@@ -155,22 +155,22 @@ contract Supplychain{
         BatchIDToProductIDMapping[batchID]= productIDs; 
         for(uint i=0;i<batchSize; i++){
             require(checkInProductIDs(productIDs[i])==false,"ProductID already exists in the system");
-            ProductMapping[productIDs[i]]=Product({
-                ProductID:productIDs[i],
-                CompanyProductID:companyProductIDs[i],
-                BatchID:batchID,
-                ProductTemplateID:productTemplateID,
-                DOM:dateOfProduction,
-                CustomerID:"",
-                RetailerID:"",
-                RetailerScanned:false,
-                RetailerScannedTimeStamp:"",
-                DateWhenSoldToRetailer:"",
-                DateWhenSoldToCustomer:"",
-                RetailerLatitude:"",
-                RetailerLongitude:"",
-                CustomerName:""
-            });
+            // ProductMapping[productIDs[i]]=Product({
+            //     ProductID:productIDs[i],
+            //     CompanyProductID:companyProductIDs[i],
+            //     BatchID:batchID,
+            //     ProductTemplateID:productTemplateID,
+            //     DOM:dateOfProduction,
+            //     CustomerID:"",
+            //     RetailerID:"",
+            //     RetailerScanned:false,
+            //     RetailerScannedTimeStamp:"",
+            //     DateWhenSoldToRetailer:"",
+            //     DateWhenSoldToCustomer:"",
+            //     RetailerLatitude:"",
+            //     RetailerLongitude:"",
+            //     CustomerName:""
+            // });
             ProductIDs.push(productIDs[i]);
         }   
     }    
@@ -179,35 +179,35 @@ contract Supplychain{
         require(BatchMapping[batchID].DistributorScanned==false,"This batch is already scanned by the distributor");
         require(keccak256(abi.encodePacked(BatchMapping[batchID].DistributorID))== keccak256(abi.encodePacked(_distributorID)),"This batch is not owned by this distributor");
         BatchMapping[batchID].DistributorScanned=true;
-        BatchMapping[batchID].DistributorScannedTimeStamp=timeStamp;
+        BatchMapping[batchID].DistributorScannedTimeStamp=timeStamp; 
     }   
 
-    function distributorSellToRetailer(uint batchID, uint quantity, string memory retailerID, string memory timeStamp) public{
+    function distributorSellToRetailer(uint batchID, uint quantity) public{
         uint amountLeft =BatchMapping[batchID].AmountLeftForSellingTORetailer;
-        uint batchSize =BatchMapping[batchID].BatchSize;
-        string memory d =BatchMapping[batchID].DistributorID;
+        // uint batchSize =BatchMapping[batchID].BatchSize;
+        // string memory d =BatchMapping[batchID].DistributorID;
         require(amountLeft>=quantity,"Quantity is greater than the amount left to be sold in this batch");
         require(quantity>0,"Quantity cannot be zero");
-        uint sold = batchSize-amountLeft; 
-        uint[] memory productIDs =BatchIDToProductIDMapping[batchID];
-        for(uint i=sold; i<(sold+quantity); i++){
-            uint ID =productIDs[i];
-            Product memory p=ProductMapping[ID];
-            p.RetailerID=retailerID;
-            p.DateWhenSoldToRetailer=timeStamp;
-            ProductMapping[ID]=p;
-        } 
+        // uint sold = batchSize-amountLeft; 
+        // uint[] memory productIDs =BatchIDToProductIDMapping[batchID];
+        // for(uint i=sold; i<(sold+quantity); i++){
+        //     uint ID =productIDs[i];
+        //     Product memory p=ProductMapping[ID];
+        //     p.RetailerID=retailerID;
+        //     p.DateWhenSoldToRetailer=timeStamp;
+        //     ProductMapping[ID]=p;
+        // } 
         BatchMapping[batchID].AmountLeftForSellingTORetailer-=quantity;
 
-        Retailer memory r = Retailer({ 
-            DistributorID:d,
-            RetailerID: retailerID,
-            BatchID:batchID,
-            Quantity:quantity,
-            TimeStamp:timeStamp 
-        }); 
-        DistributorIDToRetailerStruct[d].push(r); 
-        RetailerIDToRetailerStruct[retailerID].push(r); 
+        // Retailer memory r = Retailer({ 
+        //     DistributorID:d,
+        //     RetailerID: retailerID,
+        //     BatchID:batchID,
+        //     Quantity:quantity,
+        //     TimeStamp:timeStamp 
+        // }); 
+        // DistributorIDToRetailerStruct[d].push(r); 
+        // RetailerIDToRetailerStruct[retailerID].push(r); 
     }       
 
     function retailerScansProduct(uint _productID, string memory _retailerID, string memory timeStamp, string memory latitude, string memory longitude) public{
@@ -219,11 +219,11 @@ contract Supplychain{
         ProductMapping[_productID].RetailerLongitude=longitude;
     }        
 
-    function retailerSellToCustomer(uint batchID,uint productID, string memory customerID,string memory customerName,string memory timeStamp) public {
+    function retailerSellToCustomer(uint batchID,uint productID, string memory customerID,string memory customerName) public {
         BatchMapping[batchID].AmountSoldTOCustomer +=1;
-        ProductMapping[productID].CustomerID=customerID;
-        ProductMapping[productID].CustomerName=customerName;
-        ProductMapping[productID].DateWhenSoldToCustomer=timeStamp;
+        // ProductMapping[productID].CustomerID=customerID;
+        // ProductMapping[productID].CustomerName=customerName;
+        // ProductMapping[productID].DateWhenSoldToCustomer=timeStamp;
         CustomerData[customerID].push(Customer({
             BatchID:batchID,
             ProductID:productID,
