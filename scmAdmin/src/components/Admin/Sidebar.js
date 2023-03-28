@@ -97,7 +97,18 @@ export default function Sidebar() {
                   <img src={FraudsDetectedIcon} className="w-16 h-16" style={{ margin: "auto" }} />
                 </NavLink>
               </li>
-              
+
+              <li className="rounded-lg mb-2">
+                <NavLink
+                  to="/admin/factoryFeedback"
+                  className="flex items-center gap-4 text-sm text-gray-700 font-light px-4 py-3 rounded-lg"
+                  activeClassName="bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md"
+                >
+                  {/* <Icon name="person" size="2xl" />
+                  Factory Feedback */}
+                  <img src={ReportsIcon} className="w-16 h-16" style={{ margin: "auto" }} />
+                </NavLink>
+              </li>
               <li className="rounded-lg mb-2">
                 <NavLink
                   to="/admin/factoryFeedback"
@@ -163,7 +174,7 @@ export default function Sidebar() {
               </li>
               <li className="rounded-lg mb-2">
                 <NavLink
-                  to="/admin/retailer"
+                  to="/admin/feedback"
                   className="flex items-center gap-4 text-sm text-gray-700 font-light px-4 py-3 rounded-lg"
                   activeClassName="bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md"
                 >

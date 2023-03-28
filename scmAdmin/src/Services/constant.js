@@ -1,7 +1,7 @@
 //export const API_URL = "http://127.0.0.1:5155";
-export const API_URL = "http://162.215.222.118:5155";
- export const BLOCKCHAIN_API_URL = "http://162.215.222.118:8085/api";
-//export const BLOCKCHAIN_API_URL = "http://192.168.1.101:8082/api";
+export const API_URL = "http://34.208.61.209:5155";
+// export const BLOCKCHAIN_API_URL = "http://34.208.61.209:8085/api";
+export const BLOCKCHAIN_API_URL = "http://192.168.1.101:8082/api";
 
 export const GETDETAILS = 'GETDETAILS'; 
 export const SuperAdminUserLogin = 'SuperAdminUserLogin';

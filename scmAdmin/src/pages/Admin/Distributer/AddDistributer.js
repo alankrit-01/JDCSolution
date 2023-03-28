@@ -67,29 +67,26 @@ const AddDistributer = () => {
         <>
             <Sidebar />
             <div className="md:ml-32">
-                <div className="pt-14 pb-28 px-3 md:px-8 h-auto">
+                <div className="pt-14 pb-20 px-3 md:px-8 h-auto">
                     <div className="container mx-auto max-w-full">
-                        <MainStatusCard />
-                    </div>
+                        {/* <MainStatusCard /> */}
+                    </div> 
                 </div>
                 <div className="px-3 md:px-8 h-auto -mt-24">
                     <div className="container mx-auto max-w-full">
                         <div className="grid grid-cols-1 xl:grid-cols-6">
                             <div className="xl:col-start-1 xl:col-end-7 px-4 mb-16">
-                                <Card>
-                                    <CardHeader color="purple" contentPosition="none">
-                                        <div className="w-full flex items-center justify-between">
-                                            <h2 className="text-white text-2xl">Add Distributer</h2>
-                                        </div>
-                                    </CardHeader>
+                            <div>
+                                    <h2 className="head-cust-color">Add New Distributer</h2>
+                                </div>
+                                <Card className="background-gray rounded-none">
                                     <CardBody>
-                                        <form onSubmit={handleSubmit}>
+                                        <form onSubmit={handleSubmit} className="custom-form" >
                                             <div className="flex flex-wrap mt-10">
-
-                                                <div className="w-full lg:w-6/12 pr-4 mb-10">
+                                                <div className="w-full lg:w-12/12 mb-10 font-light">
                                                     <Input
                                                         type="text"
-                                                        color="purple"
+                                                        color="white"
                                                         placeholder="Name"
                                                         name="name"
                                                         value={name} onChange={(e) => setName(e.target.value)}
@@ -97,50 +94,71 @@ const AddDistributer = () => {
 
                                                     />
                                                 </div>
-                                                <div className="w-full lg:w-6/12 pl-4 mb-10 font-light">
-                                                    <Input
-                                                        type="email"
-                                                        color="purple"
-                                                        placeholder="Email Address"
-                                                        name="email"
-                                                        value={email} onChange={(e) => setEmail(e.target.value)}
-                                                        required
-                                                    />
-                                                </div>
-                                                <div className="w-full pr-4 mb-10 font-light">
+                                                <div className="w-full lg:w-6/12 pr-4 mb-10 font-light">
                                                     <Input
                                                         type="text"
-                                                        color="purple"
+                                                        color="white"
                                                         placeholder="Phone No."
                                                         name="phone"
                                                         value={phone} onChange={(e) => setPhone(e.target.value)}
                                                         required
                                                     />
                                                 </div>
-                                                <div className="w-full lg:w-12/12 mb-10 font-light">
+                                                <div className="w-full lg:w-6/12 pl-4 mb-10 font-light">
+                                                    <Input
+                                                        type="email"
+                                                        color="white"
+                                                        placeholder="Email Address"
+                                                        name="email"
+                                                        value={email} onChange={(e) => setEmail(e.target.value)}
+                                                        required
+                                                    />
+                                                </div>
+                                                
+                                                <div className="w-full lg:w-8/12 pr-4 mb-10 font-light">
                                                     <Input
                                                         type="text"
-                                                        color="purple"
+                                                        color="white"
                                                         placeholder="Address"
                                                         name="address"
                                                         value={address} onChange={(e) => setAddress(e.target.value)}
                                                         required
                                                     />
                                                 </div>
-                                                <div className="w-full lg:w-6/12 pr-4 mb-10 font-light">
+                                                <div className="w-full lg:w-4/12 pl-4 mb-10 font-light">
                                                     <Input
                                                         type="text"
-                                                        color="purple"
+                                                        color="white"
                                                         placeholder="City"
                                                         name="city"
                                                         value={city} onChange={(e) => setCity(e.target.value)}
                                                         required
                                                     />
                                                 </div>
-                                                <div className="w-full lg:w-6/12 px-4 mb-10 font-light">
+                                                <div className="w-full lg:w-4/12 pr-4 mb-10 font-light">
                                                     <Input
                                                         type="text"
-                                                        color="purple"
+                                                        color="white"
+                                                        placeholder="State"
+                                                        name="State"
+                                                        value={city} onChange={(e) => setCity(e.target.value)}
+                                                        required
+                                                    />
+                                                </div>
+                                                <div className="w-full lg:w-4/12 pl-4 pr-4 mb-10 font-light">
+                                                    <Input
+                                                        type="text"
+                                                        color="white"
+                                                        placeholder="Pincode"
+                                                        name="city"
+                                                        value={city} onChange={(e) => setCity(e.target.value)}
+                                                        required
+                                                    />
+                                                </div>
+                                                <div className="w-full lg:w-4/12 pl-4 mb-10 font-light">
+                                                    <Input
+                                                        type="text"
+                                                        color="white"
                                                         placeholder="Country"
                                                         name="country"
                                                         value={country} onChange={(e) => setCountry(e.target.value)}
@@ -150,8 +168,8 @@ const AddDistributer = () => {
                                                 <div className="w-full lg:w-6/12 pr-4 mb-10 font-light">
                                                     <Input
                                                         type="text"
-                                                        color="purple"
-                                                        placeholder="Latitude"
+                                                        color="white"
+                                                        placeholder="Latitude: 17.3850 N"
                                                         name="latitude"
                                                         value={latitude} onChange={(e) => setLatitude(e.target.value)}
                                                         required
@@ -160,8 +178,19 @@ const AddDistributer = () => {
                                                 <div className="w-full lg:w-6/12 pl-4 mb-10 font-light">
                                                     <Input
                                                         type="text"
-                                                        color="purple"
-                                                        placeholder="Longitude"
+                                                        color="white"
+                                                        placeholder="Longitude: 78.4867 E"
+                                                        name="longitude"
+                                                        value={longitude} onChange={(e) => setLongitude(e.target.value)}
+                                                        required
+                                                    />
+                                                </div>
+                                                <div className="w-full lg:w-2/12 pl-4 mb-10 font-light"></div>
+                                                <div className="w-full lg:w-8/12 pr-4 pl-4 mb-10 font-light custom-background">
+                                                    <Input
+                                                        type="text"
+                                                        color="white"
+                                                        placeholder="Location Url"
                                                         name="longitude"
                                                         value={longitude} onChange={(e) => setLongitude(e.target.value)}
                                                         required
@@ -169,8 +198,8 @@ const AddDistributer = () => {
                                                 </div>
                                             </div>
                                             <div className="flex">
-                                                <div className="w-full lg:w-6/12 pr-4 mb-10 font-light">
-                                                    <Button type="submit">Submit</Button>
+                                                <div className="w-full lg:w-6/12 pr-4 mb-10 font-light btn-w-full">
+                                                    <Button className="form-button " type="submit">Submit</Button>
                                                 </div>
                                             </div>
                                         </form>

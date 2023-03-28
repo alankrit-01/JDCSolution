@@ -1,6 +1,6 @@
 import Sidebar from "components/Admin/Sidebar";
 import Footer from "components/Admin/Footer";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getDistributer } from "Services/action";
 import { useEffect, useMemo, useState,useRef} from "react";
@@ -30,6 +30,7 @@ const Distributer = () => {
       theme: "light",
     });
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [Distributer, setDistributer] = useState([]);
   const [Search, setSearch] = useState("");
   const [FilterDistributer, setFilterDistributer] = useState([]);
@@ -65,42 +66,49 @@ const Distributer = () => {
       sortable: true,
     },
     {
-      name: <div className="text-base">Action</div>,
-      if: row => row.userStatus.includes('Active'),
+      name: "Information",
       selector: (row) => (
-        <Button
-          variant="outline-success"
-          onClick={() => {
-            let confirmBox = '';
-            if(row.userStatus == "Active"){
-               confirmBox = window.confirm(
-                "Are you sure you want to deactive this Record?"
-               );
-            }
-  
-            if(row.userStatus == "Deactive"){
-              confirmBox = window.confirm(
-                "Are you sure you want to activate this Record?"
-              );
-            }
-            if (confirmBox === true) {
-              if(row.userStatus === 'Active'){
-                handleDeactivateRecord(row._id, "Deactive");
-              }else if(row.userStatus === 'Deactive'){
-                handleDeactivateRecord(row._id, "Active");
-  
-              }
-            }
-          }}
-        >
-         {row.userStatus.startsWith('D') ? 'Activate' : 'Deactivate'}
-        </Button>
+        <Button variant="outline-success" onClick={() => navigate('/admin/factoryDetails', { state: { factoryId:  row.name } })}>Details</Button>
       ),
-      ignoreRowClick: true,
-      allowOverflow: true, 
-      button: true,
-      width: "150px",
-    }
+      sortable: true,
+    },
+    // {
+    //   name: <div className="text-base">Action</div>,
+    //   if: row => row.userStatus.includes('Active'),
+    //   selector: (row) => (
+    //     <Button
+    //       variant="outline-success"
+    //       onClick={() => {
+    //         let confirmBox = '';
+    //         if(row.userStatus == "Active"){
+    //            confirmBox = window.confirm(
+    //             "Are you sure you want to deactive this Record?"
+    //            );
+    //         }
+  
+    //         if(row.userStatus == "Deactive"){
+    //           confirmBox = window.confirm(
+    //             "Are you sure you want to activate this Record?"
+    //           );
+    //         }
+    //         if (confirmBox === true) {
+    //           if(row.userStatus === 'Active'){
+    //             handleDeactivateRecord(row._id, "Deactive");
+    //           }else if(row.userStatus === 'Deactive'){
+    //             handleDeactivateRecord(row._id, "Active");
+  
+    //           }
+    //         }
+    //       }}
+    //     >
+    //      {row.userStatus.startsWith('D') ? 'Activate' : 'Deactivate'}
+    //     </Button>
+    //   ),
+    //   ignoreRowClick: true,
+    //   allowOverflow: true, 
+    //   button: true,
+    //   width: "150px",
+    // }
   ];
 
   const handleDeactivateRecord = (userID, userStatus) => {

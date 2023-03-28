@@ -11,7 +11,7 @@ import { storeFactory } from "Services/action";
 import React, { useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-const AddFactory = () => {
+const FactoryDetails = () => {
     const dataFetchedRef = useRef(false);
     const admindata = useSelector((state) => state.AdminLoginData);
     const [adminUserId, setAdminUserId] = useState(admindata.adminUserId);
@@ -212,4 +212,4 @@ const AddFactory = () => {
         </>
     )
 }
-export default AddFactory
+export default FactoryDetails

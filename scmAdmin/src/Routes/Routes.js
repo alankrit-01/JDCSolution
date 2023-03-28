@@ -16,6 +16,8 @@ import AdminLogin from "pages/Admin/Login";
 import FactoryLogin from "pages/Factory/Login";
 import Factory from "pages/Admin/Factory";
 import AddFactory from "pages/Admin/Factory/AddFactory";
+import FactoryDetails from "pages/Admin/Factory/FactoryDetails";
+
 import Distributer from 'pages/Admin/Distributer';
 import AddDistributer from "pages/Admin/Distributer/AddDistributer";
 import AddMultiUser from "pages/Admin/Distributer/AddMultiUser";
@@ -25,6 +27,7 @@ import Dashboard from 'pages/Admin/Dashboard';
 import DistributerScansFail from "pages/Admin/DistributerScansFail";
 import RetailerScansFail from "pages/Admin/RetailerScansFail";
 
+import Feedback from 'pages/Admin/Feedback';
 import FactoryFeedback from 'pages/Admin/Factory/FactoryFeedback';
 import DistributerFeedback from 'pages/Admin/Distributer/DistributerFeedback';
 import RetailerFeedback from 'pages/Admin/Retailer/RetailerFeedback';
@@ -71,11 +74,13 @@ const WebRoutes = () => {
             <Route path="/admin/settings" index element={<Setting />} />
             <Route path="/admin/factory" index element={<Factory />} />
             <Route path="/admin/addfactory" index element={<AddFactory />} />
+            <Route path="/admin/factoryDetails" index element={<FactoryDetails />} />
             <Route path="/admin/distributer" index element={<Distributer />} />
             <Route path="/admin/adddistributer" index element={<AddDistributer />} />
             <Route path="/admin/retailer" index element={<Retailer />} />
             <Route path="/admin/addretailer" index element={<AddRetailer />} />
             <Route path="/admin/addMultiUser" index element={<AddMultiUser />} />
+            <Route path="/admin/feedback" index element={<Feedback />} />
             <Route path="/admin/factoryFeedback" index element={<FactoryFeedback />} />
             <Route path="/admin/viewdistributerFeedback" index element={<Distributer />} />
             <Route path="/admin/distributerFeedback" index element={<DistributerFeedback />} />

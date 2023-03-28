@@ -89,25 +89,25 @@ const MainStatusCard = () => {
                     </NavLink>
                 </div>
                 <div className="px-6 mb-10 main-tiles-section">
-                <NavLink to="/admin/distributer">
-                    <Card className="main-tiles p-0">
-                        <CardRow className="inner-tiles">
-                            <CardStatus className="tiles-title" title={100} />
-                            <img src={DistributerIcon} className="w-24 h-24" />
-                            <CardStatus className="tiles-title-bottom" title={"Distributer"} />
-                        </CardRow>
-                    </Card>
+                    <NavLink to="/admin/distributer">
+                        <Card className="main-tiles p-0">
+                            <CardRow className="inner-tiles">
+                                <CardStatus className="tiles-title" title={100} />
+                                <img src={DistributerIcon} className="w-24 h-24" />
+                                <CardStatus className="tiles-title-bottom" title={"Distributer"} />
+                            </CardRow>
+                        </Card>
                     </NavLink>
                 </div>
                 <div className="px-6 mb-10 main-tiles-section">
-                <NavLink to="/admin/retailer">
-                    <Card className="main-tiles p-0">
-                        <CardRow className="inner-tiles">
-                            <CardStatus className="tiles-title" title={100} />
-                            <img src={RetailerIcon} className="w-32 h-24" />
-                            <CardStatus className="tiles-title-bottom" title={"Retailer"} />
-                        </CardRow>
-                    </Card>
+                    <NavLink to="/admin/retailer">
+                        <Card className="main-tiles p-0">
+                            <CardRow className="inner-tiles">
+                                <CardStatus className="tiles-title" title={100} />
+                                <img src={RetailerIcon} className="w-32 h-24" />
+                                <CardStatus className="tiles-title-bottom" title={"Retailer"} />
+                            </CardRow>
+                        </Card>
                     </NavLink>
                 </div>
                 <div className="px-6 mb-10 main-tiles-section">
@@ -147,13 +147,15 @@ const MainStatusCard = () => {
                     </Card>
                 </div>
                 <div className="px-6 mb-10 main-tiles-section">
-                    <Card className="main-tiles p-0">
-                        <CardRow className="inner-tiles">
-                            <CardStatus className="tiles-title" title={100} />
-                            <img src={FeedbackIcon} className="w-24 h-24" />
-                            <CardStatus className="tiles-title-bottom" title={"Reports Received"} />
-                        </CardRow>
-                    </Card>
+                    <NavLink to="/admin/feedback">
+                        <Card className="main-tiles p-0">
+                            <CardRow className="inner-tiles">
+                                <CardStatus className="tiles-title" title={100} />
+                                <img src={FeedbackIcon} className="w-24 h-24" />
+                                <CardStatus className="tiles-title-bottom" title={"Feedback"} />
+                            </CardRow>
+                        </Card>
+                    </NavLink>
                 </div>
 
             </Carousel>
