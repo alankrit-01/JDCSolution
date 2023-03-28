@@ -30,7 +30,7 @@ mongoose.connect(MONGO_URL, {useNewUrlParser: true, useUnifiedTopology: true}).t
 // optionSuccessStatus:200
 // const contractAbi = require('./artifacts/contracts/Supplychain.sol/Supplychain.json')
 
-let contractAddress ="0xef9dAF7BB111Fd9F3244626327521c73eD3a99BA";  
+let contractAddress ="0xE665a612751795B8FD61F65b44AE5b0426715deA";  
 let contract; 
 app.use(express.json()); 
 app.use(cors());  
@@ -726,6 +726,7 @@ app.post('/api/factoryAddBatchTemplate',async(req,res)=>{
   }
 })   
 
+
 app.get('/api/viewListOfBatchTemplates', async (req, res) => {
   try { 
     let result=[];
@@ -753,6 +754,7 @@ app.get('/api/viewListOfBatchTemplates', async (req, res) => {
     res.status(400).send({ error: error.message });
   }
 });
+
 
 var server = app.listen(8082, function () {
   console.log("Example app listening at http://127:0:0:1:8082")
