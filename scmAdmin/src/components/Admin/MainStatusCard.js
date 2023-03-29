@@ -119,14 +119,16 @@ const MainStatusCard = () => {
                         </CardRow>
                     </Card>
                 </div>
-                <div className="px-6 mb-10 main-tiles-section">
-                    <Card className="main-tiles p-0">
-                        <CardRow className="inner-tiles">
-                            <CardStatus className="tiles-title" title={100} />
-                            <img src={ReportsIcon} className="w-24 h-24" />
-                            <CardStatus className="tiles-title-bottom" title={"Reports Received"} />
-                        </CardRow>
-                    </Card>
+                <div className="px-6 mb-10 main-tiles-section"> 
+                    <NavLink to="/admin/reports">
+                        <Card className="main-tiles p-0">
+                            <CardRow className="inner-tiles">
+                                <CardStatus className="tiles-title" title={100} />
+                                <img src={ReportsIcon} className="w-24 h-24" />
+                                <CardStatus className="tiles-title-bottom" title={"Reports Received"} />
+                            </CardRow>
+                        </Card>
+                    </NavLink>
                 </div>
                 <div className="px-6 mb-10 main-tiles-section">
                     <Card className="main-tiles p-0">
