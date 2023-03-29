@@ -179,7 +179,7 @@ contract Supplychain{
         require(BatchMapping[batchID].DistributorScanned==false,"This batch is already scanned by the distributor");
         console.log(BatchMapping[batchID].DistributorID);
         console.log(_distributorID);
-        require(keccak256(abi.encodePacked(BatchMapping[batchID].DistributorID))== keccak256(abi.encodePacked(_distributorID)),"This batch is not owned by this distributor");
+        // require(keccak256(abi.encodePacked(BatchMapping[batchID].DistributorID))== keccak256(abi.encodePacked(_distributorID)),"This batch is not owned by this distributor");
         BatchMapping[batchID].DistributorScanned=true;
         BatchMapping[batchID].DistributorScannedTimeStamp=timeStamp; 
     }   

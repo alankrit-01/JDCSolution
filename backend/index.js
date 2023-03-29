@@ -41,7 +41,7 @@ mongoose.connect(MONGO_URL, {useNewUrlParser: true, useUnifiedTopology: true}).t
 // optionSuccessStatus:200
 // const contractAbi = require('./artifacts/contracts/Supplychain.sol/Supplychain.json')
 
-let contractAddress ="0xE665a612751795B8FD61F65b44AE5b0426715deA";  
+let contractAddress ="0x6ccaB956ef3F24CE434ADcC332C97f580de88627";  
 let contract; 
   
 
@@ -307,9 +307,14 @@ async function distributorScanMIDDLEWARE(req, res, next) {
   try {
     if (isValid==true){
       console.log(isValid);
-      const tx =await contract.distributorScansBatch(BatchID,distributorID,timeStamp);
-      tx.wait();
-      console.log("Transaction completed!");
+      const document =await batch.findOne({BatchID});
+      if(document.DistributorID!=distributorID){
+        res.status(400).json({status:"failure", message:"This batch is not owned by this distributor"});
+      }else{
+        const tx =await contract.distributorScansBatch(BatchID,distributorID,timeStamp);
+        tx.wait();
+        console.log("Transaction completed!");
+      }
     }
     next();
   } catch (error) {
