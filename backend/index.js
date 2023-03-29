@@ -41,7 +41,7 @@ mongoose.connect(MONGO_URL, {useNewUrlParser: true, useUnifiedTopology: true}).t
 // optionSuccessStatus:200
 // const contractAbi = require('./artifacts/contracts/Supplychain.sol/Supplychain.json')
 
-let contractAddress ="0xE665a612751795B8FD61F65b44AE5b0426715deA";  
+let contractAddress ="0x6ccaB956ef3F24CE434ADcC332C97f580de88627";  
 let contract; 
   
 
@@ -119,7 +119,7 @@ app.post('/api/factoryAddProductTemplate',async(req,res)=>{
 app.get('/api/viewListOfProductTemplates', async (req, res) => {
   try { 
     const FactoryID= req.query.factoryID;
-    productTemplate.find({FactoryID}).then((documents) => { 
+    productTemplate.find({FactoryID}).sort({ProductTemplateID :1}).then((documents) => { 
       res.status(200).json({status:"success", message:documents});
     }).catch((error) => {
       console.log(error);
@@ -229,12 +229,12 @@ app.post('/api/factoryAddBatch',addbatchMIDDLEWARE,async(req,res)=>{
 app.get('/api/viewListOfBatchesProducedByFactory', async (req, res) => {
   try { 
     const FactoryID= req.query.factoryID;
-    batch.find({FactoryID}).then((documents) => { 
+    batch.find({FactoryID}).sort({ProductTemplateID :1}).then((documents) => { 
       res.status(200).json({status:"success", message:documents});
     }).catch((error) => {
       console.log(error);
       res.status(200).json({status:"success", message:"Returned data is empty"});
-    })
+    }) 
   } catch (error) {
     console.log(error.message);
     res.status(400).send({ error: error.message });
@@ -306,9 +306,15 @@ async function distributorScanMIDDLEWARE(req, res, next) {
   const isValid =req.body.isValid;
   try {
     if (isValid==true){
-      const tx =await contract.distributorScansBatch(BatchID,distributorID,timeStamp);
-      tx.wait();
-      console.log("Transaction completed!");
+      console.log(isValid);
+      const document =await batch.findOne({BatchID});
+      if(document.DistributorID!=distributorID){
+        res.status(400).json({status:"failure", message:"This batch is not owned by this distributor"});
+      }else{
+        const tx =await contract.distributorScansBatch(BatchID,distributorID,timeStamp);
+        tx.wait();
+        console.log("Transaction completed!");
+      }
     }
     next();
   } catch (error) {
@@ -338,20 +344,23 @@ app.post('/api/distributorScansBatch', distributorScanMIDDLEWARE, async(req,res)
         }
       })
     res.status(200).json({status:"success", message:"Distributor scans the batch"});
-
-  } else if(isValid==false){  
-    User.findById(distributorID, (err, user) => {
-      if (err) {
-        console.error(err);
-      } else {
+ 
+  } else if(isValid==false){ 
+    User.findById(distributorID, (err, user) => { 
+      if (err) { 
+        console.log("USER NOT FOUND") 
+        console.error(err); 
+      } else { 
+        console.log("USER FOUND")
+        console.log(user);
         const Data= new fraudScan({
           _id: new mongoose.Types.ObjectId(),
           isDistributor:true,
           distributorID:distributorID,
           isRetailer:false,
           RetailerID:"",
-          batchID:batchID,
-          productId:0,
+          batchID:BatchID,
+          productId:0, 
           timestamp:timeStamp,
           currentLatitude:latitude,
           currentLongitude:longitude,
@@ -360,7 +369,7 @@ app.post('/api/distributorScansBatch', distributorScanMIDDLEWARE, async(req,res)
           Email:user.email,
           orignalLocation:(user.address + " " + user.city +  " " + user.country),
           distanceSeprated:sepration_distance,
-        })
+        })  
         Data.save().then((result) => {
           // console.log(result);
           res.status(200).json({status:"success", message:"Incorrect scan location fraud detected"}) 
@@ -1409,7 +1418,7 @@ app.post('/api/scanIssueReport', jsonParser, async function (req, res) {
 
 var server = app.listen(8085, function () {
   console.log("Example app listening at http://127:0:0:1:8085")
-})
+}) 
 
 
 // pm2 start index.js
