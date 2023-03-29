@@ -41,11 +41,7 @@ mongoose.connect(MONGO_URL, {useNewUrlParser: true, useUnifiedTopology: true}).t
 // optionSuccessStatus:200
 // const contractAbi = require('./artifacts/contracts/Supplychain.sol/Supplychain.json')
 
-<<<<<<< HEAD
-let contractAddress ="0x49f2DE0F767391E1840ACa40a229Ca4DcDDc64A4";  
-=======
 let contractAddress ="0xE665a612751795B8FD61F65b44AE5b0426715deA";  
->>>>>>> 7c2c716ed77a98e153e85e3bd964c3302bdf4302
 let contract; 
   
 
@@ -769,7 +765,6 @@ app.get('/api/viewListOfBatchTemplates', async (req, res) => {
   }
 });
 
-<<<<<<< HEAD
 /***************Consumer Section********/
 app.post('/api/registerconsumer', async function (req, res) {
 
@@ -1414,11 +1409,6 @@ app.post('/api/scanIssueReport', jsonParser, async function (req, res) {
 
 var server = app.listen(8085, function () {
   console.log("Example app listening at http://127:0:0:1:8085")
-=======
-
-var server = app.listen(8082, function () {
-  console.log("Example app listening at http://127:0:0:1:8082")
->>>>>>> 7c2c716ed77a98e153e85e3bd964c3302bdf4302
 })
 
 
