@@ -9,6 +9,8 @@ import DataTable from "react-data-table-component";
 import { Button } from "@material-tailwind/react";
 import Input from "@material-tailwind/react/Input";
 import loader from "assets/img/loading.gif";
+import star from "assets/img/star.png";
+import star2 from "assets/img/star-se.png";
 const RetailerFeedback = () => {
   const admindata = useSelector((state) => state.AdminLoginData);
   const [adminUserId, setAdminUserId] = useState(admindata.adminUserId);
@@ -19,7 +21,7 @@ const RetailerFeedback = () => {
   const [loading, setLoading] = useState(false);
   const columns = [
     {
-      name: "Name",
+      name: "Retailer Name",
       selector: (row) => row.name,
       sortable: true,
     },
@@ -79,14 +81,37 @@ const RetailerFeedback = () => {
       <div className="md:ml-32">
         <div className="pt-14 pb-28 px-3 md:px-8 h-auto">
           <div className="container mx-auto max-w-full">
-              <MainStatusCard />
+            {/* <MainStatusCard /> */}
           </div>
         </div>
         <div className="px-3 md:px-8 h-auto -mt-24">
           <div className="container mx-auto max-w-full">
             <div className="grid grid-cols-1 px-4 mb-16">
+
+              <div>
+                <h2 className="head-cust-color">Feedback (Retailer - 45)</h2>
+              </div>
+              <div className="flex flex-wrap feedback-padding lg:w-8/12">
+                <div className="w-full lg:w-7/12 pr-4 font-light">
+                  <div className="feedback-detail-image-part">
+                    <img src={star} />
+                    <img src={star} />
+                    <img src={star} />
+                    <img src={star} />
+                    <img src={star2} />
+                  </div>
+                </div>
+                <div className="w-full lg:w-1/12 pl-4 font-light">
+                  <h2 className='dashicon-details'>-</h2>
+                </div>
+                <div className="w-full lg:w-3/12 pl-4 font-light">
+                  <div className="detail-button-review">
+                    <span className="point-part">3.5</span>
+                  </div>
+                </div>
+              </div>
               <DataTable
-                title="Factory Feedback List"
+                // title="Retailer Feedback List"
                 columns={columns}
                 noDataComponent={
                   <div>
@@ -103,20 +128,20 @@ const RetailerFeedback = () => {
                 selectableRows
                 selectableRowsHighlight
                 highlightOnHover
-                subHeader
-                subHeaderComponent={
-                  <div className="w-full">
-                    <div className="float-left lg:w-6/12 d-flex pr-4 mb-10 font-light">
-                      <Input
-                        type="text"
-                        color="purple"
-                        placeholder="Search Here"
-                        value={Search}
-                        onChange={(e) => setSearch(e.target.value)}
-                      />
-                    </div>
-                  </div>
-                }
+                // subHeader
+                // subHeaderComponent={
+                //   <div className="w-full">
+                //     <div className="float-left lg:w-6/12 d-flex pr-4 mb-10 font-light">
+                //       <Input
+                //         type="text"
+                //         color="purple"
+                //         placeholder="Search Here"
+                //         value={Search}
+                //         onChange={(e) => setSearch(e.target.value)}
+                //       />
+                //     </div>
+                //   </div>
+                // }
               />
             </div>
           </div>

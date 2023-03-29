@@ -42,7 +42,7 @@ const BatchTemplate = () => {
         },
         {
             name: "Product Name",
-            selector: (row) => row.Name,
+            selector: (row) => row.BatchName,
             sortable: true,
             width: "200px"
         },
@@ -115,7 +115,7 @@ const BatchTemplate = () => {
 
     useEffect(() => {
             const result = BatchTemplates.filter((allBatchTemplate) => {
-                return allBatchTemplate.Name.toLowerCase().match(Search.toLowerCase());
+                return allBatchTemplate.BatchName.toLowerCase().match(Search.toLowerCase());
             })
             setFilterBatchTemplates(result)
         }, [Search])

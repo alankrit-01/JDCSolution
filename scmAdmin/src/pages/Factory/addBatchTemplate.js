@@ -89,14 +89,14 @@ const AddBatchTemplate = () => {
             productIDs: productIds,
             companyProductIDs: companyProductIDs,
             batchSize: batchSizeData,
+            batchName:selectedProduct.Name.toString(),
             batchDescription: batchDescription,
             productTemplateID: selectedProduct.ProductTemplateID.toString(),
             factoryID: factoryUserId,
             distributorID: selectedDistributer._id.toString(),
             factoryLocation: factoryUserLocation,
-            dataOfProduction: batchManufacture
+            dateOfProduction: batchManufacture
         }
-
         //console.log("data data", data)
         dispatch(storeBatchTemplate(data))
     }
