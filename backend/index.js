@@ -774,90 +774,6 @@ app.get('/api/viewListOfBatchTemplates', async (req, res) => {
   }
 });
 
-/***************Consumer Section********/
-app.post('/api/registerconsumer', async function (req, res) {
-
-    try {
-        let phone = req.body.phone;
-          console.log(phone);
-        if(phone==''){
-            res.status(200).json({status:"success", message:"Phone Number should not be blank"});
-        }else{
-            
-            const checkConsumerExists = await Consumer.findOne({ phone:phone });
-            if (!checkConsumerExists) {
-                const data = new Consumer({
-                    _id: new mongoose.Types.ObjectId(),
-                    phone: phone,
-                    created:Date.now()
-                
-                })
-                data.save().then((result) => {           
-                    res.status(200).json({status:"success", message:"Your registration successfull",cid:result._id});
-                })
-                .catch((err) => console.warn(err)
-                )
-            }else{        
-                res.status(200).json({status:"success",cid:checkConsumerExists._id});
-            }
-        }
-    } catch (error) {
-        console.log(error.message);
-        res.status(400).send({ error: error.message });
-    }    
-})
-
-
-app.post('/api/rateus', async function (req, res) {
-    try {
-        let cid = req.body.cid;
-        let rating= req.body.rating; 
-        let comment= req.body.comment; 
-        let services= req.body.services;
-        let role= 'Consumer';  
-        console.log(cid);
-        if(cid==''){
-            
-            res.status(200).json({status:"fail", message:"Invalid Consumer"});
-        }else if(rating==''){
-            
-            res.status(200).json({status:"fail", message:"Rating should not be blank"});
-        }else if(comment==''){
-            
-            res.status(200).json({status:"fail", message:"Comment should not be blank"});
-        }else if(services==''){
-            
-            res.status(200).json({status:"fail", message:"Services should not be blank"});
-        }else{
-            const checkConsumerRatingExists = await Rateus.findOne({ cid: req.body.cid });
-            if (!checkConsumerRatingExists) {
-                const data = new Rateus({
-                    _id: new mongoose.Types.ObjectId(),
-                    cid: cid,
-                    rating: rating,
-                    created:Date.now(),
-                    comment: comment,
-                    services: services,
-                    role:role
-                
-                })
-                data.save().then((result) => {         
-                   
-                    res.status(200).json({status:"success", message:"Thanks for rate us"});
-                })
-                .catch((err) => console.warn(err)
-                )
-            }else{
-                res.status(200).json({status:"success", message:"Already given rating us"});
-                
-            }
-        }
-        
-    } catch (error) {
-        console.log(error.message);
-        res.status(400).send({ error: error.message });
-    }
-})
 
 
 /////////////////////////////////////////
@@ -875,7 +791,6 @@ const upload = multer({
       }
   })
 }).single("image");
-
 app.post('/api/register', jsonParser, function (req, res) {
   const salt = bcrypt.genSaltSync(5);
   const defaultPassword = '123456';
@@ -883,12 +798,12 @@ app.post('/api/register', jsonParser, function (req, res) {
   const password = bcrypt.hashSync(defaultPassword, salt);
   const data = new User({
       _id: new mongoose.Types.ObjectId(),
-      hashAddress: req.body.whHashAddress,
       name: req.body.name,
       email: req.body.email,
       address: req.body.address,
       password: password,
       role: req.body.role,
+      userStatus: "Active",
   })
   data.save().then((result) => {
       jwt.sign({ result }, jwtkey, { expiresIn: '300s' }, (err, token) => {
@@ -900,7 +815,7 @@ app.post('/api/register', jsonParser, function (req, res) {
       )
 })
 
-function sendEmail(email,password) {
+function sendEmail(email, password) {
   var email = email;
   var password = password;
   var mail = nodemailer.createTransport({
@@ -914,8 +829,8 @@ function sendEmail(email,password) {
   var mailOptions = {
       from: 'vipinyadav.vy1994@gmail.com',
       to: email,
-      subject: 'Welcome To Richmint SCM',
-      html: '<p>Hello </p> Congratulations on your new venture! It sounds like an exciting opportunity, and I am looking forward to watching your progress as the business develops.</p><p> You can login with these details </p><p>Email : '+ email +' </p><p>Password : '+ password +'</p>'
+      subject: 'Congratulation To Supply Chain Management',
+      html: '<p>Hello </p> Congratulations on your new venture! It sounds like an exciting opportunity, and I am looking forward to watching your progress as the business develops.</p><p> You can login with these details </p><p>Email : ' + email + ' </p><p>Password : ' + password + '</p>'
   };
 
   mail.sendMail(mailOptions, function (error, info) {
@@ -929,15 +844,17 @@ function sendEmail(email,password) {
   });
 }
 
+
+
 app.post('/api/addUser', jsonParser, function (req, res) {
   const salt = bcrypt.genSaltSync(5);
   const defaultPassword = '123456';
   const password = bcrypt.hashSync(defaultPassword, salt);
   const data = new User({
       _id: new mongoose.Types.ObjectId(),
-      hashAddress: req.body.hashAddress,
       name: req.body.name,
       email: req.body.email,
+      phone: req.body.phone,
       password: password,
       role: req.body.role,
       adminId: req.body.adminId,
@@ -946,6 +863,7 @@ app.post('/api/addUser', jsonParser, function (req, res) {
       country: req.body.country,
       latitude: req.body.latitude,
       longitude: req.body.longitude,
+      userStatus: "Active",
   })
   data.save().then((result) => {
       jwt.sign({ result }, jwtkey, { expiresIn: '300s' }, (err, token) => {
@@ -958,25 +876,39 @@ app.post('/api/addUser', jsonParser, function (req, res) {
       )
 })
 
+app.post('/api/userStatusUpdate', jsonParser, async function (req, res) {
+  let userId = req.body.userID;
+  let userStatus = req.body.userStatus;
+  try {
+      await User.findByIdAndUpdate(
+          { _id: userId },
+          { userStatus: userStatus}
+      );
+      res.status(200).json({ status: "success", message: "User Deactivated Successfully" })
+  } catch (error) {
+      res.status(400).json({ error: error });
+  }
+})
+
 app.post('/api/addMultiUser', jsonParser, function (req, res) {
   const salt = bcrypt.genSaltSync(5);
   const defaultPassword = '123456';
-  console.log(req.body);
   const password = bcrypt.hashSync(defaultPassword, salt);
   req.body.forEach(element => {
-
       const data = new User({
           _id: new mongoose.Types.ObjectId(),
-          hashAddress: element[0],
-          name: element[1],
-          email: element[2],
+          name: element[0],
+          email: element[1],
+          phone: element[2],
           password: password,
-          role: element[8],
-          address: element[3],
-          city: element[4],
-          country: element[5],
-          latitude: element[6],
-          longitude: element[7],
+          role: element[9],
+          adminId: element[3],
+          address: element[4],
+          city: element[5],
+          country: element[6],
+          latitude: element[7],
+          longitude: element[8],
+          userStatus: "Active",
       })
       data.save().then((result) => {
           jwt.sign({ result }, jwtkey, { expiresIn: '300s' }, (err, token) => {
@@ -986,24 +918,21 @@ app.post('/api/addMultiUser', jsonParser, function (req, res) {
       })
           .catch((err) => console.warn(err)
           )
-
   });
-
-
 })
+
 
 app.post('/api/uploads', upload, function (req, res) {
   res.status(200).json("File Upload");
 })
 
 app.post('/api/factoryLogin', jsonParser, async function (req, res) {
-  const userData = await User.findOne({ email: req.body.email, role: 'Factory' });
+  const userData = await User.findOne({ email: req.body.email,userStatus: 'Active', role: 'Factory' });
   if (userData) {
-      // check user password with hashed password stored in the database
       const validPassword = await bcrypt.compare(req.body.password, userData.password);
       if (validPassword) {
           jwt.sign({ userData }, jwtkey, { expiresIn: '300s' }, (err, token) => {
-              res.status(200).json({ token, userId: userData._id, userHash: userData.hashAddress, userEmail: userData.email, userRole: userData.role, userName: userData.name, address: userData.address, city: userData.city, country: userData.country, latitude: userData.latitude, longitude: userData.longitude })
+              res.status(200).json({ token, userId: userData._id, userEmail: userData.email, userRole: userData.role, userName: userData.name, address: userData.address, city: userData.city, country: userData.country, latitude: userData.latitude, longitude: userData.longitude, adminId: userData.adminId })
           })
       } else {
           res.status(400).json({ error: "Invalid Password" });
@@ -1012,25 +941,19 @@ app.post('/api/factoryLogin', jsonParser, async function (req, res) {
       res.status(401).json({ error: "User does not exist" });
   }
 })
-
 app.post('/api/login', jsonParser, async function (req, res) {
-  
   let userEmail = ''
   userEmail = req.body.email;
-  
   const userPassword = req.body.password;
   if (userEmail != '' && userPassword != '' && userEmail != undefined && userPassword != undefined) {
-      const userData = await User.findOne({ email: req.body.email, role: req.body.role });
+      const userData = await User.findOne({ email: req.body.email, userStatus: 'Active', role: req.body.role });
       if (userData) {
-          // check user password with hashed password stored in the database
           const validPassword = await bcrypt.compare(req.body.password, userData.password);
           if (validPassword) {
               jwt.sign({ userData }, jwtkey, { expiresIn: '300s' }, (err, token) => {
                   //res.status(200).json({ token })
-                 // res.status(200).json({ token, userId: userData._id, userEmail: userData.email, userRole: userData.role, userName: userData.name, userAddress: userData.address, userCity: userData.city, userCountry: userData.country, userLatitude: userData.latitude, userLongitude: userData.longitude })
-
-                  res.status(200).json({ token, userId: userData._id})
-
+                  // res.status(200).json({ token, userId: userData._id, userEmail: userData.email, userRole: userData.role, userName: userData.name, userAddress: userData.address, userCity: userData.city, userCountry: userData.country, userLatitude: userData.latitude, userLongitude: userData.longitude })
+                  res.status(200).json({ token, userId: userData._id })
               })
           } else {
               res.status(400).json({ error: "Invalid Password" });
@@ -1043,27 +966,20 @@ app.post('/api/login', jsonParser, async function (req, res) {
           res.status(401).json({ error: "Email is Required" });
       } else {
           res.status(401).json({ error: "Password is Required" });
-
       }
   }
-
 })
 
 app.post('/api/userProfile', jsonParser, async function (req, res) {
   let userId = ''
   userId = req.body.userId;
- 
   if (userId != '') {
       const userData = await User.findOne({ userId: userId });
       if (userData) {
-          // check user password with hashed password stored in the database
-          
-              jwt.sign({ userData }, jwtkey, { expiresIn: '300s' }, (err, token) => {
-                  //res.status(200).json({ token })
-                  res.status(200).json({ token, userId: userData._id, userEmail: userData.email, userRole: userData.role, userName: userData.name, userAddress: userData.address, userCity: userData.city, userCountry: userData.country, userLatitude: userData.latitude, userLongitude: userData.longitude })
-
-              })
-         
+          jwt.sign({ userData }, jwtkey, { expiresIn: '300s' }, (err, token) => {
+              //res.status(200).json({ token })
+              res.status(200).json({ token, userId: userData._id, userEmail: userData.email, userRole: userData.role, userName: userData.name, userAddress: userData.address, userCity: userData.city, userCountry: userData.country, userLatitude: userData.latitude, userLongitude: userData.longitude, adminId: userData.adminId })
+          })
       } else {
           res.status(401).json({ error: "User does not exist" });
       }
@@ -1072,10 +988,8 @@ app.post('/api/userProfile', jsonParser, async function (req, res) {
           res.status(401).json({ error: "Email is Required" });
       } else {
           res.status(401).json({ error: "Password is Required" });
-
       }
   }
-
 })
 
 app.post('/api/superAdminLogin', jsonParser, async function (req, res) {
@@ -1085,13 +999,11 @@ app.post('/api/superAdminLogin', jsonParser, async function (req, res) {
   if (adminEmail != '' && adminPassword != '' && adminEmail != undefined && adminPassword != undefined) {
       const userData = await User.findOne({ email: req.body.email, role: req.body.role, role: 'Superadmin' });
       if (userData) {
-          // check user password with hashed password stored in the database
           const validPassword = await bcrypt.compare(req.body.password, userData.password);
           if (validPassword) {
               jwt.sign({ userData }, jwtkey, { expiresIn: '300s' }, (err, token) => {
                   //res.status(200).json({ token })
                   res.status(200).json({ token, userId: userData._id, userEmail: userData.email, userRole: userData.role, userName: userData.name, userAddress: userData.address, userCity: userData.city, userCountry: userData.country, userLatitude: userData.latitude, userLongitude: userData.longitude })
-
               })
           } else {
               res.status(400).json({ error: "Invalid Password" });
@@ -1104,10 +1016,8 @@ app.post('/api/superAdminLogin', jsonParser, async function (req, res) {
           res.status(401).json({ error: "Email is Required" });
       } else {
           res.status(401).json({ error: "Password is Required" });
-
       }
   }
-
 })
 
 app.post('/api/adminLogin', jsonParser, async function (req, res) {
@@ -1115,15 +1025,13 @@ app.post('/api/adminLogin', jsonParser, async function (req, res) {
   adminEmail = req.body.email;
   const adminPassword = req.body.password;
   if (adminEmail != '' && adminPassword != '' && adminEmail != undefined && adminPassword != undefined) {
-      const userData = await User.findOne({ email: req.body.email, role: req.body.role, role: 'Admin' });
+      const userData = await User.findOne({ email: req.body.email, userStatus: 'Active', role: 'Admin' });
       if (userData) {
-          // check user password with hashed password stored in the database
           const validPassword = await bcrypt.compare(req.body.password, userData.password);
           if (validPassword) {
               jwt.sign({ userData }, jwtkey, { expiresIn: '300s' }, (err, token) => {
                   //res.status(200).json({ token })
-                  res.status(200).json({ token, userId: userData._id, userEmail: userData.email, userRole: userData.role, userName: userData.name, userAddress: userData.address, userCity: userData.city, userCountry: userData.country, userLatitude: userData.latitude, userLongitude: userData.longitude })
-
+                  res.status(200).json({ token, userId: userData._id, userEmail: userData.email, userRole: userData.role, userName: userData.name, userAddress: userData.address, userCity: userData.city, userCountry: userData.country, userLatitude: userData.latitude, userLongitude: userData.longitude, superAdminId: userData.adminId })
               })
           } else {
               res.status(400).json({ error: "Invalid Password" });
@@ -1136,14 +1044,12 @@ app.post('/api/adminLogin', jsonParser, async function (req, res) {
           res.status(401).json({ error: "Email is Required" });
       } else {
           res.status(401).json({ error: "Password is Required" });
-
       }
   }
-
 })
 
 app.get('/api/users', function (req, res) {
-  User.find().then((data) => {
+  User.find().sort({_id:-1}).then((data) => {
       res.status(200).json(data)
   })
 })
@@ -1152,15 +1058,41 @@ app.get('/api/warehouse', function (req, res) {
       res.status(200).json(data)
   })
 })
-app.get('/api/company', function (req, res) {
-  User.find({ role: "Admin" }).then((data) => {
-      res.status(200).json(data)
-  })
+app.get('/api/company', async function (req, res) {
+  let result = [];
+  let data = await User.find({ role: "Admin" }).sort({_id:-1});
+  console.log("data",data)
+  for (let i = 0; i < data.length; i++) {
+      let factorydata = await User.find({ adminId: data[i]._id.toString(), role: 'Factory' }).sort({_id:-1})
+      let distributerdata = await User.find({ adminId: data[i]._id.toString(), role: 'Distributer' }).sort({_id:-1})
+      let retailerdata = await User.find({ adminId: data[i]._id.toString(), role: 'Retailer' }).sort({_id:-1})
+      result.push({
+          _id: data[i]._id.toString(),
+          name: data[i].name,
+          email: data[i].email,
+          phone: data[i].phone,
+          password: data[i].password,
+          role: data[i].role,
+          address: data[i].address,
+          city: data[i].city,
+          country: data[i].country,
+          latitude: data[i].latitude,
+          longitude: data[i].longitude,
+          adminId: data[i].adminId,
+          userStatus: data[i].userStatus,
+          totalFactory: factorydata.length,
+          totalDistributer: distributerdata.length,
+          totalRetailer: retailerdata.length,
+      })
+  }
+  res.status(200).json(result)
 })
+
+
 app.post('/api/factoryByCompany', jsonParser, async function (req, res) {
   let adminId = '';
   adminId = req.body.adminId
-  User.find({ role: "Factory", adminId: adminId }).then((data) => {
+  User.find({ role: "Factory", adminId: adminId }).sort({_id:-1}).then((data) => {
       res.status(200).json(data)
   })
 })
@@ -1168,70 +1100,60 @@ app.post('/api/factoryByCompany', jsonParser, async function (req, res) {
 app.post('/api/userById', jsonParser, async function (req, res) {
   let _id = '';
   _id = req.body._id
-  User.find({_id: _id }).then((data)=> {
+  User.find({ _id: _id }).then((data) => {
       const temp = data[0];
-     res.status(200).json(temp)
+      res.status(200).json(temp)
   })
- 
 })
 
 app.post('/api/retailerByCompany', jsonParser, async function (req, res) {
   let adminId = '';
   adminId = req.body.adminId
-  User.find({ role: "Retailer", adminId: adminId }).then((data) => {
+  User.find({ role: "Retailer", adminId: adminId }).sort({_id:-1}).then((data) => {
       res.status(200).json(data)
   })
 })
 app.post('/api/distributerByCompany', jsonParser, async function (req, res) {
   let adminId = '';
   adminId = req.body.adminId
-  User.find({ role: "Distributer", adminId: adminId }).then((data) => {
+  User.find({ role: "Distributer", adminId: adminId }).sort({_id:-1}).then((data) => {
       res.status(200).json(data)
   })
 })
-app.post('/api/retailerList',jsonParser, async function (req, res) {
-  
+app.post('/api/retailerList', jsonParser, async function (req, res) {
   // User.find({ role: "Retailer"}).then((data) => {
   //     res.status(200).json(data)
   // })
- 
-  const userData = await  User.find({"role":"Retailer"},{ "_id": 0,"hashAddress": 1, "name": 1 })
+  const userData = await User.find({ "role": "Retailer" }, { "_id": 0, "hashAddress": 1, "name": 1 })
   // const userData = await  User.find({ role: "Retailer" });
-    
-  
   if (userData) {
       jwt.sign({ userData }, jwtkey, { expiresIn: '300s' }, (err, token) => {
-          
-          res.status(200).json({userData })
-
+          res.status(200).json({ userData })
       })
-      
-   } else {
-       res.status(401).json({ error: "User does not exist" });
-   }
-   
-
+  } else {
+      res.status(401).json({ error: "User does not exist" });
+  }
 });
 
 app.get('/api/retailer', function (req, res) {
-  User.find({ role: "Retailer" }).then((data) => {
+  User.find({ role: "Retailer" }).sort({_id:-1}).then((data) => {
       res.status(200).json(data)
   })
 });
 
 app.get('/api/distributer', function (req, res) {
-  User.find().where({ role: "Distributer" }).then((data) => {
+  User.find().where({ role: "Distributer" }).sort({_id:-1}).then((data) => {
       res.status(200).json(data)
   })
 })
 app.get('/api/productApprover', function (req, res) {
-  User.find({ role: "Product Approver" }).then((data) => {
+  User.find({ role: "Product Approver" }).sort({_id:-1}).then((data) => {
       res.status(200).json(data)
   })
 })
 
 app.get('/api/factory', function (req, res) {
-  User.find({ role: "Factory" }).then((data) => {
+  User.find({ role: "Factory" }).sort({_id:-1}).then((data) => {
       res.status(200).json(data)
   })
 })
@@ -1243,16 +1165,18 @@ app.get('/api/customer', function (req, res) {
 })
 
 app.get('/api/rawmaterialsupplier', function (req, res) {
-  User.find({ role: "Supplier" }).then((data) => {
+  User.find({ role: "Supplier" }).sort({_id:-1}).then((data) => {
       res.status(200).json(data)
   })
 })
 
+
 app.post('/api/retailerbylocation', jsonParser, function (req, res) {
-  User.find({ address: req.body.location, role: req.body.role }).then((data) => {
+  User.find({ address: req.body.location, role: req.body.role }).sort({_id:-1}).then((data) => {
       res.status(200).json(data[0])
   })
 })
+
 
 app.post('/api/location', jsonParser, async function (req, res) {
   const locationData = await User.findOne({ hashAddress: req.body.hashAddress });
@@ -1261,6 +1185,37 @@ app.post('/api/location', jsonParser, async function (req, res) {
       var username = locationData.name;
       res.status(200).json({ location, username })
   }
+})
+app.post('/api/addFeedback', jsonParser, function (req, res) {
+  const readStatus = 'Unread';
+  const data = new Feedback({
+      _id: new mongoose.Types.ObjectId(),
+      senderUserID: req.body.senderUserID,
+      receiverUserID: req.body.receiverUserID,
+      name: req.body.name,
+      role: req.body.role,
+      subject: req.body.subject,
+      description: req.body.description,
+      status: readStatus,
+      date: req.body.date,
+  })
+  data.save().then((result) => {
+      res.status(200).json({ status: "success", message: "Feedback added successfully." });
+  })
+      .catch((err) => console.warn(err)
+      )
+})
+
+app.get('/api/getFeedback', function (req, res) {
+  Feedback.find({ receiverUserID: req.query.receiverUserID, role: req.query.role }).sort({_id:-1}).then((data) => {
+      res.status(200).json(data)
+  })
+})
+
+app.get('/api/getSelfFeedback', function (req, res) {
+  Feedback.find({ senderUserID: req.query.senderUserID }).sort({_id:-1}).then((data) => {
+      res.status(200).json(data)
+  })
 })
 
 function verifyToken(req, res, next) {
