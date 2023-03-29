@@ -177,10 +177,22 @@ contract Supplychain{
        
     function distributorScansBatch(uint batchID, string memory _distributorID,string memory timeStamp) public{
         require(BatchMapping[batchID].DistributorScanned==false,"This batch is already scanned by the distributor");
+        console.log(BatchMapping[batchID].DistributorID);
+        console.log(_distributorID);
         require(keccak256(abi.encodePacked(BatchMapping[batchID].DistributorID))== keccak256(abi.encodePacked(_distributorID)),"This batch is not owned by this distributor");
         BatchMapping[batchID].DistributorScanned=true;
         BatchMapping[batchID].DistributorScannedTimeStamp=timeStamp; 
     }   
+    // 1680005033786
+
+                //     1680005033787,
+                // 1680005033788,
+                // 1680005033789,
+                // 1680005033790,
+                // 1680005033791,
+                // 1680005033792,
+                // 1680005033793,
+                // 1680005033794
 
     function distributorSellToRetailer(uint batchID, uint quantity) public{
         uint amountLeft =BatchMapping[batchID].AmountLeftForSellingTORetailer;

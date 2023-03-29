@@ -5,8 +5,8 @@ let customerData = new mongoose.Schema({
     BatchID:Number,
     // BatchRef:{
     //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: "batch"
-    // },
+    //     ref: "batch"                         
+    // },         
     ProductRef:{
         type: mongoose.Schema.Types.ObjectId,
         ref: "product"
