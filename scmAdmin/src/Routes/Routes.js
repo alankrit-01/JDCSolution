@@ -27,12 +27,15 @@ import Dashboard from 'pages/Admin/Dashboard';
 import DistributerScansFail from "pages/Admin/DistributerScansFail";
 import RetailerScansFail from "pages/Admin/RetailerScansFail";
 
-import Feedback from 'pages/Admin/Feedback';
+import Feedback from 'pages/Admin/Feedback'; 
 import FactoryFeedback from 'pages/Admin/Factory/FactoryFeedback';
 import DistributerFeedback from 'pages/Admin/Distributer/DistributerFeedback';
 import RetailerFeedback from 'pages/Admin/Retailer/RetailerFeedback';
+import CustomerFeedback from 'pages/Admin/CustomerFeedback';
+
 import AddCompanyFeedback from 'pages/Admin/AddCompanyFeedbak';
 import CompanySelfFeedback from "pages/Admin/CompanyFeedback";
+
 
 import FactoryDashboard from "pages/Factory/Dashboard";
 import FactorySetting from 'pages/Factory/Settings';
@@ -87,6 +90,7 @@ const WebRoutes = () => {
             <Route path="/admin/viewdistributerFeedback" index element={<Distributer />} />
             <Route path="/admin/retailerFeedback" index element={<RetailerFeedback />} />
             <Route path="/admin/viewRetailerFeedback" index element={<Distributer />} />
+            <Route path="/admin/customerFeedback" index element={<CustomerFeedback />} />
             <Route path="/admin/addCompanyFeedback" index element={<AddCompanyFeedback />} />
             <Route path="/admin/companySelfFeedback" index element={<CompanySelfFeedback />} />
             <Route path="/factory" index element={<FactoryLogin />} />

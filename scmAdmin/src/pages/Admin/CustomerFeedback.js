@@ -11,7 +11,7 @@ import Input from '@material-tailwind/react/Input';
 import loader from "assets/img/loading.gif";
 import star from "assets/img/star.png";
 import star2 from "assets/img/star-se.png";
-const DistributerFeedback = () => {
+const CustomerFeedback = () => {
     const admindata = useSelector((state) => state.AdminLoginData);
     const [adminUserId, setAdminUserId] = useState(admindata.adminUserId);
     const dispatch = useDispatch();
@@ -21,7 +21,7 @@ const DistributerFeedback = () => {
     const [loading, setLoading] = useState(false);
     const columns = [
         {
-            name: "Distributer Name",
+            name: "Customer Name",
             selector: (row) => row.name,
             sortable: true,
         },
@@ -45,7 +45,7 @@ const DistributerFeedback = () => {
     useEffect(() => {
         const data = {
             receiverUserID: adminUserId,
-            role: 'Distributer',
+            role: 'Customer',
         }
         dispatch(getFeedback(data))
     }, [])
@@ -88,7 +88,7 @@ const DistributerFeedback = () => {
                     <div className="container mx-auto max-w-full">
                         <div className="grid grid-cols-1 px-4 mb-16">
                             <div>
-                                <h2 className="head-cust-color">Feedback (Distributer - 45)</h2>
+                                <h2 className="head-cust-color">Feedback (Customer - 45)</h2>
                             </div>
                             <div className="flex flex-wrap feedback-padding lg:w-8/12">
                                 <div className="w-full lg:w-7/12 pr-4 font-light">
@@ -144,6 +144,6 @@ const DistributerFeedback = () => {
         </>
     );
 }
-export default DistributerFeedback
+export default CustomerFeedback
 
 

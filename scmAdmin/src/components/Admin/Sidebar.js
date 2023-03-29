@@ -18,7 +18,6 @@ import FraudsDetectedIcon from 'assets/img/Frauds-detected.png';
 import ReportsIcon from 'assets/img/Reports.png';
 import FeedbackIcon from 'assets/img/Feedback.png';
 
- 
 export default function Sidebar() {
   const [showSidebar, setShowSidebar] = useState("-left-64");
   const dispatch = useDispatch();
@@ -104,55 +103,46 @@ export default function Sidebar() {
                   className="flex items-center gap-4 text-sm text-gray-700 font-light px-4 py-3 rounded-lg"
                   activeClassName="bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md"
                 >
-                  {/* <Icon name="person" size="2xl" />
-                  Factory Feedback */}
+               
                   <img src={ReportsIcon} className="w-16 h-16" style={{ margin: "auto" }} />
                 </NavLink>
               </li>
-              <li className="rounded-lg mb-2">
+              {/* <li className="rounded-lg mb-2">
                 <NavLink
                   to="/admin/factoryFeedback"
                   className="flex items-center gap-4 text-sm text-gray-700 font-light px-4 py-3 rounded-lg"
                   activeClassName="bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md"
                 >
-                  {/* <Icon name="person" size="2xl" />
-                  Factory Feedback */}
                   <img src={FeedbackIcon} className="w-16 h-16" style={{ margin: "auto" }} />
                 </NavLink>
-              </li>
-              <li className="rounded-lg mb-2">
+              </li> */}
+              {/* <li className="rounded-lg mb-2">
                 <NavLink
                   to="/admin/distributerFeedback"
                   className="flex items-center gap-4 text-sm text-gray-700 font-light px-4 py-3 rounded-lg"
                   activeClassName="bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md"
                 >
-                  {/* <Icon name="person" size="2xl" />
-                  Distributer Feedback */}
                   <img src={FeedbackIcon} className="w-16 h-16" style={{ margin: "auto" }} />
                 </NavLink>
-              </li>
-              <li className="rounded-lg mb-2">
+              </li> */}
+              {/* <li className="rounded-lg mb-2">
                 <NavLink
                   to="/admin/retailerFeedback"
                   className="flex items-center gap-4 text-sm text-gray-700 font-light px-4 py-3 rounded-lg"
                   activeClassName="bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md"
                 >
-                  {/* <Icon name="person" size="2xl" />
-                  Retailer Feedback */}
                   <img src={FeedbackIcon} className="w-16 h-16" style={{ margin: "auto" }} />
                 </NavLink>
-              </li>
-              <li className="rounded-lg mb-2">
+              </li> */}
+              {/* <li className="rounded-lg mb-2">
                 <NavLink
                   to="/admin/companySelfFeedback"
                   className="flex items-center gap-4 text-sm text-gray-700 font-light px-4 py-3 rounded-lg"
                   activeClassName="bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md"
                 >
-                  {/* <Icon name="person" size="2xl" />
-                  Help */}
                   <img src={FeedbackIcon} className="w-16 h-16" style={{ margin: "auto" }} />
                 </NavLink>
-              </li>
+              </li> */}
               
               <li className="rounded-lg mb-2">
                 <NavLink
