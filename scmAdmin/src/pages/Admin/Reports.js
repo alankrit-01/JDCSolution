@@ -11,6 +11,7 @@ import Input from '@material-tailwind/react/Input';
 import loader from "assets/img/loading.gif";
 import star from "assets/img/star.png";
 import star2 from "assets/img/star-se.png";
+import cumulative from "assets/img/cumulative.png";
 
 const Reports = () => {
     const admindata = useSelector((state) => state.AdminLoginData);
@@ -89,77 +90,50 @@ const Reports = () => {
                 <div className="px-3 md:px-7 h-auto -mt-24">
                     <div className="container mx-auto max-w-full">
                         <div className="grid grid-cols-1 px-4 mb-16">
-                            <div>
-                                <h2 className="head-cust-color">Feedback - 5</h2>
-                            </div>
-                            <div className="flex flex-wrap feedback-padding">
-                                <div className="w-full lg:w-7/12 pr-4 mb-10 font-light">
-                                    <h3>Distributor</h3>
-                                    <h4>45</h4>
-                                    <div className="image-part">
-                                        <img src={star} />
-                                        <img src={star} />
-                                        <img src={star} />
-                                        <img src={star} />
-                                        <img src={star2} />
-
-                                    </div>
-                                </div>
-                                <div className="w-full lg:w-1/12 pl-4 mb-10 font-light">
-                                    <h2 className='dashicon'>-</h2>
-                                </div>
-                                <div className="w-full lg:w-3/12 pl-4 mb-10 font-light">
-                                    <div className="button-review">
-                                        <NavLink to="/admin/distributerFeedback" className="point-part">3.5</NavLink>
-                                        <NavLink to="/admin/distributerFeedback" className="view-more-part">View more</NavLink>
-                                    </div>
+                            <div className="grid-section">
+                                <h2 className="reports-part">Reports Received - 25</h2>
+                                <div className="received-part-two report-drop">
+                                    <img src={cumulative} />
+                                    <select id="colours" className="dd-button">
+                                        <option value="red">Cumulative</option>
+                                        <option value="green">Green</option>
+                                        <option value="blue">Blue </option>
+                                    </select>
                                 </div>
                             </div>
+                            <div className="flex flex-wrap">
+                                <div className="w-full lg:w-6/12 pr-4 mb-10 font-light">
+                                    <NavLink to="/admin/factoryReports">
+                                        <div className="background-feedback-part">
+                                            <h6>05</h6>
+                                            <p>Factory</p>
+                                        </div>
+                                    </NavLink>
+                                </div>
+                                <div className="w-full lg:w-6/12 pl-4 mb-10 font-light">
+                                    <NavLink to="/admin/distributerReports">
+                                        <div className="background-feedback-part">
+                                            <h6>05</h6>
+                                            <p>Distributor</p>
+                                        </div>
+                                    </NavLink>
+                                </div>
 
-
-                            <div className="flex flex-wrap feedback-padding">
-                                <div className="w-full lg:w-7/12 pr-4 mb-10 font-light">
-                                    <h3>Retailer</h3>
-                                    <h4>35</h4>
-                                    <div className="image-part">
-                                        <img src={star} />
-                                        <img src={star} />
-                                        <img src={star} />
-                                        <img src={star} />
-                                        <img src={star2} />
-
-                                    </div>
+                                <div className="w-full lg:w-6/12 pr-4 mb-10 font-light">
+                                    <NavLink to="/admin/retailerReports">
+                                        <div className="background-feedback-part">
+                                            <h6>10</h6>
+                                            <p>Retailer</p>
+                                        </div>
+                                    </NavLink>
                                 </div>
-                                <div className="w-full lg:w-1/12 pl-4 mb-10 font-light">
-                                    <h2 className='dashicon'>-</h2>
-                                </div>
-                                <div className="w-full lg:w-3/12 pl-4 mb-10 font-light">
-                                    <div className="button-review">
-                                        <NavLink to="/admin/retailerFeedback" className="point-part">3.5</NavLink>
-                                        <NavLink to="/admin/retailerFeedback" className="view-more-part">View more</NavLink>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="flex flex-wrap feedback-padding">
-                                <div className="w-full lg:w-7/12 pr-4 mb-10 font-light">
-                                    <h3>Customer</h3>
-                                    <h4>18</h4>
-                                    <div className="image-part">
-                                        <img src={star} />
-                                        <img src={star} />
-                                        <img src={star} />
-                                        <img src={star} />
-                                        <img src={star2} />
-                                    </div>
-                                </div>
-                                <div className="w-full lg:w-1/12 pl-4 mb-10 font-light">
-                                    <h2 className='dashicon'>-</h2>
-                                </div>
-                                <div className="w-full lg:w-3/12 pl-4 mb-10 font-light">
-                                    <div className="button-review">
-                                        <NavLink to="/admin/customerFeedback" className="point-part">3.5</NavLink>
-                                        <NavLink to="/admin/customerFeedback" className="view-more-part">View more</NavLink>
-                                    </div>
+                                <div className="w-full lg:w-6/12 pl-4 mb-10 font-light">
+                                    <NavLink to="/admin/customerReports">
+                                        <div className="background-feedback-part">
+                                            <h6>05</h6>
+                                            <p>Customer</p>
+                                        </div>
+                                    </NavLink>
                                 </div>
                             </div>
                         </div>

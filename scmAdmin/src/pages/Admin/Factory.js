@@ -61,7 +61,7 @@ const Factory = () => {
     {
       name: "Information",
       selector: (row) => (
-        <button className="custom-details-btn" onClick={() => navigate('/admin/factoryDetails', { state: { factoryId:  row.name } })}>Details</button>
+        <button className="custom-details-btn" onClick={() => navigate('/admin/factoryDetails', { state: { userId:  row.name } })}>Details</button>
       ),
       sortable: true,
     },

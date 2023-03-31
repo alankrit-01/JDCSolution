@@ -418,11 +418,14 @@ function* getBatchDetail(data) {
 
 function* getFeedback(data) {
     const requestData = data.data
+
     try {
         let uri = API_URL.concat('/getFeedback?receiverUserID=')
         uri = uri.concat(requestData.receiverUserID)
-        uri = uri.concat("&role=")
-        uri = uri.concat(requestData.role)
+        if(requestData.role != undefined){
+            uri = uri.concat("&role=")
+            uri = uri.concat(requestData.role)
+        }
         const feedbackRes = yield call(Axios.get, uri)
         const result = feedbackRes.data;
         yield put({ type: Set_Feedback_List, result })

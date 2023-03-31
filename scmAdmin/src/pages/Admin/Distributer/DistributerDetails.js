@@ -12,7 +12,7 @@ import React, { useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import cumulative from "assets/img/cumulative.png";
-const FactoryDetails = () => {
+const DistributerDetails = () => {
     const dataFetchedRef = useRef(false);
     const admindata = useSelector((state) => state.AdminLoginData);
     const [adminUserId, setAdminUserId] = useState(admindata.adminUserId);
@@ -77,7 +77,7 @@ const FactoryDetails = () => {
                         <div className="grid grid-cols-1 xl:grid-cols-6">
                             <div className="xl:col-start-1 xl:col-end-7 px-4 mb-16">
                                 <div>
-                                    <h2 className="head-cust-color">Factory -  Beta Details</h2>
+                                    <h2 className="head-cust-color">Distributer -  Beta Details</h2>
                                     
                                 </div>
                                
@@ -85,7 +85,7 @@ const FactoryDetails = () => {
                                                 
                                                 <div className="w-full lg:w-6/12 pr-4 mb-10 font-light">
                                                 <ul className="factory-beta">
-                                        <li className="factory-bg">Factory Name  <span>: Beta</span></li>
+                                        <li className="factory-bg">Distributer Name  <span>: Beta</span></li>
                                         <li className="factory-bg2">Email <span>: beta@gmail.com</span></li>
                                         <li className="factory-bg">Phone No  <span className="space-l">: +91 9304334373</span></li>
                                         <li className="factory-bg2">PIN  <span className="space-l2 ">: 600012</span></li>
@@ -155,4 +155,4 @@ Eye Liner
         </>
     )
 }
-export default FactoryDetails
+export default DistributerDetails

@@ -17,65 +17,45 @@ const Feedback = () => {
     const [adminUserId, setAdminUserId] = useState(admindata.adminUserId);
     const dispatch = useDispatch();
     const [Feedback, setFeedback] = useState([]);
-    const [Search, setSearch] = useState("");
-    const [FilterFeedback, setFilterFeedback] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const columns = [
-        {
-            name: "Name",
-            selector: (row) => row.name,
-            sortable: true,
-        },
-        {
-            name: "Subject",
-            selector: (row) => row.subject,
-            sortable: true,
-        },
-        {
-            name: "Descrition",
-            selector: (row) => row.description,
-            sortable: true,
-        },
-        {
-            name: "Date",
-            selector: (row) => row.date,
-            sortable: true,
-        },
-    ];
 
     useEffect(() => {
-        const data = {
+        const feedreqdata = {
             receiverUserID: adminUserId,
-            role: 'Factory',
         }
-        dispatch(getFeedback(data))
+        dispatch(getFeedback(feedreqdata))
     }, [])
-
-    const initialdata = useSelector((state) => state.FeedbackRecord);
-
+    const feedbackinitialdata = useSelector((state) => state.FeedbackRecord);
     useEffect(() => {
-        var a = [{ subject: "There are no record to display" }];
-        setFeedback(initialdata.feedbackRec);
-        setLoading(true);
-        if (
-            initialdata.feedbackRec != 0 &&
-            initialdata.feedbackRec != null &&
-            initialdata.feedbackRec != ""
-        ) {
-            setFilterFeedback(initialdata.feedbackRec);
-        } else {
-            setLoading(false);
+        setFeedback(feedbackinitialdata.feedbackRec)
+    }, [feedbackinitialdata])
 
-            setFilterFeedback(a);
-        }
-    }, [initialdata])
+    // console.log("distFeedinitialdata",Feedback)
 
-    useEffect(() => {
-        const result = Feedback.filter((feedbackval) => {
-            return feedbackval.name.toLowerCase().match(Search.toLowerCase());
-        })
-        setFilterFeedback(result)
-    }, [Search])
+
+
+    //const filteredPeople = Feedback.filter((role) => Feedback.role = "Distributer");
+    //const filteredPeople = Feedback.filter((allFeedback) => allFeedback.name  === "Distributer");
+
+    const distributerFeedback = Feedback.filter((allFeedback) => {
+        return allFeedback.role === "Distributer";
+      });
+      
+    const retailerFeedback = Feedback.filter((allFeedback) => {
+        return allFeedback.role === "Retailer";
+      });
+      
+    const customerFeedback = Feedback.filter((allFeedback) => {
+        return allFeedback.role === "Customer";
+      });
+    console.log("distributerFeedback",distributerFeedback)
+    console.log("retailerFeedback",retailerFeedback)
+
+    console.log("customerFeedback",customerFeedback)
+
+
+
+    
+
     return (
         <>
             <Sidebar />
@@ -95,14 +75,13 @@ const Feedback = () => {
                             <div className="flex flex-wrap feedback-padding">
                                 <div className="w-full lg:w-7/12 pr-4 mb-10 font-light">
                                     <h3>Distributor</h3>
-                                    <h4>45</h4>
+                                    <h4>{distributerFeedback.length && distributerFeedback.length}</h4>
                                     <div className="image-part">
                                         <img src={star} />
                                         <img src={star} />
                                         <img src={star} />
                                         <img src={star} />
                                         <img src={star2} />
-
                                     </div>
                                 </div>
                                 <div className="w-full lg:w-1/12 pl-4 mb-10 font-light">
@@ -120,7 +99,7 @@ const Feedback = () => {
                             <div className="flex flex-wrap feedback-padding">
                                 <div className="w-full lg:w-7/12 pr-4 mb-10 font-light">
                                     <h3>Retailer</h3>
-                                    <h4>35</h4>
+                                    <h4>{retailerFeedback.length && retailerFeedback.length}</h4>
                                     <div className="image-part">
                                         <img src={star} />
                                         <img src={star} />
@@ -143,7 +122,7 @@ const Feedback = () => {
                             <div className="flex flex-wrap feedback-padding">
                                 <div className="w-full lg:w-7/12 pr-4 mb-10 font-light">
                                     <h3>Customer</h3>
-                                    <h4>18</h4>
+                                    <h4>{customerFeedback.length && customerFeedback.length}</h4>
                                     <div className="image-part">
                                         <img src={star} />
                                         <img src={star} />

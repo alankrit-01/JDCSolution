@@ -5,7 +5,6 @@ var util = require('util');
 var encoder = new util.TextEncoder('utf-8');
 const mongoose = require('mongoose'); 
 
-
 var bodyParser = require('body-parser');
 var jsonParser = bodyParser.json();
 const bcrypt = require("bcrypt");
@@ -27,6 +26,7 @@ const customerData = require('./models/customerData');
 const Rateus = require('./models/rateus');
 const User = require('./models/users');
 const Consumer = require('./models/consumers');
+const Feedback = require('./models/feedbacks');
 const Factory = require('./models/factories');
 const ScanIssueReport = require('./models/scanIssueReport');
 const { collection } = require('./models/users');
@@ -1207,9 +1207,17 @@ app.post('/api/addFeedback', jsonParser, function (req, res) {
 })
 
 app.get('/api/getFeedback', function (req, res) {
-  Feedback.find({ receiverUserID: req.query.receiverUserID, role: req.query.role }).sort({_id:-1}).then((data) => {
+  if(req.query.role != undefined){
+  Feedback.find({ receiverUserID: req.query.receiverUserID, role: req.query.role })
+  .sort({_id:-1}).then((data) => {
       res.status(200).json(data)
   })
+}else{
+  Feedback.find({ receiverUserID: req.query.receiverUserID})
+  .sort({_id:-1}).then((data) => {
+      res.status(200).json(data)
+  })
+}
 })
 
 app.get('/api/getSelfFeedback', function (req, res) {

@@ -1,3 +1,4 @@
+
 import MainStatusCard from 'components/Admin/MainStatusCard';
 import Sidebar from 'components/Admin/Sidebar';
 import Footer from 'components/Admin/Footer';
@@ -11,8 +12,9 @@ import Input from '@material-tailwind/react/Input';
 import loader from "assets/img/loading.gif";
 import star from "assets/img/star.png";
 import star2 from "assets/img/star-se.png";
+import calender from "assets/img/calendar.png";
 import cumulative from "assets/img/cumulative.png";
-const DistributerFeedback = () => {
+const RetailerReports = () => {
     const admindata = useSelector((state) => state.AdminLoginData);
     const [adminUserId, setAdminUserId] = useState(admindata.adminUserId);
     const dispatch = useDispatch();
@@ -88,29 +90,21 @@ const DistributerFeedback = () => {
                 <div className="px-3 md:px-8 h-auto -mt-24">
                     <div className="container mx-auto max-w-full">
                         <div className="grid grid-cols-1 px-4 mb-16">
-                            <div>
-                                <h2 className="head-cust-color">Feedback (Distributer - 45)</h2>
-                            </div>
                             <div className="flex flex-wrap feedback-padding lg:w-12/12">
-                                <div className="w-full lg:w-6/12 pr-4 font-light">
-                                    <div className="feedback-detail-image-part">
-                                        <img src={star} />
-                                        <img src={star} />
-                                        <img src={star} />
-                                        <img src={star} />
-                                        <img src={star2} />
+                                <div className="w-full lg:w-4/12 pr-4">
+                                    <div>
+                                        <h2 className="reports-part">Reports - <span className="factory-bold">Retailer</span></h2>
+                                        <h4 className="font-spano5"><span>05</span></h4>
                                     </div>
                                 </div>
-                                <div className="w-full lg:w-1/12 pl-4 font-light">
-                                    <h2 className='dashicon-details dish-part'>-</h2>
+                                <div className="w-full lg:w-4/12 pl-4 font-light">
+                                    <form class="searchbox-container" action="">
+                                        <input type="search" class="searchbox reports-part-one" name="search" autocomplete="off" placeholder="Search" />
+                                        <img src={calender} />
+                                    </form>
                                 </div>
-                                <div className="w-full lg:w-3/12 pl-4 font-light">
-                                    <div className="detail-button-review">
-                                        <span className="point-part review-part">4.8</span>
-                                    </div>
-                                </div>
-                                <div className="w-full lg:w-2/12 pl-4 font-light">
-                                    <div className="received-part-two report-drop image-sets">
+                                <div className="w-full lg:w-4/12 pl-4 font-light">
+                                    <div className="received-part-two">
                                         <img src={cumulative} />
 
                                         <select id="colours" className="dd-button">
@@ -120,6 +114,14 @@ const DistributerFeedback = () => {
 
                                         </select>
                                     </div>
+                                    <ul className="sub-text">
+                                        <li>New <span>04</span></li>
+                                        <li>Solved <span>01</span></li>
+                                        <li>Pending <span>04</span></li>
+                                    </ul>
+
+
+
 
                                 </div>
                             </div>
@@ -158,6 +160,9 @@ const DistributerFeedback = () => {
         </>
     );
 }
-export default DistributerFeedback
+export default RetailerReports
+
+
+
 
 

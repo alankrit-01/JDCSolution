@@ -1,10 +1,13 @@
 const mongoose = require('mongoose');
 let ScanIssueReportSchema = new mongoose.Schema({
     _id:mongoose.Schema.Types.ObjectId,   
-    uid:String,
+    senderId:String,
+    receiverId:String,
+    issueItemId:String,
+    itemType:String,
     productName:String,
     location:String,
-    scanDate:Date,
+    scanDate:String,
     scanIssue:String, 
     comment:String,
     qrcodeImage:String,
