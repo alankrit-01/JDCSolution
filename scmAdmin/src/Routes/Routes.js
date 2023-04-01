@@ -17,12 +17,13 @@ import FactoryLogin from "pages/Factory/Login";
 import Factory from "pages/Admin/Factory";
 import AddFactory from "pages/Admin/Factory/AddFactory";
 import FactoryDetails from "pages/Admin/Factory/FactoryDetails";
-
 import Distributer from 'pages/Admin/Distributer';
 import AddDistributer from "pages/Admin/Distributer/AddDistributer";
+import DistributerDetails from "pages/Admin/Distributer/DistributerDetails";
 import AddMultiUser from "pages/Admin/Distributer/AddMultiUser";
 import Retailer from 'pages/Admin/Retailer';
 import AddRetailer from "pages/Admin/Retailer/AddRetailer";
+import RetailerDetails from "pages/Admin/Retailer/RetailerDetails";
 import Dashboard from 'pages/Admin/Dashboard';
 import DistributerScansFail from "pages/Admin/DistributerScansFail";
 import RetailerScansFail from "pages/Admin/RetailerScansFail";
@@ -32,9 +33,20 @@ import FactoryFeedback from 'pages/Admin/Factory/FactoryFeedback';
 import DistributerFeedback from 'pages/Admin/Distributer/DistributerFeedback';
 import RetailerFeedback from 'pages/Admin/Retailer/RetailerFeedback';
 import CustomerFeedback from 'pages/Admin/CustomerFeedback';
-
 import AddCompanyFeedback from 'pages/Admin/AddCompanyFeedbak';
 import CompanySelfFeedback from "pages/Admin/CompanyFeedback";
+
+import Reports from 'pages/Admin/Reports';
+import FactoryReports from 'pages/Admin/Factory/FactoryReports';
+import DistributerReports from 'pages/Admin/Distributer/DistributerReports'; 
+import RetailerReports from 'pages/Admin/Retailer/RetailerReports'; 
+import CustomerReports from 'pages/Admin/CustomerReports'; 
+
+
+import BatchCovered from 'pages/Admin/BatchCovered';
+import ProductCovered from 'pages/Admin/ProductCovered';
+
+
 
 
 import FactoryDashboard from "pages/Factory/Dashboard";
@@ -80,8 +92,10 @@ const WebRoutes = () => {
             <Route path="/admin/factoryDetails" index element={<FactoryDetails />} />
             <Route path="/admin/distributer" index element={<Distributer />} />
             <Route path="/admin/adddistributer" index element={<AddDistributer />} />
+            <Route path="/admin/distributerDetails" index element={<DistributerDetails />} />
             <Route path="/admin/retailer" index element={<Retailer />} />
             <Route path="/admin/addretailer" index element={<AddRetailer />} />
+            <Route path="/admin/retailerDetails" index element={<RetailerDetails />} />
             <Route path="/admin/addMultiUser" index element={<AddMultiUser />} />
             <Route path="/admin/feedback" index element={<Feedback />} />
             <Route path="/admin/factoryFeedback" index element={<FactoryFeedback />} />
@@ -93,6 +107,16 @@ const WebRoutes = () => {
             <Route path="/admin/customerFeedback" index element={<CustomerFeedback />} />
             <Route path="/admin/addCompanyFeedback" index element={<AddCompanyFeedback />} />
             <Route path="/admin/companySelfFeedback" index element={<CompanySelfFeedback />} />
+
+            <Route path="/admin/reports" index element={<Reports />} />
+            <Route path="/admin/factoryReports" index element={<FactoryReports />} />
+            <Route path="/admin/distributerReports" index element={<DistributerReports />} />
+            <Route path="/admin/retailerReports" index element={<RetailerReports />} />
+            <Route path="/admin/customerReports" index element={<CustomerReports />} />
+
+            <Route path="/admin/batchCovered" index element={<BatchCovered />} />
+
+            <Route path="/admin/productCovered" index element={<ProductCovered />} />
             <Route path="/factory" index element={<FactoryLogin />} />
             <Route path="/factory/dashboard" index element={<FactoryDashboard />} />
             <Route path="/factory/settings" index element={<FactorySetting />} />

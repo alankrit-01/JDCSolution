@@ -6,7 +6,7 @@ let feedbackSchema = new mongoose.Schema({
     name:String,
     role:String,
     subject:String,
-    description:String,
+    description:String, 
     status:String,
     date:String,
 })

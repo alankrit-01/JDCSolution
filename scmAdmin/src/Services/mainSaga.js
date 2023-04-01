@@ -34,8 +34,7 @@ function* handleUserStatus(data) {
     const requestData = data.data
 
     try {
-        // let uri = API_URL.concat('/userStatusUpdate')
-        let uri = "http://192.168.1.101:5155/userStatusUpdate"
+         let uri = API_URL.concat('/userStatusUpdate')
         const userStatusRes = yield call(Axios.post, uri, requestData)
 
         const result = userStatusRes.data;
@@ -375,10 +374,8 @@ function* storeBatchTemplate(data) {
     const requestData = data.data
     try {
         let uri = BLOCKCHAIN_API_URL.concat('/factoryAddBatch')
-        console.log("requestData",requestData)
         const storeBatchTemplateRes = yield call(Axios.post, uri, requestData)
         const result = storeBatchTemplateRes.data;
-        console.log("result",result)
         yield put({ type: Set_Store_Batch_Template_Data, result })
     } catch (error) {
         console.log("Error is ", error)
@@ -421,11 +418,14 @@ function* getBatchDetail(data) {
 
 function* getFeedback(data) {
     const requestData = data.data
+
     try {
         let uri = API_URL.concat('/getFeedback?receiverUserID=')
         uri = uri.concat(requestData.receiverUserID)
-        uri = uri.concat("&role=")
-        uri = uri.concat(requestData.role)
+        if(requestData.role != undefined){
+            uri = uri.concat("&role=")
+            uri = uri.concat(requestData.role)
+        }
         const feedbackRes = yield call(Axios.get, uri)
         const result = feedbackRes.data;
         yield put({ type: Set_Feedback_List, result })
