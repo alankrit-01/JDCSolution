@@ -12,6 +12,7 @@ const jwt = require('jsonwebtoken');
 const cors = require('cors');
 var nodemailer = require('nodemailer');
 jwtkey = "jwt"; 
+
 const ethers = require('ethers'); 
 const MongoClient = require('mongodb').MongoClient;
 const verificationData = require('./models/verificationData'); 
@@ -605,63 +606,65 @@ app.get('/api/viewProductBoughts', async (req, res) => {
 
 app.get('/api/authenticateProduct',async(req,res)=>{
   try {
-    let productID= req.query.productID;
+    let ProductID= req.query.productID;
     let latitude= req.query.latitude; 
     let longitude= req.query.longitude; 
-    let data = await contract.ProductMapping(productID);
-    let batchID =data[2].toNumber(); 
-    let data2 =await contract.BatchMapping(batchID);  
-    
-    let level;  
-    let status;  
-    
-    lat1=data.RetailerLatitude
-    lon1=data.RetailerLongitude
-    
-    var R = 6371; 
-    var dLat = (latitude-lat1) * Math.PI / 180;
-    var dLon = (longitude-lon1) * Math.PI / 180;
-    var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-    Math.cos(lat1 * Math.PI / 180 ) * Math.cos(latitude * Math.PI / 180 ) *
-    Math.sin(dLon/2) * Math.sin(dLon/2);
-    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-    var d = R * c;
-    console.log(d)
-    
-    if(batchID==0){
-      level =1;
-      status ="Authentication Level 1 Falied: Product ID not found";
-    }else if(data2.DistributorScanned ==false){
-      level =2;
-      status ="Authentication Level 2 Falied: Distributor didn't scanned this product";
-    }else if(data.RetailerScanned ==false){
-      level =3;
-      status ="Authentication Level 3 Falied: Retailer didn't scanned this product"
-    }else if(d>0.100){
-      level =4;
-      status ="Authentication Level 4 Falied: Consumer location dosen't match retailer location"
-    }else if(data.CustomerID!=""){
-      level =5;
-      status ="Authentication Level 5 Falied: This product is alredy sold"
-    }else{ 
-      level =6;
-      status ="All Authentication Level Passed"
-    } 
-    
-    const Data= new verificationData({
-      _id: new mongoose.Types.ObjectId(),
-      factoryID:data2.FactoryID,
-      distributorID:data2.DistributorID,
-      batchDescription:data2.BatchDescription,
-      batchID:batchID,
-      productId:productID,
-      level:level
-    })
-    Data.save().then((result) => {
-      console.log(result);
-      res.status(200).json({status:"success", message:status,level:level}); 
+
+    // let data = await contract.ProductMapping(ProductID);
+    let data = await product.findOne({ProductID});
+    if(!data){
+      res.status(200).json({status:"success", message:"Authentication Level 1 Falied: Product ID not found",level:1}); 
+    }else{
+      let BatchID =data.BatchID;
+      let data2 =await batch.findOne({BatchID});
+
+      let level;  
+      let status;  
+      lat1=data.RetailerLatitude
+      lon1=data.RetailerLongitude 
       
-    }).catch((err) => console.warn(err)) 
+      var R = 6371; 
+      var dLat = (latitude-lat1) * Math.PI / 180;
+      var dLon = (longitude-lon1) * Math.PI / 180;
+      var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+      Math.cos(lat1 * Math.PI / 180 ) * Math.cos(latitude * Math.PI / 180 ) *
+      Math.sin(dLon/2) * Math.sin(dLon/2);
+      var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+      var d = R * c;
+      console.log(d)
+
+      if(data2.DistributorScanned ==false){
+        level =2;
+        status ="Authentication Level 2 Falied: Distributor didn't scanned this product";
+      }else if(data.RetailerScanned ==false){
+        level =3;
+        status ="Authentication Level 3 Falied: Retailer didn't scanned this product"
+      }else if(d>0.100){
+        level =4;
+        status ="Authentication Level 4 Falied: Consumer location dosen't match retailer location"
+      }else if(data.CustomerID!=""){
+        level =5;
+        status ="Authentication Level 5 Falied: This product is alredy sold"
+      }else{ 
+        level =6;
+        status ="All Authentication Level Passed"
+      } 
+      
+      const Data= new verificationData({
+        _id: new mongoose.Types.ObjectId(),
+        factoryID:data2.FactoryID,
+        distributorID:data2.DistributorID,
+        batchDescription:data2.BatchDescription,
+        batchID:BatchID,
+        productId:ProductID,
+        level:level
+      })
+      Data.save().then((result) => {
+        console.log(result);
+        res.status(200).json({status:"success", message:status,level:level}); 
+        
+      }).catch((err) => console.warn(err)) 
+    }
     
   } catch (error) {
     console.log(error.message);
