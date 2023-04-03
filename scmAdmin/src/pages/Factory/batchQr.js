@@ -79,5 +79,5 @@ const BatchQr = () => {
             </div>
         </>
     );
-};
+}; 
 export default BatchQr;

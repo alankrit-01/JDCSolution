@@ -3,9 +3,14 @@ import Sidebar from "components/Admin/Sidebar";
 import Footer from "components/Admin/Footer";
 import PieRechartComponent from "components/Admin/PieChart";
 import ProgressCard from "components/Admin/ProgressCard";
-
+import PieRechartComponents from 'components/Factory/PieChart';
 import "react-multi-carousel/lib/styles.css";
-
+import Card from "@material-tailwind/react/Card";
+import CardRow from "@material-tailwind/react/CardRow";
+import CardStatus from "@material-tailwind/react/CardStatus";
+import Dropdown from "@material-tailwind/react/Dropdown";
+import DropdownItem from "@material-tailwind/react/DropdownItem";
+import cumulative from "assets/img/cumulative.png";
 const Dashboard = () => {
   const responsive = {
     superLargeDesktop: {
@@ -26,20 +31,88 @@ const Dashboard = () => {
       items: 1,
     },
   };
+
+  
   return (
     <>
       <Sidebar />
       <div className="md:ml-32">
-        <div className="px-3 md:px-8 h-40" />
-        <div className="px-4 md:px-8 -mt-24">
+        <div className="flex justify-between">
+          <div className="px-2 mb-5 mt-5 ml-12 h-28 w-52">
+            <Card className="main-tiles p-0 w-44">
+              <CardRow className="inner-tiles mr-3 ">
+                <button className="add-batch-dashboard-section mr-2 ">
+                  <div className="add-batch-dashboard-plus h-10">
+                    {" "}
+                    <p className="-mt-2">+</p>
+                  </div>
+                  <div className="add-batch-dashboard-title mt-0">
+                    <h6 className="mr-10 text-xl mt-2 text-white">ADD</h6>
+                    <Dropdown
+                     buttonText={""}
+                      style={{
+                        padding: 3,
+                        color: "white",
+                        // backgroundColor: "red",
+                        backgroundColor: "#335980",
+                        position: "relative",
+                        marginLeft: "120px",
+                        width: "40px",
+                        hieght: "20px",
+                        marginTop: "-25px",
+                      }}
+                    >
+                      <DropdownItem href="#">
+                        Item 1
+                      </DropdownItem>
+                      <DropdownItem   href="#">
+                        {" "}
+                        Item 2
+                      </DropdownItem>
+                      <DropdownItem  href="#">
+                        Item 3
+                      </DropdownItem>
+                    </Dropdown>
+                    {/* </div> */}
+                  </div>
+                </button>
+              </CardRow>
+            </Card>
+          </div>
+
+          <div className="received-part-two2 report-drop cumulative">
+            <img src={cumulative} />
+
+            <select id="colours" className="dd-button">
+              <option value="red">Cumulative</option>
+              <option value="green">Green</option>
+              <option value="blue">Blue </option>
+            </select>
+          </div>
+
+       
+        </div>
+
+        <div className="px-3 md:px-8 h-20" />
+        <div className="px-3 md:px-8 -mt-24">
+       
+          <div>
             <MainStatusCard />
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 mb-3">
+            
           <div>
             <ProgressCard />
           </div>
-
-          <div className="container mx-auto max-w-full">
-            <PieRechartComponent />
+          <div className="px-4 mb-10  max-w-56main-tiles-section">
+            <PieRechartComponents />
           </div>
+
+          </div>
+
+          {/* <div className="container mx-auto max-w-full h-96 ">
+            <PieRechartComponent />
+          </div> */}
         </div>
         <Footer />
       </div>

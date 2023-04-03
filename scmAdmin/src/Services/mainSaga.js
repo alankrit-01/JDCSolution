@@ -405,6 +405,8 @@ function* getBatchDetail(data) {
     try {
         let uri = BLOCKCHAIN_API_URL.concat('/viewBatchRecordByBatchId?batchID=')
         uri = uri.concat(requestData.batchID)
+
+        console.log("uri",uri)
         const batchDetailRes = yield call(Axios.get, uri)
 
         const result = batchDetailRes.data;

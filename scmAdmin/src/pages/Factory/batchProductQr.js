@@ -7,7 +7,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { QRCodeSVG } from "qrcode.react";
 import { Button } from "@material-tailwind/react";
 import { getBatchDetail } from 'Services/action';
-
+ 
 const BatchProductQr = () => {
     const dispatch = useDispatch();
     const [batchSize, setBatchSize] = useState('');
@@ -28,18 +28,21 @@ const BatchProductQr = () => {
         }
         dispatch(getBatchDetail(data))
     }, [])
-    const initialBatchDetaildata = useSelector((state) => state.BatchDetailRecord.batchDetailRec.message);
+    //const initialBatchDetaildata = useSelector((state) => state.BatchDetailRecord.batchDetailRec.message);
+    const initialBatchDetaildata = useSelector((state) => state.BatchDetailRecord.batchDetailRec.Products);
+
+    //console.log("initialProductInfo", initialBatchDetaildata)
+
     useMemo(() => {
         setProductTemplateID(initialBatchDetaildata && initialBatchDetaildata[0].ProductTemplateID);
         setBatchSize(initialBatchDetaildata && initialBatchDetaildata[0].BatchSize);
         setBatchDescription(initialBatchDetaildata && initialBatchDetaildata[0].BatchDescription);
-        setInitialProductInfo(initialBatchDetaildata && initialBatchDetaildata[1].productInfo);
+        setInitialProductInfo(initialBatchDetaildata && initialBatchDetaildata);
 
     }, [initialBatchDetaildata])
 
     const allProductQrlist = [];
     const qrRef = useRef();
-    console.log("initialProductInfo", initialProductInfo)
     {
         initialProductInfo && initialProductInfo.map(initialProductInfoRes => {
 
@@ -115,5 +118,5 @@ const BatchProductQr = () => {
             </div>
         </>
     );
-};
+}; 
 export default BatchProductQr;

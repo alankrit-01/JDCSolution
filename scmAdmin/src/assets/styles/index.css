@@ -951,3 +951,20 @@ h5.add-batch-dashboard-title {
     margin: 0px 30px;
     display: inline-block;
 }
+
+span.material-icons text-lg leading-none align-middle{
+                  
+    margin-left: 90px;
+
+ }
+
+ .cumulative{
+     margin-top: 0px;
+ }
+
+ .received-part-two2 img {top: 123px;
+     right: 208px;
+     width: 22px;
+     display: block;
+     margin-right: -12px;
+     position: absolute; }
