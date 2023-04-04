@@ -1287,8 +1287,9 @@ app.post('/api/addFeedback', jsonParser, function (req, res) {
       receiverUserID: req.body.receiverUserID,
       name: req.body.name,
       role: req.body.role,
-      subject: req.body.subject,
-      description: req.body.description,
+      rating: req.body.rating,
+      services: req.body.services,
+      comment: req.body.comment,
       status: readStatus,
       date: req.body.date,
   })

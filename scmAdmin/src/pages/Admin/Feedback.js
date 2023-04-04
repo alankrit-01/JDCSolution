@@ -38,23 +38,46 @@ const Feedback = () => {
 
     const distributerFeedback = Feedback.filter((allFeedback) => {
         return allFeedback.role === "Distributer";
-      });
-      
+    });
+
     const retailerFeedback = Feedback.filter((allFeedback) => {
         return allFeedback.role === "Retailer";
-      });
-      
+    });
+
     const customerFeedback = Feedback.filter((allFeedback) => {
         return allFeedback.role === "Customer";
-      });
-    console.log("distributerFeedback",distributerFeedback)
-    console.log("retailerFeedback",retailerFeedback)
+    });
+    console.log("distributerFeedback", distributerFeedback)
+    console.log("retailerFeedback", retailerFeedback)
 
-    console.log("customerFeedback",customerFeedback)
+    console.log("customerFeedback", customerFeedback)
+
+    var distributerRatingSum = 0;
+    for (let i = 0; i < distributerFeedback.length; i++) {
+        distributerRatingSum += parseInt(distributerFeedback[i].rating);
+    }
+    var numberOfDistRating = distributerFeedback.length;
+    var distAverageRating = distributerRatingSum / numberOfDistRating;
+
+    var retailerRatingSum = 0;
+    for (let i = 0; i < retailerFeedback.length; i++) {
+        retailerRatingSum += parseInt(retailerFeedback[i].rating);
+    }
+    var numberOfRetailerRating = retailerFeedback.length;
+    var retailerAverageRating = retailerRatingSum / numberOfRetailerRating;
+
+    var customerRatingSum = 0;
+    for (let i = 0; i < customerFeedback.length; i++) {
+        customerRatingSum += parseInt(customerFeedback[i].rating);
+    }
+    var numberOfCustRating = customerFeedback.length;
+    var custAverageRating = customerRatingSum / numberOfCustRating;
 
 
-
-    
+    let seasonsList = [];
+    for (let i = 0; i < distAverageRating; i++) {
+        seasonsList.push(<img src={star} />);
+    }
 
     return (
         <>
@@ -65,7 +88,6 @@ const Feedback = () => {
                         {/* <MainStatusCard /> */}
                     </div>
                 </div>
-
                 <div className="px-3 md:px-7 h-auto -mt-24">
                     <div className="container mx-auto max-w-full">
                         <div className="grid grid-cols-1 px-4 mb-16">
@@ -77,11 +99,13 @@ const Feedback = () => {
                                     <h3>Distributor</h3>
                                     <h4>{distributerFeedback.length && distributerFeedback.length}</h4>
                                     <div className="image-part">
+
+                                       {seasonsList && seasonsList}
+                                        {/* <img src={star} />
                                         <img src={star} />
                                         <img src={star} />
                                         <img src={star} />
-                                        <img src={star} />
-                                        <img src={star2} />
+                                        <img src={star2} /> */}
                                     </div>
                                 </div>
                                 <div className="w-full lg:w-1/12 pl-4 mb-10 font-light">
@@ -89,7 +113,7 @@ const Feedback = () => {
                                 </div>
                                 <div className="w-full lg:w-3/12 pl-4 mb-10 font-light">
                                     <div className="button-review">
-                                        <NavLink to="/admin/distributerFeedback" className="point-part">3.5</NavLink>
+                                        <NavLink to="/admin/distributerFeedback" className="point-part">{distAverageRating && distAverageRating}</NavLink>
                                         <NavLink to="/admin/distributerFeedback" className="view-more-part">View more</NavLink>
                                     </div>
                                 </div>
@@ -114,7 +138,7 @@ const Feedback = () => {
                                 </div>
                                 <div className="w-full lg:w-3/12 pl-4 mb-10 font-light">
                                     <div className="button-review">
-                                        <NavLink to="/admin/retailerFeedback" className="point-part">3.5</NavLink>
+                                        <NavLink to="/admin/retailerFeedback" className="point-part">{retailerAverageRating && retailerAverageRating}</NavLink>
                                         <NavLink to="/admin/retailerFeedback" className="view-more-part">View more</NavLink>
                                     </div>
                                 </div>
@@ -136,7 +160,7 @@ const Feedback = () => {
                                 </div>
                                 <div className="w-full lg:w-3/12 pl-4 mb-10 font-light">
                                     <div className="button-review">
-                                        <NavLink to="/admin/customerFeedback" className="point-part">3.5</NavLink>
+                                        <NavLink to="/admin/customerFeedback" className="point-part">{custAverageRating && custAverageRating}</NavLink>
                                         <NavLink to="/admin/customerFeedback" className="view-more-part">View more</NavLink>
                                     </div>
                                 </div>

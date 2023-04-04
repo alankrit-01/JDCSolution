@@ -259,7 +259,7 @@ export const getBatchDetail = (data) =>{
     return{
         type:Get_Batch_Detail,
         data:data 
-    } 
+    }  
 }
 
 
