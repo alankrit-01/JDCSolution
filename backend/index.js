@@ -1201,10 +1201,10 @@ app.post('/api/addFeedback', jsonParser, function (req, res) {
       services: req.body.services,
       comment: req.body.comment,
       status: readStatus,
-      date: req.body.date,
+      date: Date.now(),
   })
   data.save().then((result) => {
-      res.status(200).json({ status: "success", message: "Feedback added successfully." });
+      res.status(200).json({ status: "success", message: "Thanks for rate us" });
   })
       .catch((err) => console.warn(err)
       )
@@ -1248,24 +1248,36 @@ function verifyToken(req, res, next) {
   }
 }
 /***************Consumer Section********/
-app.post('/api/registerconsumer', jsonParser, async function (req, res) {
-  console.log(req.body.phone)
-  const checkConsumerExists = await Consumer.findOne({ phone: req.body.phone });
-  if (!checkConsumerExists) {
-      const data = new Consumer({
-          _id: new mongoose.Types.ObjectId(),
-          phone: req.body.phone,
-          created:Date.now()
-      
-      })
-      data.save().then((result) => {           
-          res.status(201).json(result);
-      })
-      .catch((err) => console.warn(err)
-      )
-  }else{        
-      res.status(201).json(checkConsumerExists);
-  }
+app.post('/api/registerconsumer', async function (req, res) {
+
+  try {
+      let phone = req.body.phone;
+        console.log(phone);
+      if(phone==''){
+          res.status(200).json({status:"success", message:"Phone Number should not be blank"});
+      }else{
+          
+          const checkConsumerExists = await Consumer.findOne({ phone:phone });
+          if (!checkConsumerExists) {
+              const data = new Consumer({
+                  _id: new mongoose.Types.ObjectId(),
+                  phone: phone,
+                  created:Date.now()
+              
+              })
+              data.save().then((result) => {           
+                  res.status(200).json({status:"success", message:"Your registration successfull",cid:result._id});
+              })
+              .catch((err) => console.warn(err)
+              )
+          }else{        
+              res.status(200).json({status:"success",cid:checkConsumerExists._id});
+          }
+      }
+  } catch (error) {
+      console.log(error.message);
+      res.status(400).send({ error: error.message });
+  }    
 })
 
 app.post('/api/rateus', jsonParser, async function (req, res) {
