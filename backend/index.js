@@ -20,8 +20,7 @@ const productTemplate = require('./models/productTemplate');
 const batchTemplate = require('./models/batchTemplate'); 
 const batch = require('./models/batch'); 
 const product = require('./models/product'); 
-const globalID = require('./models/globalID'); 
-const fraudScan = require('./models/fraudScan'); 
+const scan = require('./models/scan'); 
 const distributorRetailer = require('./models/distributorRetailer'); 
 const customerData = require('./models/customerData'); 
 const Rateus = require('./models/rateus');
@@ -42,7 +41,7 @@ mongoose.connect(MONGO_URL, {useNewUrlParser: true, useUnifiedTopology: true}).t
 // optionSuccessStatus:200
 // const contractAbi = require('./artifacts/contracts/Supplychain.sol/Supplychain.json')
 
-let contractAddress ="0x6ccaB956ef3F24CE434ADcC332C97f580de88627";  
+let contractAddress ="0xe2C637927DFCD52BF4f9d57D3D4270E411c23543";  
 let contract; 
   
 
@@ -304,20 +303,25 @@ async function distributorScanMIDDLEWARE(req, res, next) {
   const BatchID =req.body.batchID;
   const distributorID =req.body.distributorID; 
   const timeStamp =req.body.timeStamp; 
-  const isValid =req.body.isValid;
+  const isValid =req.body.isValid; 
   try {
-    if (isValid==true){
-      console.log(isValid);
-      const document =await batch.findOne({BatchID});
-      if(document.DistributorID!=distributorID){
-        res.status(400).json({status:"failure", message:"This batch is not owned by this distributor"});
-      }else{
-        const tx =await contract.distributorScansBatch(BatchID,distributorID,timeStamp);
-        tx.wait();
-        console.log("Transaction completed!");
-      }
+    const document =await batch.findOne({BatchID});
+    // console.log(document);
+    if(document==null){
+      res.status(400).json({status:"failure", message:"Document does't exists"});
+    }else if(document.DistributorID!=distributorID){
+      res.status(400).json({status:"failure", message:"This batch is not owned by this distributor"});
+    }else if (document.DistributorScanned==true){
+      res.status(400).json({status:"failure", message:"This batch is already scanned by this distributor"});
+    }else if (isValid==true){
+      // What if distributor does't exists in our database?
+      const tx =await contract.distributorScansBatch(BatchID,distributorID,timeStamp);
+      tx.wait();
+      console.log("Transaction completed!");
+      next(); 
+    }else if(isValid==false){
+      next();
     }
-    next();
   } catch (error) {
     console.log(error.message);
     res.status(400).json({status:"failure", message:error.message});
@@ -343,23 +347,18 @@ app.post('/api/distributorScansBatch', distributorScanMIDDLEWARE, async(req,res)
         if(err){
           console.log(err.message)
         }
-      })
-    res.status(200).json({status:"success", message:"Distributor scans the batch"});
- 
-  } else if(isValid==false){ 
+      }) 
     User.findById(distributorID, (err, user) => { 
       if (err) { 
-        console.log("USER NOT FOUND") 
         console.error(err); 
       } else { 
-        console.log("USER FOUND")
-        console.log(user);
-        const Data= new fraudScan({
+        const Data= new scan({
           _id: new mongoose.Types.ObjectId(),
           isDistributor:true,
           distributorID:distributorID,
           isRetailer:false,
           RetailerID:"",
+          isValid:true,
           batchID:BatchID,
           productId:0, 
           timestamp:timeStamp,
@@ -372,12 +371,55 @@ app.post('/api/distributorScansBatch', distributorScanMIDDLEWARE, async(req,res)
           distanceSeprated:sepration_distance,
         })  
         Data.save().then((result) => {
-          // console.log(result);
+          console.log(result);
+          res.status(200).json({status:"success", message:"Scanned Successfully by the Distributor!"}) 
+          
+        }).catch((err) => console.warn(err)) 
+      } 
+    }); 
+
+  } else if(isValid==false){ 
+    User.findById(distributorID, (err, user) => { 
+      if (err) { 
+        console.error(err); 
+      } else { 
+        const Data= new scan({
+          _id: new mongoose.Types.ObjectId(),
+          isDistributor:true,
+          distributorID:distributorID,
+          isRetailer:false,
+          RetailerID:"",
+          isValid:false,
+          batchID:BatchID,
+          productId:0, 
+          timestamp:timeStamp,
+          currentLatitude:latitude,
+          currentLongitude:longitude,
+          currentLocation:location,
+          Name:user.name,
+          Email:user.email,
+          orignalLocation:(user.address + " " + user.city +  " " + user.country),
+          distanceSeprated:sepration_distance,
+        })  
+        Data.save().then((result) => {
+          console.log(result);
           res.status(200).json({status:"success", message:"Incorrect scan location fraud detected"}) 
           
         }).catch((err) => console.warn(err)) 
       } 
     });    
+  }
+}) 
+
+app.get('/api/distributorScansHistory', async(req,res)=>{
+  const distributorID= req.query.distributorID; 
+  console.log(distributorID)
+  try {
+    const docs=await scan.find({distributorID});
+    console.log(docs)
+    res.status(200).json({status:"success",data:docs});
+  } catch (error) {
+    res.status(500).json({message:error.message});
   }
 }) 
 
@@ -418,13 +460,13 @@ app.post('/api/distributorSellToRetailer',async(req,res)=>{
           BatchDescription:document.BatchDescription
         })
         await data.save();
-        
+        res.status(200).json({status:"success", message:"Products sold to the retailer"});
+    
       }else{
-        res.status(200).json({status:"failure", message:"Distributor haven't scanned the batch yet"});
+        res.status(400).json({status:"failure", message:"Distributor haven't scanned the batch yet"});
       }
     }, transactionOptions);
 
-    res.status(200).json({status:"success", message:"Products sold to the retailer"});
 
   } catch (err) {
     console.log('Transaction aborted due to error:', err);
@@ -467,7 +509,28 @@ app.get('/api/viewRecentBuysFromDistributors', async (req, res) => {
     }
 });
 
-app.post('/api/retailerScansProduct',async(req,res)=>{
+async function retailerScanMIDDLEWARE(req, res, next) {
+  const ProductID =req.body.productID; 
+  const retailerID =req.body.retailerID; 
+  try {
+    const document =await product.findOne({ProductID});
+    // console.log(document);
+    if(document==null){
+      res.status(400).json({status:"failure", message:"Document does't exists"});
+    }else if(document.RetailerID!=retailerID){
+      res.status(400).json({status:"failure", message:"This product is not owned by this Retailer"});
+    }else if (document.RetailerScanned==true){
+      res.status(400).json({status:"failure", message:"This product is already scanned by this Retailer"});
+    }else {
+      next();
+    }
+  } catch (error) {
+    console.log(error.message);
+    res.status(400).json({status:"failure", message:error.message});
+  }
+}
+
+app.post('/api/retailerScansProduct',retailerScanMIDDLEWARE,async(req,res)=>{
   try {
     const ProductID =req.body.productID; 
     const retailerID =req.body.retailerID; 
@@ -478,42 +541,59 @@ app.post('/api/retailerScansProduct',async(req,res)=>{
     const location =req.body.location; 
     const sepration_distance =req.body.sepration_distance; 
     
-    
     if(isValid==true){
-      // const tx =await contract.retailerScansProduct(ProductID,retailerID,timeStamp,latitude,longitude);
-      // tx.wait();
-      // console.log("Transaction completed!"); 
-      
       let document =await product.findOne({ProductID});
-      if(document.RetailerScanned!=false){
-        res.status(400).send({ error: "This batch is already scanned by the retailer" }); 
-      }
-      if(retailerID!=document.RetailerID){
-        res.status(400).send({ error: "This product is not owned by this retailer" }); 
-      }
-      await document.updateOne( 
-        { 
-        RetailerScanned: true,
-        RetailerScannedTimeStamp:timeStamp,
-        RetailerLatitude:latitude,
-        RetailerLongitude:longitude
-      })
-
-      res.status(200).json({status:"success", message:"Retailer scans the product"});
-      
-    }else if(isValid==false){
-      
       User.findById(retailerID, (err, user) => {
         if (err) {
           console.error(err);
         } else {
-          const Data= new fraudScan({
+          const Data= new scan({
             _id: new mongoose.Types.ObjectId(),
             isDistributor:false,
             distributorID:"",
             isRetailer:true,
             RetailerID:retailerID,
-            batchID:0,
+            isValid:true,
+            batchID:document.BatchID,
+            productId:ProductID,
+            timestamp:timeStamp,  
+            currentLatitude:latitude,
+            currentLongitude:longitude,
+            currentLocation:location,
+            Name:user.name,
+            Email:user.email,
+            orignalLocation:(user.address + " " + user.city +  " " + user.country),
+            distanceSeprated:sepration_distance,
+          })
+          Data.save().then(async (result) => {
+            console.log(result)
+            await document.updateOne( 
+              { 
+              RetailerScanned: true,
+              RetailerScannedTimeStamp:timeStamp,
+              RetailerLatitude:latitude,
+              RetailerLongitude:longitude
+            })
+          }).catch((err) => console.warn(err)) 
+        } 
+      });
+
+      res.status(200).json({status:"success", message:"Retailer scans the product"});
+      
+    }else if(isValid==false){
+      let document =await product.findOne({ProductID});
+      User.findById(retailerID, (err, user) => {
+        if (err) {
+          console.error(err);
+        } else {
+          const Data= new scan({
+            _id: new mongoose.Types.ObjectId(),
+            isDistributor:false,
+            distributorID:"",
+            isRetailer:true,
+            RetailerID:retailerID,
+            isValid:false,
+            batchID:document.BatchID,
             productId:ProductID,
             timestamp:timeStamp,
             currentLatitude:latitude,
@@ -525,7 +605,7 @@ app.post('/api/retailerScansProduct',async(req,res)=>{
             distanceSeprated:sepration_distance,
           })
           Data.save().then((result) => {
-            // console.log(result);
+            console.log(result);
             res.status(200).json({status:"success", message:"Incorrect scan location fraud detected"}) 
     
           }).catch((err) => console.warn(err)) 
@@ -539,9 +619,20 @@ app.post('/api/retailerScansProduct',async(req,res)=>{
   }
 }) 
 
+app.get('/api/retailerScansHistory', async(req,res)=>{
+  const retailerID= req.query.retailerID; 
+  console.log(retailerID)
+  try {
+    const docs= await scan.find({RetailerID:retailerID});
+    console.log(docs)
+    res.status(200).json({status:"success",data:docs});
+  } catch (error) {
+    res.status(500).json({message:error.message});
+  }
+})
+
 app.post('/api/sellToCustomer',async(req,res)=>{
   try {
-    const batchID =req.body.batchID;
     const ProductID =req.body.productID;
     const customerID =req.body.customerID;
     const timeStamp =req.body.timeStamp; 
@@ -549,7 +640,7 @@ app.post('/api/sellToCustomer',async(req,res)=>{
 
     const productData =await product.findOne({ProductID});
     if(productData.RetailerScanned==true){
-      const tx =await contract.retailerSellToCustomer(batchID,ProductID,customerID,customerName);
+      const tx =await contract.retailerSellToCustomer(ProductID,customerID,customerName);
       tx.wait();
       console.log("Transaction completed!");
 
@@ -561,7 +652,6 @@ app.post('/api/sellToCustomer',async(req,res)=>{
 
       const data= new customerData({
         _id: new mongoose.Types.ObjectId(),
-        BatchID:batchID,
         ProductRef:productData._id,
         CustomerID:customerID,
         CustomerName:customerName,
@@ -673,12 +763,11 @@ app.get('/api/authenticateProduct',async(req,res)=>{
 })
 
 
-
 /////////////////////////////// ADMIN APIS //////////////////////////////////////////
 
-app.get('/api/getFraudScans', function (req, res) {
+app.get('/api/getscans', function (req, res) {
   try {
-    fraudScan.find().then((data) => {
+    scan.find().then((data) => {
       // console.log(data);
       res.status(200).json(data)
     })

@@ -5,7 +5,7 @@ const batchTemplate = require('./models/batchTemplate');
 const batch = require('./models/batch'); 
 const product = require('./models/product'); 
 const distributorRetailer = require('./models/distributorRetailer'); 
-const fraudScan = require('./models/fraudScan'); 
+const scan = require('./models/scan'); 
 const customerData = require('./models/customerData'); 
 
 require('dotenv').config() 
@@ -62,11 +62,11 @@ distributorRetailer.deleteMany({}, (err) => {
   }
 });
 
-fraudScan.deleteMany({}, (err) => {
+scan.deleteMany({}, (err) => {
   if (err) {
     console.error(err);
   } else {
-    console.log('Successfully deleted all documents in the collection fraudScan');
+    console.log('Successfully deleted all documents in the collection scan');
   }
 });
 
