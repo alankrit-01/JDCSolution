@@ -41,7 +41,7 @@ mongoose.connect(MONGO_URL, {useNewUrlParser: true, useUnifiedTopology: true}).t
 // optionSuccessStatus:200
 // const contractAbi = require('./artifacts/contracts/Supplychain.sol/Supplychain.json')
 
-let contractAddress ="0x6ccaB956ef3F24CE434ADcC332C97f580de88627";  
+let contractAddress ="0xe2C637927DFCD52BF4f9d57D3D4270E411c23543";  
 let contract; 
   
 
@@ -761,7 +761,6 @@ app.get('/api/authenticateProduct',async(req,res)=>{
     res.status(400).send({ error: error.message });
   }
 })
-
 
 
 /////////////////////////////// ADMIN APIS //////////////////////////////////////////
