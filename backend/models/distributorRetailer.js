@@ -9,6 +9,4 @@ let distributorRetailer = new mongoose.Schema({
     BatchName:String,
     BatchDescription:String,
 })
-module.exports=mongoose.model('distributorRetailer',distributorRetailer)    
-
-
+module.exports=mongoose.model('distributorRetailer',distributorRetailer) 

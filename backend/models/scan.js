@@ -1,10 +1,11 @@
 const mongoose = require('mongoose');
-let fraudScan = new mongoose.Schema({
+let scan = new mongoose.Schema({
     _id:mongoose.Schema.Types.ObjectId,
     isDistributor:Boolean,
     distributorID:String,
     isRetailer:Boolean,
     RetailerID:String,
+    isValid:Boolean,
     batchID:Number,
     productId:Number,
     timestamp:String,
@@ -14,7 +15,7 @@ let fraudScan = new mongoose.Schema({
     Name:String,
     Email:String,
     orignalLocation:String, 
-    distanceSeprated:Number
+    distanceSeprated:Number 
 })
 
-module.exports=mongoose.model('fraudScan',fraudScan)    
+module.exports=mongoose.model('scan',scan)    

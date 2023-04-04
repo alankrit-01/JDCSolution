@@ -54,7 +54,6 @@ contract Supplychain{
     }                               
 
     struct Customer{
-        uint BatchID;
         uint ProductID;
         string CustomerID;
         string CustomerName;
@@ -221,18 +220,18 @@ contract Supplychain{
         ProductMapping[_productID].RetailerLongitude=longitude;
     }        
 
-    function retailerSellToCustomer(uint batchID,uint productID, string memory customerID,string memory customerName) public {
-        BatchMapping[batchID].AmountSoldTOCustomer +=1;
+    function retailerSellToCustomer(uint productID, string memory customerID,string memory customerName) public {
+        BatchMapping[ProductMapping[productID].BatchID].AmountSoldTOCustomer +=1; 
+    
         // ProductMapping[productID].CustomerID=customerID;
         // ProductMapping[productID].CustomerName=customerName;
         // ProductMapping[productID].DateWhenSoldToCustomer=timeStamp;
         CustomerData[customerID].push(Customer({
-            BatchID:batchID,
             ProductID:productID,
             CustomerID:customerID,
             CustomerName:customerName
-        }));
-    }        
+        })); 
+    }         
 
     function getAllProductsBought(string memory customerID) public view returns(Customer[] memory){
         return CustomerData[customerID];
