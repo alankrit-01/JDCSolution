@@ -631,6 +631,17 @@ app.get('/api/retailerScansHistory', async(req,res)=>{
   }
 })
 
+app.get('/api/viewProductInfo', async(req,res)=>{
+  const ProductID= req.query.productID; 
+  try {
+    const doc= await product.findOne({ProductID:ProductID});
+    console.log(doc)
+    res.status(200).json({status:"success",data:doc});
+  } catch (error) {
+    res.status(500).json({message:error.message});
+  }
+})
+
 app.post('/api/sellToCustomer',async(req,res)=>{
   try {
     const ProductID =req.body.productID;
@@ -865,6 +876,9 @@ app.get('/api/viewListOfBatchTemplates', async (req, res) => {
     res.status(400).send({ error: error.message });
   }
 });
+
+
+
 
 
 
