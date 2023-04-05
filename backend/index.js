@@ -635,8 +635,9 @@ app.get('/api/viewProductInfo', async(req,res)=>{
   const ProductID= req.query.productID; 
   try {
     const doc= await product.findOne({ProductID:ProductID});
-    console.log(doc)
-    res.status(200).json({status:"success",data:doc});
+    const data = await batch.findOne({BatchID:doc.BatchID});
+
+    res.status(200).json({status:"success",productData:doc,batchData:data});
   } catch (error) {
     res.status(500).json({message:error.message});
   }
