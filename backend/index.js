@@ -1168,7 +1168,6 @@ app.get('/api/warehouse', function (req, res) {
 app.get('/api/company', async function (req, res) {
   let result = [];
   let data = await User.find({ role: "Admin" }).sort({_id:-1});
-  console.log("data",data)
   for (let i = 0; i < data.length; i++) {
       let factorydata = await User.find({ adminId: data[i]._id.toString(), role: 'Factory' }).sort({_id:-1})
       let distributerdata = await User.find({ adminId: data[i]._id.toString(), role: 'Distributer' }).sort({_id:-1})

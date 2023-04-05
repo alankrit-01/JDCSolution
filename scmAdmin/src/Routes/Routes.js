@@ -44,13 +44,20 @@ import CustomerReports from 'pages/Admin/CustomerReports';
 
 
 import BatchCovered from 'pages/Admin/BatchCovered';
+import BatchCoveredDetail from 'pages/Admin/BatchCoveredDetail';
+import BatchDetail from 'pages/Admin/BatchDetail';
+
+
+
 import ProductCovered from 'pages/Admin/ProductCovered';
-
-
-
 
 import FactoryDashboard from "pages/Factory/Dashboard";
 import FactorySetting from 'pages/Factory/Settings';
+
+import FactoryDistributer from "pages/Factory/factoryDistributer";
+import FactoryDistributerDetails from "pages/Factory/factoryDistributerDetails";
+
+
 import Products from "pages/Factory/Product";
 import BatchTemplate from "pages/Factory/batchTemplate";
 import AddBatchTemplate from "pages/Factory/addBatchTemplate";
@@ -61,10 +68,10 @@ import AddProductTemplate from "pages/Factory/addProductTemplate";
 import AddProduct from "pages/Factory/addProduct";
 import Setting from 'pages/Admin/Settings';
 
-
-
 import AddFactoryFeedback from 'pages/Factory/AddFactoryFeedbak';
 import FactorySelfFeedback from "pages/Factory/FactorySelfFeedback";
+
+import FactorySelfReports from "pages/Factory/FactorySelfReports";
 
 
 import { Route, Routes } from "react-router-dom";
@@ -115,11 +122,19 @@ const WebRoutes = () => {
             <Route path="/admin/customerReports" index element={<CustomerReports />} />
 
             <Route path="/admin/batchCovered" index element={<BatchCovered />} />
+            <Route path="/admin/batchCoveredDetail" index element={<BatchCoveredDetail />} />
+            <Route path="/admin/BatchDetail" index element={<BatchDetail />} />
+
+            
 
             <Route path="/admin/productCovered" index element={<ProductCovered />} />
             <Route path="/factory" index element={<FactoryLogin />} />
             <Route path="/factory/dashboard" index element={<FactoryDashboard />} />
             <Route path="/factory/settings" index element={<FactorySetting />} />
+
+            <Route path="/factory/distributer" index element={<FactoryDistributer />} />
+            <Route path="/factory/distributerDetails" index element={<FactoryDistributerDetails />} />
+
 
             <Route path="/factory/batchTemplate" index element={<BatchTemplate />} />
             <Route path="/factory/addBatchTemplate" index element={<AddBatchTemplate />} />
@@ -131,6 +146,9 @@ const WebRoutes = () => {
 
             <Route path="/factory/addFactoryFeedback" index element={<AddFactoryFeedback />} />
             <Route path="/factory/factorySelfFeedback" index element={<FactorySelfFeedback />} />
+            <Route path="/factory/factorySelfReports" index element={<FactorySelfReports />} />
+
+            
 
             {/* Need Changes */}
             <Route path="/factory/product" index element={<Products />} />

@@ -116,7 +116,7 @@ const BatchCovered = () => {
               </div>
               <div className="flex flex-wrap">
                 <div className="w-full lg:w-6/12 pr-4 mb-10 font-light">
-                  <NavLink to="/admin/factoryReports">
+                  <NavLink to="/admin/BatchCoveredDetail">
                     <div className="background-feedback-part">
                       <h6>15</h6>
                       <p>Factory - 1</p>
@@ -131,7 +131,7 @@ const BatchCovered = () => {
                   </div>
                 </div>
                 <div className="w-full lg:w-6/12 pl-4 mb-10 font-light">
-                  <NavLink to="/admin/distributerReports">
+                  <NavLink to="/admin/BatchCoveredDetail">
                     <div className="background-feedback-part">
                       <h6>30</h6>
                       <p>Factory - 2</p>
@@ -147,7 +147,7 @@ const BatchCovered = () => {
                 </div>
 
                 <div className="w-full lg:w-6/12 pr-4 mb-10 font-light">
-                  <NavLink to="/admin/retailerReports">
+                  <NavLink to="/admin/BatchCoveredDetail">
                     <div className="background-feedback-part">
                       <h6>25</h6>
                       <p>Factory - 3</p>
@@ -163,7 +163,7 @@ const BatchCovered = () => {
                 </div>
 
                 <div className="w-full lg:w-6/12 pl-4 mb-10 font-light">
-                  <NavLink to="/admin/customerReports">
+                  <NavLink to="/admin/BatchCoveredDetail">
                     <div className="background-feedback-part">
                       <h6>10</h6>
                       <p>Factory - 4</p>

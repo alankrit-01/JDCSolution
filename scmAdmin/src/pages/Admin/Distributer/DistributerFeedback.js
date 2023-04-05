@@ -103,6 +103,10 @@ const DistributerFeedback = () => {
     var numberOfDistRating = FilterFeedback.length;
     var distAverageRating = distributerRatingSum / numberOfDistRating;
 
+    if(isNaN(distAverageRating)){
+        distAverageRating = 0;
+    }
+
     var distFullRating = String(distAverageRating).charAt(0);
     var distFullRatingNumber = Number(distFullRating);
 
@@ -148,7 +152,10 @@ const DistributerFeedback = () => {
     for (let i = 0; i < distLeftFullRatingNumber; i++) {
         distributerLeftRating.push(<img src={starGrey} />);
     }
-
+    var totalfeedback = 0
+    if(distAverageRating !== 0){
+        totalfeedback = FilterFeedback.length;
+    }
 
     return (
         <>
@@ -163,7 +170,7 @@ const DistributerFeedback = () => {
                     <div className="container mx-auto max-w-full">
                         <div className="grid grid-cols-1 px-4 mb-16">
                             <div>
-                                <h2 className="head-cust-color">Feedback (Distributer - {FilterFeedback.length && FilterFeedback.length})</h2>
+                                <h2 className="head-cust-color">Feedback (Distributer - {totalfeedback && totalfeedback})</h2>
                             </div>
                             <div className="flex flex-wrap feedback-padding lg:w-12/12">
                                 <div className="w-full lg:w-6/12 pr-4 font-light">

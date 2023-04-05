@@ -13,6 +13,9 @@ import BatchImg from 'assets/img/batches-sent.png';
 import FeedbackImg from 'assets/img/Reports.png';
 import LogoutImg from 'assets/img/setting.png';
 
+import ReportsExport from 'assets/img/ReportsExport.png';
+
+
 
 export default function FactorySidebar() {
   const [showSidebar, setShowSidebar] = useState("-left-64");
@@ -50,13 +53,13 @@ export default function FactorySidebar() {
             <ul className="flex-col min-w-full flex list-none">
               <li className="rounded-lg mb-4">
                 <NavLink
-                  to="/factory/dashboard" 
+                  to="/factory/distributer" 
                   exact
                   className="flex items-center gap-4 text-sm text-gray-700 font-light px-4 py-3 rounded-lg"
                   activeClassName="bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md"
                 >
                   {/* <Icon name="dashboard" size="2xl" /> */}
-                  <img src={DashboardImg} className="w-8 h-8" style={{margin: "auto"}}/>
+                  <img src={DashboardImg} className="w-16 h-16" style={{margin: "auto"}}/>
                 </NavLink>
               </li>
               <li className="rounded-lg mb-4">
@@ -67,7 +70,7 @@ export default function FactorySidebar() {
                   activeClassName="bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md"
                 >
                   {/* <Icon name="dashboard" size="2xl" /> */}
-                  <img src={ProductTempImg} className="w-8 h-8" style={{margin: "auto"}}/>
+                  <img src={ProductTempImg} className="w-16 h-16" style={{margin: "auto"}}/>
                   {/* Product Template */}
                 </NavLink>
               </li>
@@ -79,18 +82,18 @@ export default function FactorySidebar() {
                   activeClassName="bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md"
                 >
                   {/* <Icon name="dashboard" size="2xl" /> */}
-                  <img src={BatchImg} className="w-8 h-8" style={{margin: "auto"}}/>
+                  <img src={BatchImg} className="w-16 h-16" style={{margin: "auto"}}/>
                 </NavLink>
               </li>
               <li className="rounded-lg mb-4">
                 <NavLink
-                  to="/factory/factorySelfFeedback"
+                  to="/factory/factorySelfReports"
                   exact
                   className="flex items-center gap-4 text-sm text-gray-700 font-light px-4 py-3 rounded-lg"
                   activeClassName="bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md"
                 >
                   {/* <Icon name="dashboard" size="2xl" /> */}
-                  <img src={FeedbackImg} className="w-8 h-8" style={{margin: "auto"}}/>
+                  <img src={ReportsExport} className="w-16 h-16" style={{margin: "auto"}}/>
                 </NavLink>
               </li>
 

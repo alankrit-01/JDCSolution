@@ -11,8 +11,9 @@ import Input from '@material-tailwind/react/Input';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import loader from "assets/img/loading.gif";
+import cumulative from "assets/img/cumulative.png";
 
-const FactoryySelfFeedback = () => {
+const FactorySelfReports = () => {
     const factorydata = useSelector((state) => state.FactoryLoginData);
     const [loading, setLoading] = useState(false);
 
@@ -118,12 +119,10 @@ const FactoryySelfFeedback = () => {
                                         onChange={(e) => setSearch(e.target.value)} />
                                 </div>
                                 <div className="right-button-section">
-                                    {/* <CSVLink filename="DistributerList.csv" data={getCsvData()} >
-                                        {" "}
-                                        <div className="">
-                                            <button className="cust-export-button">Export CSV <img src={Arrowdown} className="w-3 h-3" style={{ margin: "2px 0px 2px 2px" }} /> </button>
-                                        </div>
-                                    </CSVLink> */}
+                                    <NavLink to="/factory/addFactoryReport">
+                                        <button className="cust-button">Add +</button>
+                                    </NavLink>
+                                   
 
 
                                 </div>
@@ -145,16 +144,16 @@ const FactoryySelfFeedback = () => {
                                 selectableRows
                                 selectableRowsHighlight
                                 highlightOnHover
-                                // actions={<NavLink
-                                //     to="/factory/addFactoryFeedback"><Button>Add</Button></NavLink>}
-                                // subHeader
-                                // subHeaderComponent={
-                                //     <div className='w-full'>
-                                //         <div className="float-left lg:w-6/12 d-flex pr-4 mb-10 font-light">
-                                //             <Input type="text" color="purple" placeholder="Search Here" value={Search} onChange={(e) => setSearch(e.target.value)} />
-                                //         </div>
-                                //     </div>
-                                // }
+                            // actions={<NavLink
+                            //     to="/factory/addFactoryFeedback"><Button>Add</Button></NavLink>}
+                            // subHeader
+                            // subHeaderComponent={
+                            //     <div className='w-full'>
+                            //         <div className="float-left lg:w-6/12 d-flex pr-4 mb-10 font-light">
+                            //             <Input type="text" color="purple" placeholder="Search Here" value={Search} onChange={(e) => setSearch(e.target.value)} />
+                            //         </div>
+                            //     </div>
+                            // }
                             />
                         </div>
                     </div>
@@ -164,6 +163,6 @@ const FactoryySelfFeedback = () => {
         </>
     );
 }
-export default FactoryySelfFeedback
+export default FactorySelfReports
 
 

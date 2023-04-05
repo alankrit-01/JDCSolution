@@ -103,6 +103,10 @@ const RetailerFeedback = () => {
   var numberOfretRating = FilterFeedback.length;
   var retAverageRating = retailerRatingSum / numberOfretRating;
 
+  if(isNaN(retAverageRating)){
+    retAverageRating = 0;
+}
+
   var retFullRating = String(retAverageRating).charAt(0);
   var retFullRatingNumber = Number(retFullRating);
 
@@ -149,6 +153,11 @@ const RetailerFeedback = () => {
     retailerLeftRating.push(<img src={starGrey} />);
   }
 
+  var totalfeedback = 0
+    if(retAverageRating !== 0){
+        totalfeedback = FilterFeedback.length;
+    }
+
   return (
     <>
       <Sidebar />
@@ -162,7 +171,7 @@ const RetailerFeedback = () => {
           <div className="container mx-auto max-w-full">
             <div className="grid grid-cols-1 px-4 mb-16">
               <div>
-                <h2 className="head-cust-color">Feedback (Retailer - {FilterFeedback.length && FilterFeedback.length})</h2>
+                <h2 className="head-cust-color">Feedback (Retailer - {totalfeedback && totalfeedback})</h2>
               </div>
               <div className="flex flex-wrap feedback-padding lg:w-12/12">
                 <div className="w-full lg:w-6/12 pr-4 font-light">

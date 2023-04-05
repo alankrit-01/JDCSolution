@@ -9,7 +9,8 @@ import RCheckLogo from 'assets/img/r-check-logo.png';
 import bell from "assets/img/bell.png"
 import mail from "assets/img/mail.png";
 import { NavLink } from 'react-router-dom';
-
+import Ceoimg from  "assets/img/ceo-img.png";
+import ceo2 from  "assets/img/camera-icon.png";
 export default function FactoryNavbar({ showSidebar, setShowSidebar }) {
     const location = useLocation().pathname;
     return (
@@ -46,11 +47,7 @@ export default function FactoryNavbar({ showSidebar, setShowSidebar }) {
                 </div>
                 <div className="flex justify-between items-center w-full">
                     <img className='w-24 h-16' src={RCheckLogo} />
-                    {/* <h4 className="uppercase text-white text-2xl tracking-wider mt-1">
-                        {location === '/'
-                            ? 'DASHBOARD sd'
-                            : location.toUpperCase().replace('/', '')}
-                    </h4> */}
+                 
                     <div className="flex">
                         <div className="w-5 h-5 rounded-full border-gray-700 bg-[#ff9c67] -mr-12 mb-5 text-center z-40 ">
                             <span>7</span>
@@ -82,11 +79,23 @@ export default function FactoryNavbar({ showSidebar, setShowSidebar }) {
                             >
                                 <NavLink
                                     to="/factory/settings">
-                                    <DropdownItem color="lightBlue">
-                                        Profile
-                                    </DropdownItem>
+
                                 </NavLink>
-                            </Dropdown>
+
+                                <a href="#"><img src={Ceoimg} className="ceo-img-part" />
+                                </a>
+
+                                <p className="camera-section"><img src={ceo2} className="camera-icon" />
+                                </p>
+                                <p className="nothing-part"> <span>Factory</span></p>
+
+                                <p className="click-open-btn"><Icon name="email" size="1xl" color="black" /> <a href="#">factory@gmail.com</a></p>
+                                <p className="click-open-btn"><Icon name="email" size="1xl" color="black" /> <a href="#">Gachibowli, Hyderabad</a></p>
+                                <p className="click-open-btn"><Icon name="phone" size="1xl" color="black" /> <a href="#">+91 9602364756</a></p>
+                                <p className="click-open-btn2">Wallet address</p>
+                                <p className="box-set"> <a href="#">0x9bc444fc09f3660ad09b668f4a73b603b37Of07e <Icon name="email" size="1xl" color="black" /></a></p>
+                                <p className="sign-button-p"><DropdownItem color="lightBlue">Sign out</DropdownItem></p>
+                                </Dropdown>
                         </div>
                     </div>
                 </div>

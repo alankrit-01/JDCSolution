@@ -86,7 +86,7 @@ export default function AdminNavbar({ showSidebar, setShowSidebar }) {
                 }}
               >
                  <NavLink to="/admin/settings">
-                  </NavLink>
+                  </NavLink> 
                   
                   <a href="#"><img src={Ceoimg} className="ceo-img-part" />  
                   </a>
