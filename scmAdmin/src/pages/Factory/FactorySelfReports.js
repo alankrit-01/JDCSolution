@@ -122,8 +122,7 @@ const FactorySelfReports = () => {
                                     <NavLink to="/factory/addFactoryReport">
                                         <button className="cust-button">Add +</button>
                                     </NavLink>
-                                   
-
+                                
 
                                 </div>
                             </div>
