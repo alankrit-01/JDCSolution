@@ -10,7 +10,18 @@ import { Button } from "@material-tailwind/react";
 import Input from "@material-tailwind/react/Input";
 import loader from "assets/img/loading.gif";
 import star from "assets/img/star.png";
-import star2 from "assets/img/star-se.png";
+import starGrey from "assets/img/star-se.png";
+import cumulative from "assets/img/cumulative.png";
+
+import star1 from "assets/img/star1.png";
+import star2 from "assets/img/star2.png";
+import star3 from "assets/img/star3.png";
+import star4 from "assets/img/star4.png";
+import star5 from "assets/img/star5.png";
+import star6 from "assets/img/star6.png";
+import star7 from "assets/img/star7.png";
+import star8 from "assets/img/star8.png";
+import star9 from "assets/img/star9.png";
 const RetailerFeedback = () => {
   const admindata = useSelector((state) => state.AdminLoginData);
   const [adminUserId, setAdminUserId] = useState(admindata.adminUserId);
@@ -25,14 +36,20 @@ const RetailerFeedback = () => {
       selector: (row) => row.name,
       sortable: true,
     },
+
     {
-      name: "Subject",
-      selector: (row) => row.subject,
+      name: "Rating",
+      selector: (row) => row.rating,
       sortable: true,
     },
     {
-      name: "Descrition",
-      selector: (row) => row.description,
+      name: "Comment",
+      selector: (row) => row.comment,
+      sortable: true,
+    },
+    {
+      name: "Services",
+      selector: (row) => row.services,
       sortable: true,
     },
     {
@@ -75,6 +92,63 @@ const RetailerFeedback = () => {
     });
     setFilterFeedback(result);
   }, [Search]);
+
+
+
+
+  var retailerRatingSum = 0;
+  for (let i = 0; i < FilterFeedback.length; i++) {
+    retailerRatingSum += parseInt(FilterFeedback[i].rating);
+  }
+  var numberOfretRating = FilterFeedback.length;
+  var retAverageRating = retailerRatingSum / numberOfretRating;
+
+  var retFullRating = String(retAverageRating).charAt(0);
+  var retFullRatingNumber = Number(retFullRating);
+
+  var retLeftRatingNumber = 5 - retAverageRating;
+
+  var retLeftFullRating = String(retLeftRatingNumber).charAt(0);
+  var retLeftFullRatingNumber = Number(retLeftFullRating);
+
+  var retpointRating = String(retAverageRating).charAt(2);
+  var retpointRatingNumber = Number(retpointRating);
+
+  let retailerMainRating = [];
+  for (let i = 0; i < retFullRatingNumber; i++) {
+    retailerMainRating.push(<img src={star} />);
+  }
+
+  let retailerPointRating = [];
+  if (retpointRatingNumber > 0) {
+
+    if (retpointRatingNumber == 1) {
+      retailerPointRating.push(<img src={star1} />);
+    } else if (retpointRatingNumber == 2) {
+      retailerPointRating.push(<img src={star2} />);
+    } else if (retpointRatingNumber == 3) {
+      retailerPointRating.push(<img src={star3} />);
+    } else if (retpointRatingNumber == 4) {
+      retailerPointRating.push(<img src={star4} />);
+    } else if (retpointRatingNumber == 5) {
+      retailerPointRating.push(<img src={star5} />);
+    } else if (retpointRatingNumber == 6) {
+      retailerPointRating.push(<img src={star6} />);
+    } else if (retpointRatingNumber == 7) {
+      retailerPointRating.push(<img src={star7} />);
+    } else if (retpointRatingNumber == 8) {
+      retailerPointRating.push(<img src={star8} />);
+    } else if (retpointRatingNumber == 9) {
+      retailerPointRating.push(<img src={star9} />);
+    }
+
+  }
+
+  let retailerLeftRating = [];
+  for (let i = 0; i < retLeftFullRatingNumber; i++) {
+    retailerLeftRating.push(<img src={starGrey} />);
+  }
+
   return (
     <>
       <Sidebar />
@@ -87,31 +161,41 @@ const RetailerFeedback = () => {
         <div className="px-3 md:px-8 h-auto -mt-24">
           <div className="container mx-auto max-w-full">
             <div className="grid grid-cols-1 px-4 mb-16">
-
               <div>
-                <h2 className="head-cust-color">Feedback (Retailer - 45)</h2>
+                <h2 className="head-cust-color">Feedback (Retailer - {FilterFeedback.length && FilterFeedback.length})</h2>
               </div>
-              <div className="flex flex-wrap feedback-padding lg:w-8/12">
-                <div className="w-full lg:w-7/12 pr-4 font-light">
+              <div className="flex flex-wrap feedback-padding lg:w-12/12">
+                <div className="w-full lg:w-6/12 pr-4 font-light">
                   <div className="feedback-detail-image-part">
-                    <img src={star} />
-                    <img src={star} />
-                    <img src={star} />
-                    <img src={star} />
-                    <img src={star2} />
+                    {retailerMainRating && retailerMainRating}
+                    {retailerPointRating && retailerPointRating}
+                    {retailerLeftRating && retailerLeftRating}
                   </div>
                 </div>
                 <div className="w-full lg:w-1/12 pl-4 font-light">
-                  <h2 className='dashicon-details'>-</h2>
+                  <h2 className='dashicon-details dish-part'>-</h2>
                 </div>
                 <div className="w-full lg:w-3/12 pl-4 font-light">
                   <div className="detail-button-review">
-                    <span className="point-part">3.5</span>
+                    <span className="point-part review-part">
+                      {retAverageRating.toFixed(1)}
+                    </span>
                   </div>
+                </div>
+                <div className="w-full lg:w-2/12 pl-4 font-light">
+                  <div className="received-part-two report-drop image-sets">
+                    <img src={cumulative} />
+                    <select id="colours" className="dd-button">
+                      <option value="red">Cumulative</option>
+                      <option value="green">Green</option>
+                      <option value="blue">Blue </option>
+
+                    </select>
+                  </div>
+
                 </div>
               </div>
               <DataTable
-                // title="Retailer Feedback List"
                 columns={columns}
                 noDataComponent={
                   <div>
@@ -128,20 +212,14 @@ const RetailerFeedback = () => {
                 selectableRows
                 selectableRowsHighlight
                 highlightOnHover
-                // subHeader
-                // subHeaderComponent={
-                //   <div className="w-full">
-                //     <div className="float-left lg:w-6/12 d-flex pr-4 mb-10 font-light">
-                //       <Input
-                //         type="text"
-                //         color="purple"
-                //         placeholder="Search Here"
-                //         value={Search}
-                //         onChange={(e) => setSearch(e.target.value)}
-                //       />
-                //     </div>
-                //   </div>
-                // }
+              // subHeader
+              // subHeaderComponent={
+              //     <div className='w-full'>
+              //         <div className="float-left lg:w-6/12 d-flex pr-4 mb-10 font-light">
+              //             <Input type="text" color="purple" placeholder="Search Here" value={Search} onChange={(e) => setSearch(e.target.value)} />
+              //         </div>
+              //     </div>
+              // }
               />
             </div>
           </div>

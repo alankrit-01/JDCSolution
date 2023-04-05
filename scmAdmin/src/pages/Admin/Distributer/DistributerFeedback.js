@@ -10,8 +10,20 @@ import { Button } from "@material-tailwind/react";
 import Input from '@material-tailwind/react/Input';
 import loader from "assets/img/loading.gif";
 import star from "assets/img/star.png";
-import star2 from "assets/img/star-se.png";
+import starGrey from "assets/img/star-se.png";
 import cumulative from "assets/img/cumulative.png";
+
+import star1 from "assets/img/star1.png";
+import star2 from "assets/img/star2.png"; 
+import star3 from "assets/img/star3.png";
+import star4 from "assets/img/star4.png";
+import star5 from "assets/img/star5.png";
+import star6 from "assets/img/star6.png";
+import star7 from "assets/img/star7.png";
+import star8 from "assets/img/star8.png";
+import star9 from "assets/img/star9.png";
+
+
 const DistributerFeedback = () => {
     const admindata = useSelector((state) => state.AdminLoginData);
     const [adminUserId, setAdminUserId] = useState(admindata.adminUserId);
@@ -27,13 +39,18 @@ const DistributerFeedback = () => {
             sortable: true,
         },
         {
-            name: "Subject",
-            selector: (row) => row.subject,
+            name: "Rating",
+            selector: (row) => row.rating,
             sortable: true,
         },
         {
-            name: "Descrition",
-            selector: (row) => row.description,
+            name: "Comment",
+            selector: (row) => row.comment,
+            sortable: true,
+        },
+        {
+            name: "Services",
+            selector: (row) => row.services,
             sortable: true,
         },
         {
@@ -42,7 +59,6 @@ const DistributerFeedback = () => {
             sortable: true,
         },
     ];
-
     useEffect(() => {
         const data = {
             receiverUserID: adminUserId,
@@ -65,7 +81,6 @@ const DistributerFeedback = () => {
             setFilterFeedback(initialdata.feedbackRec);
         } else {
             setLoading(false);
-
             setFilterFeedback(a);
         }
     }, [initialdata])
@@ -76,6 +91,65 @@ const DistributerFeedback = () => {
         })
         setFilterFeedback(result)
     }, [Search])
+
+
+
+
+
+    var distributerRatingSum = 0;
+    for (let i = 0; i < FilterFeedback.length; i++) {
+        distributerRatingSum += parseInt(FilterFeedback[i].rating);
+    }
+    var numberOfDistRating = FilterFeedback.length;
+    var distAverageRating = distributerRatingSum / numberOfDistRating;
+
+    var distFullRating = String(distAverageRating).charAt(0);
+    var distFullRatingNumber = Number(distFullRating);
+
+    var distLeftRatingNumber = 5 - distAverageRating;
+
+    var distLeftFullRating = String(distLeftRatingNumber).charAt(0);
+    var distLeftFullRatingNumber = Number(distLeftFullRating);
+
+    var distpointRating = String(distAverageRating).charAt(2);
+    var distpointRatingNumber = Number(distpointRating);
+
+    let distributerMainRating = [];
+    for (let i = 0; i < distFullRatingNumber; i++) {
+        distributerMainRating.push(<img src={star} />);
+    }
+
+    let distributerPointRating = [];
+    if (distpointRatingNumber > 0) {
+
+        if(distpointRatingNumber == 1){
+            distributerPointRating.push(<img src={star1} />);
+        }else if(distpointRatingNumber == 2){
+            distributerPointRating.push(<img src={star2} />);
+        }else if(distpointRatingNumber == 3){
+            distributerPointRating.push(<img src={star3} />);
+        }else if(distpointRatingNumber == 4){
+            distributerPointRating.push(<img src={star4} />);
+        }else if(distpointRatingNumber == 5){
+            distributerPointRating.push(<img src={star5} />);
+        }else if(distpointRatingNumber == 6){
+            distributerPointRating.push(<img src={star6} />);
+        }else if(distpointRatingNumber == 7){
+            distributerPointRating.push(<img src={star7} />);
+        }else if(distpointRatingNumber == 8){
+            distributerPointRating.push(<img src={star8} />);
+        }else if(distpointRatingNumber == 9){
+            distributerPointRating.push(<img src={star9} />);
+        }
+        
+    }
+
+    let distributerLeftRating = [];
+    for (let i = 0; i < distLeftFullRatingNumber; i++) {
+        distributerLeftRating.push(<img src={starGrey} />);
+    }
+
+
     return (
         <>
             <Sidebar />
@@ -89,16 +163,14 @@ const DistributerFeedback = () => {
                     <div className="container mx-auto max-w-full">
                         <div className="grid grid-cols-1 px-4 mb-16">
                             <div>
-                                <h2 className="head-cust-color">Feedback (Distributer - 45)</h2>
+                                <h2 className="head-cust-color">Feedback (Distributer - {FilterFeedback.length && FilterFeedback.length})</h2>
                             </div>
                             <div className="flex flex-wrap feedback-padding lg:w-12/12">
                                 <div className="w-full lg:w-6/12 pr-4 font-light">
                                     <div className="feedback-detail-image-part">
-                                        <img src={star} />
-                                        <img src={star} />
-                                        <img src={star} />
-                                        <img src={star} />
-                                        <img src={star2} />
+                                    {distributerMainRating && distributerMainRating}
+                                        {distributerPointRating && distributerPointRating}
+                                        {distributerLeftRating && distributerLeftRating}
                                     </div>
                                 </div>
                                 <div className="w-full lg:w-1/12 pl-4 font-light">
@@ -106,13 +178,12 @@ const DistributerFeedback = () => {
                                 </div>
                                 <div className="w-full lg:w-3/12 pl-4 font-light">
                                     <div className="detail-button-review">
-                                        <span className="point-part review-part">4.8</span>
+                                        <span className="point-part review-part">{distAverageRating.toFixed(1)}</span>
                                     </div>
                                 </div>
                                 <div className="w-full lg:w-2/12 pl-4 font-light">
                                     <div className="received-part-two report-drop image-sets">
                                         <img src={cumulative} />
-
                                         <select id="colours" className="dd-button">
                                             <option value="red">Cumulative</option>
                                             <option value="green">Green</option>
@@ -124,7 +195,6 @@ const DistributerFeedback = () => {
                                 </div>
                             </div>
                             <DataTable
-                                // title="Factory Feedback List"
                                 columns={columns}
                                 noDataComponent={
                                     <div>
