@@ -345,9 +345,9 @@ h5.add-batch-dashboard-title {
 
 .custom-details-btn {
     background: #0c3f6a;
-    padding: 2px 44px;
+    padding: 7px 10px;
     border-radius: 50px;
-    font-size: 24px;
+    font-size: 16px;
     color: #fff;
     font-weight: 300;
 }
@@ -945,26 +945,151 @@ h5.add-batch-dashboard-title {
     color: #ffffff;
     padding: 10px 78px 10px 22px;
 }
-.image-sets img{top: 205px;}
+
+.image-sets img {
+    top: 205px;
+}
+
 .feedback-detail-image-part img {
     width: 60px;
     margin: 0px 30px;
     display: inline-block;
 }
 
-span.material-icons text-lg leading-none align-middle{
-                  
+span.material-icons text-lg leading-none align-middle {
+
     margin-left: 90px;
 
- }
+}
 
- .cumulative{
-     margin-top: 0px;
- }
+.cumulative {
+    margin-top: 0px;
+}
 
- .received-part-two2 img {top: 123px;
-     right: 208px;
-     width: 22px;
-     display: block;
-     margin-right: -12px;
-     position: absolute; }
+.received-part-two2 img {
+    top: 123px;
+    right: 208px;
+    width: 22px;
+    display: block;
+    margin-right: -12px;
+    position: absolute;
+}
+
+.mt-input+label:after {
+    border-bottom-width: inherit !important;
+}
+
+.text-area-set textarea {
+    background: #fff;
+    border-radius: 25px;
+    margin-top: -15px;
+}
+
+.submit-button-factory {
+    margin: auto;
+    display: block;
+}
+
+.send-batch-part {
+    width: 260px;
+}
+
+.send-batch-part:hover {
+    width: 260px;
+}
+
+.arrow-image {
+    width: 14px;
+    margin-right: -6px;
+    margin-left: 13px;
+}
+
+.border-gray-part {
+    color: #003466 !important;
+    font-weight: 500;
+    font-size: 15px;
+}
+
+.css-13cymwt-control {
+    border-radius: 25px !important;
+}
+
+.css-1jqq78o-placeholder {
+    color: #003466 !important;
+}
+
+.border_two {
+    background: #fff;
+    padding: 13px 10px;
+    border-radius: 25px;
+}
+
+.drop-set {
+    margin: 0px;
+    padding: 15px;
+}
+
+.drop-set span {
+    color: #0c3f6a;
+    font-weight: 500;
+}
+
+.css-13cymwt-control {
+    min-height: 45px !important;
+}
+
+.css-1fdsijx-ValueContainer {
+    min-height: 45px !important;
+}
+
+.border_two2 {
+    margin-top: -10px;
+}
+
+.cumlative-part {
+    display: block;
+}
+
+.cust-part {
+    margin-top: 80px;
+}
+
+.cust-part .cust-button {
+    padding: 5px 35px !important;
+}
+
+.cust-button .batches-sent {
+    display: block;
+    color: #ff9c67 !important;
+    font-weight: 600;
+    font-size: 22px;
+}
+
+.back-set-gray {
+    justify-content: center;
+    display: flex;
+}
+
+.details-background-color {
+    background: #e6e6e6;
+    padding: 25px;
+    width: 380px;
+}
+
+.details-background-color h2 {
+    color: #0c3f6a;
+    font-weight: 500;
+    font-size: 22px;
+    padding-bottom: 20px;
+    text-align: center;
+}
+
+.details-background-color p {
+    left: 25%;
+    color: #0c3f6a;
+    font-weight: 500;
+}
+
+.details-background-color p span {
+    color: #000 !important;
+}

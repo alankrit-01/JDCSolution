@@ -59,7 +59,11 @@ const Feedback = () => {
     var numberOfDistRating = distributerFeedback.length;
     var distAverageRating = distributerRatingSum / numberOfDistRating;
 
-    
+    if(isNaN(distAverageRating)){
+        distAverageRating = 0;
+    }
+
+
 
     var retailerRatingSum = 0;
     for (let i = 0; i < retailerFeedback.length; i++) {
@@ -67,6 +71,10 @@ const Feedback = () => {
     }
     var numberOfRetailerRating = retailerFeedback.length;
     var retailerAverageRating = retailerRatingSum / numberOfRetailerRating;
+
+    if(isNaN(retailerAverageRating)){
+        retailerAverageRating = 0;
+    }
 
     var customerRatingSum = 0;
     for (let i = 0; i < customerFeedback.length; i++) {
@@ -76,7 +84,9 @@ const Feedback = () => {
     var custAverageRating = customerRatingSum / numberOfCustRating;
 
 
-
+    if(isNaN(custAverageRating)){
+        custAverageRating = 0;
+    }
 
     /////////////////Distributer Feedback Start ///////////
 
@@ -125,6 +135,11 @@ const Feedback = () => {
     let distributerLeftRating = [];
     for (let i = 0; i < distLeftFullRatingNumber; i++) {
         distributerLeftRating.push(<img src={starGrey} />);
+    }
+
+    var disttotalfeedback = 0
+    if(distAverageRating !== 0){
+        disttotalfeedback = distributerFeedback.length;
     }
 
 /////////////////Distributer Feedback End ///////////
@@ -176,6 +191,11 @@ const Feedback = () => {
     let retailerLeftRating = [];
     for (let i = 0; i < retLeftFullRatingNumber; i++) {
         retailerLeftRating.push(<img src={starGrey} />);
+    }
+
+    var rettotalfeedback = 0
+    if(retailerAverageRating !== 0){
+        rettotalfeedback = retailerFeedback.length;
     }
 
 
@@ -230,6 +250,11 @@ const Feedback = () => {
         customerLeftRating.push(<img src={starGrey} />);
     }
 
+    var custtotalfeedback = 0
+    if(custAverageRating !== 0){
+        custtotalfeedback = customerFeedback.length;
+    }
+
 /////////////////Customer Feedback End ///////////
 
     return (
@@ -250,7 +275,7 @@ const Feedback = () => {
                             <div className="flex flex-wrap feedback-padding">
                                 <div className="w-full lg:w-7/12 pr-4 mb-10 font-light">
                                     <h3>Distributor</h3>
-                                    <h4>{distributerFeedback.length && distributerFeedback.length}</h4>
+                                    <h4>{disttotalfeedback && disttotalfeedback}</h4>
                                     <div className="image-part">
                                         {distributerMainRating && distributerMainRating}
                                         {distributerPointRating && distributerPointRating}
@@ -272,7 +297,7 @@ const Feedback = () => {
                             <div className="flex flex-wrap feedback-padding">
                                 <div className="w-full lg:w-7/12 pr-4 mb-10 font-light">
                                     <h3>Retailer</h3>
-                                    <h4>{retailerFeedback.length && retailerFeedback.length}</h4>
+                                    <h4>{rettotalfeedback && rettotalfeedback}</h4>
                                     <div className="image-part">
 
                                     {retailerMainRating && retailerMainRating}
@@ -295,7 +320,7 @@ const Feedback = () => {
                             <div className="flex flex-wrap feedback-padding">
                                 <div className="w-full lg:w-7/12 pr-4 mb-10 font-light">
                                     <h3>Customer</h3>
-                                    <h4>{customerFeedback.length && customerFeedback.length}</h4>
+                                    <h4>{custtotalfeedback && custtotalfeedback}</h4>
                                     <div className="image-part">
                                     {customerMainRating && customerMainRating}
                                         {customerPointRating && customerPointRating} 

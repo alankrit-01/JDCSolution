@@ -24,7 +24,7 @@ const ProductTemplate = () => {
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
-        pauseOnHover: true, 
+        pauseOnHover: true,
         draggable: true,
         progress: undefined,
         theme: "light",
@@ -53,7 +53,7 @@ const ProductTemplate = () => {
     ];
     useEffect(() => {
         const data = {
-            factoryID:factoryUserId
+            factoryID: factoryUserId
         }
         dispatch(getProductTemplate(data))
     }, [])
@@ -72,7 +72,7 @@ const ProductTemplate = () => {
         // setFilterProductTemplates(initialProductTemplatedata.productTemplateRec.message && initialProductTemplatedata.productTemplateRec.message)
 
         var a = [{ Name: "There are no record to display" }];
-       
+
         setLoading(true);
         if (
             initialProductTemplatedata.productTemplateRec.message != 0 &&
@@ -80,60 +80,65 @@ const ProductTemplate = () => {
             initialProductTemplatedata.productTemplateRec.message != ""
         ) {
             setFilterProductTemplates(initialProductTemplatedata.productTemplateRec.message && initialProductTemplatedata.productTemplateRec.message);
-            
+
         } else {
-          setLoading(false);
-    
-          setFilterProductTemplates(a);
+            setLoading(false);
+
+            setFilterProductTemplates(a);
         }
     }, [initialProductTemplatedata])
     useEffect(() => {
-            const result = ProductTemplates.filter((allProductTemplate) => {
-                return allProductTemplate.Name.toLowerCase().match(Search.toLowerCase());
-            })
-            setFilterProductTemplates(result)
-        }, [Search])
+        const result = ProductTemplates.filter((allProductTemplate) => {
+            return allProductTemplate.Name.toLowerCase().match(Search.toLowerCase());
+        })
+        setFilterProductTemplates(result)
+    }, [Search])
     return (
         <>
             <ToastContainer />
             <FactorySidebar />
             <div className="md:ml-32">
-                <div className="pt-14 pb-28 px-3 md:px-8 h-auto">
+                <div className="pt-14 pb-20 px-3 md:px-8 h-auto">
                     <div className="container mx-auto max-w-full">
-                        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-5 ">
-                            <MainStatusCard />
-                        </div>
+                        {/* <MainStatusCard /> */}
                     </div>
                 </div>
                 <div className="px-3 md:px-8 h-auto -mt-24">
                     <div className="container mx-auto max-w-full">
                         <div className="grid grid-cols-1 px-4 mb-16">
+
+                            <div class="grid grid-cols-3 gap-4">
+                                <div>
+                                    <h2 className="head-cust-color">Product List</h2>
+                                </div>
+                                <div>
+                                    <input type="text" className="cust-input" placeholder="Search" value={Search}
+                                        onChange={(e) => setSearch(e.target.value)} />
+                                </div>
+                                <div className="right-button-section">
+                                    <NavLink to="/factory/addProductTemplate">
+                                        <button className="cust-button">Add Product +</button>
+                                    </NavLink>
+                                </div>
+                            </div>
                             <DataTable
-                                title="Product Template List"
+
                                 columns={columns}
                                 noDataComponent={
                                     <div>
-                                      <h4>Loading....</h4>
-                                      <img
-                                        style={{ width: "20px", height: "20px" }}
-                                        src={loader}
-                                      ></img>
+                                        <h4>Loading....</h4>
+                                        <img
+                                            style={{ width: "20px", height: "20px" }}
+                                            src={loader}
+                                        ></img>
                                     </div>
-                                  }
+                                }
                                 data={FilterProductTemplates}
                                 pagination
                                 fixedHeader
                                 selectableRows
                                 selectableRowsHighlight
                                 highlightOnHover
-                                actions={<NavLink
-                                    to="/factory/addProductTemplate"><Button>Add</Button></NavLink>}
-                                subHeader
-                                subHeaderComponent={
-                                    <div className="w-full lg:w-6/12 pr-4 mb-10 font-light">
-                                        <Input type="text" color="purple" placeholder="Search Here" value={Search} onChange={(e) => setSearch(e.target.value)} />
-                                    </div>
-                                }
                             />
                         </div>
                     </div>
