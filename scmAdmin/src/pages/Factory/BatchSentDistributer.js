@@ -1,6 +1,6 @@
-import MainStatusCard from 'components/Admin/MainStatusCard';
-import Sidebar from 'components/Admin/Sidebar';
-import Footer from 'components/Admin/Footer';
+import MainStatusCard from 'components/Factory/MainStatusCard';
+import FactorySidebar from 'components/Factory/Sidebar';
+import Footer from 'components/Factory/Footer';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useMemo, useState } from 'react';
@@ -14,7 +14,7 @@ import loader from "assets/img/loading.gif";
 import cumulative from "assets/img/cumulative.png";
 import Icon from "@material-tailwind/react/Icon";
 
-const BatchDetail = () => {
+const BatchSentDistributer = () => {
     const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -46,7 +46,7 @@ const BatchDetail = () => {
         },
         {
             name: "Action",
-            selector: (row) => <button className="custom-details-btn" onClick={() => navigate('/factory/BatchQr', { state: { BatchID: row.BatchID } })}>View Batch</button>,
+            selector: (row) => <button className="custom-details-btn" onClick={() => navigate('/factory/batchSentDetail', { state: { BatchID: row.BatchID } })}>View Batch</button>,
             ignoreRowClick: true,
             allowOverflow: true,
             button: true,
@@ -98,7 +98,7 @@ const BatchDetail = () => {
 
     return (
         <>
-            <Sidebar />
+            <FactorySidebar />
             <div className="md:ml-32">
                 <div className="pt-14 pb-10 px-3 md:px-8 h-auto">
                     <div className="container mx-auto max-w-full">
@@ -114,7 +114,15 @@ const BatchDetail = () => {
                         <div className="grid grid-cols-1 px-4 mb-16">
 
                             <div className="flex flex-wrap mt-10">
-                                <div className="w-full lg:w-12/12 pl-4 font-light">
+                                <div className="w-full lg:w-9/12 pr-4 mb-10 font-light back-set-gray">
+                                    <div className="background-factory details-background-color">
+                                    <h2>Distributor - 1</h2>
+                                        <p className="click-open-btn btn-one"> <Icon className="chage-c" name="phone" size="1xl" color="black" />GachiBowli,HYderabad</p>
+                                        <p className="click-open-btn btn-one"> <Icon className="chage-c" name="phone" size="1xl" color="black" />+91 6304334373</p>
+                                        <p className="click-open-btn btn-one"> <Icon className="chage-c" name="email" size="1xl" color="black" />Factory1@gmail.com</p>
+                                    </div>
+                                </div>
+                                <div className="w-full lg:w-3/12 pl-4 font-light">
                                     <div className="received-part-two report-drop">
                                         <img src={cumulative} />
                                         <select id="colours" className="dd-button">
@@ -124,38 +132,13 @@ const BatchDetail = () => {
                                         </select>
                                     </div>
 
+                                    <div className="right-button-section cust-part">
 
+                                    <NavLink to="/factory/addBatchTemplate">
+                                        <button className="cust-button">Batches Sent <span className="batches-sent">15</span></button>
+                                    </NavLink>
                                 </div>
-                                <div className="w-full lg:w-3/12 pr-4 mb-10 font-light top-space">
-                                    <ul className="id-batch">
-                                        <li>Batch ID  <br /><span>25643686</span></li>
-                                    </ul>
-
-                                </div>
-
-                                <div className="w-full lg:w-3/12 pr-4 mb-10 font-light top-space">
-                                    <ul className="id-batch">
-                                        <li>Richmint Batch Code <br /><span>B-7862266</span></li>
-                                    </ul>
-
-                                </div>
-                                <div className="w-full lg:w-3/12 pr-4 mb-10 font-light top-space">
-                                    <ul className="id-batch">
-                                        <li>Product Name <br /><span>Eye Liner</span></li>
-                                    </ul>
-
-                                </div>
-                                <div className="w-full lg:w-3/12 pr-4 mb-10 font-light top-space">
-                                    <div className="right-button-section cust-part2">
-
-                                        <NavLink to="/factory/addBatchTemplate">
-                                            <button className="cust-button">Products Covered <span className="batches-sent">55</span></button>
-                                        </NavLink>
-                                    </div>
-
-                                </div>
-                            </div>
-
+                                </div></div>
 
                             <DataTable
                                 columns={columns}
@@ -183,5 +166,5 @@ const BatchDetail = () => {
         </>
     );
 }
-export default BatchDetail
+export default BatchSentDistributer
 

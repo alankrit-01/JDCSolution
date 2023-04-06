@@ -1,6 +1,6 @@
-import MainStatusCard from 'components/Admin/MainStatusCard';
-import Sidebar from 'components/Admin/Sidebar';
-import Footer from 'components/Admin/Footer';
+import MainStatusCard from 'components/Factory/MainStatusCard';
+import FactorySidebar from 'components/Factory/Sidebar';
+import Footer from 'components/Factory/Footer';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useMemo, useState } from 'react';
@@ -14,7 +14,7 @@ import loader from "assets/img/loading.gif";
 import cumulative from "assets/img/cumulative.png";
 import Icon from "@material-tailwind/react/Icon";
 
-const BatchDetail = () => {
+const BatchSentDetail = () => {
     const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -98,7 +98,7 @@ const BatchDetail = () => {
 
     return (
         <>
-            <Sidebar />
+            <FactorySidebar />
             <div className="md:ml-32">
                 <div className="pt-14 pb-10 px-3 md:px-8 h-auto">
                     <div className="container mx-auto max-w-full">
@@ -149,7 +149,7 @@ const BatchDetail = () => {
                                     <div className="right-button-section cust-part2">
 
                                         <NavLink to="/factory/addBatchTemplate">
-                                            <button className="cust-button">Products Covered <span className="batches-sent">55</span></button>
+                                            <button className="cust-button">Product Sent <span className="batches-sent">55</span></button>
                                         </NavLink>
                                     </div>
 
@@ -183,5 +183,5 @@ const BatchDetail = () => {
         </>
     );
 }
-export default BatchDetail
+export default BatchSentDetail
 

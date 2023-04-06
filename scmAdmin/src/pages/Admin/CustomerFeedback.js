@@ -7,6 +7,8 @@ import { getFeedback } from 'Services/action';
 import { useEffect, useMemo, useState } from 'react';
 import DataTable from 'react-data-table-component';
 import { Button } from "@material-tailwind/react";
+import Popup from "reactjs-popup";
+
 import Input from '@material-tailwind/react/Input';
 import loader from "assets/img/loading.gif";
 import star from "assets/img/star.png";
@@ -56,6 +58,72 @@ const CustomerFeedback = () => {
             selector: (row) => row.date,
             sortable: true,
         },
+        {
+            name: "Feedback",
+            selector: (row) => (
+              <Popup
+                trigger={<Button className="view-more-part2">View Feedback</Button>}
+                position="left center"
+                marginLeft="30px"
+              >
+                <div
+                  class="popup"
+                  className=" h-92 bg-[#CCCCCC] ml-56 px-2 max-w-2xl text-[#0c3f6a] pr-6 p-9"
+                >
+                  <div className="flex">
+                    <div className="mt-6 ml-6">
+                      <h2 className="text-xl font-extrabold">
+                        Feedback by customer
+                      </h2>
+                      <br></br>
+                      <div className="image-part1 img w-36 h-14 flex ">
+                        <img className=" w-3 h-4 ml-3 pt-0" src={star} />
+                        <img className="shrink w-4 h-5 ml-3" src={star} />
+                        <img className="shrink w-5 h-5 ml-3" src={star} />
+                        <img className="shrink w-6 h-6 ml-3" src={star} />
+                        <img className="shrink w-7 h-7 ml-3" src={starGrey} />
+                        <p className="text-[#0c3f6a] font-extrabold text-2xl">
+                          {" "}
+                          -3.0
+                        </p>
+                      </div>
+                    </div>
+                    <div className="mt-6 ml-36  text-left">
+                      <div className="flex">
+                        <h5 className="font-medium">Customer Name</h5>
+                        <p>: Alpha</p>
+                      </div>
+                      <div className="flex">
+                        <h5 className="font-medium">Location</h5> <p>: Karnatka</p>
+                      </div>
+                      <div className="flex">
+                        <h5 className="font-medium">Phone No</h5> <p>: 9998702364</p>
+                      </div>
+                      <div className="flex">
+                        {" "}
+                        <h5 className="font-medium">Email : alpha@gmail.com</h5>
+                      </div>
+                    </div>
+                  </div>
+                  <br></br>
+                  <div className="ml-6  font-extrabold">
+                    <h3>Remarks</h3>
+                  </div>
+                  <br></br>
+      
+                  <div className="ml-6  mr-6  h-20 text-left border border-[#243c5a] rounded-md max-w-2xl px-2">
+                    <p>
+                      {" "}
+                      Lorem ipsum is placeholder text commonly used in the graphic,
+                      print, publishing industries for previewing layouts and visual
+                      mockups.
+                    </p>
+                  </div>
+                </div>
+              </Popup>
+            ),
+            sortable: true,
+          },
     ];
     useEffect(() => {
         const data = {

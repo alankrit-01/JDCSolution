@@ -12,7 +12,11 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import loader from "assets/img/loading.gif";
 import cumulative from "assets/img/cumulative.png";
-
+import Popup from "reactjs-popup";
+import img1 from "assets/img/qrcode.png";
+import img2 from "assets/img/product.jpg";
+import img3 from "assets/img/product2.png";
+import img4 from "assets/img/product3.jpg";
 const FactorySelfReports = () => {
     const factorydata = useSelector((state) => state.FactoryLoginData);
     const [loading, setLoading] = useState(false);
@@ -54,6 +58,96 @@ const FactorySelfReports = () => {
             selector: (row) => row.date,
             sortable: true,
         },
+        {
+            name: "Report",
+            selector: (row) => (
+              //   <button className="custom-details-btn" onClick={() => Popup()}>View More</button>
+              <Popup
+                trigger={<Button className="view-more-part2">View more</Button>}
+                position="left center"
+                marginLeft="30px"
+              >
+                <div
+                  class="popup"
+                  className=" max-h-max bg-[#CCCCCC] ml-56 px-2 max-w-2xl pb-6 text-[#0c3f6a] pr-6 "
+                >
+                  <div className="flex">
+                    <div className="mt-6 ml-6">
+                      <h5 className="text-lg font-extrabold">
+                        Issue Reported on 02-02-2023 21:30
+                      </h5>
+                      <br></br>
+                      <div className="text-sm">
+                        <div className="flex">
+                          <input
+                            className="w-4 h-4"
+                            type="checkbox"
+                            //   checked={checked}
+                            //   onChange={handleChange}
+                          />
+                          <p className="pl-2">
+                            Authentication Failed could be a Fake Product
+                          </p>
+                        </div>
+                        <div className="flex">
+                          <input
+                            className="w-4 h-4"
+                            type="checkbox"
+                            //   checked={checked}
+                            //   onChange={handleChange}
+                          />
+                          <p className="pl-2">
+                            Unable to scan/Enter Qr Code Software Issue
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="mt-6 ml-36  text-left text-sm">
+                      <div className="flex">
+                        <h5 className="font-medium">Customer Name</h5>
+                        <p>: Alpha</p>
+                      </div>
+                      <div className="flex">
+                        <h5 className="font-medium">Location</h5> <p>: Karnatka</p>
+                      </div>
+      
+                      <div className="flex">
+                        {" "}
+                        <h5 className="font-medium">Email : alpha@gmail.com</h5>
+                      </div>
+                    </div>
+                  </div>
+                  <br></br>
+                  <div className="flex space-x-4 ml-6 mr-6">
+                    <div className="w-60 h-32 border-4 border-[#0c3f6a]  bg-white">
+                      <img className="h-28 ml-2" src={img1} />
+                    </div>
+                    <div className="w-60 h-32 border-4 border-[#0c3f6a]">
+                      <img className="h-28 mt-1 " src={img2} />
+                    </div>
+                    <div className="w-60 h-32 border-4 border-[#0c3f6a]">
+                      <img className="h-28 mt-1 " src={img3} />
+                    </div>
+                    <div className="w-60 h-32 border-4 border-[#0c3f6a]">
+                      <img className="h-28 mt-1 " src={img4} />
+                    </div>
+                  </div>
+                  <br></br>
+      
+                  <div className="ml-6  mr-6  h-20 text-left border-2 border-[#A3A3A3] rounded-md max-w-2xl px-2">
+                    <p>
+                      {" "}
+                      Having issue with the product.The product are totally damaged
+                      and cannot be able to scan. So,please kindly for returning the
+                      product.
+                    </p>
+                  </div>
+                  <br></br>
+                </div>
+              </Popup>
+            ),
+            sortable: true,
+          },
     ];
     useEffect(() => {
         const data = {
