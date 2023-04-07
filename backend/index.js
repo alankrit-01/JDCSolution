@@ -41,7 +41,7 @@ mongoose.connect(MONGO_URL, {useNewUrlParser: true, useUnifiedTopology: true}).t
 // optionSuccessStatus:200
 // const contractAbi = require('./artifacts/contracts/Supplychain.sol/Supplychain.json')
 
-let contractAddress ="0xe2C637927DFCD52BF4f9d57D3D4270E411c23543";  
+let contractAddress ="0x0F42FB141619cf9B8030696B3e1Bd84Cf2558b6a";  
 let contract; 
   
 
@@ -140,10 +140,11 @@ async function addbatchMIDDLEWARE(req, res, next) {
   const productTemplateID =req.body.productTemplateID;
   const factoryID =req.body.factoryID; 
   const distributorID =req.body.distributorID; 
+  const distributorName =req.body.distributorName; 
   const factoryLocation =req.body.factoryLocation; 
   const dateOfProduction =req.body.dateOfProduction; 
   try {
-    const tx =await contract.batchProduced(batchID,companyBatchID,productIDs,batchSize,batchDescription,productTemplateID,factoryID,distributorID,factoryLocation,dateOfProduction);
+    const tx =await contract.batchProduced(batchID,companyBatchID,productIDs,batchSize,batchDescription,productTemplateID,factoryID,distributorID,distributorName,factoryLocation,dateOfProduction);
     tx.wait();
     console.log("Transaction completed!");
 
@@ -165,6 +166,7 @@ app.post('/api/factoryAddBatch',addbatchMIDDLEWARE,async(req,res)=>{
   const productTemplateID =req.body.productTemplateID;
   const factoryID =req.body.factoryID; 
   const distributorID =req.body.distributorID; 
+  const distributorName =req.body.distributorName; 
   const factoryLocation =req.body.factoryLocation; 
   const dateOfProduction =req.body.dateOfProduction; 
     
@@ -179,9 +181,9 @@ app.post('/api/factoryAddBatch',addbatchMIDDLEWARE,async(req,res)=>{
       ProductTemplateID:productTemplateID,    
       FactoryID:factoryID,
       DistributorID:distributorID,
+      DistributorName:distributorName,
       FactoryLocation:factoryLocation,
       DateOfProduction:dateOfProduction,
-      State: 0,
       DistributorScanned: false,
       DistributorScannedTimeStamp: "",
       AmountLeftForSellingTORetailer:batchSize,
@@ -651,6 +653,7 @@ app.post('/api/sellToCustomer',async(req,res)=>{
     const customerName =req.body.customerName; 
 
     const productData =await product.findOne({ProductID});
+    console.log(productData)
     if(productData.RetailerScanned==true){
       const tx =await contract.retailerSellToCustomer(ProductID,customerID,customerName);
       tx.wait();
@@ -706,16 +709,34 @@ app.get('/api/viewProductBoughts', async (req, res) => {
   }
 });  
 
+
 app.get('/api/authenticateProduct',async(req,res)=>{
   try {
     let ProductID= req.query.productID;
+    let customerID= req.query.customerID;
     let latitude= req.query.latitude; 
     let longitude= req.query.longitude; 
 
     // let data = await contract.ProductMapping(ProductID);
     let data = await product.findOne({ProductID});
     if(!data){
-      res.status(200).json({status:"success", message:"Authentication Level 1 Falied: Product ID not found",level:1}); 
+      const Data= new verificationData({
+        _id: new mongoose.Types.ObjectId(),
+        factoryID:"",
+        distributorID:"",
+        customerID:customerID,
+        batchDescription:"",
+        batchID:0,
+        productId:ProductID,
+        level:1
+      })
+      Data.save().then((result) => {
+        console.log(result);
+        res.status(200).json({status:"success", message:"Authentication Level 1 Falied: Product ID not found",level:1}); 
+        
+      }).catch((err) => console.warn(err)) 
+
+      // res.status(200).json({status:"success", message:"Authentication Level 1 Falied: Product ID not found",level:1}); 
     }else{
       let BatchID =data.BatchID;
       let data2 =await batch.findOne({BatchID});
@@ -756,6 +777,7 @@ app.get('/api/authenticateProduct',async(req,res)=>{
         _id: new mongoose.Types.ObjectId(),
         factoryID:data2.FactoryID,
         distributorID:data2.DistributorID,
+        customerID:customerID,
         batchDescription:data2.BatchDescription,
         batchID:BatchID,
         productId:ProductID,
@@ -774,6 +796,18 @@ app.get('/api/authenticateProduct',async(req,res)=>{
   }
 })
 
+app.get('/api/cutomerScansHistory', async (req, res) => {
+  let customerID= req.query.customerID;
+  try {
+    verificationData.find({customerID:customerID}).then((data) => {
+      res.status(200).json(data)
+    })
+
+  } catch (error) {
+    console.log(error.message);
+    res.status(400).send({ error: error.message });
+  }
+});
 
 /////////////////////////////// ADMIN APIS //////////////////////////////////////////
 
