@@ -44,9 +44,9 @@ contract Supplychain{
         uint ProductTemplateID;    
         string FactoryID;    
         string DistributorID;
+        string DistributorName;
         string FactoryLocation; 
-        string DateOfProduction;
-        uint State;            
+        string DateOfProduction;        
         bool DistributorScanned; 
         string  DistributorScannedTimeStamp;
         uint AmountLeftForSellingTORetailer;  
@@ -129,6 +129,7 @@ contract Supplychain{
         uint productTemplateID, 
         string memory factory, 
         string memory distributor,  
+        string memory distributorName,  
         string memory factoryLocation,
         string memory dateOfProduction 
     ) public{
@@ -142,9 +143,9 @@ contract Supplychain{
             ProductTemplateID:productTemplateID,
             FactoryID:factory,
             DistributorID:distributor,
+            DistributorName:distributorName,
             FactoryLocation:factoryLocation,
             DateOfProduction:dateOfProduction,
-            State:0,
             DistributorScanned:false,
             DistributorScannedTimeStamp:"",
             AmountLeftForSellingTORetailer:batchSize,
@@ -184,11 +185,11 @@ contract Supplychain{
     }   
 
     function distributorSellToRetailer(uint batchID, uint quantity) public{
-        uint amountLeft =BatchMapping[batchID].AmountLeftForSellingTORetailer;
+        uint amountLeft =BatchMapping[batchID].AmountLeftForSellingTORetailer; 
         // uint batchSize =BatchMapping[batchID].BatchSize;
         // string memory d =BatchMapping[batchID].DistributorID;
         require(amountLeft>=quantity,"Quantity is greater than the amount left to be sold in this batch");
-        require(quantity>0,"Quantity cannot be zero");
+        require(quantity>0,"Quantity cannot be zero"); 
         // uint sold = batchSize-amountLeft; 
         // uint[] memory productIDs =BatchIDToProductIDMapping[batchID];
         // for(uint i=sold; i<(sold+quantity); i++){
