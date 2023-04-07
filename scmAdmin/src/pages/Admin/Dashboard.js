@@ -1,6 +1,7 @@
 import MainStatusCard from "components/Admin/MainStatusCard";
 import Sidebar from "components/Admin/Sidebar";
 import Footer from "components/Admin/Footer";
+import { NavLink } from "react-router-dom";
 import PieRechartComponent from "components/Admin/PieChart";
 import ProgressCard from "components/Admin/ProgressCard";
 import PieRechartComponents from 'components/Factory/PieChart';
@@ -62,15 +63,20 @@ const Dashboard = () => {
                         marginTop: "-25px",
                       }}
                     >
-                      <DropdownItem href="#">
-                        Item 1
+                      <DropdownItem >
+                      <NavLink to="/admin/addfactory">
+                       Add Factory
+                        </NavLink>
                       </DropdownItem>
-                      <DropdownItem   href="#">
-                        {" "}
-                        Item 2
+                      <DropdownItem>
+                      <NavLink to="/admin/adddistributer">
+                       Add Distributer
+                        </NavLink>
                       </DropdownItem>
-                      <DropdownItem  href="#">
-                        Item 3
+                      <DropdownItem>
+                      <NavLink to="/admin/addretailer">
+                       Add Retailer
+                        </NavLink>
                       </DropdownItem>
                     </Dropdown>
                     {/* </div> */}

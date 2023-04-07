@@ -1,6 +1,7 @@
 import MainStatusCard from 'components/Factory/MainStatusCard';
 import FactorySidebar from 'components/Factory/Sidebar';
 import Footer from 'components/Factory/Footer';
+import { NavLink } from "react-router-dom";
 
 import Card from '@material-tailwind/react/Card';
 import CardRow from '@material-tailwind/react/CardRow';
@@ -15,27 +16,6 @@ import  AnyReactComponent  from 'google-map-react';
 
 const FactoryDashboard = () => {
 
-
-
-    const responsive = {
-        superLargeDesktop: {
-            // the naming can be any, depends on you.
-            breakpoint: { max: 4000, min: 3000 },
-            items: 5
-        },
-        desktop: {
-            breakpoint: { max: 3000, min: 1024 },
-            items: 3
-        },
-        tablet: {
-            breakpoint: { max: 1024, min: 464 },
-            items: 2
-        },
-        mobile: {
-            breakpoint: { max: 464, min: 0 },
-            items: 1
-        }
-    };
 
     const defaultProps = {
         center: {
@@ -52,11 +32,16 @@ const FactoryDashboard = () => {
                 <div className="px-3 md:px-8 h-40" />
                 <div className="px-3 md:px-8 -mt-24">
                     <div className="container mx-auto max-w-full">
-                        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-5 mb-4">
                             <MainStatusCard />
-                        </div>
                         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 mb-4">
                             <div className="px-4 mb-10 main-tiles-section">
+                            <NavLink to="/factory/productTemplate">
+                            <button className="cust-button"> + ADD PRODUCT</button>  
+                            </NavLink>
+                            <NavLink to="/factory/batchTemplate">
+                            <button className="cust-button"> + SEND BATCH</button>
+                            </NavLink>
+
                                 <Card className="main-tiles p-0">
                                     <CardRow className="inner-tiles">
                                         <img src={DashboardVector} />

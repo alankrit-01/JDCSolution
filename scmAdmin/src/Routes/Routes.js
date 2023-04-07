@@ -28,7 +28,7 @@ import Dashboard from 'pages/Admin/Dashboard';
 import DistributerScansFail from "pages/Admin/DistributerScansFail";
 import RetailerScansFail from "pages/Admin/RetailerScansFail";
 
-import Feedback from 'pages/Admin/Feedback'; 
+import Feedback from 'pages/Admin/Feedback';
 import FactoryFeedback from 'pages/Admin/Factory/FactoryFeedback';
 import DistributerFeedback from 'pages/Admin/Distributer/DistributerFeedback';
 import RetailerFeedback from 'pages/Admin/Retailer/RetailerFeedback';
@@ -38,18 +38,20 @@ import CompanySelfFeedback from "pages/Admin/CompanyFeedback";
 
 import Reports from 'pages/Admin/Reports';
 import FactoryReports from 'pages/Admin/Factory/FactoryReports';
-import DistributerReports from 'pages/Admin/Distributer/DistributerReports'; 
-import RetailerReports from 'pages/Admin/Retailer/RetailerReports'; 
-import CustomerReports from 'pages/Admin/CustomerReports'; 
+import DistributerReports from 'pages/Admin/Distributer/DistributerReports';
+import RetailerReports from 'pages/Admin/Retailer/RetailerReports';
+import CustomerReports from 'pages/Admin/CustomerReports';
+import Setting from 'pages/Admin/Settings';
 
 
 import BatchCovered from 'pages/Admin/BatchCovered';
 import BatchCoveredDetail from 'pages/Admin/BatchCoveredDetail';
 import BatchDetail from 'pages/Admin/BatchDetail';
 
-
-
 import ProductCovered from 'pages/Admin/ProductCovered';
+
+
+
 
 import FactoryDashboard from "pages/Factory/Dashboard";
 import FactorySetting from 'pages/Factory/Settings';
@@ -58,20 +60,33 @@ import FactoryDistributer from "pages/Factory/factoryDistributer";
 import FactoryDistributerDetails from "pages/Factory/factoryDistributerDetails";
 
 
-import Products from "pages/Factory/Product";
+
 import BatchTemplate from "pages/Factory/batchTemplate";
 import AddBatchTemplate from "pages/Factory/addBatchTemplate";
 import BatchQr from "pages/Factory/batchQr";
 import BatchProductQr from "pages/Factory/batchProductQr";
+
+import BatchSent from "pages/Factory/BatchSent";
+import BatchSentDistributer from "pages/Factory/BatchSentDistributer";
+import BatchSentDetail from "pages/Factory/BatchSentDetail";
+
+
+
+
+// import Products from "pages/Factory/Product";
+// import AddProduct from "pages/Factory/addProduct";
 import ProductTemplate from "pages/Factory/productTemplate";
 import AddProductTemplate from "pages/Factory/addProductTemplate";
-import AddProduct from "pages/Factory/addProduct";
-import Setting from 'pages/Admin/Settings';
+import ProductSent from "pages/Factory/ProductSent";
+import ProductSentDistributer from "pages/Factory/ProductSentDistributer";
+
 
 import AddFactoryFeedback from 'pages/Factory/AddFactoryFeedbak';
 import FactorySelfFeedback from "pages/Factory/FactorySelfFeedback";
 
 import FactorySelfReports from "pages/Factory/FactorySelfReports";
+import AddFactoryReport from "pages/Factory/AddFactoryReport";
+
 
 
 import { Route, Routes } from "react-router-dom";
@@ -90,9 +105,9 @@ const WebRoutes = () => {
             <Route path="/superAdmin/companyFeedback" index element={<CompanyFeedback />} />
             <Route path="/superAdmin/viewCompanyFeedback" index element={<ViewCompanyFeedback />} />
             <Route path="/admin" index element={<AdminLogin />} />
-            <Route path="/admin/dashboard" index element={<Dashboard />} />    
-            <Route path="/admin/distributerscansfail" index element={<DistributerScansFail />} /> 
-            <Route path="/admin/retailerscansfail" index element={<RetailerScansFail />} /> 
+            <Route path="/admin/dashboard" index element={<Dashboard />} />
+            <Route path="/admin/distributerscansfail" index element={<DistributerScansFail />} />
+            <Route path="/admin/retailerscansfail" index element={<RetailerScansFail />} />
             <Route path="/admin/settings" index element={<Setting />} />
             <Route path="/admin/factory" index element={<Factory />} />
             <Route path="/admin/addfactory" index element={<AddFactory />} />
@@ -125,7 +140,7 @@ const WebRoutes = () => {
             <Route path="/admin/batchCoveredDetail" index element={<BatchCoveredDetail />} />
             <Route path="/admin/BatchDetail" index element={<BatchDetail />} />
 
-            
+
 
             <Route path="/admin/productCovered" index element={<ProductCovered />} />
             <Route path="/factory" index element={<FactoryLogin />} />
@@ -140,22 +155,30 @@ const WebRoutes = () => {
             <Route path="/factory/addBatchTemplate" index element={<AddBatchTemplate />} />
             <Route path="/factory/batchQr" index element={<BatchQr />} />
             <Route path="/factory/batchProductQr" index element={<BatchProductQr />} />
+            <Route path="/factory/batchSent" index element={<BatchSent />} />
+            <Route path="/factory/batchSentDistributer" index element={<BatchSentDistributer />} />
+            <Route path="/factory/batchSentDetail" index element={<BatchSentDetail />} />
+
+            
 
             <Route path="/factory/productTemplate" index element={<ProductTemplate />} />
             <Route path="/factory/addProductTemplate" index element={<AddProductTemplate />} />
+            <Route path="/factory/productSent" index element={<ProductSent />} />
+            <Route path="/factory/productSentDistributer" index element={<ProductSentDistributer />} />
 
             <Route path="/factory/addFactoryFeedback" index element={<AddFactoryFeedback />} />
             <Route path="/factory/factorySelfFeedback" index element={<FactorySelfFeedback />} />
-            <Route path="/factory/factorySelfReports" index element={<FactorySelfReports />} />
 
-            
+            <Route path="/factory/factorySelfReports" index element={<FactorySelfReports />} />
+            <Route path="/factory/addFactoryReport" index element={<AddFactoryReport />} />
+
 
             {/* Need Changes */}
-            <Route path="/factory/product" index element={<Products />} />
-            <Route path="/factory/addProduct" index element={<AddProduct />} />
+            {/* <Route path="/factory/product" index element={<Products />} />
+            <Route path="/factory/addProduct" index element={<AddProduct />} /> */}
             {/* End Need Changes */}
 
-            
+
         </Routes>
     )
 }

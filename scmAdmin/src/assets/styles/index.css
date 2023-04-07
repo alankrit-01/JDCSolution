@@ -1093,3 +1093,115 @@ span.material-icons text-lg leading-none align-middle {
 .details-background-color p span {
     color: #000 !important;
 }
+
+.id-batch li {
+    display: inline-block;
+    color: #0c3f6a;
+    font-size: 22px;
+    font-weight: 500;
+    text-align: center;
+}
+
+.id-batch li span {
+    color: #ff9c67 !important;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.cust-part2 .cust-button {
+    padding: 5px 35px !important;
+}
+
+.top-space {
+    padding-top: 40px;
+}
+
+.view-more-part2 {
+    font-size: 18px;
+    font-weight: 500;
+    border: 1px solid #0c3f6a;
+    padding: 5px;
+    color: #fff;
+    background-color: #0c3f6a;
+    width: 175px;
+    display: block;
+}
+
+.image-part1 {
+    float: left;
+    width: 100%;
+    padding: 3px;
+}
+
+.image-part1 img {
+    width: 27px;
+    margin: 0px 6px;
+    display: flex;
+    height: 27px;
+}
+
+.form-section-part {
+    font-size: 20px;
+    font-weight: 500;
+    color: #0c3f6a;
+}
+
+.form-section-part2 {
+    float: right;
+    font-size: 20px;
+    font-weight: 500;
+    color: #0c3f6a;
+}
+
+.field-label2 {
+    margin-left: 25px;
+}
+
+.checkbox-text-part li {
+    font-size: 20px;
+    font-weight: 500;
+    color: #0c3f6a;
+}
+
+.checkbox-text-part .form-control-part {
+    width: 25px;
+    top: 6px;
+    height: 28px;
+    position: relative;
+}
+
+.lorem-text p {
+    ont-size: 24px;
+    color: #0c3f6a;
+    padding: 20px;
+    border: 2px solid #9d9797;
+    font-weight: 500;
+}
+
+.button-bg-use {
+    background: #52718e;
+    padding: 20px;
+}
+
+.button-bg-use button {
+    margin: 0 auto;
+    background: #fff;
+    color: #0c3f6a;
+    font-size: 18px;
+    padding: 8px 40px;
+}
+
+.button-bg-use button:hover {
+    background: #fff;
+}
+
+.right-img {
+    float: right;
+    display: flex;
+    margin-top: -42px;
+}
+
+.right-img img {
+    width: 35px;
+    margin: 0px 15px;
+}

@@ -7,7 +7,7 @@ import H6 from "@material-tailwind/react/Heading6";
 import { Button } from "@material-tailwind/react";
 import { useDispatch, useSelector } from "react-redux";
 import RichmintLogo from 'assets/img/richmint-logo.png';
-import DashboardImg from 'assets/img/distributer.png';
+import DistributerImg from 'assets/img/distributer.png';
 import ProductTempImg from 'assets/img/products-template.png';
 import BatchImg from 'assets/img/batches-sent.png';
 import FeedbackImg from 'assets/img/Reports.png';
@@ -59,12 +59,23 @@ export default function FactorySidebar() {
                   activeClassName="bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md"
                 >
                   {/* <Icon name="dashboard" size="2xl" /> */}
-                  <img src={DashboardImg} className="w-16 h-16" style={{margin: "auto"}}/>
+                  <img src={DistributerImg} className="w-16 h-16" style={{margin: "auto"}}/>
                 </NavLink>
               </li>
               <li className="rounded-lg mb-4">
                 <NavLink
-                  to="/factory/productTemplate"
+                  to="/factory/batchSent"
+                  exact
+                  className="flex items-center gap-4 text-sm text-gray-700 font-light px-4 py-3 rounded-lg"
+                  activeClassName="bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md"
+                >
+                  {/* <Icon name="dashboard" size="2xl" /> */}
+                  <img src={BatchImg} className="w-16 h-16" style={{margin: "auto"}}/>
+                </NavLink>
+              </li>
+              <li className="rounded-lg mb-4">
+                <NavLink
+                  to="/factory/productSent"
                   exact
                   className="flex items-center gap-4 text-sm text-gray-700 font-light px-4 py-3 rounded-lg"
                   activeClassName="bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md"
@@ -74,17 +85,7 @@ export default function FactorySidebar() {
                   {/* Product Template */}
                 </NavLink>
               </li>
-              <li className="rounded-lg mb-4">
-                <NavLink
-                  to="/factory/batchTemplate"
-                  exact
-                  className="flex items-center gap-4 text-sm text-gray-700 font-light px-4 py-3 rounded-lg"
-                  activeClassName="bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md"
-                >
-                  {/* <Icon name="dashboard" size="2xl" /> */}
-                  <img src={BatchImg} className="w-16 h-16" style={{margin: "auto"}}/>
-                </NavLink>
-              </li>
+              
               <li className="rounded-lg mb-4">
                 <NavLink
                   to="/factory/factorySelfReports"
