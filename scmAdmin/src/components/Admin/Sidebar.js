@@ -9,8 +9,8 @@ import { useDispatch, useSelector } from "react-redux";
 
 import RichmintLogo from 'assets/img/richmint-logo.png';
 import LogoutImg from 'assets/img/setting.png';
-import ProductIcon from 'assets/img/Productcovered.png';
-import BatchIcon from 'assets/img/Batchcovered.png';
+import ProductIcon from 'assets/img/products-template.png';
+import BatchIcon from 'assets/img/batches-sent.png';
 import FactoryIcon from 'assets/img/Factory.png';
 import DistributerIcon from 'assets/img/distributer.png';
 import RetailerIcon from 'assets/img/Retailer.png';
@@ -143,7 +143,15 @@ export default function Sidebar() {
                   <img src={FeedbackIcon} className="w-16 h-16" style={{ margin: "auto" }} />
                 </NavLink>
               </li> */}
-              
+              <li className="rounded-lg mb-2">
+                <NavLink
+                  to="/admin/batchCovered"
+                  className="flex items-center gap-4 text-sm text-gray-700 font-light px-4 py-3 rounded-lg"
+                  activeClassName="bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md"
+                >
+                  <img src={BatchIcon} className="w-16 h-16" style={{ margin: "auto" }} />
+                </NavLink>
+              </li>
               <li className="rounded-lg mb-2">
                 <NavLink
                   to="/admin/productCovered"
@@ -153,15 +161,7 @@ export default function Sidebar() {
                   <img src={ProductIcon} className="w-16 h-16" style={{ margin: "auto" }} />
                 </NavLink>
               </li>
-              <li className="rounded-lg mb-2">
-                <NavLink
-                  to="/admin/batchCovered"
-                  className="flex items-center gap-4 text-sm text-gray-700 font-light px-4 py-3 rounded-lg"
-                  activeClassName="bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md"
-                >
-                  <img src={BatchIcon} className="w-24 h-16" style={{ margin: "auto" }} />
-                </NavLink>
-              </li>
+              
               <li className="rounded-lg mb-2">
                 <NavLink
                   to="/admin/feedback"
@@ -186,7 +186,7 @@ export default function Sidebar() {
                   {" "}
                   {/* <Icon name="person" size="2xl" />
                   Logout */}
-                  <img src={LogoutImg} className="w-8 h-8" style={{ margin: "auto" }} />
+                  <img src={LogoutImg} className="w-16 h-16" style={{ margin: "auto" }} />
                 </button>
               </li>
             </ul>

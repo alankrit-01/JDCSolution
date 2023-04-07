@@ -1,4 +1,4 @@
-import { GETDETAILS,SuperAdminUserLogin,Get_SuperAdmin_Local_Store_Data,Store_Company,Check_Company_Success_data,Handle_User_Status, Get_Company,Get_Fraud_Scans,Get_All_Level_Fails, SuperAdminUserLogout, AdminUserLogin, AdminUserLogout, Get_Local_Store_Data, Get_Retailers,Get_Retailer_By_Company, Get_Factory,Get_Factory_By_Company, Get_Distributer,Get_Distributer_By_Company, FactoryUserLogin, FactoryUserLogout, Get_Factory_Local_Store_Data, Store_Factory,Check_Factory_Success_data, Store_Distributer, Check_Distributer_Success_data, Store_Retailer,Check_Retailer_Success_data, Store_Company_Feedback,Check_Company_Feedback_Success_data,Get_Self_Feedback, Store_Multi_User, Store_Product_Template,Check_Product_Template_Success_data, Get_Product_Template, Store_Batch_Template,Check_Batch_Template_Success_data, Get_Batch_Template,Get_Batch_Detail, Get_Feedback } from "./constant"
+import { GETDETAILS,SuperAdminUserLogin,Get_SuperAdmin_Local_Store_Data,Store_Company,Check_Company_Success_data,Handle_User_Status, Get_Company,Get_Fraud_Scans,Get_All_Level_Fails, SuperAdminUserLogout, AdminUserLogin, AdminUserLogout, Get_Local_Store_Data, Get_Retailers,Get_Retailer_By_Company, Get_Factory,Get_Factory_By_Company, Get_Distributer,Get_Distributer_By_Company, FactoryUserLogin, FactoryUserLogout, Get_Factory_Local_Store_Data,Reset_Factory_Data, Store_Factory,Check_Factory_Success_data, Store_Distributer, Check_Distributer_Success_data, Store_Retailer,Check_Retailer_Success_data, Store_Company_Feedback,Check_Company_Feedback_Success_data,Get_Self_Feedback, Store_Multi_User, Store_Product_Template,Check_Product_Template_Success_data, Get_Product_Template, Store_Batch_Template,Check_Batch_Template_Success_data, Get_Batch_Template,Get_Batch_Detail, Get_Feedback } from "./constant"
 export const GetDetails = (data) => {
     return {
         type: GETDETAILS,
@@ -129,12 +129,18 @@ export const getFeedback = (data) =>{
     } 
 }
 
+export const resetFactoryData = (data) =>{
+    return{
+        type:Reset_Factory_Data,
+        data:data 
+    } 
+}
 export const storeFactory = (data) =>{
     return{
         type:Store_Factory,
         data:data 
     } 
-}
+} 
 export const checkFactorySuccessdata = (data) =>{
     return{
         type:Check_Factory_Success_data,

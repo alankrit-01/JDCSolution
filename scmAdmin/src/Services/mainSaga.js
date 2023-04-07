@@ -1,5 +1,5 @@
 import { takeLatest, call, put } from 'redux-saga/effects'
-import { BLOCKCHAIN_API_URL, SuperAdminUserLogin, Set_SuperAdmin_Login, SuperAdmin_Login_Fail, Get_SuperAdmin_Local_Store_Data, set_SuperAdmin_Local_Store_Data, Handle_User_Status, Set_Handle_User_Status_Data, Set_Handle_User_Status_Data_Fail, Store_Company, Set_Store_Company_Data, Set_Store_Company_Data_Fail, Check_Company_Success_data, Check_Company_Success_data_1, Get_Company, Set_Company_List, Get_Fraud_Scans, Set_Fraud_Scans_List, Get_All_Level_Fails, Set_All_Level_Fails_List, SuperAdminUserLogout, Set_SuperAdmin_Logout, AdminUserLogin, Set_Admin_Login, Admin_Login_Fail, AdminUserLogout, Set_Admin_Logout, Get_Local_Store_Data, set_Local_Store_Data, Get_Retailers, Get_Retailer_By_Company, Set_Retailer_List, Set_Retailer_By_Company_List, Get_Factory, Get_Factory_By_Company, Set_Factory_List, Set_Factory_By_Company_List, Get_Distributer, Get_Distributer_By_Company, Set_Distributer_List, Set_Distributer_By_Company_List, FactoryUserLogin, Set_Factory_Login, Factory_Login_Fail, FactoryUserLogout, Set_Factory_Logout, Get_Factory_Local_Store_Data, set_Factory_Local_Store_Data, Store_Factory, Set_Store_Factory_Data, Set_Store_Factory_Data_Fail, Check_Factory_Success_data, Check_Factory_Success_data_1, Store_Distributer, Set_Store_Distributer_Data, Set_Store_Distributer_Data_Fail, Check_Distributer_Success_data, Check_Distributer_Success_data_1, Store_Retailer, Set_Store_Retailer_Data, Set_Store_Retailer_Data_Fail, Check_Retailer_Success_data, Check_Retailer_Success_data_1, Store_Company_Feedback, Set_Store_Company_Feedback_Data, Set_Store_Company_Feedback_Data_Fail, Check_Company_Feedback_Success_data, Check_Company_Feedback_Success_data_1, Store_Multi_User, Store_Product_Template, Set_Store_Product_Template_Data, Set_Store_Product_Template_Data_Fail, Check_Product_Template_Success_data, Check_Product_Template_Success_data_1, Get_Product_Template, Set_Product_Template_List, Store_Batch_Template, Set_Store_Batch_Template_Data, Set_Store_Batch_Template_Data_Fail, Check_Batch_Template_Success_data, Check_Batch_Template_Success_data_1, Get_Batch_Template, Set_Batch_Template_List, Get_Batch_Detail, Set_Batch_Detail_List, Get_Feedback, Set_Feedback_List, Get_Self_Feedback, Set_Self_Feedback_List } from "./constant"
+import { BLOCKCHAIN_API_URL, SuperAdminUserLogin, Set_SuperAdmin_Login, SuperAdmin_Login_Fail, Get_SuperAdmin_Local_Store_Data, set_SuperAdmin_Local_Store_Data, Handle_User_Status, Set_Handle_User_Status_Data, Set_Handle_User_Status_Data_Fail, Store_Company, Set_Store_Company_Data, Set_Store_Company_Data_Fail, Check_Company_Success_data, Check_Company_Success_data_1, Get_Company, Set_Company_List, Get_Fraud_Scans, Set_Fraud_Scans_List, Get_All_Level_Fails, Set_All_Level_Fails_List, SuperAdminUserLogout, Set_SuperAdmin_Logout, AdminUserLogin, Set_Admin_Login, Admin_Login_Fail, AdminUserLogout, Set_Admin_Logout, Get_Local_Store_Data, set_Local_Store_Data, Get_Retailers, Get_Retailer_By_Company, Set_Retailer_List, Set_Retailer_By_Company_List, Get_Factory, Get_Factory_By_Company, Set_Factory_List, Set_Factory_By_Company_List, Get_Distributer, Get_Distributer_By_Company, Set_Distributer_List, Set_Distributer_By_Company_List, FactoryUserLogin, Set_Factory_Login, Factory_Login_Fail, FactoryUserLogout, Set_Factory_Logout, Get_Factory_Local_Store_Data, set_Factory_Local_Store_Data,Reset_Factory_Data, Store_Factory,Set_Reset_Factory_Data, Set_Store_Factory_Data,Set_Store_Factory_Data_Already_Exist, Set_Store_Factory_Data_Fail, Check_Factory_Success_data, Check_Factory_Success_data_1, Store_Distributer, Set_Store_Distributer_Data, Set_Store_Distributer_Data_Fail, Check_Distributer_Success_data, Check_Distributer_Success_data_1, Store_Retailer, Set_Store_Retailer_Data, Set_Store_Retailer_Data_Fail, Check_Retailer_Success_data, Check_Retailer_Success_data_1, Store_Company_Feedback, Set_Store_Company_Feedback_Data, Set_Store_Company_Feedback_Data_Fail, Check_Company_Feedback_Success_data, Check_Company_Feedback_Success_data_1, Store_Multi_User, Store_Product_Template, Set_Store_Product_Template_Data, Set_Store_Product_Template_Data_Fail, Check_Product_Template_Success_data, Check_Product_Template_Success_data_1, Get_Product_Template, Set_Product_Template_List, Store_Batch_Template, Set_Store_Batch_Template_Data, Set_Store_Batch_Template_Data_Fail, Check_Batch_Template_Success_data, Check_Batch_Template_Success_data_1, Get_Batch_Template, Set_Batch_Template_List, Get_Batch_Detail, Set_Batch_Detail_List, Get_Feedback, Set_Feedback_List, Get_Self_Feedback, Set_Self_Feedback_List } from "./constant"
 import { API_URL } from "./constant"
 import Axios from "axios"
 
@@ -34,7 +34,7 @@ function* handleUserStatus(data) {
     const requestData = data.data
 
     try {
-         let uri = API_URL.concat('/userStatusUpdate')
+        let uri = API_URL.concat('/userStatusUpdate')
         const userStatusRes = yield call(Axios.post, uri, requestData)
 
         const result = userStatusRes.data;
@@ -240,14 +240,29 @@ function* factoryUserLogout(data) {
 }
 
 
+function* resetFactoryData(data) {
+    const requestData = data.data
+    try {
+            yield put({ type: Set_Reset_Factory_Data })
+    } catch (error) {
+        console.log("Error is ", error)
+        yield put({ type: Set_Store_Factory_Data_Fail })
+    }
+}
+
 function* storeFactory(data) {
     const requestData = data.data
     try {
-        console.log("requestData requestData", requestData)
         let uri = API_URL.concat('/addUser')
         const storeFactoryRes = yield call(Axios.post, uri, requestData)
         const result = storeFactoryRes.data;
-        yield put({ type: Set_Store_Factory_Data, result })
+
+        console.log("result", result)
+        if (result.status == 'fail') {
+            yield put({ type: Set_Store_Factory_Data_Already_Exist, result })
+        } else {
+            yield put({ type: Set_Store_Factory_Data, result })
+        }
     } catch (error) {
         console.log("Error is ", error)
         yield put({ type: Set_Store_Factory_Data_Fail })
@@ -406,7 +421,7 @@ function* getBatchDetail(data) {
         let uri = BLOCKCHAIN_API_URL.concat('/viewBatchRecordByBatchId?batchID=')
         uri = uri.concat(requestData.batchID)
 
-        console.log("uri",uri)
+        console.log("uri", uri)
         const batchDetailRes = yield call(Axios.get, uri)
 
         const result = batchDetailRes.data;
@@ -424,7 +439,7 @@ function* getFeedback(data) {
     try {
         let uri = API_URL.concat('/getFeedback?receiverUserID=')
         uri = uri.concat(requestData.receiverUserID)
-        if(requestData.role != undefined){
+        if (requestData.role != undefined) {
             uri = uri.concat("&role=")
             uri = uri.concat(requestData.role)
         }
@@ -481,6 +496,9 @@ function* mainSaga() {
     yield takeLatest(FactoryUserLogin, factoryUserLogin)
     yield takeLatest(FactoryUserLogout, factoryUserLogout)
     yield takeLatest(Get_Factory_Local_Store_Data, getFactoryLocalStoreData)
+    
+    yield takeLatest(Reset_Factory_Data, resetFactoryData)
+
     yield takeLatest(Store_Factory, storeFactory)
     yield takeLatest(Store_Distributer, storeDistributer)
     yield takeLatest(Store_Retailer, storeRetailer)

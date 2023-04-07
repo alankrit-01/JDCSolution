@@ -17,6 +17,7 @@ import img1 from "assets/img/qrcode.png";
 import img2 from "assets/img/product.jpg";
 import img3 from "assets/img/product2.png";
 import img4 from "assets/img/product3.jpg";
+import reporticon from "assets/img/report-icon.png";
 const FactorySelfReports = () => {
     const factorydata = useSelector((state) => state.FactoryLoginData);
     const [loading, setLoading] = useState(false);
@@ -69,7 +70,7 @@ const FactorySelfReports = () => {
               >
                 <div
                   class="popup"
-                  className=" max-h-max bg-[#CCCCCC] ml-56 px-2 max-w-2xl pb-6 text-[#0c3f6a] pr-6 "
+                  className=" max-h-max bg-[#CCCCCC] ml-56 px-2 max-w-2xl pb-6 text-[#0c3f6a] pr-6 position-set-part"
                 >
                   <div className="flex">
                     <div className="mt-6 ml-6">
@@ -198,13 +199,39 @@ const FactorySelfReports = () => {
                 <div className="pt-14 pb-20 px-3 md:px-8 h-auto">
                     <div className="container mx-auto max-w-full">
                         {/* <MainStatusCard /> */}
+                        
                     </div>
                 </div>
-                <div className="px-3 md:px-8 h-auto -mt-24">
 
+                  
+               
+
+
+                
+                <div className="px-3 md:px-8 h-auto -mt-24">
                     <div className="container mx-auto max-w-full">
                         <div className="grid grid-cols-1 px-4 mb-16">
+                       
+                              
+                        <div className="received-part-two report-drop">
+                  <img src={cumulative} />
+
+                  <select id="colours" className="dd-button right-button-set">
+                    <option value="red">Cumulative</option>
+                    <option value="green">Green</option>
+                    <option value="blue">Blue </option>
+
+                  </select>
+
+                  
+                </div>
+                <div className="right-button-section report-top-part">
+                                  <NavLink to="/factory/addFactoryReport">
+                                      <button className="cust-button"> <span className="report-image"><img src={reporticon} /></span> Report</button>
+                                  </NavLink>
+                              </div>
                             <div class="grid grid-cols-3 gap-4">
+                              
                                 <div>
                                     <h2 className="head-cust-color">Reports Sent To CEO</h2>
                                 </div>
@@ -212,13 +239,16 @@ const FactorySelfReports = () => {
                                     <input type="text" className="cust-input" placeholder="Search" value={Search}
                                         onChange={(e) => setSearch(e.target.value)} />
                                 </div>
-                                <div className="right-button-section">
-                                    <NavLink to="/factory/addFactoryReport">
-                                        <button className="cust-button">Add +</button>
-                                    </NavLink>
+                                
                                 
 
-                                </div>
+
+
+
+                                
+               
+
+
                             </div>
                             <DataTable
                                 columns={columns}

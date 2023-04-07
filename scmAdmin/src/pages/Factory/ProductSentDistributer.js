@@ -114,6 +114,7 @@ const ProductSentDistributer = () => {
                         <div className="grid grid-cols-1 px-4 mb-16">
 
                             <div className="flex flex-wrap mt-10">
+                            <div className="w-full lg:w-1/12"></div>
                                 <div className="w-full lg:w-9/12 pr-4 mb-10 font-light back-set-gray">
                                     <div className="background-factory details-background-color">
                                     <h2>Distributor - 1</h2>
@@ -122,7 +123,7 @@ const ProductSentDistributer = () => {
                                         <p className="click-open-btn btn-one"> <Icon className="chage-c" name="email" size="1xl" color="black" />Factory1@gmail.com</p>
                                     </div>
                                 </div>
-                                <div className="w-full lg:w-3/12 pl-4 font-light">
+                                <div className="w-full lg:w-2/12 pl-4 font-light">
                                     <div className="received-part-two report-drop">
                                         <img src={cumulative} />
                                         <select id="colours" className="dd-button">

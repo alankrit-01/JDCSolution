@@ -8,6 +8,7 @@ import CardRow from '@material-tailwind/react/CardRow';
 import CardStatus from '@material-tailwind/react/CardStatus';
 import MapExample from 'components/Factory/MapExample';
 import DashboardVector from 'assets/img/vactor.jpg';
+import sendfree from 'assets/img/free-send.png';
 
 import PieRechartComponent from 'components/Factory/PieChart';
 
@@ -36,13 +37,13 @@ const FactoryDashboard = () => {
                         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 mb-4">
                             <div className="px-4 mb-10 main-tiles-section">
                             <NavLink to="/factory/productTemplate">
-                            <button className="cust-button"> + ADD PRODUCT</button>  
+                            <button className="cust-button change-add"> <span className="dash-bg">+</span> ADD PRODUCT</button>  
                             </NavLink>
                             <NavLink to="/factory/batchTemplate">
-                            <button className="cust-button"> + SEND BATCH</button>
+                            <button className="cust-button change-add secound-b"> <span className="dash-bg2"> <img src={sendfree} /> </span>SEND BATCH</button>
                             </NavLink>
 
-                                <Card className="main-tiles p-0">
+                                <Card className=" p-0">
                                     <CardRow className="inner-tiles">
                                         <img src={DashboardVector} />
                                     </CardRow>
@@ -52,7 +53,10 @@ const FactoryDashboard = () => {
                                 <PieRechartComponent />
                             </div>
                             <div className="px-4 mb-10 main-tiles-section">
-                                <div className='w-80 h-96'>
+                                <div>
+                                <h2 className="heading-background">Distributor Locations</h2>
+                                </div>
+                                <div className='w-80 h-96 map-padding-use'>
 
                                     {/* <div style={{ height: '100vh', width: '100%' }}> */}
                                     <GoogleMapReact

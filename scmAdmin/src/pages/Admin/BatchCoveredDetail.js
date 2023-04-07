@@ -112,11 +112,10 @@ const BatchCoveredDetail = () => {
                 <div className="px-3 md:px-8 h-auto -mt-24">
                     <div className="container mx-auto max-w-full">
                         <div className="grid grid-cols-1 px-4 mb-16">
-
                             <div className="flex flex-wrap mt-10">
                                 <div className="w-full lg:w-9/12 pr-4 mb-10 font-light back-set-gray">
                                     <div className="background-factory details-background-color">
-                                    <h2>Distributor - 1</h2>
+                                    <h2>Factory - 1</h2>
                                         <p className="click-open-btn btn-one"> <Icon className="chage-c" name="phone" size="1xl" color="black" />GachiBowli,HYderabad</p>
                                         <p className="click-open-btn btn-one"> <Icon className="chage-c" name="phone" size="1xl" color="black" />+91 6304334373</p>
                                         <p className="click-open-btn btn-one"> <Icon className="chage-c" name="email" size="1xl" color="black" />Factory1@gmail.com</p>
