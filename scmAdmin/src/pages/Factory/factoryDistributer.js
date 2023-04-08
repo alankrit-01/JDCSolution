@@ -2,7 +2,7 @@ import FactorySidebar from "components/Factory/Sidebar";
 import Footer from "components/Factory/Footer";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getDistributer } from "Services/action";
+import { getDistributerByCompany } from "Services/action";
 import { useEffect, useMemo, useState,useRef} from "react";
 import DataTable from "react-data-table-component";
 import { Button } from "@material-tailwind/react";
@@ -18,6 +18,8 @@ import Arrowdown from 'assets/img/down-arrow.png';
 
 const FactoryDistributer = () => {
   const dataFetchedRef = useRef(false);
+  const factoryData = useSelector((state) => state.FactoryLoginData);
+
   const successNotify = () =>
     toast.success("Distributer Added Successfully !.", {
       position: "bottom-right",
@@ -44,7 +46,7 @@ const FactoryDistributer = () => {
   //State to store the values
   const [values, setValues] = useState([]);
 
-  const columns = [
+  const columns = [ 
     {
       name: "Distributer Name",
       selector: (row) => row.name,
@@ -56,19 +58,19 @@ const FactoryDistributer = () => {
       sortable: true,
     },
     {
-      name: "Distributer Address",
+      name: "Location",
       selector: (row) => row.address,
       sortable: true,
     },
     {
-      name: "Distributer Phone",
+      name: "Phone No.",
       selector: (row) => row.phone,
       sortable: true,
     },
     {
       name: "Information",
       selector: (row) => (
-        <button className="custom-details-btn" onClick={() => navigate('/factory/distributerDetails', { state: { userId:  row.name } })}>Details</button>
+        <button className="custom-details-btn" onClick={() => navigate('/factory/distributerDetails', { state: { userId:  row._id } })}>Details</button>
       ),
       sortable: true,
     },
@@ -92,27 +94,21 @@ const FactoryDistributer = () => {
       {
         name: "Distributer Name",
         email: "Distributer Email",
-        address: "Distributer Address",
-        phone: "Distributer Phone",
+        address: "Location",
+        phone: "Phone No.",
       },
     ];
     setExcelData(columns);
   }, []);
 
   useEffect(() => {
-    dispatch(getDistributer());
+    const data = {
+      adminId:factoryData.factoryUserAdminId
+  }
+    dispatch(getDistributerByCompany(data));
   }, []);
 
   const initialdata = useSelector((state) => state.DistributerRecord);
-
-  const initialDistributerStoredata = useSelector(
-    (state) => state.DistributerStoreData
-  );
-  useMemo(() => {
-    if (initialDistributerStoredata.success == true) {
-      successNotify();
-    }
-  }, [initialDistributerStoredata]);
 
   useEffect(() => {
     var a = [{ email: "There are no record to display" }];

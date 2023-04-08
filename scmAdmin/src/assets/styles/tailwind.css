@@ -830,14 +830,14 @@ video {
 .h-32{
 	height: 8rem;
 }
+.h-11{
+	height: 2.75rem;
+}
 .h-8{
 	height: 2rem;
 }
 .h-1{
 	height: 0.25rem;
-}
-.h-11{
-	height: 2.75rem;
 }
 .min-h-full{
 	min-height: 100%;
@@ -3977,6 +3977,7 @@ span.material-icons text-lg leading-none align-middle {
     background: #fff;
     border-radius: 25px;
     margin-top: -15px;
+    padding-left: 15px;
 }
 .submit-button-factory {
     margin: auto;
@@ -4306,7 +4307,29 @@ span.error {
     display: inline-block;
     height: 23px;
 }
-.position-set-part{position: relative; top: 185px;}
+.position-set-part {
+    position: relative;
+    top: 185px;
+}
+.font-weight-text {
+    font-weight: 500;
+    margin-left: -70px;
+}
+.leading-none {
+    line-height: inherit;
+}
+.location-img2 {
+    width: 12px;
+    display: inline-block;
+}
+.position-set-part2 {
+    position: relative;
+    top: 154px;
+}
+.position-set-part3 {
+    position: relative;
+    top: 210px;
+}
 .hover\:scale-105:hover{
 	--tw-scale-x: 1.05;
 	--tw-scale-y: 1.05;
@@ -4592,5 +4615,3 @@ span.error {
 		grid-template-columns: repeat(5, minmax(0, 1fr));
 	}
 }
-
-

@@ -97,39 +97,27 @@ const RetailerDetails = () => {
                                         <li className="factory-bg6">Longitude <span> 80.2707' E</span></li></li>
                                         <li className="factory-bg7">Wallet address  <span className="space-l2 ">: 0x9bc444fc09f366adO9b668f4a73b639c</span></li>
                                     </ul>
-                                    <div className="button-buttom-part">
-                                    <label class="dropdown">
+                                    <div className="button-buttom-part center-width">
+                                    <div className="received-part-two report-drop buttion-cumulative">
+                  <img src={cumulative} />
 
-  <div class="dd-button">
-  <img src={cumulative} /> Cumulative
-  </div>
+                  <select id="colours" className="dd-button">
+                    <option value="red">Cumulative</option>
+                    <option value="green">Green</option>
+                    <option value="blue">Blue </option>
 
-  <input type="checkbox" class="dd-input" id="test" />
+                  </select>
+                </div>
+ <div className="received-part-two batch eye-liner-part">
 
-  <ul class="dd-menu">
-    <li>Action</li>
-    <li>Another action</li>
-    <li>Something else here</li>    
-  </ul>
-  
-</label>
-
-<label class="dropdown bottom-dropdown-set">
-
-<div class="dd-button">
-Eye Liner
+<select id="colours" className="dd-button batch-selected option-down">
+  <option value="red"> Eye Liner</option>
+  <option value="green">Green</option>
+  <option value="blue">Blue </option>
+</select>
 </div>
-
-<input type="checkbox" class="dd-input" id="test" />
-
-<ul class="dd-menu">
-  <li>Action</li>
-  <li>Another action</li>
-  <li>Something else here</li>    
-</ul>
-
-</label>
-</div>
+                                            
+                                        </div>
 
 <div className="liner-part">
    <p>Batches sent</p>

@@ -67,8 +67,10 @@ const RetailerFeedback = () => {
           position="left center" marginLeft="30px">
 
 
-          <div class="popup" className=' h-92 bg-[#CCCCCC] ml-56 px-2 max-w-2xl text-[#0c3f6a] pr-6 p-9'>
-              <div className='flex'>
+<div
+                  class="popup"
+                  className=" h-92 bg-[#CCCCCC] ml-56 px-2 max-w-2xl text-[#0c3f6a] pr-6 p-9 position-set-part2"
+                >              <div className='flex'>
                   <div className='mt-6 ml-6'><h2 className='text-xl font-extrabold'>Feedback by Retailer</h2><br></br>
                       <div className="image-part1 img w-36 h-14 flex ">
                         <img className=' w-3 h-4 ml-3 pt-0' src={star}/>

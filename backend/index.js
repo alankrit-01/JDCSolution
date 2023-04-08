@@ -41,9 +41,9 @@ mongoose.connect(MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true })
 // optionSuccessStatus:200
 // const contractAbi = require('./artifacts/contracts/Supplychain.sol/Supplychain.json')
 
-let contractAddress ="0x0F42FB141619cf9B8030696B3e1Bd84Cf2558b6a";  
-let contract; 
-  
+let contractAddress = "0x0F42FB141619cf9B8030696B3e1Bd84Cf2558b6a";
+let contract;
+
 
 const connectToMatic = async () => {
   optionSuccessStatus: 200
@@ -132,19 +132,19 @@ app.get('/api/viewListOfProductTemplates', async (req, res) => {
 });
 
 async function addbatchMIDDLEWARE(req, res, next) {
-  const batchID =req.body.batchID;
-  const companyBatchID =req.body.companyBatchID;
-  const productIDs =req.body.productIDs;
-  const batchSize =req.body.batchSize;
-  const batchDescription =req.body.batchDescription; 
-  const productTemplateID =req.body.productTemplateID;
-  const factoryID =req.body.factoryID; 
-  const distributorID =req.body.distributorID; 
-  const distributorName =req.body.distributorName; 
-  const factoryLocation =req.body.factoryLocation; 
-  const dateOfProduction =req.body.dateOfProduction; 
+  const batchID = req.body.batchID;
+  const companyBatchID = req.body.companyBatchID;
+  const productIDs = req.body.productIDs;
+  const batchSize = req.body.batchSize;
+  const batchDescription = req.body.batchDescription;
+  const productTemplateID = req.body.productTemplateID;
+  const factoryID = req.body.factoryID;
+  const distributorID = req.body.distributorID;
+  const distributorName = req.body.distributorName;
+  const factoryLocation = req.body.factoryLocation;
+  const dateOfProduction = req.body.dateOfProduction;
   try {
-    const tx =await contract.batchProduced(batchID,companyBatchID,productIDs,batchSize,batchDescription,productTemplateID,factoryID,distributorID,distributorName,factoryLocation,dateOfProduction);
+    const tx = await contract.batchProduced(batchID, companyBatchID, productIDs, batchSize, batchDescription, productTemplateID, factoryID, distributorID, distributorName, factoryLocation, dateOfProduction);
     tx.wait();
     console.log("Transaction completed!");
 
@@ -155,35 +155,35 @@ async function addbatchMIDDLEWARE(req, res, next) {
   }
 }
 
-app.post('/api/factoryAddBatch',addbatchMIDDLEWARE,async(req,res)=>{
-  const batchID =req.body.batchID;
-  const companyBatchID =req.body.companyBatchID;
-  const productIDs =req.body.productIDs;
-  const companyProductIDs =req.body.companyProductIDs;
-  const batchSize =req.body.batchSize;
-  const batchName =req.body.batchName; 
-  const batchDescription =req.body.batchDescription; 
-  const productTemplateID =req.body.productTemplateID;
-  const factoryID =req.body.factoryID; 
-  const distributorID =req.body.distributorID; 
-  const distributorName =req.body.distributorName; 
-  const factoryLocation =req.body.factoryLocation; 
-  const dateOfProduction =req.body.dateOfProduction; 
-    
-  try { 
-    const Data= new batch({
+app.post('/api/factoryAddBatch', addbatchMIDDLEWARE, async (req, res) => {
+  const batchID = req.body.batchID;
+  const companyBatchID = req.body.companyBatchID;
+  const productIDs = req.body.productIDs;
+  const companyProductIDs = req.body.companyProductIDs;
+  const batchSize = req.body.batchSize;
+  const batchName = req.body.batchName;
+  const batchDescription = req.body.batchDescription;
+  const productTemplateID = req.body.productTemplateID;
+  const factoryID = req.body.factoryID;
+  const distributorID = req.body.distributorID;
+  const distributorName = req.body.distributorName;
+  const factoryLocation = req.body.factoryLocation;
+  const dateOfProduction = req.body.dateOfProduction;
+
+  try {
+    const Data = new batch({
       _id: new mongoose.Types.ObjectId(),
-      BatchID:batchID,     
-      BatchSize:batchSize,  
-      AmountSoldTOCustomer:0,  
-      BatchName:batchName,     
-      BatchDescription:batchDescription,     
-      ProductTemplateID:productTemplateID,    
-      FactoryID:factoryID,
-      DistributorID:distributorID,
-      DistributorName:distributorName,
-      FactoryLocation:factoryLocation,
-      DateOfProduction:dateOfProduction,
+      BatchID: batchID,
+      BatchSize: batchSize,
+      AmountSoldTOCustomer: 0,
+      BatchName: batchName,
+      BatchDescription: batchDescription,
+      ProductTemplateID: productTemplateID,
+      FactoryID: factoryID,
+      DistributorID: distributorID,
+      DistributorName: distributorName,
+      FactoryLocation: factoryLocation,
+      DateOfProduction: dateOfProduction,
       DistributorScanned: false,
       DistributorScannedTimeStamp: "",
       AmountLeftForSellingTORetailer: batchSize,
@@ -652,10 +652,10 @@ app.post('/api/sellToCustomer', async (req, res) => {
     const timeStamp = req.body.timeStamp;
     const customerName = req.body.customerName;
 
-    const productData =await product.findOne({ProductID});
+    const productData = await product.findOne({ ProductID });
     console.log(productData)
-    if(productData.RetailerScanned==true){
-      const tx =await contract.retailerSellToCustomer(ProductID,customerID,customerName);
+    if (productData.RetailerScanned == true) {
+      const tx = await contract.retailerSellToCustomer(ProductID, customerID, customerName);
       tx.wait();
       console.log("Transaction completed!");
 
@@ -710,36 +710,36 @@ app.get('/api/viewProductBoughts', async (req, res) => {
 });
 
 
-app.get('/api/authenticateProduct',async(req,res)=>{
+app.get('/api/authenticateProduct', async (req, res) => {
   try {
-    let ProductID= req.query.productID;
-    let customerID= req.query.customerID;
-    let latitude= req.query.latitude; 
-    let longitude= req.query.longitude; 
+    let ProductID = req.query.productID;
+    let customerID = req.query.customerID;
+    let latitude = req.query.latitude;
+    let longitude = req.query.longitude;
 
     // let data = await contract.ProductMapping(ProductID);
-    let data = await product.findOne({ProductID});
-    if(!data){
-      const Data= new verificationData({
+    let data = await product.findOne({ ProductID });
+    if (!data) {
+      const Data = new verificationData({
         _id: new mongoose.Types.ObjectId(),
-        factoryID:"",
-        distributorID:"",
-        customerID:customerID,
-        batchDescription:"",
-        batchID:0,
-        productId:ProductID,
-        level:1
+        factoryID: "",
+        distributorID: "",
+        customerID: customerID,
+        batchDescription: "",
+        batchID: 0,
+        productId: ProductID,
+        level: 1
       })
       Data.save().then((result) => {
         console.log(result);
-        res.status(200).json({status:"success", message:"Authentication Level 1 Falied: Product ID not found",level:1}); 
-        
-      }).catch((err) => console.warn(err)) 
+        res.status(200).json({ status: "success", message: "Authentication Level 1 Falied: Product ID not found", level: 1 });
+
+      }).catch((err) => console.warn(err))
 
       // res.status(200).json({status:"success", message:"Authentication Level 1 Falied: Product ID not found",level:1}); 
-    }else{
-      let BatchID =data.BatchID;
-      let data2 =await batch.findOne({BatchID});
+    } else {
+      let BatchID = data.BatchID;
+      let data2 = await batch.findOne({ BatchID });
 
       let level;
       let status;
@@ -775,13 +775,13 @@ app.get('/api/authenticateProduct',async(req,res)=>{
 
       const Data = new verificationData({
         _id: new mongoose.Types.ObjectId(),
-        factoryID:data2.FactoryID,
-        distributorID:data2.DistributorID,
-        customerID:customerID,
-        batchDescription:data2.BatchDescription,
-        batchID:BatchID,
-        productId:ProductID,
-        level:level
+        factoryID: data2.FactoryID,
+        distributorID: data2.DistributorID,
+        customerID: customerID,
+        batchDescription: data2.BatchDescription,
+        batchID: BatchID,
+        productId: ProductID,
+        level: level
       })
       Data.save().then((result) => {
         console.log(result);
@@ -797,9 +797,9 @@ app.get('/api/authenticateProduct',async(req,res)=>{
 })
 
 app.get('/api/cutomerScansHistory', async (req, res) => {
-  let customerID= req.query.customerID;
+  let customerID = req.query.customerID;
   try {
-    verificationData.find({customerID:customerID}).then((data) => {
+    verificationData.find({ customerID: customerID }).then((data) => {
       res.status(200).json(data)
     })
 
@@ -1010,27 +1010,27 @@ app.post('/api/addUser', jsonParser, async function (req, res) {
       res.status(200).json({ status: "fail", message: "Please Enter Username" });
     } else if (email == '' || email === undefined) {
       res.status(200).json({ status: "fail", message: "Please Enter Email Address" });
-    // } else if (phone == '' || phone === undefined) {
-    //   res.status(200).json({ status: "fail", message: "Please Enter Phone Number" });
-    // } else if (role == '' || role === undefined) {
-    //   res.status(200).json({ status: "fail", message: "Please Enter Role" });
-    // } else if (address == '' || address === undefined) {
-    //   res.status(200).json({ status: "fail", message: "Please Enter Address" });
-    // } else if (city == '' || city === undefined) {
-    //   res.status(200).json({ status: "fail", message: "Please Enter City" });
-    // } else if (state == '' || state === undefined) {
-    //   res.status(200).json({ status: "fail", message: "Please Enter State" });
-    // } else if (pincode == '' || pincode === undefined) {
-    //   res.status(200).json({ status: "fail", message: "Please Enter Pincode" });
-    // } else if (country == '' || country === undefined) {
-    //   res.status(200).json({ status: "fail", message: "Please Enter country" });
-    // } else if (latitude == '' || latitude === undefined) {
-    //   res.status(200).json({ status: "fail", message: "Please Enter Latitude" });
-    // } else if (longitude == '' || longitude === undefined) {
-    //   res.status(200).json({ status: "fail", message: "Please Enter Longitude" });
-    // } else if (locationurl == '' || locationurl === undefined) {
-    //   res.status(200).json({ status: "fail", message: "Please Enter Location Url" });
-     } else {
+    } else if (phone == '' || phone === undefined) {
+      res.status(200).json({ status: "fail", message: "Please Enter Phone Number" });
+    } else if (role == '' || role === undefined) {
+      res.status(200).json({ status: "fail", message: "Please Enter Role" });
+    } else if (address == '' || address === undefined) {
+      res.status(200).json({ status: "fail", message: "Please Enter Address" });
+    } else if (city == '' || city === undefined) {
+      res.status(200).json({ status: "fail", message: "Please Enter City" });
+    } else if (state == '' || state === undefined) {
+      res.status(200).json({ status: "fail", message: "Please Enter State" });
+    } else if (pincode == '' || pincode === undefined) {
+      res.status(200).json({ status: "fail", message: "Please Enter Pincode" });
+    } else if (country == '' || country === undefined) {
+      res.status(200).json({ status: "fail", message: "Please Enter country" });
+    } else if (latitude == '' || latitude === undefined) {
+      res.status(200).json({ status: "fail", message: "Please Enter Latitude" });
+    } else if (longitude == '' || longitude === undefined) {
+      res.status(200).json({ status: "fail", message: "Please Enter Longitude" });
+    } else if (locationurl == '' || locationurl === undefined) {
+      res.status(200).json({ status: "fail", message: "Please Enter Location Url" });
+    } else {
       const checkUserExists = await User.findOne({ email: email });
       if (!checkUserExists) {
         const data = new User({
@@ -1071,43 +1071,6 @@ app.post('/api/addUser', jsonParser, async function (req, res) {
     res.status(400).send({ error: error.message });
   }
 })
-
-
-app.post('/api/addUsersdsdd', jsonParser, function (req, res) {
-  const salt = bcrypt.genSaltSync(5);
-  const defaultPassword = '123456';
-  const password = bcrypt.hashSync(defaultPassword, salt);
-  const data = new User({
-    _id: new mongoose.Types.ObjectId(),
-    name: req.body.name,
-    email: req.body.email,
-    phone: req.body.phone,
-    password: password,
-    role: req.body.role,
-    adminId: req.body.adminId,
-    address: req.body.address,
-    city: req.body.city,
-    state: req.body.state,
-    pincode: req.body.pincode,
-    country: req.body.country,
-    latitude: req.body.latitude,
-    longitude: req.body.longitude,
-    locationurl: req.body.locationurl,
-    userStatus: "Active",
-    created: Date.now()
-  })
-
-  data.save().then((result) => {
-    jwt.sign({ result }, jwtkey, { expiresIn: '300s' }, (err, token) => {
-      res.status(201).json({ token })
-    })
-    sendEmail(req.body.email, defaultPassword)
-    res.status(201).json(result);
-  })
-    .catch((err) => console.warn(err)
-    )
-})
-
 app.post('/api/userStatusUpdate', jsonParser, async function (req, res) {
   let userId = req.body.userID;
   let userStatus = req.body.userStatus;
@@ -1159,18 +1122,28 @@ app.post('/api/uploads', upload, function (req, res) {
 })
 
 app.post('/api/factoryLogin', jsonParser, async function (req, res) {
-  const userData = await User.findOne({ email: req.body.email, userStatus: 'Active', role: 'Factory' });
-  if (userData) {
-    const validPassword = await bcrypt.compare(req.body.password, userData.password);
-    if (validPassword) {
-      jwt.sign({ userData }, jwtkey, { expiresIn: '300s' }, (err, token) => {
-        res.status(200).json({ token, userId: userData._id, userEmail: userData.email, userRole: userData.role, userName: userData.name, address: userData.address, city: userData.city, country: userData.country, latitude: userData.latitude, longitude: userData.longitude, adminId: userData.adminId })
-      })
-    } else {
-      res.status(400).json({ error: "Invalid Password" });
-    }
+
+  let email = req.body.email;
+  let password = req.body.password;
+
+  if (email == '' || email === undefined) {
+    res.status(200).json({ status: "fail", message: "Please Enter Email Address" });
+  } else if (password == '' || password === undefined) {
+    res.status(200).json({ status: "fail", message: "Please Enter Password" });
   } else {
-    res.status(401).json({ error: "User does not exist" });
+    const userData = await User.findOne({ email: req.body.email, userStatus: 'Active', role: 'Factory' });
+    if (userData) {
+      const validPassword = await bcrypt.compare(req.body.password, userData.password);
+      if (validPassword) {
+        jwt.sign({ userData }, jwtkey, { expiresIn: '300s' }, (err, token) => {
+          res.status(200).json({ token, userId: userData._id, userEmail: userData.email, userRole: userData.role, userName: userData.name, address: userData.address, city: userData.city, country: userData.country, latitude: userData.latitude, longitude: userData.longitude, adminId: userData.adminId })
+        })
+      } else {
+        res.status(200).json({ status: "fail", message: "Invalid Password"  });
+      }
+    } else {
+      res.status(200).json({ status: "fail", message: "Invalid Email Address"  });
+    }
   }
 })
 app.post('/api/login', jsonParser, async function (req, res) {
@@ -1178,7 +1151,9 @@ app.post('/api/login', jsonParser, async function (req, res) {
   userEmail = req.body.email;
   const userPassword = req.body.password;
   if (userEmail != '' && userPassword != '' && userEmail != undefined && userPassword != undefined) {
-    const userData = await User.findOne({ email: req.body.email, userStatus: 'Active', role: req.body.role });
+    // const userData = await User.findOne({ email: req.body.email, userStatus: 'Active', role: req.body.role });
+    const userData = await User.findOne({ email: req.body.email, role: req.body.role });
+
     if (userData) {
       const validPassword = await bcrypt.compare(req.body.password, userData.password);
       if (validPassword) {
@@ -1199,6 +1174,22 @@ app.post('/api/login', jsonParser, async function (req, res) {
     } else {
       res.status(401).json({ error: "Password is Required" });
     }
+  }
+})
+
+app.post('/api/userById', jsonParser, async function (req, res) {
+  let userId = '';
+  userId = req.body._id
+  if(userId){
+    const userData = await User.find({ _id: userId });
+    if (userData) {
+      const userRecord = userData[0];
+      res.status(200).json({userRecord })
+    }else{
+      res.status(200).json({error:"Something went wrong" })
+    }
+  }else{
+    res.status(200).json({error:"Please provide valid data" })
   }
 })
 
@@ -1223,6 +1214,8 @@ app.post('/api/userProfile', jsonParser, async function (req, res) {
     }
   }
 })
+
+
 
 app.post('/api/superAdminLogin', jsonParser, async function (req, res) {
   let adminEmail = ''

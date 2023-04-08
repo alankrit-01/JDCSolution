@@ -35,19 +35,18 @@ const AddFactory = () => {
         formState: { errors },
     } = useForm();
 
+
     function onSubmit(data) {
-        dispatch(resetFactoryData())
-        if (dataFetchedRef.current) return;
-        dataFetchedRef.current = true;
+        // if (dataFetchedRef.current) return;
+        // dataFetchedRef.current = true;
+        dispatch(resetFactoryData());
         dispatch(storeFactory(data));
+
     }
-
+    
     const initialFactoryStoredata = useSelector((state) => state.FactoryStoreData);
-
-    console.log("initialFactoryStoredata", initialFactoryStoredata)
-
     useMemo(() => {
-        if (initialFactoryStoredata.success == true) {
+        if (initialFactoryStoredata?.success) {
             navigate('/admin/factory')
         }
         if (initialFactoryStoredata.error == 'Already Exist') {
@@ -82,52 +81,52 @@ const AddFactory = () => {
                                                     <div class="w-full relative h-11">
                                                     <input type="hidden" {...register("adminId", { required: true })} value={adminUserId && adminUserId} />
                                                     <input type="hidden" {...register("role", { required: true })} value={"Factory"} />
-                                                        <input {...register("name", { required: true })} placeholder="Name" className="w-full h-full focus:outline-none" />
+                                                        <input {...register("name", { required: true })} placeholder="Name" required className="w-full h-full focus:outline-none" />
                                                         {errors.name && <span className="error"> Name is required.</span>}
                                                     </div>
                                                 </div>
                                                 <div className="w-full lg:w-6/12 pr-4 mb-10 font-light">
                                                     <div class="w-full relative h-11">
-                                                        <input type="number" {...register("phone", { required: true })} placeholder="Phone" className="w-full h-full focus:outline-none" />
+                                                        <input type="number" {...register("phone", { required: true })} placeholder="Phone" required className="w-full h-full focus:outline-none" />
                                                         {errors.phone && <span className="error"> Phone is required.</span>}
                                                     </div>
                                                 </div>
                                                 <div className="w-full lg:w-6/12 pl-4 mb-10 font-light">
                                                     <div class="w-full relative h-11">
-                                                        <input {...register("email", { required: true })} placeholder="Email" className="w-full h-full focus:outline-none" />
+                                                        <input type="email" {...register("email", { required: true })} placeholder="Email" required className="w-full h-full focus:outline-none" />
                                                         {errors.email && <span className="error"> Email is required.</span>}
                                                     </div>
                                                 </div>
                                                 <div className="w-full lg:w-8/12 pr-4 mb-10 font-light">
                                                     <div class="w-full relative h-11">
-                                                        <input {...register("address", { required: true })} placeholder="Address" className="w-full h-full focus:outline-none" />
+                                                        <input type="text" {...register("address", { required: true })} placeholder="Address" required className="w-full h-full focus:outline-none" />
                                                         {errors.address && <span className="error"> Phone is required.</span>}
                                                     </div>
                                                 </div>
                                                 <div className="w-full lg:w-4/12 pl-4 mb-10 font-light">
                                                     <div class="w-full relative h-11">
-                                                        <input {...register("city", { required: true })} placeholder="City" className="w-full h-full focus:outline-none" />
+                                                        <input type="text" {...register("city", { required: true })} placeholder="City" required className="w-full h-full focus:outline-none" />
                                                         {errors.city && <span className="error"> Email is required.</span>}
 
                                                     </div>
                                                 </div>
                                                 <div className="w-full lg:w-4/12 pr-4 mb-10 font-light">
                                                     <div class="w-full relative h-11">
-                                                        <input {...register("state", { required: true })} placeholder="State" className="w-full h-full focus:outline-none" />
+                                                        <input type="text" {...register("state", { required: true })} placeholder="State" required className="w-full h-full focus:outline-none" />
                                                         {errors.state && <span className="error"> State is required.</span>}
 
                                                     </div>
                                                 </div>
                                                 <div className="w-full lg:w-4/12 pr-4 pl-4 mb-10 font-light">
                                                     <div class="w-full relative h-11">
-                                                        <input {...register("pincode", { required: true })} placeholder="Pincode" className="w-full h-full focus:outline-none" />
+                                                        <input type="text" {...register("pincode", { required: true })} placeholder="Pincode" required className="w-full h-full focus:outline-none" />
                                                         {errors.pincode && <span className="error"> Pincode is required.</span>}
 
                                                     </div>
                                                 </div>
                                                 <div className="w-full lg:w-4/12 pl-4 mb-10 font-light">
                                                     <div class="w-full relative h-11">
-                                                        <input {...register("country", { required: true })} placeholder="Country" className="w-full h-full focus:outline-none" />
+                                                        <input type="text" {...register("country", { required: true })} placeholder="Country" required className="w-full h-full focus:outline-none" />
                                                         {errors.country && <span className="error"> Country is required.</span>}
 
                                                     </div>
@@ -135,13 +134,13 @@ const AddFactory = () => {
 
                                                 <div className="w-full lg:w-6/12 pr-4 mb-10 font-light">
                                                     <div class="w-full relative h-11">
-                                                        <input {...register("latitude", { required: true })} placeholder="Latitude: 17.3850 N" className="w-full h-full focus:outline-none" />
+                                                        <input type="text" {...register("latitude", { required: true })} placeholder="Latitude: 17.3850 N" required className="w-full h-full focus:outline-none" />
                                                         {errors.latitude && <span className="error"> Latitude is required.</span>}
                                                     </div>
                                                 </div>
                                                 <div className="w-full lg:w-6/12 pl-4 mb-10 font-light">
                                                     <div class="w-full relative h-11">
-                                                        <input {...register("longitude", { required: true })} placeholder="Longitude: 78.4867 E" className="w-full h-full focus:outline-none" />
+                                                        <input type="text" {...register("longitude", { required: true })} placeholder="Longitude: 78.4867 E" required className="w-full h-full focus:outline-none" />
                                                         {errors.longitude && <span className="error"> Longitude is required.</span>}
 
                                                     </div>
@@ -149,7 +148,7 @@ const AddFactory = () => {
                                                 <div className="w-full lg:w-2/12 pl-4 mb-10 font-light"></div>
                                                 <div className="w-full lg:w-8/12 pr-4 pl-4 mb-10 font-light custom-background">
                                                     <div class="w-full relative h-11">
-                                                        <input {...register("locationurl", { required: true })} placeholder="Longitude: 78.4867 E" className="w-full h-full focus:outline-none" />
+                                                        <input type="text" {...register("locationurl", { required: true })} placeholder="Longitude: 78.4867 E" required className="w-full h-full focus:outline-none" />
                                                         {errors.locationurl && <span className="error"> location url is required.</span>}
                                                     </div>
                                                 </div>

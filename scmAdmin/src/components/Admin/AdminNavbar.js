@@ -11,6 +11,8 @@ import bell from "assets/img/bell.png";
 import mail from "assets/img/mail.png";
 import Ceoimg from  "assets/img/ceo-img.png";
 import ceo2 from  "assets/img/camera-icon.png";
+import locationicon from  "assets/img/location.png";
+import copy from  "assets/img/copy-icon.png";
 export default function AdminNavbar({ showSidebar, setShowSidebar }) {
   const location = useLocation().pathname;
 
@@ -96,10 +98,10 @@ export default function AdminNavbar({ showSidebar, setShowSidebar }) {
                   <p className="nothing-part"> <span>CEO</span></p>
           
                   <p className="click-open-btn"><Icon name="email" size="1xl" color="black" /> <a href="#">ceo@gmail.com</a></p>
-                  <p className="click-open-btn"><Icon name="email" size="1xl" color="black" /> <a href="#">Gachibowli, Hyderabad</a></p>
+                  <p className="click-open-btn"><img src={locationicon} className="location-img" /> <a href="#">Gachibowli, Hyderabad</a></p>
                   <p className="click-open-btn"><Icon name="phone" size="1xl" color="black" /> <a href="#">+91 6304334373</a></p>
                   <p className="click-open-btn2">Wallet address</p>
-                  <p className="box-set"> <a href="#">0x9bc444fc09f3660ad09b668f4a73b603b37Of07e <Icon name="email" size="1xl" color="black" /></a></p>
+                  <p className="box-set"> <a href="#">0x9bc444fc09f3660ad09b668f4a73b603b37O <img src={copy} className="location-img2" /></a></p>
                     <p className="sign-button-p"><DropdownItem color="lightBlue">Sign out</DropdownItem></p>
                 
               </Dropdown>

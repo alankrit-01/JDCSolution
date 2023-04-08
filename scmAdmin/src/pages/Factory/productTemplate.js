@@ -8,7 +8,7 @@ import { Button } from "@material-tailwind/react";
 import Input from '@material-tailwind/react/Input';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { getProductTemplate, checkProductTemplateSuccessdata } from 'Services/action';
+import { getProductTemplate, checkProductTemplateSuccessdata, resetProductTemplateData } from 'Services/action';
 
 import { useDispatch, useSelector } from 'react-redux';
 import loader from "assets/img/loading.gif";
@@ -56,12 +56,12 @@ const ProductTemplate = () => {
             factoryID: factoryUserId
         }
         dispatch(getProductTemplate(data))
+        dispatch(resetProductTemplateData())
     }, [])
     const initialProductTemplatedata = useSelector((state) => state.ProductTemplateRecord);
     const initialProductTemplateStoredata = useSelector((state) => state.StoreProductTemplateData);
-
-    useMemo(() => {
-        if (initialProductTemplateStoredata.success == true) {
+    useEffect(() => {
+        if (initialProductTemplateStoredata?.success) {
             successNotify();
         }
     }, [initialProductTemplateStoredata])
@@ -117,7 +117,7 @@ const ProductTemplate = () => {
                                 </div>
                                 <div className="right-button-section">
                                     <NavLink to="/factory/addProductTemplate">
-                                        <button className="cust-button">Add Product +</button>
+                                        <button className="cust-button change-add"> <span className="dash-bg">+</span> ADD PRODUCT</button>
                                     </NavLink>
                                 </div>
                             </div>

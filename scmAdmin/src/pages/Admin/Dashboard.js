@@ -48,19 +48,22 @@ const Dashboard = () => {
                     <p className="-mt-2">+</p>
                   </div>
                   <div className="add-batch-dashboard-title mt-0">
-                    <h6 className="mr-10 text-xl mt-2 text-white">ADD</h6>
                     <Dropdown
-                     buttonText={""}
+                     buttonText={
+                      <h6 className="mr-10 text-xl mt-2 text-white font-weight-text">ADD</h6>
+                         }
                       style={{
-                        padding: 3,
+                        padding: 9,
                         color: "white",
                         // backgroundColor: "red",
                         backgroundColor: "#335980",
                         position: "relative",
                         marginLeft: "120px",
                         width: "40px",
-                        hieght: "20px",
-                        marginTop: "-25px",
+                        hieght: "40px",
+                        marginTop: "6px",
+                        marginb: "20px", 
+                        height: "22px"
                       }}
                     >
                       <DropdownItem >

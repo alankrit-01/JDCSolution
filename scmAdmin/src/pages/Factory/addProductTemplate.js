@@ -10,7 +10,7 @@ import Textarea from '@material-tailwind/react/Textarea';
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { storeProductTemplate } from "Services/action";
+import { storeProductTemplate  } from "Services/action";
 import arrow from "assets/img/arrow-icon.png";
 
 const AddProductTemplate = () => {
@@ -59,13 +59,13 @@ const AddProductTemplate = () => {
     }, [productNameError, productDescriptionError])
 
     const initialProductTemplateStoredata = useSelector((state) => state.StoreProductTemplateData);
-
-    useMemo(() => {
-        if (initialProductTemplateStoredata.success == true) {
+console.log("initialProductTemplateStoredata",initialProductTemplateStoredata)
+    useEffect(() => {
+        if (initialProductTemplateStoredata?.success) {
             navigate('/factory/productTemplate')
         }
     }, [initialProductTemplateStoredata])
-    return (
+    return ( 
         <>
             <FactorySidebar />
             <div className="md:ml-32">
@@ -82,7 +82,6 @@ const AddProductTemplate = () => {
                                     <h2 className="head-cust-color">Add Product</h2>
                                 </div>
                                 <Card className="background-gray rounded-none">
-
                                     <CardBody>
                                         <form onSubmit={handleSubmit} className="custom-form">
                                             <div className="flex flex-wrap mt-10">
@@ -97,7 +96,7 @@ const AddProductTemplate = () => {
                                                             value={productName} onChange={(e) => setProductName(e.target.value)}
                                                             required
                                                         />
-                                                        <span>{productNameError}</span>
+                                                        <span className="error">{productNameError}</span>
                                                     </div>
                                                     <div className="w-full lg:w-12/12 mb-10 font-light text-area-set">
                                                         {/* <span><b>Product Description</b></span> */}

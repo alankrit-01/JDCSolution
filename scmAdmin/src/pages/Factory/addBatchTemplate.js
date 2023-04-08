@@ -94,13 +94,13 @@ const AddBatchTemplate = () => {
             productTemplateID: selectedProduct.ProductTemplateID.toString(),
             factoryID: factoryUserId,
             distributorID: selectedDistributer._id.toString(),
+            distributorName: selectedDistributer.name,
             factoryLocation: factoryUserLocation,
             dateOfProduction: batchManufacture
         }
-        //console.log("data data", data)
         dispatch(storeBatchTemplate(data))
     }
-
+ 
     const initialBatchTemplateStoredata = useSelector((state) => state.StoreBatchTemplateData);
     useMemo(() => {
         if (initialBatchTemplateStoredata.success == true) {
@@ -137,13 +137,10 @@ const AddBatchTemplate = () => {
             skipEmptyLines: true,
             complete: function (results) {
                 const valuesArray = [];
-                // Iterating data to get column name and their values
                 results.data.map((d) => {
                     valuesArray.push(Object.values(d).toString());
                 });
-                // Parsed Data Response in array format
                 setParsedData(results.data);
-                // Filtered Values
                 setValues(valuesArray);
             },
         });
@@ -176,11 +173,6 @@ const AddBatchTemplate = () => {
                                 </div>
 
                                 <Card  className="background-gray rounded-none">
-                                    {/* <CardHeader color="purple" contentPosition="none">
-                                        <div className="w-full flex items-center justify-between">
-                                            <h2 className="text-white text-2xl">Add Batch </h2>
-                                        </div>
-                                    </CardHeader> */}
                                     <CardBody>
 
                                         {materialtype == 'csv' ? (<span>Total Product Id : {values.length}</span>) : ('')}
@@ -188,7 +180,6 @@ const AddBatchTemplate = () => {
                                         <form onSubmit={handleSubmit}  className="custom-form">
                                             <div className="flex flex-wrap mt-10">
                                                 <div className="w-full lg:w-6/12 pr-4 mb-10 font-light">
-                                                    {/* <span><b>Company Batch ID</b></span> */}
                                                     <Input
                                                         type="text"
                                                         color="purple"
@@ -198,11 +189,7 @@ const AddBatchTemplate = () => {
                                                         value={companyBatchID} onChange={(e) => setCompanyBatchID(e.target.value)}
                                                     />
                                                 </div>
-                                                {/* <div className="w-full lg:w-2/12 mb-9 font-light drop-set">
-                                                 <span><b>Product Template ID</b></span> 
-                                                 </div> */}
                                                  <div className="w-full lg:w-6/12 pl-4 mb-10 font-light">
-
                                                     <Select
                                                         id="productId"
                                                         name="productId"
@@ -215,7 +202,7 @@ const AddBatchTemplate = () => {
                                                         isSearchable={true}
                                                         getOptionValue={(option) => option.ProductTemplateID}
                                                         getOptionLabel={(option) => `${option.ProductTemplateID} - ${option.Name}`}
-
+                                                        required
                                                     />
                                                     {/* <select id="productId" name="productId" color="purple" class="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer" onChange={(e) => setProductId(e.target.value)}>
                                                         <option selected>Choose a Product Template Id</option>
@@ -228,9 +215,7 @@ const AddBatchTemplate = () => {
                                                         }
                                                     </select> */}
                                                 </div>
-                                                {/* <div className="w-full lg:w-2/12 mb-10 font-light  drop-set">
-                                                    <span><b>Select Product Id</b></span>
-                                                    </div> */}
+                                               
                                                     <div className="w-full lg:w-6/12 pr-4 mb-10 font-light">
 
                                                     <select id="distributer" name="distributer" color="purple" required class="block border-gray-part border_two py-2.5 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer" defaultValue={materialtype} onChange={(e) => setMaterialtype(e.target.value)}>
@@ -248,37 +233,33 @@ const AddBatchTemplate = () => {
                                                                 accept=".csv"
                                                                 onChange={changeHandler}
                                                                 style={{ display: "block", margin: "10px auto" }}
+                                                                required
                                                             />
                                                         </div>
                                                 ) : (
                                                     <div className="w-full lg:w-6/12 pl-4 mb-10 font-light">
-                                                        {/* <span><b>Batch Size</b></span> */}
                                                         <Input
                                                             type="text"
                                                             color="purple"
                                                             placeholder="Batch Size"
                                                             name="batchSize"
                                                             value={batchSize} onChange={(e) => setBatchSize(e.target.value)}
+                                                            required
                                                         />
                                                     </div>
                                                 )}
                                                 <div className="w-full lg:w-12/12 mb-10 font-light">
-                                                    {/* <span><b>Batch Description</b></span> */}
                                                     <Input
                                                         type="text"
                                                         color="purple"
                                                         placeholder="Batch Description"
                                                         name="batchDescription"
                                                         value={batchDescription} onChange={(e) => setBatchDescription(e.target.value)}
+                                                        required
                                                     />
                                                 </div>
                                                 <div className="w-full lg:w-6/12 mb-10 font-light  drop-set">
                                                     <span><b>Select Distributer</b></span>
-                                                    {/* <select id="distributer" name="distributer" color="purple" class="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer" onChange={(e) => setDistributer(e.target.value)}>
-                                                        <option selected>Choose a Distributer </option>
-                                                        {distributerlist}
-                                                    </select> */}
-
                                                     <Select
                                                         id="distributer"
                                                         name="distributer"
@@ -291,6 +272,7 @@ const AddBatchTemplate = () => {
                                                         getOptionValue={(option) => option._id.toString()}
                                                         getOptionLabel={(option) => `${option.name}`}
                                                         isSearchable={true}
+                                                        required
                                                     />
                                                 </div>
 

@@ -1,5 +1,5 @@
 import { takeLatest, call, put } from 'redux-saga/effects'
-import { BLOCKCHAIN_API_URL, SuperAdminUserLogin, Set_SuperAdmin_Login, SuperAdmin_Login_Fail, Get_SuperAdmin_Local_Store_Data, set_SuperAdmin_Local_Store_Data, Handle_User_Status, Set_Handle_User_Status_Data, Set_Handle_User_Status_Data_Fail, Store_Company, Set_Store_Company_Data, Set_Store_Company_Data_Fail, Check_Company_Success_data, Check_Company_Success_data_1, Get_Company, Set_Company_List, Get_Fraud_Scans, Set_Fraud_Scans_List, Get_All_Level_Fails, Set_All_Level_Fails_List, SuperAdminUserLogout, Set_SuperAdmin_Logout, AdminUserLogin, Set_Admin_Login, Admin_Login_Fail, AdminUserLogout, Set_Admin_Logout, Get_Local_Store_Data, set_Local_Store_Data, Get_Retailers, Get_Retailer_By_Company, Set_Retailer_List, Set_Retailer_By_Company_List, Get_Factory, Get_Factory_By_Company, Set_Factory_List, Set_Factory_By_Company_List, Get_Distributer, Get_Distributer_By_Company, Set_Distributer_List, Set_Distributer_By_Company_List, FactoryUserLogin, Set_Factory_Login, Factory_Login_Fail, FactoryUserLogout, Set_Factory_Logout, Get_Factory_Local_Store_Data, set_Factory_Local_Store_Data,Reset_Factory_Data, Store_Factory,Set_Reset_Factory_Data, Set_Store_Factory_Data,Set_Store_Factory_Data_Already_Exist, Set_Store_Factory_Data_Fail, Check_Factory_Success_data, Check_Factory_Success_data_1, Store_Distributer, Set_Store_Distributer_Data, Set_Store_Distributer_Data_Fail, Check_Distributer_Success_data, Check_Distributer_Success_data_1, Store_Retailer, Set_Store_Retailer_Data, Set_Store_Retailer_Data_Fail, Check_Retailer_Success_data, Check_Retailer_Success_data_1, Store_Company_Feedback, Set_Store_Company_Feedback_Data, Set_Store_Company_Feedback_Data_Fail, Check_Company_Feedback_Success_data, Check_Company_Feedback_Success_data_1, Store_Multi_User, Store_Product_Template, Set_Store_Product_Template_Data, Set_Store_Product_Template_Data_Fail, Check_Product_Template_Success_data, Check_Product_Template_Success_data_1, Get_Product_Template, Set_Product_Template_List, Store_Batch_Template, Set_Store_Batch_Template_Data, Set_Store_Batch_Template_Data_Fail, Check_Batch_Template_Success_data, Check_Batch_Template_Success_data_1, Get_Batch_Template, Set_Batch_Template_List, Get_Batch_Detail, Set_Batch_Detail_List, Get_Feedback, Set_Feedback_List, Get_Self_Feedback, Set_Self_Feedback_List } from "./constant"
+import { BLOCKCHAIN_API_URL, Get_User_Detail,Set_User_Detail, SuperAdminUserLogin, Set_SuperAdmin_Login, SuperAdmin_Login_Fail, Get_SuperAdmin_Local_Store_Data, set_SuperAdmin_Local_Store_Data, Handle_User_Status, Set_Handle_User_Status_Data, Set_Handle_User_Status_Data_Fail, Store_Company, Set_Store_Company_Data, Set_Store_Company_Data_Fail, Check_Company_Success_data, Check_Company_Success_data_1, Get_Company, Set_Company_List, Get_Fraud_Scans, Set_Fraud_Scans_List, Get_All_Level_Fails, Set_All_Level_Fails_List, SuperAdminUserLogout, Set_SuperAdmin_Logout, AdminUserLogin, Set_Admin_Login, Admin_Login_Fail, AdminUserLogout, Set_Admin_Logout, Get_Local_Store_Data, set_Local_Store_Data, Get_Retailers, Get_Retailer_By_Company, Set_Retailer_List, Set_Retailer_By_Company_List, Get_Factory, Get_Factory_By_Company, Set_Factory_List, Set_Factory_By_Company_List, Get_Distributer, Get_Distributer_By_Company, Set_Distributer_List, Set_Distributer_By_Company_List, FactoryUserLogin, Factory_Login_Invalid, Set_Factory_Login, Factory_Login_Fail, FactoryUserLogout, Set_Factory_Logout, Get_Factory_Local_Store_Data, set_Factory_Local_Store_Data, Reset_Factory_Data, Store_Factory, Set_Reset_Factory_Data, Set_Store_Factory_Data, Set_Store_Factory_Data_Already_Exist, Set_Store_Factory_Data_Fail, Check_Factory_Success_data, Check_Factory_Success_data_1, Store_Distributer, Set_Store_Distributer_Data, Set_Store_Distributer_Data_Fail, Check_Distributer_Success_data, Check_Distributer_Success_data_1, Store_Retailer, Set_Store_Retailer_Data, Set_Store_Retailer_Data_Fail, Check_Retailer_Success_data, Check_Retailer_Success_data_1, Store_Company_Feedback, Set_Store_Company_Feedback_Data, Set_Store_Company_Feedback_Data_Fail, Check_Company_Feedback_Success_data, Check_Company_Feedback_Success_data_1, Store_Multi_User, Store_Product_Template, Set_Store_Product_Template_Data, Set_Store_Product_Template_Data_Fail, Check_Product_Template_Success_data, Check_Product_Template_Success_data_1, Get_Product_Template, Reset_Product_Template_Data,Set_Reset_Product_Template_Data, Set_Product_Template_List, Store_Batch_Template, Set_Store_Batch_Template_Data, Set_Store_Batch_Template_Data_Fail, Check_Batch_Template_Success_data, Check_Batch_Template_Success_data_1, Get_Batch_Template, Set_Batch_Template_List, Get_Batch_Detail,Reset_Batch_Template_Data,Set_Reset_Batch_Template_Data, Set_Batch_Detail_List, Get_Feedback, Set_Feedback_List, Get_Self_Feedback, Set_Self_Feedback_List } from "./constant"
 import { API_URL } from "./constant"
 import Axios from "axios"
 
@@ -29,6 +29,25 @@ function* superAdminUserLogin(data) {
 function* getSuperAdminLocalStoreData() {
     yield put({ type: set_SuperAdmin_Local_Store_Data })
 }
+
+
+
+
+
+function* getUserDetail(data) {
+    const requestData = data.data
+
+    try {
+        let uri = API_URL.concat('/userById')
+        const userRecord = yield call(Axios.post, uri, requestData)
+        const result = userRecord.data;
+        yield put({ type: Set_User_Detail, result })
+    } catch (error) {
+        console.log("Error is ", error)
+        yield put({ type: Set_User_Detail })
+    }
+}
+
 
 function* handleUserStatus(data) {
     const requestData = data.data
@@ -202,31 +221,47 @@ function* getDistributer(data) {
 }
 
 
-
-
-
-
+// function* storeFactory(data) {
+//     const requestData = data.data
+//     try {
+//         let uri = API_URL.concat('/addUser')
+//         const storeFactoryRes = yield call(Axios.post, uri, requestData)
+//         const result = storeFactoryRes.data;
+//         if (result.status == 'fail') {
+//             yield put({ type: Set_Store_Factory_Data_Already_Exist, result })
+//         } else {
+//             yield put({ type: Set_Store_Factory_Data, result })
+//         }
+//     } catch (error) {
+//         console.log("Error is ", error)
+//         yield put({ type: Set_Store_Factory_Data_Fail })
+//     }
+// }
 
 function* factoryUserLogin(data) {
     const requestData = data.data
-    try {
+
+    try{
+
         let uri = API_URL.concat('/factoryLogin')
         const factoryLoginRes = yield call(Axios.post, uri, requestData)
         const result = factoryLoginRes.data;
-        localStorage.setItem('factoryUserId', factoryLoginRes.data.userId);
-        localStorage.setItem('factoryUserAdminId', factoryLoginRes.data.adminId);
-        localStorage.setItem('factoryUserName', factoryLoginRes.data.userName);
-        localStorage.setItem('factoryUserEmail', factoryLoginRes.data.userEmail);
-        localStorage.setItem('factorytoken', factoryLoginRes.data.token);
-        localStorage.setItem('factoryUserRole', factoryLoginRes.data.userRole);
-        localStorage.setItem('factoryUserAddress', factoryLoginRes.data.address);
-        localStorage.setItem('factoryUserCity', factoryLoginRes.data.city);
-        localStorage.setItem('factoryUserCountry', factoryLoginRes.data.country);
-        localStorage.setItem('factoryUserLatitude', factoryLoginRes.data.latitude);
-        localStorage.setItem('factoryUserLongitude', factoryLoginRes.data.longitude);
-
-
-        yield put({ type: Set_Factory_Login, result })
+        if (result.status == 'fail') {
+            yield put({ type: Factory_Login_Invalid, result })
+        } else {
+            localStorage.setItem('factoryUserId', factoryLoginRes.data.userId);
+            localStorage.setItem('factoryUserAdminId', factoryLoginRes.data.adminId);
+            localStorage.setItem('factoryUserName', factoryLoginRes.data.userName);
+            localStorage.setItem('factoryUserEmail', factoryLoginRes.data.userEmail);
+            localStorage.setItem('factorytoken', factoryLoginRes.data.token);
+            localStorage.setItem('factoryUserRole', factoryLoginRes.data.userRole);
+            localStorage.setItem('factoryUserAddress', factoryLoginRes.data.address);
+            localStorage.setItem('factoryUserCity', factoryLoginRes.data.city);
+            localStorage.setItem('factoryUserCountry', factoryLoginRes.data.country);
+            localStorage.setItem('factoryUserLatitude', factoryLoginRes.data.latitude);
+            localStorage.setItem('factoryUserLongitude', factoryLoginRes.data.longitude);
+            yield put({ type: Set_Factory_Login, result })
+        }
     } catch (error) {
         console.log("Error is ", error)
         yield put({ type: Factory_Login_Fail })
@@ -240,14 +275,8 @@ function* factoryUserLogout(data) {
 }
 
 
-function* resetFactoryData(data) {
-    const requestData = data.data
-    try {
-            yield put({ type: Set_Reset_Factory_Data })
-    } catch (error) {
-        console.log("Error is ", error)
-        yield put({ type: Set_Store_Factory_Data_Fail })
-    }
+function* resetFactoryData() {
+    yield put({ type: Set_Reset_Factory_Data })
 }
 
 function* storeFactory(data) {
@@ -256,8 +285,6 @@ function* storeFactory(data) {
         let uri = API_URL.concat('/addUser')
         const storeFactoryRes = yield call(Axios.post, uri, requestData)
         const result = storeFactoryRes.data;
-
-        console.log("result", result)
         if (result.status == 'fail') {
             yield put({ type: Set_Store_Factory_Data_Already_Exist, result })
         } else {
@@ -360,6 +387,7 @@ function* storeProductTemplate(data) {
         let uri = BLOCKCHAIN_API_URL.concat('/factoryAddProductTemplate')
         const storeProductTemplateRes = yield call(Axios.post, uri, requestData)
         const result = storeProductTemplateRes.data;
+        console.log("result",result)
         yield put({ type: Set_Store_Product_Template_Data, result })
     } catch (error) {
         console.log("Error is ", error)
@@ -371,6 +399,9 @@ function* checkProductTemplateSuccessdata(data) {
     yield put({ type: Check_Product_Template_Success_data_1 })
 }
 
+function* resetProductTemplateData() {
+    yield put({ type: Set_Reset_Product_Template_Data })
+}
 function* getProductTemplate(data) {
     const requestData = data.data
     try {
@@ -414,7 +445,9 @@ function* getBatchTemplate(data) {
         console.log("Error is ", error)
     }
 }
-
+function* resetBatchTemplateData() {
+    yield put({ type: Set_Reset_Batch_Template_Data })
+}
 function* getBatchDetail(data) {
     const requestData = data.data
     try {
@@ -467,6 +500,7 @@ function* getSelfFeedback(data) {
 }
 
 function* mainSaga() {
+    yield takeLatest(Get_User_Detail, getUserDetail)
     yield takeLatest(SuperAdminUserLogin, superAdminUserLogin)
     yield takeLatest(Get_SuperAdmin_Local_Store_Data, getSuperAdminLocalStoreData)
     yield takeLatest(Handle_User_Status, handleUserStatus)
@@ -496,7 +530,7 @@ function* mainSaga() {
     yield takeLatest(FactoryUserLogin, factoryUserLogin)
     yield takeLatest(FactoryUserLogout, factoryUserLogout)
     yield takeLatest(Get_Factory_Local_Store_Data, getFactoryLocalStoreData)
-    
+
     yield takeLatest(Reset_Factory_Data, resetFactoryData)
 
     yield takeLatest(Store_Factory, storeFactory)
@@ -513,13 +547,17 @@ function* mainSaga() {
     yield takeLatest(Check_Product_Template_Success_data, checkProductTemplateSuccessdata)
 
     yield takeLatest(Get_Product_Template, getProductTemplate)
+    yield takeLatest(Reset_Product_Template_Data, resetProductTemplateData)
 
+    
     yield takeLatest(Store_Batch_Template, storeBatchTemplate)
     yield takeLatest(Check_Batch_Template_Success_data, checkBatchTemplateSuccessdata)
 
     yield takeLatest(Get_Batch_Template, getBatchTemplate)
 
     yield takeLatest(Get_Batch_Detail, getBatchDetail)
+    yield takeLatest(Reset_Batch_Template_Data, resetBatchTemplateData)
+
 
     yield takeLatest(Get_Feedback, getFeedback)
     yield takeLatest(Get_Self_Feedback, getSelfFeedback)

@@ -68,7 +68,7 @@ const CustomerFeedback = () => {
               >
                 <div
                   class="popup"
-                  className=" h-92 bg-[#CCCCCC] ml-56 px-2 max-w-2xl text-[#0c3f6a] pr-6 p-9"
+                  className=" h-92 bg-[#CCCCCC] ml-56 px-2 max-w-2xl text-[#0c3f6a] pr-6 p-9 position-set-part2"
                 >
                   <div className="flex">
                     <div className="mt-6 ml-6">

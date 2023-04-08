@@ -979,6 +979,7 @@ span.material-icons text-lg leading-none align-middle {
     background: #fff;
     border-radius: 25px;
     margin-top: -15px;
+    padding-left: 15px;
 }
 
 .submit-button-factory {
@@ -1379,6 +1380,28 @@ span.error {
     height: 23px;
 }
 
-.position-set-part{position: relative; top: 185px;}
+.position-set-part {
+    position: relative;
+    top: 185px;
+}
 
+.font-weight-text {
+    font-weight: 500;
+    margin-left: -70px;
+}
 
+.leading-none {
+    line-height: inherit;
+}
+.location-img2 {
+    width: 12px;
+    display: inline-block;
+}
+.position-set-part2 {
+    position: relative;
+    top: 154px;
+}
+.position-set-part3 {
+    position: relative;
+    top: 210px;
+}

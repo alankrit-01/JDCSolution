@@ -5,6 +5,8 @@ export const BLOCKCHAIN_API_URL = "http://192.168.1.101:8085/api";
 //export const BLOCKCHAIN_API_URL = "http://34.208.61.209:8085/api";
 
 export const GETDETAILS = 'GETDETAILS'; 
+export const Get_User_Detail = 'Get_User_Detail'; 
+export const Set_User_Detail = 'Set_User_Detail'; 
 export const SuperAdminUserLogin = 'SuperAdminUserLogin';
 export const SuperAdminUserLogout = 'SuperAdminUserLogout';
 export const Get_SuperAdmin_Local_Store_Data = 'Get_SuperAdmin_Local_Store_Data';
@@ -74,6 +76,7 @@ export const Get_Factory_Local_Store_Data = 'Get_Factory_Local_Store_Data';
 export const set_Factory_Local_Store_Data = "set_Factory_Local_Store_Data";
 
 export const Set_Factory_Login = 'Set_Factory_Login'; 
+export const Factory_Login_Invalid = 'Factory_Login_Invalid';
 export const Factory_Login_Fail = 'Factory_Login_Fail';
 export const FactoryUserLogout = 'FactoryUserLogout';
 export const Set_Factory_Logout = 'Set_Factory_Logout';
@@ -118,7 +121,8 @@ export const Check_Product_Template_Success_data_1 = 'Check_Product_Template_Suc
 
 export const Get_Product_Template = 'Get_Product_Template';
 export const Set_Product_Template_List = 'Set_Product_Template_List';
-
+export const Reset_Product_Template_Data = 'Reset_Product_Template_Data';
+export const Set_Reset_Product_Template_Data = 'Set_Reset_Product_Template_Data';
 
 export const Store_Batch_Template = 'Store_Batch_Template';
 export const Store_Batch_Template_Request = 'Store_Batch_Template_Request';
@@ -133,3 +137,7 @@ export const Set_Batch_Template_List = 'Set_Batch_Template_List';
 
 export const Get_Batch_Detail = 'Get_Batch_Detail';
 export const Set_Batch_Detail_List = 'Set_Batch_Detail_List';
+export const Reset_Batch_Template_Data = 'Reset_Batch_Template_Data';
+export const Set_Reset_Batch_Template_Data = 'Set_Reset_Batch_Template_Data';
+
+
