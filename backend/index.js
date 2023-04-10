@@ -29,7 +29,7 @@ const Consumer = require('./models/consumers');
 const Feedback = require('./models/feedbacks');
 const Factory = require('./models/factories');
 const ScanIssueReport = require('./models/scanIssueReport');
-const { collection } = require('./models/users');
+const { collection } = require('./models/users'); 
 
 app.use(express.json()); 
 app.use(cors());
@@ -228,6 +228,21 @@ app.post('/api/factoryAddBatch',addbatchMIDDLEWARE,async(req,res)=>{
 
 })   
  
+
+app.get('/api/viewBatchCount', async (req, res) => {
+  try { 
+    const FactoryID= req.query.factoryID;
+    batch.find({FactoryID}).then((documents) => { 
+      res.status(200).json({status:"success", message:documents.length});
+    }).catch((error) => {
+      console.log(error);
+      res.status(200).json({status:"success", message:"Returned data is empty"});
+    }) 
+  } catch (error) {
+    console.log(error.message);
+    res.status(400).send({ error: error.message });
+  }
+}); 
 app.get('/api/viewListOfBatchesProducedByFactory', async (req, res) => {
   try { 
     const FactoryID= req.query.factoryID;
@@ -728,7 +743,7 @@ app.get('/api/authenticateProduct',async(req,res)=>{
         batchDescription:"",
         batchID:0,
         productId:ProductID,
-        level:1
+        level:1 
       })
       Data.save().then((result) => {
         console.log(result);
