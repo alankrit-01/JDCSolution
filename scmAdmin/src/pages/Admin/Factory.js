@@ -2,7 +2,7 @@ import Sidebar from "components/Admin/Sidebar";
 import Footer from "components/Admin/Footer";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getFactory } from "Services/action";
+import { getFactory,resetFactoryData } from "Services/action";
 import { useEffect, useMemo, useState, useRef } from "react";
 import DataTable from "react-data-table-component";
 import { Button } from "@material-tailwind/react";
@@ -18,17 +18,6 @@ import Arrowdown from 'assets/img/down-arrow.png';
 
 const Factory = () => {
   const dataFetchedRef = useRef(false);
-  const successNotify = () =>
-    toast.success("Factory Added Successfully !.", {
-      position: "bottom-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-    });
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [Factories, setFactories] = useState([]);
@@ -128,16 +117,28 @@ const Factory = () => {
 
   useEffect(() => {
     dispatch(getFactory());
+    dispatch(resetFactoryData());
   }, []);
 
   const initialdata = useSelector((state) => state.FactoryRecord);
+  const initialFactoryStoredata = useSelector((state) => state.FactoryStoreData);
 
-  const initialFactoryStoredata = useSelector(
-    (state) => state.FactoryStoreData
-  );
-  useMemo(() => {
-    if (initialFactoryStoredata.success == true) {
-      successNotify();
+  const successNotify = () =>
+    toast.success("Factory Added Successfully!.", {
+      position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    }); 
+
+
+    useEffect(() => {
+    if (initialFactoryStoredata?.success) {
+      successNotify();   
     }
   }, [initialFactoryStoredata]);
 

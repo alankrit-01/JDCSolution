@@ -90,7 +90,7 @@ const BatchSent = () => {
         <div className="px-3 md:px-7 h-auto -mt-24">
           <div className="container mx-auto max-w-full">
             <div className="grid grid-cols-1 px-4 mb-16">
-              <div className="grid-section2">
+            <div className="grid-section2">
                 <div className="received-part-two batch">
 
                   <select id="colours" className="dd-button batch-selected">
@@ -98,7 +98,9 @@ const BatchSent = () => {
                     <option value="green">Green</option>
                     <option value="blue">Blue </option>
                   </select>
+                  <span className="fifty-seven">157</span>
                 </div>
+                
 
                 <div className="received-part-two report-drop">
                   <img src={cumulative} />
@@ -109,7 +111,13 @@ const BatchSent = () => {
                     <option value="blue">Blue </option>
 
                   </select>
+
+                  
                 </div>
+                <div className="search-div">
+                                    <input type="text" className="cust-input" placeholder="Search" value={Search}
+                                        onChange={(e) => setSearch(e.target.value)} />
+                                </div>
               </div>
               <div className="flex flex-wrap">
                 <div className="w-full lg:w-6/12 pr-4 mb-10 font-light">

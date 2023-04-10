@@ -278,8 +278,8 @@ h5.add-batch-dashboard-title {
 
 .cust-input {
     background: #0c3f6a;
-    border-radius: 10px;
-    padding: 2px 10px;
+    border-radius: 20px;
+    padding: 9px 30px;
     color: #ffffff;
 }
 
@@ -326,6 +326,9 @@ h5.add-batch-dashboard-title {
 .custom-form input {
     background-color: #f2f2f2;
     border-radius: 25px;
+    color: #013464;
+    padding-left: 10px;
+
 }
 
 .custom-form .text-gray-400 {
@@ -694,13 +697,6 @@ h5.add-batch-dashboard-title {
     font-size: 20px;
 }
 
-.liner-part {
-    background-color: #EEF7FC;
-    padding: 40px;
-    margin: 320px 0px 14px 94px;
-    width: 439px;
-}
-
 .liner-part p {
     font-size: 18px;
     font-weight: 500;
@@ -983,6 +979,7 @@ span.material-icons text-lg leading-none align-middle {
     background: #fff;
     border-radius: 25px;
     margin-top: -15px;
+    padding-left: 15px;
 }
 
 .submit-button-factory {
@@ -1204,4 +1201,207 @@ span.material-icons text-lg leading-none align-middle {
 .right-img img {
     width: 35px;
     margin: 0px 15px;
+}
+
+.change-add {
+    margin: 0px 10px;
+    color: #ff9c67;
+    padding: 4px 18px;
+    border-radius: 20px;
+}
+
+.dash-bg {
+    color: #fff;
+    font-size: 22px;
+    margin-right: 10px;
+    background: #c9c9c9ba;
+    padding: 4px 14px;
+    border-radius: 20px 0px 0px 20px;
+    margin-left: -12px;
+}
+
+.dash-bg2 {
+    display: inline-flex;
+    margin-right: 17px;
+    background: #c9c9c9ba;
+    padding: 9px 12px;
+    border-radius: 20px 0px 0px 20px;
+    margin-left: -21px;
+}
+
+.secound-b {
+    padding: 3px 26px;
+}
+
+.dash-bg2 img {
+    width: 17px;
+}
+
+.map-padding-use {
+    padding-top: 20px;
+}
+
+.location-img {
+    width: 15px;
+    height: 20px;
+    margin-right: 10px;
+    margin-bottom: 13px;
+}
+
+span.error {
+    color: red;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.center-width {
+    width: 85%;
+    padding: 40px 0;
+}
+
+.buttion-cumulative {
+    margin-top: 0px;
+}
+
+.buttion-cumulative img {
+    top: 240px;
+    right: 162px;
+}
+
+.eye-liner-part {
+    float: right;
+    margin-top: 44px;
+    width: 236px;
+}
+
+.option-down {
+    width: 463px;
+}
+
+.liner-part {
+    background-color: #EEF7FC;
+    width: 70%;
+    margin: auto;
+    position: relative;
+    top: 0px;
+    display: table;
+    padding: 20px;
+}
+
+.w-full.relative.h-11 input::placeholder {
+    color: #013464;
+    padding-left: 10px;
+    font-weight: 500;
+}
+
+.center-width {
+    width: 85%;
+    padding: 40px 0;
+}
+
+.buttion-cumulative {
+    margin-top: 0px;
+}
+
+.buttion-cumulative img {
+    top: 240px;
+    right: 162px;
+}
+
+.eye-liner-part {
+    float: right;
+    margin-top: 44px;
+    width: 236px;
+}
+
+.option-down {
+    width: 463px;
+}
+
+.liner-part {
+    background-color: #EEF7FC;
+    width: 70%;
+    margin: auto;
+    position: relative;
+    top: 0px;
+    display: table;
+    padding: 20px;
+}
+
+.search-div {
+    margin: 0 auto;
+    width: 0%;
+}
+
+.fifty-seven {
+    background: #0c3f6a;
+    padding: 11px;
+    color: #ff9c67;
+    font-size: 18px;
+    font-weight: 500;
+    margin: 0px 15px;
+}
+
+.details-background-color2 {
+    text-align: center;
+}
+
+.details-background-color2 h2 {
+    color: #ff9c67;
+    font-weight: 600;
+    font-size: 34px;
+}
+
+.right-button-set {
+    float: right;
+    margin-bottom: 30px;
+}
+
+.report-top-part {
+    position: absolute;
+    top: 112px;
+    right: 320px;
+}
+
+.report-top-part .cust-button {
+    padding: 7px 18px;
+    font-size: 20px;
+}
+
+.report-image {
+    background: #4a6a89;
+    padding: 5px 10px 7px 10px;
+    margin-left: -10px;
+}
+
+.report-image img {
+    width: 23px;
+    display: inline-block;
+    height: 23px;
+}
+
+.position-set-part {
+    position: relative;
+    top: 185px;
+}
+
+.font-weight-text {
+    font-weight: 500;
+    margin-left: -70px;
+}
+
+.leading-none {
+    line-height: inherit;
+}
+.location-img2 {
+    width: 12px;
+    display: inline-block;
+}
+.position-set-part2 {
+    position: relative;
+    top: 154px;
+}
+.position-set-part3 {
+    position: relative;
+    top: 210px;
 }

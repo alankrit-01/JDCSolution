@@ -11,6 +11,7 @@ import mail from "assets/img/mail.png";
 import { NavLink } from 'react-router-dom';
 import Ceoimg from  "assets/img/ceo-img.png";
 import ceo2 from  "assets/img/camera-icon.png";
+import locationicon from  "assets/img/location.png";
 export default function FactoryNavbar({ showSidebar, setShowSidebar }) {
     const location = useLocation().pathname;
     return (
@@ -90,7 +91,7 @@ export default function FactoryNavbar({ showSidebar, setShowSidebar }) {
                                 <p className="nothing-part"> <span>Factory</span></p>
 
                                 <p className="click-open-btn"><Icon name="email" size="1xl" color="black" /> <a href="#">factory@gmail.com</a></p>
-                                <p className="click-open-btn"><Icon name="email" size="1xl" color="black" /> <a href="#">Gachibowli, Hyderabad</a></p>
+                                <p className="click-open-btn"><img src={locationicon} className="location-img" /> <a href="#">Gachibowli, Hyderabad</a></p>
                                 <p className="click-open-btn"><Icon name="phone" size="1xl" color="black" /> <a href="#">+91 9602364756</a></p>
                                 <p className="click-open-btn2">Wallet address</p>
                                 <p className="box-set"> <a href="#">0x9bc444fc09f3660ad09b668f4a73b603b37Of07e <Icon name="email" size="1xl" color="black" /></a></p>

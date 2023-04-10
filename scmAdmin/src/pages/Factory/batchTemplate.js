@@ -9,8 +9,9 @@ import { Button } from "@material-tailwind/react";
 import Input from '@material-tailwind/react/Input';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { getBatchTemplate, checkBatchTemplateSuccessdata } from 'Services/action';
+import { getBatchTemplate, checkBatchTemplateSuccessdata, resetBatchTemplateData } from 'Services/action';
 import loader from "assets/img/loading.gif";
+import sendfree from 'assets/img/free-send.png';
 
 const BatchTemplate = () => {
     const [loading, setLoading] = useState(false);
@@ -47,6 +48,12 @@ const BatchTemplate = () => {
             width: "200px"
         },
         {
+            name: "Distributer Name",
+            selector: (row) => row.DistributorName,
+            sortable: true,
+            width: "200px"
+        },
+        {
             name: "Batch Size",
             selector: (row) => row.BatchSize,
             sortable: true,
@@ -77,36 +84,38 @@ const BatchTemplate = () => {
     useEffect(() => {
         const data = {
             factoryID:factoryUserID
-        }
+        } 
         dispatch(getBatchTemplate(data)) 
+        dispatch(resetBatchTemplateData())
     }, [])
     const initialBatchTemplatedata = useSelector((state) => state.BatchTemplateRecord);
     const initialBatchTemplateStoredata = useSelector((state) => state.StoreBatchTemplateData);
 
-    console.log("initialBatchTemplatedata",initialBatchTemplatedata)
+    console.log("initialBatchTemplatedata",initialBatchTemplateStoredata)
 
-
-    useMemo(() => {
-        if (initialBatchTemplateStoredata.success == true) {
+ 
+    useEffect(() => {
+        if (initialBatchTemplateStoredata?.success) {
             successNotify();
         }
     }, [initialBatchTemplateStoredata])
 
     useEffect(() => {
+        if(initialBatchTemplatedata?.batchTemplateRec){
         setBatchTemplates(initialBatchTemplatedata.batchTemplateRec.message && initialBatchTemplatedata.batchTemplateRec.message)
         setFilterBatchTemplates(initialBatchTemplatedata.batchTemplateRec.message && initialBatchTemplatedata.batchTemplateRec.message)
-
+        }
         var a = [{ BatchSize: "There are no record to display" }];
        
         setLoading(true);
-        if (
-            initialBatchTemplatedata.batchTemplateRec.message != 0 &&
+        if(initialBatchTemplatedata?.batchTemplateRec){
+        if ( initialBatchTemplatedata.batchTemplateRec.message != 0 &&
             initialBatchTemplatedata.batchTemplateRec.message != null &&
             initialBatchTemplatedata.batchTemplateRec.message.message != ""
         ) {
             setFilterBatchTemplates(initialBatchTemplatedata.batchTemplateRec.message && initialBatchTemplatedata.batchTemplateRec.message);
             
-        } else {
+        } } else {
           setLoading(false);
     
           setFilterBatchTemplates(a);
@@ -144,7 +153,7 @@ const BatchTemplate = () => {
                                 <div className="right-button-section">
                                     
                                     <NavLink to="/factory/addBatchTemplate">
-                                        <button className="cust-button">Send Batch +</button>
+                                    <button className="cust-button change-add secound-b"> <span className="dash-bg2"> <img src={sendfree} /> </span>SEND BATCH</button>
                                     </NavLink>
                                 </div>
                             </div>

@@ -87,30 +87,23 @@ const BatchCovered = () => {
             {/* <MainStatusCard /> */}
           </div>
         </div>
-
         <div className="px-3 md:px-7 h-auto -mt-24">
           <div className="container mx-auto max-w-full">
             <div className="grid grid-cols-1 px-4 mb-16">
               <div className="grid-section2">
                 <div className="received-part-two batch">
-
                   <select id="colours" className="dd-button batch-selected">
                     <option value="red">Batches covered</option>
                     <option value="green">Green</option>
                     <option value="blue">Blue </option>
-
                   </select>
                 </div>
-
-
                 <div className="received-part-two report-drop">
                   <img src={cumulative} />
-
                   <select id="colours" className="dd-button">
                     <option value="red">Cumulative</option>
                     <option value="green">Green</option>
                     <option value="blue">Blue </option>
-
                   </select>
                 </div>
               </div>
@@ -145,7 +138,6 @@ const BatchCovered = () => {
                     </div>
                   </div>
                 </div>
-
                 <div className="w-full lg:w-6/12 pr-4 mb-10 font-light">
                   <NavLink to="/admin/BatchCoveredDetail">
                     <div className="background-feedback-part">
@@ -161,7 +153,6 @@ const BatchCovered = () => {
                     </div>
                   </div>
                 </div>
-
                 <div className="w-full lg:w-6/12 pl-4 mb-10 font-light">
                   <NavLink to="/admin/BatchCoveredDetail">
                     <div className="background-feedback-part">

@@ -92,52 +92,25 @@ const ProductCovered = () => {
           <div className="container mx-auto max-w-full">
             <div className="grid grid-cols-1 px-4 mb-16">
               <div className="grid-section2">
-              <label class="dropdown received-section">
-                  <div class="dd-button background-change">
-                 Product Covered
-                  </div>
-
-                  <input type="checkbox" class="dd-input" id="test" />
-
-                  <ul class="dd-menu">
-                    <li>Action</li>
-                    <li>Another action</li>
-                    <li>Something else here</li>
-                  </ul>
-                </label>
-
-                
-                {/* <label>
-            
-                  <div class="dd-button1">
-                    <h2 className="reports-part">Batches Covered</h2>
-                  </div>
-                  
-
-                  <ul class="dd-menu">
-                    <li>Action</li>
-                    <li>Another action</li>
-                    <li>Something else here</li>
-                  </ul>
-                </label> */}
-
-                <label class="dropdown received-part2">
-                  <div class="dd-button">
-                    <img src={cumulative} /> Cumulative
-                  </div>
-
-                  <input type="checkbox" class="dd-input" id="test" />
-
-                  <ul class="dd-menu">
-                    <li>Action</li>
-                    <li>Another action</li>
-                    <li>Something else here</li>
-                  </ul>
-                </label>
+                <div className="received-part-two batch">
+                  <select id="colours" className="dd-button batch-selected">
+                    <option value="red">Products covered</option>
+                    <option value="green">Green</option>
+                    <option value="blue">Blue </option>
+                  </select>
+                </div>
+                <div className="received-part-two report-drop">
+                  <img src={cumulative} />
+                  <select id="colours" className="dd-button">
+                    <option value="red">Cumulative</option>
+                    <option value="green">Green</option>
+                    <option value="blue">Blue </option>
+                  </select>
+                </div>
               </div>
               <div className="flex flex-wrap">
                 <div className="w-full lg:w-6/12 pr-4 mb-10 font-light">
-                  <NavLink to="/admin/factoryReports">
+                  <NavLink to="/admin/productCoveredDetail">
                     <div className="background-feedback-part">
                       <h6>15</h6>
                       <p>Factory - 1</p>
@@ -145,14 +118,14 @@ const ProductCovered = () => {
                   </NavLink>
                   <div className="w-full h-36 lg:w-6/12 -mt-32 ml-40">
                     <div className="background-factory">
-                    <p className="click-open-btn"> <Icon name="phone" size="1xl" color="black" />GachiBowli,HYderabad</p>
-                    <p className="click-open-btn"> <Icon name="phone" size="1xl" color="black" />+91 6304334373</p>
-                    <p className="click-open-btn"> <Icon name="email" size="1xl" color="black" />Factory1@gmail.com</p>
+                      <p className="click-open-btn"> <Icon name="phone" size="1xl" color="black" />GachiBowli,HYderabad</p>
+                      <p className="click-open-btn"> <Icon name="phone" size="1xl" color="black" />+91 6304334373</p>
+                      <p className="click-open-btn"> <Icon name="email" size="1xl" color="black" />Factory1@gmail.com</p>
                     </div>
                   </div>
                 </div>
                 <div className="w-full lg:w-6/12 pl-4 mb-10 font-light">
-                  <NavLink to="/admin/distributerReports">
+                  <NavLink to="/admin/productCoveredDetail">
                     <div className="background-feedback-part">
                       <h6>30</h6>
                       <p>Factory - 2</p>
@@ -160,15 +133,15 @@ const ProductCovered = () => {
                   </NavLink>
                   <div className="w-full h-36 lg:w-6/12 -mt-32 ml-40">
                     <div className="background-factory">
-                    <p className="click-open-btn"> <Icon name="phone" size="1xl" color="black" />Panji,Goa</p>
-                    <p className="click-open-btn"> <Icon name="phone" size="1xl" color="black" />+91 6304334357</p>
-                     <p className="click-open-btn"> <Icon name="email" size="1xl" color="black" />Factory2@gmail.com</p>
+                      <p className="click-open-btn"> <Icon name="phone" size="1xl" color="black" />Panji,Goa</p>
+                      <p className="click-open-btn"> <Icon name="phone" size="1xl" color="black" />+91 6304334357</p>
+                      <p className="click-open-btn"> <Icon name="email" size="1xl" color="black" />Factory2@gmail.com</p>
                     </div>
                   </div>
                 </div>
 
                 <div className="w-full lg:w-6/12 pr-4 mb-10 font-light">
-                  <NavLink to="/admin/retailerReports">
+                  <NavLink to="/admin/productCoveredDetail">
                     <div className="background-feedback-part">
                       <h6>25</h6>
                       <p>Factory - 3</p>
@@ -178,13 +151,13 @@ const ProductCovered = () => {
                     <div className="background-factory">
                       <p className="click-open-btn"> <Icon name="phone" size="1xl" color="black" />Mumbai</p>
                       <p className="click-open-btn"> <Icon name="phone" size="1xl" color="black" />+91 6304334369</p>
-                       <p className="click-open-btn"> <Icon name="email" size="1xl" color="black" />Factory3@gmail.com</p>
+                      <p className="click-open-btn"> <Icon name="email" size="1xl" color="black" />Factory3@gmail.com</p>
                     </div>
                   </div>
                 </div>
 
                 <div className="w-full lg:w-6/12 pl-4 mb-10 font-light">
-                  <NavLink to="/admin/customerReports">
+                  <NavLink to="/admin/productCoveredDetail">
                     <div className="background-feedback-part">
                       <h6>10</h6>
                       <p>Factory - 4</p>
@@ -192,9 +165,9 @@ const ProductCovered = () => {
                   </NavLink>
                   <div className="w-full h-36 lg:w-6/12 -mt-32 ml-40">
                     <div className="background-factory">
-                    <p className="click-open-btn"> <Icon name="phone" size="1xl" color="black" />Delhi</p>
-                    <p className="click-open-btn"> <Icon name="phone" size="1xl" color="black" />+91 6304334345</p>
-                    <p className="click-open-btn"> <Icon name="email" size="1xl" color="black" />Factory4@gmail.com</p>
+                      <p className="click-open-btn"> <Icon name="phone" size="1xl" color="black" />Delhi</p>
+                      <p className="click-open-btn"> <Icon name="phone" size="1xl" color="black" />+91 6304334345</p>
+                      <p className="click-open-btn"> <Icon name="email" size="1xl" color="black" />Factory4@gmail.com</p>
                     </div>
                   </div>
                 </div>

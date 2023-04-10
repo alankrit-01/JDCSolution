@@ -10,9 +10,14 @@ let userSchema = new mongoose.Schema({
     adminId:String,
     address:String,
     city:String,
+    state:String,
+    pincode:String,
     country:String,
     latitude:String,
     longitude:String,
+    locationurl:String,
+    userStatus:String,
     image:String,
+    created:Date,
 })
-module.exports=mongoose.model('users',userSchema)   
+module.exports=mongoose.model('users',userSchema)

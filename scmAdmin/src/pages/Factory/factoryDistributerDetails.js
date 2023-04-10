@@ -1,25 +1,59 @@
 import MainStatusCard from "components/Admin/MainStatusCard";
-import Sidebar from "components/Factory/Sidebar";
+import FactorySidebar from "components/Factory/Sidebar";
 import Footer from "components/Factory/Footer";
-import Card from '@material-tailwind/react/Card';
-import CardHeader from '@material-tailwind/react/CardHeader';
-import CardBody from '@material-tailwind/react/CardBody';
-import Button from '@material-tailwind/react/Button';
-import Input from '@material-tailwind/react/Input';
-import Textarea from '@material-tailwind/react/Textarea';
-import { storeFactory } from "Services/action";
-import React, { useMemo, useRef, useState } from "react";
+import { getUserDetail } from "Services/action";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import cumulative from "assets/img/cumulative.png";
 const FactoryDistributerDetails = () => {
     const dataFetchedRef = useRef(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-   
+
+    const [userName, setUserName] = useState('');
+    const [userEmail, setUserEmail] = useState('');
+    const [userPhone, setUserPhone] = useState('');
+    const [userPincode, setUserPincode] = useState('');
+    const [userCity, setUserCity] = useState('');
+    const [userState, setUserState] = useState('');
+    const [userLatitude, setUserLatitude] = useState('');
+    const [userLongitude, setUserLongitude] = useState('');
+
+
+
+
+    let userData = useLocation();
+    let userId = userData.state.userId;
+
+    useEffect(() => {
+        const data = {
+            _id: userId
+        }
+        dispatch(getUserDetail(data))
+    }, [])
+
+    const initialdata = useSelector((state) => state.UserDetailRecord);
+
+    useEffect(() => {
+        if (initialdata) {
+            console.log("initialdata", initialdata?.userDetailRec?.userRecord)
+            setUserName(initialdata?.userDetailRec?.userRecord?.name);
+            setUserEmail(initialdata?.userDetailRec?.userRecord?.email);
+            setUserPhone(initialdata?.userDetailRec?.userRecord?.phone);
+            setUserPincode(initialdata?.userDetailRec?.userRecord?.pincode);
+            setUserCity(initialdata?.userDetailRec?.userRecord?.city);
+            setUserState(initialdata?.userDetailRec?.userRecord?.state);
+            setUserLatitude(initialdata?.userDetailRec?.userRecord?.longitude);
+            setUserLongitude(initialdata?.userDetailRec?.userRecord?.latitude);
+
+
+        }
+    }, [initialdata]);
+
     return (
         <>
-            <Sidebar />
+            <FactorySidebar />
             <div className="md:ml-32">
                 <div className="pt-14 pb-20 px-3 md:px-8 h-auto">
                     <div className="container mx-auto max-w-full">
@@ -31,46 +65,43 @@ const FactoryDistributerDetails = () => {
                         <div className="grid grid-cols-1 xl:grid-cols-6">
                             <div className="xl:col-start-1 xl:col-end-7 px-4 mb-16">
                                 <div>
-                                    <h2 className="head-cust-color">Distributer -  Alpha Details</h2>
+                                    <h2 className="head-cust-color">Distributer - {userName && userName.charAt(0).toUpperCase() + userName.slice(1)} Details</h2>
                                 </div>
                                 <div className="flex flex-wrap mt-5">
                                     <div className="w-full lg:w-6/12 pr-4 mb-10 font-light">
                                         <ul className="factory-beta">
-                                            <li className="factory-bg">Distributer Name  <span>: Beta</span></li>
-                                            <li className="factory-bg2">Email <span>: beta@gmail.com</span></li>
-                                            <li className="factory-bg">Phone No  <span className="space-l">: +91 9304334373</span></li>
-                                            <li className="factory-bg2">PIN  <span className="space-l2 ">: 600012</span></li>
+                                            <li className="factory-bg">Distributer Name  <span>: {userName && userName.charAt(0).toUpperCase() + userName.slice(1)}</span></li>
+                                            <li className="factory-bg2">Email <span>: {userEmail && userEmail}</span></li>
+                                            <li className="factory-bg">Phone No  <span className="space-l">: {userPhone && userPhone}</span></li>
+                                            <li className="factory-bg2">PIN  <span className="space-l2 ">: {userPincode && userPincode}</span></li>
                                             <li className="main-details">
-                                                <li className="factory-bg3">City : Chennai</li>
-                                                <li className="factory-bg4">State: Tamilnadu</li></li>
+                                                <li className="factory-bg3">City : {userCity && userCity.charAt(0).toUpperCase() + userCity.slice(1)}</li>
+                                                <li className="factory-bg4">State: {userState && userState.charAt(0).toUpperCase() + userState.slice(1)}</li></li>
                                             <li className="main-details">
-                                                <li className="factory-bg5">Latitude  <span>13.0827' N</span></li>
-                                                <li className="factory-bg6">Longitude <span> 80.2707' E</span></li></li>
+                                                <li className="factory-bg5">Latitude  <span>{userLatitude && userLatitude}</span></li>
+                                                <li className="factory-bg6">Longitude <span> {userLongitude && userLongitude}</span></li></li>
                                             <li className="factory-bg7">Wallet address  <span className="space-l2 ">: 0x9bc444fc09f366adO9b668f4a73b639c</span></li>
                                         </ul>
-                                        <div className="button-buttom-part">
-                                            <label class="dropdown">
-                                                <div class="dd-button">
-                                                    <img src={cumulative} /> Cumulative
-                                                </div>
-                                                <input type="checkbox" class="dd-input" id="test" />
-                                                <ul class="dd-menu">
-                                                    <li>Action</li>
-                                                    <li>Another action</li>
-                                                    <li>Something else here</li>
-                                                </ul>
-                                            </label>
-                                            <label class="dropdown bottom-dropdown-set">
-                                                <div class="dd-button">
-                                                    Eye Liner
-                                                </div>
-                                                <input type="checkbox" class="dd-input" id="test" />
-                                                <ul class="dd-menu">
-                                                    <li>Action</li>
-                                                    <li>Another action</li>
-                                                    <li>Something else here</li>
-                                                </ul>
-                                            </label>
+                                        <div className="button-buttom-part center-width">
+                                            <div className="received-part-two report-drop buttion-cumulative">
+                                                <img src={cumulative} />
+
+                                                <select id="colours" className="dd-button">
+                                                    <option value="red">Cumulative</option>
+                                                    <option value="green">Green</option>
+                                                    <option value="blue">Blue </option>
+
+                                                </select>
+                                            </div>
+                                            <div className="received-part-two batch eye-liner-part">
+
+                                                <select id="colours" className="dd-button batch-selected option-down">
+                                                    <option value="red"> Eye Liner</option>
+                                                    <option value="green">Green</option>
+                                                    <option value="blue">Blue </option>
+                                                </select>
+                                            </div>
+
                                         </div>
                                         <div className="liner-part">
                                             <p>Batches sent</p>

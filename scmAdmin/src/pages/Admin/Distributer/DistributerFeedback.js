@@ -16,7 +16,7 @@ import starGrey from "assets/img/star-se.png";
 import cumulative from "assets/img/cumulative.png";
 
 import star1 from "assets/img/star1.png";
-import star2 from "assets/img/star2.png"; 
+import star2 from "assets/img/star2.png";
 import star3 from "assets/img/star3.png";
 import star4 from "assets/img/star4.png";
 import star5 from "assets/img/star5.png";
@@ -64,42 +64,41 @@ const DistributerFeedback = () => {
             name: "Feedback",
             selector: (row) => (
                 <Popup trigger=
-                {<Button className="view-more-part2">View Feedback</Button>}
-                position="left center" marginLeft="30px">
+                    {<Button className="view-more-part2">View Feedback</Button>}
+                    position="left center" marginLeft="30px">
 
 
-                <div class="popup" className=' h-92 bg-[#CCCCCC] ml-56 px-2 max-w-2xl text-[#0c3f6a] pr-6 p-9'>
-                    <div className='flex'>
-                        <div className='mt-6 ml-6'><h2 className='text-xl font-extrabold'>Feedback by Distributer</h2><br></br>
-                            <div className="image-part1 img w-36 h-14 flex ">
-                              <img className=' w-3 h-4 ml-3 pt-0' src={star}/>
-                                <img  className='shrink w-4 h-5 ml-3' src={star} />
-                                <img className='shrink w-5 h-5 ml-3' src={star} />
-                                <img className='shrink w-6 h-6 ml-3' src={starGrey} /> 
-                                 <img className='shrink w-7 h-7 ml-3' src={starGrey} /> 
-                                 <p className='text-[#0c3f6a] font-extrabold text-2xl'> -3.0</p>
+                    <div class="popup" className=" h-92 bg-[#CCCCCC] ml-56 px-2 max-w-2xl text-[#0c3f6a] pr-6 p-9 position-set-part2">                    <div className='flex'>
+                            <div className='mt-6 ml-6'><h2 className='text-xl font-extrabold'>Feedback by Distributer</h2><br></br>
+                                <div className="image-part1 img w-36 h-14 flex ">
+                                    <img className=' w-3 h-4 ml-3 pt-0' src={star} />
+                                    <img className='shrink w-4 h-5 ml-3' src={star} />
+                                    <img className='shrink w-5 h-5 ml-3' src={star} />
+                                    <img className='shrink w-6 h-6 ml-3' src={starGrey} />
+                                    <img className='shrink w-7 h-7 ml-3' src={starGrey} />
+                                    <p className='text-[#0c3f6a] font-extrabold text-2xl'> -3.0</p>
 
+                                </div>
                             </div>
-                        </div>
-                        <div className='mt-6 ml-36  text-left'>
-                          
-                            <div className='flex'><h5 className='font-medium'>Distributor Name</h5><p>: Alpha</p></div>
-                            <div className='flex'><h5 className='font-medium'>Location</h5> <p>: Karnatka</p></div>
-                            <div className='flex'><h5 className='font-medium'>Phone No</h5> <p>: 9998702364</p></div>
-                            <div className='flex'> <h5 className='font-medium'>Email : alpha@gmail.com</h5></div>
-                        </div>
-                    </div><br></br>
-                    <div className='ml-6  font-extrabold'><h3>Remarks</h3></div>
-                    <br></br>
+                            <div className='mt-6 ml-36  text-left'>
 
-                    <div className='ml-6  mr-6  h-20 text-left border border-[#243c5a] rounded-md max-w-2xl px-2'>
-                       <p> Lorem ipsum is placeholder text commonly used in the graphic, print,
-                          publishing industries for previewing layouts and visual mockups.</p>
+                                <div className='flex'><h5 className='font-medium'>Distributor Name</h5><p>: Alpha</p></div>
+                                <div className='flex'><h5 className='font-medium'>Location</h5> <p>: Karnatka</p></div>
+                                <div className='flex'><h5 className='font-medium'>Phone No</h5> <p>: 9998702364</p></div>
+                                <div className='flex'> <h5 className='font-medium'>Email : alpha@gmail.com</h5></div>
+                            </div>
+                        </div><br></br>
+                        <div className='ml-6  font-extrabold'><h3>Remarks</h3></div>
+                        <br></br>
+
+                        <div className='ml-6  mr-6  h-20 text-left border border-[#243c5a] rounded-md max-w-2xl px-2'>
+                            <p> Lorem ipsum is placeholder text commonly used in the graphic, print,
+                                publishing industries for previewing layouts and visual mockups.</p>
+                        </div>
+
                     </div>
 
-                </div>
-
-            </Popup>
+                </Popup>
             ),
             sortable: true,
         },
@@ -148,7 +147,7 @@ const DistributerFeedback = () => {
     var numberOfDistRating = FilterFeedback.length;
     var distAverageRating = distributerRatingSum / numberOfDistRating;
 
-    if(isNaN(distAverageRating)){
+    if (isNaN(distAverageRating)) {
         distAverageRating = 0;
     }
 
@@ -171,26 +170,26 @@ const DistributerFeedback = () => {
     let distributerPointRating = [];
     if (distpointRatingNumber > 0) {
 
-        if(distpointRatingNumber == 1){
+        if (distpointRatingNumber == 1) {
             distributerPointRating.push(<img src={star1} />);
-        }else if(distpointRatingNumber == 2){
+        } else if (distpointRatingNumber == 2) {
             distributerPointRating.push(<img src={star2} />);
-        }else if(distpointRatingNumber == 3){
+        } else if (distpointRatingNumber == 3) {
             distributerPointRating.push(<img src={star3} />);
-        }else if(distpointRatingNumber == 4){
+        } else if (distpointRatingNumber == 4) {
             distributerPointRating.push(<img src={star4} />);
-        }else if(distpointRatingNumber == 5){
+        } else if (distpointRatingNumber == 5) {
             distributerPointRating.push(<img src={star5} />);
-        }else if(distpointRatingNumber == 6){
+        } else if (distpointRatingNumber == 6) {
             distributerPointRating.push(<img src={star6} />);
-        }else if(distpointRatingNumber == 7){
+        } else if (distpointRatingNumber == 7) {
             distributerPointRating.push(<img src={star7} />);
-        }else if(distpointRatingNumber == 8){
+        } else if (distpointRatingNumber == 8) {
             distributerPointRating.push(<img src={star8} />);
-        }else if(distpointRatingNumber == 9){
+        } else if (distpointRatingNumber == 9) {
             distributerPointRating.push(<img src={star9} />);
         }
-        
+
     }
 
     let distributerLeftRating = [];
@@ -198,7 +197,7 @@ const DistributerFeedback = () => {
         distributerLeftRating.push(<img src={starGrey} />);
     }
     var totalfeedback = 0
-    if(distAverageRating !== 0){
+    if (distAverageRating !== 0) {
         totalfeedback = FilterFeedback.length;
     }
 
@@ -220,7 +219,7 @@ const DistributerFeedback = () => {
                             <div className="flex flex-wrap feedback-padding lg:w-12/12">
                                 <div className="w-full lg:w-6/12 pr-4 font-light">
                                     <div className="feedback-detail-image-part">
-                                    {distributerMainRating && distributerMainRating}
+                                        {distributerMainRating && distributerMainRating}
                                         {distributerPointRating && distributerPointRating}
                                         {distributerLeftRating && distributerLeftRating}
                                     </div>

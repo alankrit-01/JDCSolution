@@ -14,7 +14,7 @@ import loader from "assets/img/loading.gif";
 import cumulative from "assets/img/cumulative.png";
 import Icon from "@material-tailwind/react/Icon";
 
-const BatchCoveredDetail = () => {
+const ProductCoveredDetail = () => {
     const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -38,18 +38,21 @@ const BatchCoveredDetail = () => {
             name: "Batch Size",
             selector: (row) => row.BatchSize,
             sortable: true,
+            width: "150px",
         },
         {
             name: "Batch Date",
             selector: (row) => row.DateOfProduction,
             sortable: true,
+            width: "200px",
         },
         {
             name: "Action",
-            selector: (row) => <button className="custom-details-btn" onClick={() => navigate('/admin/BatchDetail', { state: { BatchID: row.BatchID } })}>View Batch</button>,
+            selector: (row) => <button className="custom-details-btn" >Product Status</button>,
             ignoreRowClick: true,
             allowOverflow: true,
             button: true,
+            width: "150px",
         },
         // {
         //     selector: (row) => <button className="custom-details-btn" onClick={() => navigate('/factory/BatchProductQr', { state: { BatchID: row.BatchID } })}>Batch Product Qr</button>,
@@ -165,5 +168,5 @@ const BatchCoveredDetail = () => {
         </>
     );
 }
-export default BatchCoveredDetail
+export default ProductCoveredDetail
 

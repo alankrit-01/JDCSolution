@@ -133,7 +133,7 @@ export default function FactorySidebar() {
                 >
                   {" "}
                   {/* <Icon name="person" size="2xl" /> */}
-                  <img src={LogoutImg} className="w-8 h-8" style={{margin: "auto"}}/>
+                  <img src={LogoutImg} className="w-16 h-16" style={{margin: "auto"}}/>
                 </button>
               </li>
             </ul>

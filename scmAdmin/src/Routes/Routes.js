@@ -49,6 +49,7 @@ import BatchCoveredDetail from 'pages/Admin/BatchCoveredDetail';
 import BatchDetail from 'pages/Admin/BatchDetail';
 
 import ProductCovered from 'pages/Admin/ProductCovered';
+import ProductCoveredDetail from 'pages/Admin/ProductCoveredDetail';
 
 
 
@@ -140,9 +141,9 @@ const WebRoutes = () => {
             <Route path="/admin/batchCoveredDetail" index element={<BatchCoveredDetail />} />
             <Route path="/admin/BatchDetail" index element={<BatchDetail />} />
 
-
-
             <Route path="/admin/productCovered" index element={<ProductCovered />} />
+            <Route path="/admin/productCoveredDetail" index element={<ProductCoveredDetail />} />
+
             <Route path="/factory" index element={<FactoryLogin />} />
             <Route path="/factory/dashboard" index element={<FactoryDashboard />} />
             <Route path="/factory/settings" index element={<FactorySetting />} />

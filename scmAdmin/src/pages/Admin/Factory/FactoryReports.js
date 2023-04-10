@@ -63,7 +63,7 @@ const FactoryReports = () => {
               >
                 <div
                   class="popup"
-                  className=" max-h-max bg-[#CCCCCC] ml-56 px-2 max-w-2xl pb-6 text-[#0c3f6a] pr-6 "
+                  className=" max-h-max bg-[#CCCCCC] ml-56 px-2 max-w-2xl pb-6 text-[#0c3f6a] pr-6 position-set-part3"
                 >
                   <div className="flex">
                     <div className="mt-6 ml-6">
