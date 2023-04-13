@@ -262,15 +262,32 @@ app.get('/api/viewBatchCountByDistributors', async (req, res) => {
   try {
     const FactoryID = req.query.factoryID;
     batch.aggregate([
+      // { $match: { FactoryID: FactoryID }},
+      // { $group: {
+      //     _id: { DistributorID: '$DistributorID' },
+      //     Batches: { $sum: 1 },
+      //     Products: { $sum: '$BatchSize' }}},
+      // { $lookup: {
+      //     from: 'User',
+      //     localField: '_id',
+      //     foreignField: '_id',
+      //     as: 'User'}},
+      // { $unwind: '$User'},
+      // { $project: {
+      //     _id: { DistributorID: '$_id' },
+      //     Batches: 1,
+      //     Products: 1,
+      //     name: '$User.name',
+      //     phone: '$User.phone'}}
       { $match: { FactoryID: FactoryID } },
-      { $group: { _id: { DistributorID: "$DistributorID" }, Batches: { $sum: 1 }, Products: { $sum: "$BatchSize" } } }
+      { $group: { _id: { DistributorID: "$DistributorID", DistributorName: "$DistributorName" }, Batches: { $sum: 1 }, Products: { $sum: "$BatchSize" } } }
     ], (err, result) => {
       if (err) {
         console.error(err);
         res.status(500).send('Failed to query MongoDB');
       } else {
         res.status(200).json({status:"success", message:result});
-      } 
+        } 
     });
     
   } catch (error) {
@@ -278,6 +295,47 @@ app.get('/api/viewBatchCountByDistributors', async (req, res) => {
     res.status(400).send({ error: error.message });
   }
 });
+
+// User-
+// _id: Object('637f3e0d45d9bce664722a36'),
+// name: "Amandeep",
+// email: "alankritnokhwal@gmail.com",
+// phone: 8371719313
+
+// batch-
+// _id: Object('637f3e0d45d9bce664722a38'),
+// BatchID:12,     
+// BatchSize:3,  
+// BatchName:"Watches",     
+// BatchDescription:"Analog watches of batch size 3",       
+// FactoryID:"63b2b20d8e21a6111d6b4265",
+// DistributorID:"637f3e0d45d9bce664722a36",
+// DistributorName:"Katrina",
+
+// {
+//   "status": "success",
+//   "message": [
+//       {
+//           "_id": {
+//               "DistributorID": "637f3e0d45d9bce664722a36"
+//           },
+//           "Batches": 1,
+//           "Products": 3,
+//           "name": "Amandeep",
+//           "phone":8371719313
+//       },
+//       {
+//           "_id": {
+//               "DistributorID": "481h8se0d4u771hyb219eiwn"
+//           },
+//           "Batches": 2,
+//           "Products": 10,
+//           "name": "Babulal",
+//           "phone":4818198937
+//       },
+//   ]
+// }
+
 
 app.get('/api/viewFactoryDistributorHistory', async (req, res) => {
   try {
