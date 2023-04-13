@@ -13,51 +13,33 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import attach from "assets/img/attach.png";
 import attach2 from "assets/img/delete-icon.png";
+import { useForm } from "react-hook-form";
+
 const AddFactoryReport = () => {
     const dataFetchedRef = useRef(false);
 
     const initialdata = useSelector((state) => state.FactoryLoginData);
+    console.log("initialdata", initialdata.factoryUserEmail)
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const current = new Date();
+    const date = `${current.getDate()}-${current.getMonth() + 1}-${current.getFullYear()}`;
 
-    const [subject, setSubject] = useState('');
-    const [description, setDescription] = useState('');
-    const [subjectError, setSubjectError] = useState('');
-    const [descriptionError, setDescriptionError] = useState('')
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm();
 
-    function handleSubmit(event) {
-        event.preventDefault();
-        const subjectRegex = /^[a-zA-Z ]+$/;
-        const descriptionRegex = /^[a-zA-Z ]+$/;
+    function onSubmit(data) {
+        // if (dataFetchedRef.current) return;
+        // dataFetchedRef.current = true;
+        // dispatch(resetFactoryData());
+        // dispatch(storeFactory(data));
 
-        { subject == '' ? setSubjectError("Subject is required") : (subjectRegex.test(subject) === false ? setSubjectError("Invalid Subject") : setSubjectError(true)) }
-        { description == '' ? setDescriptionError("Description is required") : (descriptionRegex.test(description) === false ? setDescriptionError("Invalid Description") : setDescriptionError(true)) }
     }
-    const currentDate = new Date().toLocaleString();
-    useMemo(() => {
-        const data = {
-            senderUserID: initialdata.factoryUserId,
-            receiverUserID: initialdata.factoryUserAdminId,
-            name: initialdata.factoryUserName,
-            role: "Factory",
-            subject: subject,
-            description: description,
-            date: currentDate,
-        }
-        if (subjectError == true && descriptionError == true) {
-            if (dataFetchedRef.current) return;
-            dataFetchedRef.current = true;
-            dispatch(storeCompanyFeedback(data))
-        }
-    }, [subjectError, descriptionError])
 
-    const initialSelfFeedbackRecordStoredata = useSelector((state) => state.CompanyFeedbackStoreData);
 
-    useMemo(() => {
-        if (initialSelfFeedbackRecordStoredata.success == true) {
-            navigate('/factory/factorySelfFeedback')
-        }
-    }, [initialSelfFeedbackRecordStoredata])
 
     return (
         <>
@@ -77,49 +59,49 @@ const AddFactoryReport = () => {
                                         <div>
                                             <h2 className="head-cust-color">Report an issue</h2>
                                         </div>
-                                        <form onSubmit={handleSubmit}>
+                                        <form className="custom-form" onSubmit={handleSubmit(onSubmit)}>
+
                                             <div className="flex flex-wrap mt-10">
                                                 <div className="w-full lg:w-10/12 mb-4 font-light">
-                                                <label for="salutation" className="form-section-part">From:  
-        <span class="field-label"> factory@gmail.com</span></label>
-        <label for="salutation" className="form-section-part2">Date:
-        <span class="field-label"> 15-03-2023</span></label>    
+                                                    <label for="salutation" className="form-section-part">From:
+                                                        <span class="field-label"> {initialdata && initialdata.factoryUserEmail}</span></label>
+                                                    <label for="salutation" className="form-section-part2">Date:
+                                                        <span class="field-label"> {date && date}</span></label>
                                                 </div>
                                                 <div className="w-full lg:w-12/12 flex flex-wrap mb-10 font-light">
-                                                <label for="salutation" className="form-section-part">To 
-        <span class="field-label2">: ceo@gamil.com</span></label>
-                                                  
+                                                    <label for="salutation" className="form-section-part">To
+                                                        <span class="field-label2">: ceo@gamil.com</span></label>
                                                 </div>
                                                 <div className="w-full lg:w-12/12 flex flex-wrap mb-10 font-light">
-                                                <ul className="checkbox-text-part">
- 
-        <li>
-            <input className="form-control-part" type="checkbox" name="check-box" checked/> <span>Issue with received raw materials</span>
-
-        </li>
-        <li>
-            <input className="form-control-part" type="checkbox" name="check-box" /> <span>Unable to generate/print <br/>
-                                                            QR Codes-Software Issue</span>
-
-        </li>
-        <li>
-            <input className="form-control-part" type="checkbox" name="check-box" /> <span>Others</span>
-
-        </li>
-    </ul>
+                                                    <ul className="checkbox-text-part">
+                                                        <li>
+                                                            <input className="form-control-part" type="checkbox" name="check-box" /> <span>Issue with received raw materials</span>
+                                                        </li>
+                                                        <li>
+                                                            <input className="form-control-part" type="checkbox" name="check-box" /> <span>Unable to generate/print <br />
+                                                                QR Codes-Software Issue</span>
+                                                        </li>
+                                                        <li>
+                                                            <input className="form-control-part" type="checkbox" name="check-box" /> <span>Others</span>
+                                                        </li>
+                                                    </ul>
 
                                                 </div>
                                                 <div className="w-full lg:w-11/12 flex flex-wrap mb-10 font-light lorem-text">
-                                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-                                                        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-                                                        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
-                                                        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>       </div>
+                                                        <textarea {...register("comment", { required: true })} placeholder="Comment" required className="w-full h-full focus:outline-none" />
+                                                        {errors.comment && <span className="error"> comment is required.</span>}
+                                                    </div>
+                                                    {/* <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                                                        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                                        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                                                        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>  
+                                                         */}
                                             </div>
                                             <div className="flex">
                                                 <div className="w-full lg:w-12/12 pr-4 mb-10 font-light button-bg-use">
                                                     <Button type="submit">Send </Button>
                                                     <p className="right-img"><a href="#"> <img src={attach} /></a>
-                                                    <a href="#"> <img src={attach2} /></a></p>
+                                                        <a href="#"> <img src={attach2} /></a></p>
                                                 </div>
                                             </div>
                                         </form>

@@ -85,9 +85,7 @@ const FactoryDistributer = () => {
       userStatus:userStatus
   }
     dispatch(handleUserStatus(data))
-
   };
-
 
   useEffect(() => {
     const columns = [

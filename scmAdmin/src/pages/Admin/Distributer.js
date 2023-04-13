@@ -2,13 +2,12 @@ import Sidebar from "components/Admin/Sidebar";
 import Footer from "components/Admin/Footer";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getDistributer } from "Services/action";
+import { getDistributer,storeMultiUser, resetDistributerData } from "Services/action";
 import { useEffect, useMemo, useState,useRef} from "react";
 import DataTable from "react-data-table-component";
 import { Button } from "@material-tailwind/react";
 import Input from "@material-tailwind/react/Input";
 import Papa from "papaparse";
-import { storeMultiUser } from "Services/action";
 import { CSVLink } from "react-csv";
 import React from "react";
 import { ToastContainer, toast } from "react-toastify";
@@ -138,6 +137,7 @@ const Distributer = () => {
 
   useEffect(() => {
     dispatch(getDistributer());
+    dispatch(resetDistributerData());
   }, []);
 
   const initialdata = useSelector((state) => state.DistributerRecord);
@@ -145,8 +145,8 @@ const Distributer = () => {
   const initialDistributerStoredata = useSelector(
     (state) => state.DistributerStoreData
   );
-  useMemo(() => {
-    if (initialDistributerStoredata.success == true) {
+  useEffect(() => {
+    if (initialDistributerStoredata?.success) {
       successNotify();
     }
   }, [initialDistributerStoredata]);

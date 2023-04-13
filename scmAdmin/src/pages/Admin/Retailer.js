@@ -3,7 +3,7 @@ import Sidebar from "components/Admin/Sidebar";
 import Footer from "components/Admin/Footer";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getRetailers } from "Services/action";
+import { getRetailers ,resetRetailerData} from "Services/action";
 import { useEffect, useMemo, useState,useRef } from "react";
 import DataTable from "react-data-table-component";
 import { Button } from "@material-tailwind/react";
@@ -130,6 +130,7 @@ const Retailer = () => {
 
   useEffect(() => {
     dispatch(getRetailers());
+    dispatch(resetRetailerData());
   }, []);
 
   const initialdata = useSelector((state) => state.RetailerRecord);
@@ -137,8 +138,8 @@ const Retailer = () => {
   const initialRetailerStoredata = useSelector(
     (state) => state.RetailerStoreData
   );
-  useMemo(() => {
-    if (initialRetailerStoredata.success == true) {
+  useEffect(() => {
+    if (initialRetailerStoredata?.success) {
       successNotify();
     }
   }, [initialRetailerStoredata]);

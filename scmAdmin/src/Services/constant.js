@@ -91,15 +91,21 @@ export const Check_Factory_Success_data = 'Check_Factory_Success_data';
 export const Check_Factory_Success_data_1 = 'Check_Factory_Success_data_1';
 
 export const Store_Distributer = 'Store_Distributer';
+export const Reset_Distributer_Data = 'Reset_Distributer_Data';
 export const Store_Distributer_Request = 'Store_Distributer_Request';
+export const Set_Reset_Distributer_Data = 'Set_Reset_Distributer_Data';
 export const Set_Store_Distributer_Data = 'Set_Store_Distributer_Data';
+export const Set_Store_Distributer_Data_Already_Exist = 'Set_Store_Distributer_Data_Already_Exist';
 export const Set_Store_Distributer_Data_Fail = 'Set_Store_Distributer_Data_Fail';
 export const Check_Distributer_Success_data = 'Check_Distributer_Success_data';
 export const Check_Distributer_Success_data_1 = 'Check_Distributer_Success_data_1';
 
 export const Store_Retailer = 'Store_Retailer';
+export const Reset_Retailer_Data = 'Reset_Retailer_Data';
 export const Store_Retailer_Request = 'Store_Retailer_Request';
+export const Set_Reset_Retailer_Data = 'Set_Reset_Retailer_Data';
 export const Set_Store_Retailer_Data = 'Set_Store_Retailer_Data';
+export const Set_Store_Retailer_Data_Already_Exist = 'Set_Store_Retailer_Data_Already_Exist';
 export const Set_Store_Retailer_Data_Fail = 'Set_Store_Retailer_Data_Fail';
 export const Check_Retailer_Success_data = 'Check_Retailer_Success_data';
 export const Check_Retailer_Success_data_1 = 'Check_Retailer_Success_data_1';
