@@ -1664,7 +1664,7 @@ app.post('/api/rateus', jsonParser, async function (req, res) {
 })
 
 
-app.post('/api/scanIssueReportljkjhsdjh', jsonParser, async function (req, res) {
+app.post('/api/scanIssueReport', jsonParser, async function (req, res) {
   try {
     let uid = req.body.uid;
     let productName = req.body.productName;
