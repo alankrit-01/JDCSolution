@@ -20,8 +20,8 @@ module.exports = {
     },
     goerli: {
       url: "https://goerli.infura.io/v3/08d0a9d1045146dc888e62677f83e772", //Infura url with projectId
-      accounts: [
-        process.env.PRIVATEKEY,
+      accounts: [ 
+        process.env.PRIVATEKEY,   
       ], // add the account that will deploy the contract (private key)
       // ["ALANKRIT 2"]
     },    

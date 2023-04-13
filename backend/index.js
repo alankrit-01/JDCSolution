@@ -41,7 +41,7 @@ mongoose.connect(MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true })
 // optionSuccessStatus:200
 // const contractAbi = require('./artifacts/contracts/Supplychain.sol/Supplychain.json')
 
-let contractAddress = "0x0F42FB141619cf9B8030696B3e1Bd84Cf2558b6a";
+let contractAddress = "0xaF8274dBCA1B3a9451AC2b019520e5eE795f6487";
 let contract;
 
 
@@ -226,8 +226,22 @@ app.post('/api/factoryAddBatch', addbatchMIDDLEWARE, async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 
-})   
- 
+})
+
+app.get('/api/viewListOfBatchesProducedByFactory', async (req, res) => {
+  try {
+    const FactoryID = req.query.factoryID;
+    batch.find({ FactoryID }).sort({ ProductTemplateID: 1 }).then((documents) => {
+      res.status(200).json({ status: "success", message: documents });
+    }).catch((error) => {
+      console.log(error);
+      res.status(200).json({ status: "success", message: "Returned data is empty" });
+    })
+  } catch (error) {
+    console.log(error.message);
+    res.status(400).send({ error: error.message });
+  }
+});
 
 app.get('/api/viewBatchCount', async (req, res) => {
   try { 
@@ -241,12 +255,35 @@ app.get('/api/viewBatchCount', async (req, res) => {
   } catch (error) {
     console.log(error.message);
     res.status(400).send({ error: error.message });
-  }
+  } 
 }); 
-app.get('/api/viewListOfBatchesProducedByFactory', async (req, res) => {
+
+app.get('/api/viewBatchCountByDistributors', async (req, res) => {
   try {
     const FactoryID = req.query.factoryID;
-    batch.find({ FactoryID }).sort({ ProductTemplateID: 1 }).then((documents) => {
+    batch.aggregate([
+      { $match: { FactoryID: FactoryID } },
+      { $group: { _id: { DistributorID: "$DistributorID" }, Batches: { $sum: 1 }, Products: { $sum: "$BatchSize" } } }
+    ], (err, result) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send('Failed to query MongoDB');
+      } else {
+        res.status(200).json({status:"success", message:result});
+      } 
+    });
+    
+  } catch (error) {
+    console.log(error.message);
+    res.status(400).send({ error: error.message });
+  }
+});
+
+app.get('/api/viewFactoryDistributorHistory', async (req, res) => {
+  try {
+    const FactoryID = req.query.factoryID;
+    const DistributorID = req.query.distibutorID;
+    batch.find({ FactoryID,DistributorID }).then((documents) => {
       res.status(200).json({ status: "success", message: documents });
     }).catch((error) => {
       console.log(error);
@@ -1483,6 +1520,7 @@ function verifyToken(req, res, next) {
     res.json({ "result": "Token not Provided" })
   }
 }
+
 /***************Consumer Section********/
 app.post('/api/registerconsumer', async function (req, res) {
 
