@@ -17,7 +17,6 @@ import { useForm } from "react-hook-form";
 
 const AddFactoryReport = () => {
     const dataFetchedRef = useRef(false);
-
     const initialdata = useSelector((state) => state.FactoryLoginData);
     console.log("initialdata", initialdata.factoryUserEmail)
     const dispatch = useDispatch();
