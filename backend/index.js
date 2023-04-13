@@ -41,7 +41,7 @@ mongoose.connect(MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true })
 // optionSuccessStatus:200
 // const contractAbi = require('./artifacts/contracts/Supplychain.sol/Supplychain.json')
 
-let contractAddress = "0xaF8274dBCA1B3a9451AC2b019520e5eE795f6487";
+let contractAddress = "0x82E5025a0c7AF57b6329C691A7531c76F02a32E3";
 let contract;
 
 
@@ -225,7 +225,6 @@ app.post('/api/factoryAddBatch', addbatchMIDDLEWARE, async (req, res) => {
   catch (error) {
     res.status(500).json({ error: error.message });
   }
-
 })
 
 app.get('/api/viewListOfBatchesProducedByFactory', async (req, res) => {
