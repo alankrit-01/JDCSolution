@@ -41,7 +41,7 @@ mongoose.connect(MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true })
 // optionSuccessStatus:200
 // const contractAbi = require('./artifacts/contracts/Supplychain.sol/Supplychain.json')
 
-let contractAddress = "0x82E5025a0c7AF57b6329C691A7531c76F02a32E3";
+let contractAddress = "0x0E7cf2B798C33c15E88BCF43935766Bd6a8FD80B";
 let contract;
 
 
@@ -257,84 +257,38 @@ app.get('/api/viewBatchCount', async (req, res) => {
   } 
 }); 
 
+
 app.get('/api/viewBatchCountByDistributors', async (req, res) => {
   try {
     const FactoryID = req.query.factoryID;
-    batch.aggregate([
-      // { $match: { FactoryID: FactoryID }},
-      // { $group: {
-      //     _id: { DistributorID: '$DistributorID' },
-      //     Batches: { $sum: 1 },
-      //     Products: { $sum: '$BatchSize' }}},
-      // { $lookup: {
-      //     from: 'User',
-      //     localField: '_id',
-      //     foreignField: '_id',
-      //     as: 'User'}},
-      // { $unwind: '$User'},
-      // { $project: {
-      //     _id: { DistributorID: '$_id' },
-      //     Batches: 1,
-      //     Products: 1,
-      //     name: '$User.name',
-      //     phone: '$User.phone'}}
+    let result =await batch.aggregate([
       { $match: { FactoryID: FactoryID } },
-      { $group: { _id: { DistributorID: "$DistributorID", DistributorName: "$DistributorName" }, Batches: { $sum: 1 }, Products: { $sum: "$BatchSize" } } }
-    ], (err, result) => {
-      if (err) {
-        console.error(err);
-        res.status(500).send('Failed to query MongoDB');
-      } else {
-        res.status(200).json({status:"success", message:result});
-        } 
+      { $group: {  _id: '$DistributorID', Batches: { $sum: 1 }, Products: { $sum: "$BatchSize" } } },
+      { $sort: { _id: 1 } }
+    ]);
+
+    const distributorIDs = result.map((entry) => entry._id);
+    let result2 = await User.find({ role: 'Distributer', _id: { $in: distributorIDs } }).sort({_id:1});
+    const combinedArray = result.map((batch, index) => {
+      const user = result2[index];
+      return {
+        _id: user._id,
+        Batches: batch.Batches,
+        Products: batch.Products,
+        name: user.name,
+        email: user.email,
+        phone: user.phone,
+        address: user.address,
+        city: user.city,
+      };
     });
-    
+
+    res.status(200).json({ status: "success", message: combinedArray });
   } catch (error) {
     console.log(error.message);
     res.status(400).send({ error: error.message });
   }
 });
-
-// User-
-// _id: Object('637f3e0d45d9bce664722a36'),
-// name: "Amandeep",
-// email: "alankritnokhwal@gmail.com",
-// phone: 8371719313
-
-// batch-
-// _id: Object('637f3e0d45d9bce664722a38'),
-// BatchID:12,     
-// BatchSize:3,  
-// BatchName:"Watches",     
-// BatchDescription:"Analog watches of batch size 3",       
-// FactoryID:"63b2b20d8e21a6111d6b4265",
-// DistributorID:"637f3e0d45d9bce664722a36",
-// DistributorName:"Katrina",
-
-// {
-//   "status": "success",
-//   "message": [
-//       {
-//           "_id": {
-//               "DistributorID": "637f3e0d45d9bce664722a36"
-//           },
-//           "Batches": 1,
-//           "Products": 3,
-//           "name": "Amandeep",
-//           "phone":8371719313
-//       },
-//       {
-//           "_id": {
-//               "DistributorID": "481h8se0d4u771hyb219eiwn"
-//           },
-//           "Batches": 2,
-//           "Products": 10,
-//           "name": "Babulal",
-//           "phone":4818198937
-//       },
-//   ]
-// }
-
 
 app.get('/api/viewFactoryDistributorHistory', async (req, res) => {
   try {
