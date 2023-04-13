@@ -38,12 +38,9 @@ require('dotenv').config()
 MONGO_URL = "mongodb+srv://vipin:vipinrichmint@cluster0.y8ufn.mongodb.net/nodedatabase?retryWrites=true&w=majority"
 mongoose.connect(MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true }).then(() => console.log("Connected"));
 
-// optionSuccessStatus:200
-// const contractAbi = require('./artifacts/contracts/Supplychain.sol/Supplychain.json')
 
 let contractAddress = "0x0E7cf2B798C33c15E88BCF43935766Bd6a8FD80B";
 let contract;
-
 
 const connectToMatic = async () => {
   optionSuccessStatus: 200
@@ -144,12 +141,20 @@ async function addbatchMIDDLEWARE(req, res, next) {
   const factoryLocation = req.body.factoryLocation;
   const dateOfProduction = req.body.dateOfProduction;
   try {
+    const collection1 = await User.findOne({_id:factoryID,role: "Factory"});
+    const collection2 = await User.findOne({_id:distributorID,role: "Distributer"});
+
+    if(collection1===null) return res.status(400).json({ status: "failure", message: "factoryID doesn't exists or invalid role"});
+    if(collection2===null) return res.status(400).json({ status: "failure", message: "distributorID doesn't exists or invalid role"});
+
+    console.log("Transaction started!");
     const tx = await contract.batchProduced(batchID, companyBatchID, productIDs, batchSize, batchDescription, productTemplateID, factoryID, distributorID, distributorName, factoryLocation, dateOfProduction);
     tx.wait();
     console.log("Transaction completed!");
 
     next();
   } catch (error) {
+    console.log("Hey");
     console.log(error.message);
     res.status(400).json({ status: "failure", message: error.message });
   }
