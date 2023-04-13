@@ -1605,10 +1605,13 @@ app.post('/api/rateus', jsonParser, async function (req, res) {
   }
 })
 
-app.post('/api/scanIssueReport', jsonParser, async function (req, res) {
+
+app.post('/api/scanIssueReportljkjhsdjh', jsonParser, async function (req, res) {
   try {
     let uid = req.body.uid;
     let productName = req.body.productName;
+    let issueItemId = req.body.issueItemId;
+    let itemType = req.body.itemType;
     let location = req.body.location;
     let scanDate = req.body.scanDate;
     let scanIssue = req.body.scanIssue;
@@ -1619,26 +1622,30 @@ app.post('/api/scanIssueReport', jsonParser, async function (req, res) {
     let shopImage = req.body.shopImage;
     let name = req.body.name;
     let email = req.body.email;
-    let created = req.body.created;
     let role = req.body.role;
-    console.log(uid);
-    if (uid == '') {
-      res.status(200).json({ status: "fail", message: "Invalid User" });
-    } else if (role == '') {
+    if (role == '') { 
       role = 'Consumer';
-    } else if (comment == '') {
+    }
+    if (itemType == '') { 
+      itemType = 'Product';
+    }
+    if (uid == '' || uid === undefined) {
+      res.status(200).json({ status: "fail", message: "Invalid User" });
+    } else if (comment == '' || comment === undefined) {
       res.status(200).json({ status: "fail", message: "Comment should not be blank" });
-    } else if (scanIssue == '') {
+    } else if (scanIssue == '' || scanIssue === undefined) {
       res.status(200).json({ status: "fail", message: "Scan Issue should not be blank" });
     } else {
-      const checkConsumerRatingExists = await ScanIssueReport.findOne({ uid: req.body.uid });
-      if (!checkConsumerRatingExists) {
-        const data = new ScanIssueReport({
+      const checkConsumerIssueExists = await ScanIssueReport.findOne({ senderId: uid });
+      if (!checkConsumerIssueExists) {
+        const data = new ScanIssueReport({ 
           _id: new mongoose.Types.ObjectId(),
-          uid: uid,
+          senderId: uid,
           productName: productName,
+          issueItemId: issueItemId,
+          itemType:itemType,
           location: location,
-          scanDate: Date.now(),
+          scanDate: scanDate,
           scanIssue: scanIssue,
           comment: comment,
           qrcodeImage: qrcodeImage,
@@ -1649,17 +1656,14 @@ app.post('/api/scanIssueReport', jsonParser, async function (req, res) {
           email: email,
           role: role,
           created: Date.now(),
-
-        })
+        }) 
         data.save().then((result) => {
-
           res.status(200).json({ status: "success", message: "Thanks for report us" });
         })
           .catch((err) => console.warn(err)
           )
       } else {
         res.status(200).json({ status: "success", message: "Already reporting us" });
-
       }
     }
 
