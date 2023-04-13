@@ -130,6 +130,9 @@ export const Set_Product_Template_List = 'Set_Product_Template_List';
 export const Reset_Product_Template_Data = 'Reset_Product_Template_Data';
 export const Set_Reset_Product_Template_Data = 'Set_Reset_Product_Template_Data';
 
+export const Get_Batch_Sent_To_Distributer = 'Get_Batch_Sent_To_Distributer';
+export const Set_Batch_Sent_To_Distributer = 'Set_Batch_Sent_To_Distributer';
+
 export const Store_Batch_Template = 'Store_Batch_Template';
 export const Store_Batch_Template_Request = 'Store_Batch_Template_Request';
 export const Set_Store_Batch_Template_Data = 'Set_Store_Batch_Template_Data';
