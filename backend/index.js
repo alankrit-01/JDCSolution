@@ -38,12 +38,9 @@ require('dotenv').config()
 MONGO_URL = "mongodb+srv://vipin:vipinrichmint@cluster0.y8ufn.mongodb.net/nodedatabase?retryWrites=true&w=majority"
 mongoose.connect(MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true }).then(() => console.log("Connected"));
 
-// optionSuccessStatus:200
-// const contractAbi = require('./artifacts/contracts/Supplychain.sol/Supplychain.json')
 
-let contractAddress = "0xaF8274dBCA1B3a9451AC2b019520e5eE795f6487";
+let contractAddress = "0x0E7cf2B798C33c15E88BCF43935766Bd6a8FD80B";
 let contract;
-
 
 const connectToMatic = async () => {
   optionSuccessStatus: 200
@@ -144,12 +141,20 @@ async function addbatchMIDDLEWARE(req, res, next) {
   const factoryLocation = req.body.factoryLocation;
   const dateOfProduction = req.body.dateOfProduction;
   try {
+    const collection1 = await User.findOne({_id:factoryID,role: "Factory"});
+    const collection2 = await User.findOne({_id:distributorID,role: "Distributer"});
+
+    if(collection1===null) return res.status(400).json({ status: "failure", message: "factoryID doesn't exists or invalid role"});
+    if(collection2===null) return res.status(400).json({ status: "failure", message: "distributorID doesn't exists or invalid role"});
+
+    console.log("Transaction started!");
     const tx = await contract.batchProduced(batchID, companyBatchID, productIDs, batchSize, batchDescription, productTemplateID, factoryID, distributorID, distributorName, factoryLocation, dateOfProduction);
     tx.wait();
     console.log("Transaction completed!");
 
     next();
   } catch (error) {
+    console.log("Hey");
     console.log(error.message);
     res.status(400).json({ status: "failure", message: error.message });
   }
@@ -225,7 +230,6 @@ app.post('/api/factoryAddBatch', addbatchMIDDLEWARE, async (req, res) => {
   catch (error) {
     res.status(500).json({ error: error.message });
   }
-
 })
 
 app.get('/api/viewListOfBatchesProducedByFactory', async (req, res) => {
@@ -258,84 +262,38 @@ app.get('/api/viewBatchCount', async (req, res) => {
   } 
 }); 
 
+
 app.get('/api/viewBatchCountByDistributors', async (req, res) => {
   try {
     const FactoryID = req.query.factoryID;
-    batch.aggregate([
-      // { $match: { FactoryID: FactoryID }},
-      // { $group: {
-      //     _id: { DistributorID: '$DistributorID' },
-      //     Batches: { $sum: 1 },
-      //     Products: { $sum: '$BatchSize' }}},
-      // { $lookup: {
-      //     from: 'User',
-      //     localField: '_id',
-      //     foreignField: '_id',
-      //     as: 'User'}},
-      // { $unwind: '$User'},
-      // { $project: {
-      //     _id: { DistributorID: '$_id' },
-      //     Batches: 1,
-      //     Products: 1,
-      //     name: '$User.name',
-      //     phone: '$User.phone'}}
+    let result =await batch.aggregate([
       { $match: { FactoryID: FactoryID } },
-      { $group: { _id: { DistributorID: "$DistributorID", DistributorName: "$DistributorName" }, Batches: { $sum: 1 }, Products: { $sum: "$BatchSize" } } }
-    ], (err, result) => {
-      if (err) {
-        console.error(err);
-        res.status(500).send('Failed to query MongoDB');
-      } else {
-        res.status(200).json({status:"success", message:result});
-        } 
+      { $group: {  _id: '$DistributorID', Batches: { $sum: 1 }, Products: { $sum: "$BatchSize" } } },
+      { $sort: { _id: 1 } }
+    ]);
+
+    const distributorIDs = result.map((entry) => entry._id);
+    let result2 = await User.find({ role: 'Distributer', _id: { $in: distributorIDs } }).sort({_id:1});
+    const combinedArray = result.map((batch, index) => {
+      const user = result2[index];
+      return {
+        _id: user._id,
+        Batches: batch.Batches,
+        Products: batch.Products,
+        name: user.name,
+        email: user.email,
+        phone: user.phone,
+        address: user.address,
+        city: user.city,
+      };
     });
-    
+
+    res.status(200).json({ status: "success", message: combinedArray });
   } catch (error) {
     console.log(error.message);
     res.status(400).send({ error: error.message });
   }
 });
-
-// User-
-// _id: Object('637f3e0d45d9bce664722a36'),
-// name: "Amandeep",
-// email: "alankritnokhwal@gmail.com",
-// phone: 8371719313
-
-// batch-
-// _id: Object('637f3e0d45d9bce664722a38'),
-// BatchID:12,     
-// BatchSize:3,  
-// BatchName:"Watches",     
-// BatchDescription:"Analog watches of batch size 3",       
-// FactoryID:"63b2b20d8e21a6111d6b4265",
-// DistributorID:"637f3e0d45d9bce664722a36",
-// DistributorName:"Katrina",
-
-// {
-//   "status": "success",
-//   "message": [
-//       {
-//           "_id": {
-//               "DistributorID": "637f3e0d45d9bce664722a36"
-//           },
-//           "Batches": 1,
-//           "Products": 3,
-//           "name": "Amandeep",
-//           "phone":8371719313
-//       },
-//       {
-//           "_id": {
-//               "DistributorID": "481h8se0d4u771hyb219eiwn"
-//           },
-//           "Batches": 2,
-//           "Products": 10,
-//           "name": "Babulal",
-//           "phone":4818198937
-//       },
-//   ]
-// }
-
 
 app.get('/api/viewFactoryDistributorHistory', async (req, res) => {
   try {
