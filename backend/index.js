@@ -787,12 +787,15 @@ app.get('/api/authenticateProduct', async (req, res) => {
 
     // let data = await contract.ProductMapping(ProductID);
     let data = await product.findOne({ ProductID });
+    
+    
     if (!data) {
       const Data = new verificationData({
         _id: new mongoose.Types.ObjectId(),
         factoryID:"",
         distributorID:"",
         customerID:customerID,
+        productName:"",
         batchDescription:"",
         batchID:0,
         productId:ProductID,
@@ -801,14 +804,15 @@ app.get('/api/authenticateProduct', async (req, res) => {
       Data.save().then((result) => {
         console.log(result);
         res.status(200).json({ status: "success", message: "Authentication Level 1 Falied: Product ID not found", level: 1 });
-
+        
       }).catch((err) => console.warn(err))
-
+      
       // res.status(200).json({status:"success", message:"Authentication Level 1 Falied: Product ID not found",level:1}); 
     } else {
       let BatchID = data.BatchID;
       let data2 = await batch.findOne({ BatchID });
-
+      console.log("Called",data2);
+      
       let level;
       let status;
       lat1 = data.RetailerLatitude
@@ -846,6 +850,7 @@ app.get('/api/authenticateProduct', async (req, res) => {
         factoryID: data2.FactoryID,
         distributorID: data2.DistributorID,
         customerID: customerID,
+        productName: data2.BatchName,
         batchDescription: data2.BatchDescription,
         batchID: BatchID,
         productId: ProductID,

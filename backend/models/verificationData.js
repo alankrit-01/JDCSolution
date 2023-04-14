@@ -4,9 +4,10 @@ let verificationSchema = new mongoose.Schema({
     factoryID:String,
     distributorID:String,
     customerID:String,
+    productName:String,
     batchDescription:String,
     batchID:Number,
     productId:Number,
     level:Number,
-})
+})  
 module.exports=mongoose.model('verificationData',verificationSchema)    
