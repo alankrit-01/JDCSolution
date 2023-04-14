@@ -733,6 +733,8 @@ h5.add-batch-dashboard-title {
 .background-feedback-part {
     background: #EEF7FC;
     height: 285px;
+    cursor: pointer;
+
 }
 
 .background-feedback-part h6 {

@@ -41,7 +41,7 @@ const AddFactoryFeedbak = () => {
             subject:subject,
             description:description,
             date: currentDate,
-        }
+        } 
         if (subjectError == true && descriptionError == true) {
             if (dataFetchedRef.current) return;
             dataFetchedRef.current = true;

@@ -8,7 +8,6 @@ import { QRCodeSVG } from 'qrcode.react';
 // import Supplychain_abi from '../../artifacts/contracts/Supplychain.sol/Supplychain.json';
 import { ethers } from "ethers";
 import { Button } from "@material-tailwind/react";
-let supplyChainAddress = '0xFd0C39B94CF349a1f72B9D1510a94EBFF8E4D128';
 const BatchQr = () => {
 
     let batchData = useLocation();

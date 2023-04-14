@@ -1,4 +1,4 @@
-import { GETDETAILS,Get_User_Detail, SuperAdminUserLogin,Get_SuperAdmin_Local_Store_Data,Store_Company,Check_Company_Success_data,Handle_User_Status, Get_Company,Get_Fraud_Scans,Get_All_Level_Fails, SuperAdminUserLogout, AdminUserLogin, AdminUserLogout, Get_Local_Store_Data, Get_Retailers,Get_Retailer_By_Company, Get_Factory,Get_Factory_By_Company, Get_Distributer,Get_Distributer_By_Company, FactoryUserLogin, FactoryUserLogout, Get_Factory_Local_Store_Data,Reset_Factory_Data, Store_Factory,Check_Factory_Success_data,Reset_Distributer_Data, Store_Distributer, Check_Distributer_Success_data, Store_Retailer,Check_Retailer_Success_data, Store_Company_Feedback,Check_Company_Feedback_Success_data,Get_Self_Feedback, Store_Multi_User, Store_Product_Template,Check_Product_Template_Success_data, Get_Product_Template, Reset_Product_Template_Data,Get_Batch_Sent_To_Distributer, Store_Batch_Template,Check_Batch_Template_Success_data, Get_Batch_Template,Reset_Batch_Template_Data, Get_Batch_Detail, Get_Feedback,Reset_Retailer_Data , } from "./constant"
+import { GETDETAILS,Get_User_Detail, SuperAdminUserLogin,Get_SuperAdmin_Local_Store_Data,Store_Company,Check_Company_Success_data,Handle_User_Status, Get_Company,Get_Fraud_Scans,Get_All_Level_Fails, SuperAdminUserLogout, AdminUserLogin, AdminUserLogout, Get_Local_Store_Data, Get_Retailers,Get_Retailer_By_Company, Get_Factory,Get_Factory_By_Company, Get_Distributer,Get_Distributer_By_Company, FactoryUserLogin, FactoryUserLogout, Get_Factory_Local_Store_Data,Reset_Factory_Data, Store_Factory,Check_Factory_Success_data,Reset_Distributer_Data, Store_Distributer, Check_Distributer_Success_data, Store_Retailer,Check_Retailer_Success_data, Store_Company_Feedback,Check_Company_Feedback_Success_data,Get_Self_Feedback, Store_Multi_User, Store_Product_Template,Check_Product_Template_Success_data, Get_Product_Template, Reset_Product_Template_Data,Get_Batch_Sent_To_Distributer, Get_Batch_By_Distributer, Store_Batch_Template,Check_Batch_Template_Success_data, Get_Batch_Template,Reset_Batch_Template_Data, Get_Batch_Detail, Get_Feedback,Reset_Retailer_Data , } from "./constant"
 export const GetDetails = (data) => {
     return {
         type: GETDETAILS,
@@ -275,6 +275,13 @@ export const getBatchSentToDistributer = (data) =>{
         data:data 
     } 
 }
+export const getBatchByDistributer = (data) =>{
+    return{
+        type:Get_Batch_By_Distributer,
+        data:data 
+    } 
+}
+
 
 export const storeBatchTemplate = (data) =>{
     return{
