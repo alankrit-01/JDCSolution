@@ -28,6 +28,7 @@ const AddFactoryReport = () => {
     const {
         register,
         handleSubmit,
+        checkbox: [],
         formState: { errors },
     } = useForm();
 
@@ -35,7 +36,7 @@ const AddFactoryReport = () => {
         // if (dataFetchedRef.current) return;
         // dataFetchedRef.current = true;
         // dispatch(resetFactoryData());
-        // dispatch(storeFactory(data));
+        // dispatch(storeCompanyFeedback(data));
 
     }
 

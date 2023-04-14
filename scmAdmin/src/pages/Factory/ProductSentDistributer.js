@@ -1,7 +1,7 @@
 import MainStatusCard from 'components/Factory/MainStatusCard';
 import FactorySidebar from 'components/Factory/Sidebar';
 import Footer from 'components/Factory/Footer';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate,useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useMemo, useState } from 'react';
 import DataTable from 'react-data-table-component';
@@ -9,12 +9,16 @@ import { Button } from "@material-tailwind/react";
 import Input from '@material-tailwind/react/Input';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { getBatchTemplate, checkBatchTemplateSuccessdata } from 'Services/action';
+import { getBatchByDistributer } from 'Services/action';
 import loader from "assets/img/loading.gif";
 import cumulative from "assets/img/cumulative.png";
 import Icon from "@material-tailwind/react/Icon";
 
 const ProductSentDistributer = () => {
+    const factoryData = useSelector((state) => state.FactoryLoginData);
+    let batchData = useLocation();
+    let distributerID = batchData.state.distributerID;
+
     const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -24,24 +28,25 @@ const ProductSentDistributer = () => {
 
 
     const columns = [
-        {
-            name: "Batch Id",
-            selector: (row) => row.BatchID,
-            sortable: true,
-        },
+       
         {
             name: "Product Name",
             selector: (row) => row.BatchName,
             sortable: true,
         },
         {
-            name: "Batch Size",
-            selector: (row) => row.BatchSize,
+            name: "Product Id",
+            selector: (row) => row.BatchID,
             sortable: true,
         },
         {
-            name: "Batch Date",
-            selector: (row) => row.DateOfProduction,
+            name: "Richmint Product Code",
+            selector: (row) => "P-" + row.CompanyBatchID,
+            sortable: true,
+        },
+        {
+            name: "Batch Id",
+            selector: (row) => row.BatchID,
             sortable: true,
         },
         {
@@ -61,26 +66,28 @@ const ProductSentDistributer = () => {
     ];
     useEffect(() => {
         const data = {
-            factoryID: "63b2b20d8e21a6111d6b4265"
+            factoryID: factoryData.factoryUserId,
+            distributerID: distributerID
         }
-        dispatch(getBatchTemplate(data))
+        dispatch(getBatchByDistributer(data))
     }, [])
-    const initialBatchTemplatedata = useSelector((state) => state.BatchTemplateRecord);
+    const initialBatchTemplatedata = useSelector((state) => state.BatchSentRecord);
+
 
 
     useEffect(() => {
-        setBatchTemplates(initialBatchTemplatedata.batchTemplateRec.message && initialBatchTemplatedata.batchTemplateRec.message)
-        setFilterBatchTemplates(initialBatchTemplatedata.batchTemplateRec.message && initialBatchTemplatedata.batchTemplateRec.message)
+        setBatchTemplates(initialBatchTemplatedata.batchSentRec.message && initialBatchTemplatedata.batchSentRec.message)
+        setFilterBatchTemplates(initialBatchTemplatedata.batchSentRec.message && initialBatchTemplatedata.batchSentRec.message)
 
         var a = [{ BatchSize: "There are no record to display" }];
 
         setLoading(true);
         if (
-            initialBatchTemplatedata.batchTemplateRec.message != 0 &&
-            initialBatchTemplatedata.batchTemplateRec.message != null &&
-            initialBatchTemplatedata.batchTemplateRec.message.message != ""
+            initialBatchTemplatedata.batchSentRec.message != 0 &&
+            initialBatchTemplatedata.batchSentRec.message != null &&
+            initialBatchTemplatedata.batchSentRec.message.message != ""
         ) {
-            setFilterBatchTemplates(initialBatchTemplatedata.batchTemplateRec.message && initialBatchTemplatedata.batchTemplateRec.message);
+            setFilterBatchTemplates(initialBatchTemplatedata.batchSentRec.message && initialBatchTemplatedata.batchSentRec.message);
 
         } else {
             setLoading(false);
@@ -136,7 +143,7 @@ const ProductSentDistributer = () => {
                                     <div className="right-button-section cust-part">
 
                                     <NavLink to="/factory/addBatchTemplate">
-                                        <button className="cust-button">Batches Sent <span className="batches-sent">15</span></button>
+                                        <button className="cust-button">Product Sent <span className="batches-sent">15</span></button>
                                     </NavLink>
                                 </div>
                                 </div></div>

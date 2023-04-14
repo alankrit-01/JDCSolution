@@ -1,7 +1,7 @@
 import MainStatusCard from "components/Factory/MainStatusCard";
 import FactorySidebar from "components/Factory/Sidebar";
 import Footer from "components/Factory/Footer";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import { getBatchSentToDistributer } from "Services/action";
 import { useEffect, useMemo, useState } from "react";
@@ -18,9 +18,8 @@ const BatchSent = () => {
   const factoryData = useSelector((state) => state.FactoryLoginData);
 
   const dispatch = useDispatch();
-  const [Feedback, setFeedback] = useState([]);
+  const navigate = useNavigate();
   const [Search, setSearch] = useState("");
-  const [FilterFeedback, setFilterFeedback] = useState([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -34,28 +33,34 @@ const BatchSent = () => {
 
   const batchSentRec = initialdata && initialdata.batchSentRec.message;
 
-  console.log("initialdata", batchSentRec);
+  const BatchSentList = [];
+  var totalBatch = 0;
+  if (batchSentRec && batchSentRec.length > 0) {
+    for (let i = 0; i < batchSentRec.length; i++) {
+      totalBatch = totalBatch + batchSentRec[i].Batches;
+      BatchSentList.push(
+        <> 
+          <div className="w-full lg:w-6/12 pr-4 mb-10 font-light" > 
+            <div onClick={() => navigate('/factory/batchSentDistributer', { state: { distributerID: batchSentRec && batchSentRec[i]._id.DistributorID , distributorName: batchSentRec && batchSentRec[i]._id.DistributorName, totalBatchSent: totalBatch} })}>
+            {/* <NavLink to="/factory/batchSentDistributer"> */}
 
-
-  const rows = [];
-for (let i = 0; i < batchSentRec && batchSentRec.length; i++) {
-    rows.push(
-      <div className="w-full lg:w-6/12 pr-4 mb-10 font-light" >
-        <NavLink to="/factory/batchSentDistributer">
-          <div className="background-feedback-part">
-            <h6>dsfsd</h6>
-            <p>Distributer - 1</p>
+              <div className="background-feedback-part">
+                <h6>{batchSentRec && batchSentRec[i].Batches}</h6>
+                <p>{batchSentRec && batchSentRec[i]._id.DistributorName}</p>
+              </div>
+            <div className="w-full h-36 lg:w-6/12 -mt-32 ml-40">
+              <div className="background-factory">
+                <p className="click-open-btn"> <Icon name="phone" size="1xl" color="black" />GachiBowli sd,HYderabad</p>
+                <p className="click-open-btn"> <Icon name="phone" size="1xl" color="black" />+91 6304334373</p>
+                <p className="click-open-btn"> <Icon name="email" size="1xl" color="black" />Distributer1@gmail.com</p>
+              </div>
+            </div>
+            </div>
           </div>
-        </NavLink>
-        <div className="w-full h-36 lg:w-6/12 -mt-32 ml-40">
-          <div className="background-factory">
-            <p className="click-open-btn"> <Icon name="phone" size="1xl" color="black" />GachiBowli,HYderabad</p>
-            <p className="click-open-btn"> <Icon name="phone" size="1xl" color="black" />+91 6304334373</p>
-            <p className="click-open-btn"> <Icon name="email" size="1xl" color="black" />Distributer1@gmail.com</p>
-          </div>
-        </div>
-      </div>);
-}
+        </>
+      )
+    }
+  }
 
 
 
@@ -80,7 +85,7 @@ for (let i = 0; i < batchSentRec && batchSentRec.length; i++) {
                     <option value="green">Green</option>
                     <option value="blue">Blue </option>
                   </select>
-                  <span className="fifty-seven">157</span>
+                  <span className="fifty-seven">{totalBatch && totalBatch}</span>
                 </div>
                 <div className="received-part-two report-drop">
                   <img src={cumulative} />
@@ -96,6 +101,9 @@ for (let i = 0; i < batchSentRec && batchSentRec.length; i++) {
                 </div>
               </div>
               <div className="flex flex-wrap">
+
+{BatchSentList && BatchSentList}
+
 
               </div>
             </div>

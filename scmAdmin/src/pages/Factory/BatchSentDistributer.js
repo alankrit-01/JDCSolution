@@ -1,7 +1,7 @@
 import MainStatusCard from 'components/Factory/MainStatusCard';
 import FactorySidebar from 'components/Factory/Sidebar';
 import Footer from 'components/Factory/Footer';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate,useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useMemo, useState } from 'react';
 import DataTable from 'react-data-table-component';
@@ -9,12 +9,20 @@ import { Button } from "@material-tailwind/react";
 import Input from '@material-tailwind/react/Input';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { getBatchTemplate, checkBatchTemplateSuccessdata } from 'Services/action';
+import { getBatchByDistributer } from 'Services/action';
 import loader from "assets/img/loading.gif";
 import cumulative from "assets/img/cumulative.png";
 import Icon from "@material-tailwind/react/Icon";
 
 const BatchSentDistributer = () => {
+
+    const factoryData = useSelector((state) => state.FactoryLoginData);
+
+    let batchData = useLocation();
+    let distributerID = batchData.state.distributerID;
+    let distributorName = batchData.state.distributorName;
+    let totalBatchSent = batchData.state.totalBatchSent;
+
     const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -30,23 +38,23 @@ const BatchSentDistributer = () => {
             sortable: true,
         },
         {
+            name: "Richmint Batch Code",
+            selector: (row) => row.CompanyBatchID,
+            sortable: true,
+        },
+        {
             name: "Product Name",
             selector: (row) => row.BatchName,
             sortable: true,
         },
         {
-            name: "Batch Size",
+            name: "Quantity of Batch",
             selector: (row) => row.BatchSize,
             sortable: true,
         },
         {
-            name: "Batch Date",
-            selector: (row) => row.DateOfProduction,
-            sortable: true,
-        },
-        {
             name: "Action",
-            selector: (row) => <button className="custom-details-btn" onClick={() => navigate('/factory/batchSentDetail', { state: { BatchID: row.BatchID } })}>View Batch</button>,
+            selector: (row) => <button className="custom-details-btn" onClick={() => navigate('/factory/batchSentDetail', { state: { BatchID: row.BatchID, companyBatchID: row.CompanyBatchID , productName: row.BatchName } })}>View Batch</button>,
             ignoreRowClick: true,
             allowOverflow: true,
             button: true,
@@ -61,26 +69,26 @@ const BatchSentDistributer = () => {
     ];
     useEffect(() => {
         const data = {
-            factoryID: "63b2b20d8e21a6111d6b4265"
+            factoryID: factoryData.factoryUserId,
+            distributerID: distributerID
         }
-        dispatch(getBatchTemplate(data))
+        dispatch(getBatchByDistributer(data))
     }, [])
-    const initialBatchTemplatedata = useSelector((state) => state.BatchTemplateRecord);
-
+    const initialBatchTemplatedata = useSelector((state) => state.BatchSentRecord);
 
     useEffect(() => {
-        setBatchTemplates(initialBatchTemplatedata.batchTemplateRec.message && initialBatchTemplatedata.batchTemplateRec.message)
-        setFilterBatchTemplates(initialBatchTemplatedata.batchTemplateRec.message && initialBatchTemplatedata.batchTemplateRec.message)
+        setBatchTemplates(initialBatchTemplatedata.batchSentRec.message && initialBatchTemplatedata.batchSentRec.message)
+        setFilterBatchTemplates(initialBatchTemplatedata.batchSentRec.message && initialBatchTemplatedata.batchSentRec.message)
 
         var a = [{ BatchSize: "There are no record to display" }];
 
         setLoading(true);
         if (
-            initialBatchTemplatedata.batchTemplateRec.message != 0 &&
-            initialBatchTemplatedata.batchTemplateRec.message != null &&
-            initialBatchTemplatedata.batchTemplateRec.message.message != ""
+            initialBatchTemplatedata.batchSentRec.message != 0 &&
+            initialBatchTemplatedata.batchSentRec.message != null &&
+            initialBatchTemplatedata.batchSentRec.message.message != ""
         ) {
-            setFilterBatchTemplates(initialBatchTemplatedata.batchTemplateRec.message && initialBatchTemplatedata.batchTemplateRec.message);
+            setFilterBatchTemplates(initialBatchTemplatedata.batchSentRec.message && initialBatchTemplatedata.batchSentRec.message);
 
         } else {
             setLoading(false);
@@ -118,7 +126,7 @@ const BatchSentDistributer = () => {
 
                                 <div className="w-full lg:w-9/12 pr-4 mb-10 font-light back-set-gray">
                                     <div className="background-factory details-background-color">
-                                    <h2>Distributor - 1</h2>
+                                    <h2>{distributorName && distributorName}</h2>
                                         <p className="click-open-btn btn-one"> <Icon className="chage-c" name="phone" size="1xl" color="black" />GachiBowli,HYderabad</p>
                                         <p className="click-open-btn btn-one"> <Icon className="chage-c" name="phone" size="1xl" color="black" />+91 6304334373</p>
                                         <p className="click-open-btn btn-one"> <Icon className="chage-c" name="email" size="1xl" color="black" />Factory1@gmail.com</p>
@@ -137,7 +145,7 @@ const BatchSentDistributer = () => {
                                     <div className="right-button-section cust-part">
 
                                     <NavLink to="/factory/addBatchTemplate">
-                                        <button className="cust-button">Batches Sent <span className="batches-sent">15</span></button>
+                                        <button className="cust-button">Batches Sent <span className="batches-sent">{totalBatchSent && totalBatchSent}</span></button>
                                     </NavLink>
                                 </div>
                                 </div></div>
