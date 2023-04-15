@@ -17,7 +17,7 @@ let ScanIssueReportSchema = new mongoose.Schema({
     name:String,
     email:String,
     role:String,         
-    created:Date,
+    created:String,
     
 })
 module.exports=mongoose.model('scanIssueReport',ScanIssueReportSchema)

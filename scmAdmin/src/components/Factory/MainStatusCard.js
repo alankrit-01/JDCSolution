@@ -18,7 +18,7 @@ import FeedbackImg from 'assets/img/Reports.png';
 
 
 
-import { getProductTemplate, getBatchTemplate } from 'Services/action';
+import { getFactoryStatics } from 'Services/action';
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "@material-tailwind/react";
 const MainStatusCard = () => {
@@ -26,26 +26,23 @@ const MainStatusCard = () => {
 
     const factoryData = useSelector((state) => state.FactoryLoginData);
     const [factoryUserId, setFactoryUserId] = useState(factoryData.factoryUserId);
-    const [allBatchData, setAllBatchData] = useState([]);
-    const [ProductTemplates, setProductTemplates] = useState(0);
+    const initialFactoryStaticsdata = useSelector((state) => state.FactoryStaticsRecord);
+    // console.log("data here",initialFactoryStaticsdata)
+   
+    const totalDisributer = initialFactoryStaticsdata && initialFactoryStaticsdata.factoryStaticsRec.totalDisributer;
+    const  totalreports = initialFactoryStaticsdata && initialFactoryStaticsdata.factoryStaticsRec.totalReport;
+    const  totalBatches = initialFactoryStaticsdata && initialFactoryStaticsdata.factoryStaticsRec.totalBatches;
+    
     useEffect(() => {
         const data = {
             factoryID: factoryUserId
         }
-        dispatch(getProductTemplate(data))
-        dispatch(getBatchTemplate(data))
+        dispatch(getFactoryStatics(data))
     }, [])
-    const initialBatchTemplatedata = useSelector((state) => state.BatchTemplateRecord);
-    const initialProductTemplatedata = useSelector((state) => state.ProductTemplateRecord);
-    useEffect(() => {
-        // setAllBatchData(initialBatchTemplatedata.batchTemplateRec.message)
-        // setProductTemplates(initialProductTemplatedata.productTemplateRec.message)
-    }, [initialProductTemplatedata, initialBatchTemplatedata])
-
+    
 
     const responsive = {
         superLargeDesktop: {
-            // the naming can be any, depends on you.
             breakpoint: { max: 4000, min: 3000 },
             items: 5
         },
@@ -70,7 +67,7 @@ const MainStatusCard = () => {
                     <NavLink to="/factory/distributer">
                         <Card className="main-tiles p-0">
                             <CardRow className="inner-tiles">
-                                <CardStatus className="tiles-title" title={100} />
+                                <CardStatus className="tiles-title" title={totalDisributer} />
                                 <img src={DistributerImg} className="w-24 h-24" />
                                 <CardStatus className="tiles-title-bottom" title={"Distributer"} />
                             </CardRow>
@@ -81,7 +78,7 @@ const MainStatusCard = () => {
                     <NavLink to="/factory/batchSent">
                         <Card className="main-tiles p-0">
                             <CardRow className="inner-tiles">
-                                <CardStatus className="tiles-title" title={100} />
+                                <CardStatus className="tiles-title" title={totalBatches} />
                                 <img src={BatchImg} className="w-24 h-24" />
                                 <CardStatus className="tiles-title-bottom" title={"Batches Sent"} />
                             </CardRow>
@@ -103,7 +100,7 @@ const MainStatusCard = () => {
                 <NavLink to="/factory/factorySelfReports">
                     <Card className="main-tiles p-0">
                         <CardRow className="inner-tiles">
-                            <CardStatus className="tiles-title" title={100} />
+                            <CardStatus className="tiles-title" title={totalreports} />
                             <img src={FeedbackImg} className="w-24 h-24" />
                             <CardStatus className="tiles-title-bottom" title={"Reports issued"} />
                         </CardRow>

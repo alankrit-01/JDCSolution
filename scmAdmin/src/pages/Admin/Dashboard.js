@@ -12,7 +12,12 @@ import CardStatus from "@material-tailwind/react/CardStatus";
 import Dropdown from "@material-tailwind/react/Dropdown";
 import DropdownItem from "@material-tailwind/react/DropdownItem";
 import cumulative from "assets/img/cumulative.png";
+import { useEffect } from "react";
+import {resetLoginData} from "Services/action";
+import { useDispatch} from "react-redux";
+
 const Dashboard = () => {
+  const dispatch = useDispatch();
   const responsive = {
     superLargeDesktop: {
       // the naming can be any, depends on you.
@@ -32,7 +37,11 @@ const Dashboard = () => {
       items: 1,
     },
   };
-
+useEffect(()=>{
+  dispatch(resetLoginData());
+},
+[]
+)
   
   return (
     <>

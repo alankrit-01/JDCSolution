@@ -25,11 +25,13 @@ const distributorRetailer = require('./models/distributorRetailer');
 const customerData = require('./models/customerData');
 const Rateus = require('./models/rateus');
 const User = require('./models/users');
+const users = require('./models/users');
 const Consumer = require('./models/consumers');
 const Feedback = require('./models/feedbacks');
 const Factory = require('./models/factories');
 const ScanIssueReport = require('./models/scanIssueReport');
-const { collection } = require('./models/users'); 
+const { collection } = require('./models/users');
+const feedbacks = require('./models/feedbacks');
 
 app.use(express.json());
 app.use(cors());
@@ -141,11 +143,11 @@ async function addbatchMIDDLEWARE(req, res, next) {
   const factoryLocation = req.body.factoryLocation;
   const dateOfProduction = req.body.dateOfProduction;
   try {
-    const collection1 = await User.findOne({_id:factoryID,role: "Factory"});
-    const collection2 = await User.findOne({_id:distributorID,role: "Distributer"});
+    const collection1 = await User.findOne({ _id: factoryID, role: "Factory" });
+    const collection2 = await User.findOne({ _id: distributorID, role: "Distributer" });
 
-    if(collection1===null) return res.status(400).json({ status: "failure", message: "factoryID doesn't exists or invalid role"});
-    if(collection2===null) return res.status(400).json({ status: "failure", message: "distributorID doesn't exists or invalid role"});
+    if (collection1 === null) return res.status(400).json({ status: "failure", message: "factoryID doesn't exists or invalid role" });
+    if (collection2 === null) return res.status(400).json({ status: "failure", message: "distributorID doesn't exists or invalid role" });
 
     console.log("Transaction started!");
     const tx = await contract.batchProduced(batchID, companyBatchID, productIDs, batchSize, batchDescription, productTemplateID, factoryID, distributorID, distributorName, factoryLocation, dateOfProduction);
@@ -247,33 +249,57 @@ app.get('/api/viewListOfBatchesProducedByFactory', async (req, res) => {
   }
 });
 
+app.get('/api/factoryStatics', async (req, res) => {
+  try {
+    const FactoryID = req.query.factoryID;
+    if (FactoryID != '' && FactoryID !== undefined) {
+      const batchquery = { FactoryID: FactoryID };
+      const distributerquery = { role: "Distributer", adminId: "637f29523bcd21b57592615b" };
+      const reportquery = { senderId: FactoryID };
+
+      const countBatch = await batch.countDocuments(batchquery);
+      const countDistributer = await User.countDocuments(distributerquery);
+      const countReport = await ScanIssueReport.countDocuments(reportquery);
+
+      res.status(200).json({ status: "success", totalBatches: countBatch, totalReport: countReport, totalDisributer: countDistributer });
+    } else {
+      res.status(200).json({ status: "fail", message: "Please Provide Factory Details" });
+    }
+
+  } catch (error) {
+    console.log(error)
+    res.status(400).send({ error: error.message });
+  }
+});
+
+
 app.get('/api/viewBatchCount', async (req, res) => {
-  try { 
-    const FactoryID= req.query.factoryID;
-    batch.find({FactoryID}).then((documents) => { 
-      res.status(200).json({status:"success", message:documents.length});
+  try {
+    const FactoryID = req.query.factoryID;
+    batch.find({ FactoryID }).then((documents) => {
+      res.status(200).json({ status: "success", message: documents.length });
     }).catch((error) => {
       console.log(error);
-      res.status(200).json({status:"success", message:"Returned data is empty"});
-    }) 
+      res.status(200).json({ status: "success", message: "Returned data is empty" });
+    })
   } catch (error) {
     console.log(error.message);
     res.status(400).send({ error: error.message });
-  } 
-}); 
+  }
+});
 
 
 app.get('/api/viewBatchCountByDistributors', async (req, res) => {
   try {
     const FactoryID = req.query.factoryID;
-    let result =await batch.aggregate([
+    let result = await batch.aggregate([
       { $match: { FactoryID: FactoryID } },
-      { $group: {  _id: '$DistributorID', Batches: { $sum: 1 }, Products: { $sum: "$BatchSize" } } },
+      { $group: { _id: '$DistributorID', Batches: { $sum: 1 }, Products: { $sum: "$BatchSize" } } },
       { $sort: { _id: 1 } }
     ]);
 
     const distributorIDs = result.map((entry) => entry._id);
-    let result2 = await User.find({ role: 'Distributer', _id: { $in: distributorIDs } }).sort({_id:1});
+    let result2 = await User.find({ role: 'Distributer', _id: { $in: distributorIDs } }).sort({ _id: 1 });
     const combinedArray = result.map((batch, index) => {
       const user = result2[index];
       return {
@@ -299,7 +325,7 @@ app.get('/api/viewFactoryDistributorHistory', async (req, res) => {
   try {
     const FactoryID = req.query.factoryID;
     const DistributorID = req.query.distibutorID;
-    batch.find({ FactoryID,DistributorID }).then((documents) => {
+    batch.find({ FactoryID, DistributorID }).then((documents) => {
       res.status(200).json({ status: "success", message: documents });
     }).catch((error) => {
       console.log(error);
@@ -790,13 +816,13 @@ app.get('/api/authenticateProduct', async (req, res) => {
     if (!data) {
       const Data = new verificationData({
         _id: new mongoose.Types.ObjectId(),
-        factoryID:"",
-        distributorID:"",
-        customerID:customerID,
-        batchDescription:"",
-        batchID:0,
-        productId:ProductID,
-        level:1 
+        factoryID: "",
+        distributorID: "",
+        customerID: customerID,
+        batchDescription: "",
+        batchID: 0,
+        productId: ProductID,
+        level: 1
       })
       Data.save().then((result) => {
         console.log(result);
@@ -1101,6 +1127,8 @@ app.post('/api/addUser', jsonParser, async function (req, res) {
     } else {
       const checkUserExists = await User.findOne({ email: email });
       if (!checkUserExists) {
+        const date = new Date();
+        let currentdate = date.toLocaleString();
         const data = new User({
           _id: new mongoose.Types.ObjectId(),
           name: name,
@@ -1118,7 +1146,7 @@ app.post('/api/addUser', jsonParser, async function (req, res) {
           longitude: longitude,
           locationurl: locationurl,
           userStatus: "Active",
-          created: Date.now()
+          created: currentdate
         })
         data.save().then((result) => {
           jwt.sign({ result }, jwtkey, { expiresIn: '300s' }, (err, token) => {
@@ -1207,10 +1235,10 @@ app.post('/api/factoryLogin', jsonParser, async function (req, res) {
           res.status(200).json({ token, userId: userData._id, userEmail: userData.email, userRole: userData.role, userName: userData.name, address: userData.address, city: userData.city, country: userData.country, latitude: userData.latitude, longitude: userData.longitude, adminId: userData.adminId })
         })
       } else {
-        res.status(200).json({ status: "fail", message: "Invalid Password"  });
+        res.status(200).json({ status: "fail", message: "Invalid Password" });
       }
     } else {
-      res.status(200).json({ status: "fail", message: "Invalid Email Address"  });
+      res.status(200).json({ status: "fail", message: "Invalid Email Address" });
     }
   }
 })
@@ -1248,16 +1276,16 @@ app.post('/api/login', jsonParser, async function (req, res) {
 app.post('/api/userById', jsonParser, async function (req, res) {
   let userId = '';
   userId = req.body._id
-  if(userId){
+  if (userId) {
     const userData = await User.find({ _id: userId });
     if (userData) {
       const userRecord = userData[0];
-      res.status(200).json({userRecord })
-    }else{
-      res.status(200).json({error:"Something went wrong" })
+      res.status(200).json({ userRecord })
+    } else {
+      res.status(200).json({ error: "Something went wrong" })
     }
-  }else{
-    res.status(200).json({error:"Please provide valid data" })
+  } else {
+    res.status(200).json({ error: "Please provide valid data" })
   }
 })
 
@@ -1313,33 +1341,60 @@ app.post('/api/superAdminLogin', jsonParser, async function (req, res) {
   }
 })
 
+
 app.post('/api/adminLogin', jsonParser, async function (req, res) {
-  let adminEmail = ''
-  adminEmail = req.body.email;
-  const adminPassword = req.body.password;
-  if (adminEmail != '' && adminPassword != '' && adminEmail != undefined && adminPassword != undefined) {
+
+  let email = req.body.email;
+  let password = req.body.password;
+
+  if (email == '' || email === undefined) {
+    res.status(200).json({ status: "fail", message: "Please Enter Email Address" });
+  } else if (password == '' || password === undefined) {
+    res.status(200).json({ status: "fail", message: "Please Enter Password" });
+  } else {
     const userData = await User.findOne({ email: req.body.email, userStatus: 'Active', role: 'Admin' });
     if (userData) {
       const validPassword = await bcrypt.compare(req.body.password, userData.password);
       if (validPassword) {
         jwt.sign({ userData }, jwtkey, { expiresIn: '300s' }, (err, token) => {
-          //res.status(200).json({ token })
-          res.status(200).json({ token, userId: userData._id, userEmail: userData.email, userRole: userData.role, userName: userData.name, userAddress: userData.address, userCity: userData.city, userCountry: userData.country, userLatitude: userData.latitude, userLongitude: userData.longitude, superAdminId: userData.adminId })
+          res.status(200).json({ token, userId: userData._id, userEmail: userData.email, userRole: userData.role, userName: userData.name, address: userData.address, city: userData.city, country: userData.country, latitude: userData.latitude, longitude: userData.longitude, adminId: userData.adminId })
         })
       } else {
-        res.status(400).json({ error: "Invalid Password" });
+        res.status(200).json({ status: "fail", message: "Invalid Password" });
       }
     } else {
-      res.status(401).json({ error: "User does not exist" });
-    }
-  } else {
-    if (adminEmail == '' || adminEmail == undefined) {
-      res.status(401).json({ error: "Email is Required" });
-    } else {
-      res.status(401).json({ error: "Password is Required" });
+      res.status(200).json({ status: "fail", message: "Invalid Email Address" });
     }
   }
 })
+
+// app.post('/api/adminLogin', jsonParser, async function (req, res) {
+//   let adminEmail = ''
+//   adminEmail = req.body.email;
+//   const adminPassword = req.body.password;
+//   if (adminEmail != '' && adminPassword != '' && adminEmail != undefined && adminPassword != undefined) {
+//     const userData = await User.findOne({ email: req.body.email, userStatus: 'Active', role: 'Admin' });
+//     if (userData) {
+//       const validPassword = await bcrypt.compare(req.body.password, userData.password);
+//       if (validPassword) {
+//         jwt.sign({ userData }, jwtkey, { expiresIn: '300s' }, (err, token) => {
+//           //res.status(200).json({ token })
+//           res.status(200).json({ token, userId: userData._id, userEmail: userData.email, userRole: userData.role, userName: userData.name, userAddress: userData.address, userCity: userData.city, userCountry: userData.country, userLatitude: userData.latitude, userLongitude: userData.longitude, superAdminId: userData.adminId })
+//         })
+//       } else {
+//         res.status(400).json({ error: "Invalid Password" });
+//       }
+//     } else {
+//       res.status(401).json({ error: "User does not exist" });
+//     }
+//   } else {
+//     if (adminEmail == '' || adminEmail == undefined) {
+//       res.status(401).json({ error: "Email is Required" });
+//     } else {
+//       res.status(401).json({ error: "Password is Required" });
+//     }
+//   }
+// })
 
 app.get('/api/users', function (req, res) {
   User.find().sort({ _id: -1 }).then((data) => {
@@ -1479,6 +1534,8 @@ app.post('/api/location', jsonParser, async function (req, res) {
   }
 })
 app.post('/api/addFeedback', jsonParser, function (req, res) {
+  const date = new Date();
+  let currentdate = date.toLocaleString();
   const readStatus = 'Unread';
   const data = new Feedback({
     _id: new mongoose.Types.ObjectId(),
@@ -1490,7 +1547,7 @@ app.post('/api/addFeedback', jsonParser, function (req, res) {
     services: req.body.services,
     comment: req.body.comment,
     status: readStatus,
-    date: Date.now(),
+    date: currentdate,
   })
   data.save().then((result) => {
     res.status(200).json({ status: "success", message: "Thanks for rate us" });
@@ -1549,10 +1606,12 @@ app.post('/api/registerconsumer', async function (req, res) {
 
       const checkConsumerExists = await Consumer.findOne({ phone: phone });
       if (!checkConsumerExists) {
+        const date = new Date();
+        let currentdate = date.toLocaleString();
         const data = new Consumer({
           _id: new mongoose.Types.ObjectId(),
           phone: phone,
-          created: Date.now()
+          created: currentdate
 
         })
         data.save().then((result) => {
@@ -1593,11 +1652,15 @@ app.post('/api/rateus', jsonParser, async function (req, res) {
     } else {
       const checkConsumerRatingExists = await Rateus.findOne({ cid: req.body.cid });
       if (!checkConsumerRatingExists) {
+
+        const date = new Date();
+        let currentdate = date.toLocaleString();
+
         const data = new Rateus({
           _id: new mongoose.Types.ObjectId(),
           cid: cid,
           rating: rating,
-          created: Date.now(),
+          created: currentdate,
           comment: comment,
           services: services,
           role: role
@@ -1624,13 +1687,14 @@ app.post('/api/rateus', jsonParser, async function (req, res) {
 
 app.post('/api/scanIssueReport', jsonParser, async function (req, res) {
   try {
+    console.log("req.body.scanIssue.toString();",req.body.scanIssue.toString())
     let uid = req.body.uid;
     let productName = req.body.productName;
     let issueItemId = req.body.issueItemId;
     let itemType = req.body.itemType;
     let location = req.body.location;
     let scanDate = req.body.scanDate;
-    let scanIssue = req.body.scanIssue;
+    let scanIssue = req.body.scanIssue.toString();
     let comment = req.body.comment;
     let qrcodeImage = req.body.qrcodeImage;
     let productFImage = req.body.productFImage;
@@ -1639,54 +1703,57 @@ app.post('/api/scanIssueReport', jsonParser, async function (req, res) {
     let name = req.body.name;
     let email = req.body.email;
     let role = req.body.role;
-    if (role == '') { 
+    if (role == '') {
       role = 'Consumer';
     }
-    if (itemType == '') { 
+    if (itemType == '') {
       itemType = 'Product';
     }
     if (uid == '' || uid === undefined) {
       res.status(200).json({ status: "fail", message: "Invalid User" });
     } else if (comment == '' || comment === undefined) {
       res.status(200).json({ status: "fail", message: "Comment should not be blank" });
-    } else if (scanIssue == '' || scanIssue === undefined) {
-      res.status(200).json({ status: "fail", message: "Scan Issue should not be blank" });
     } else {
-      const checkConsumerIssueExists = await ScanIssueReport.findOne({ senderId: uid });
-      if (!checkConsumerIssueExists) {
-        const data = new ScanIssueReport({ 
-          _id: new mongoose.Types.ObjectId(),
-          senderId: uid,
-          productName: productName,
-          issueItemId: issueItemId,
-          itemType:itemType,
-          location: location,
-          scanDate: scanDate,
-          scanIssue: scanIssue,
-          comment: comment,
-          qrcodeImage: qrcodeImage,
-          productFImage: productFImage,
-          productBImage: productBImage,
-          shopImage: shopImage,
-          name: name,
-          email: email,
-          role: role,
-          created: Date.now(),
-        }) 
-        data.save().then((result) => {
-          res.status(200).json({ status: "success", message: "Thanks for report us" });
-        })
-          .catch((err) => console.warn(err)
-          )
-      } else {
-        res.status(200).json({ status: "success", message: "Already reporting us" });
-      }
+
+      const date = new Date();
+      let currentdate = date.toLocaleString();
+      const data = new ScanIssueReport({
+        _id: new mongoose.Types.ObjectId(),
+        senderId: uid,
+        productName: productName,
+        issueItemId: issueItemId,
+        itemType: itemType,
+        location: location,
+        scanDate: scanDate,
+        scanIssue: scanIssue,
+        comment: comment,
+        qrcodeImage: qrcodeImage,
+        productFImage: productFImage,
+        productBImage: productBImage,
+        shopImage: shopImage,
+        name: name,
+        email: email,
+        role: role,
+        created: currentdate,
+      })
+      data.save().then((result) => {
+        res.status(200).json({ status: "success", message: "Thanks for report us" });
+      })
+        .catch((err) => console.warn(err)
+        )
+
     }
 
   } catch (error) {
     console.log(error.message);
     res.status(400).send({ error: error.message });
   }
+})
+
+app.get('/api/getSelfReport', function (req, res) {
+  ScanIssueReport.find({ senderId: req.query.senderUserID }).sort({ _id: -1 }).then((data) => {
+    res.status(200).json(data)
+  })
 })
 
 var server = app.listen(8085, function () {

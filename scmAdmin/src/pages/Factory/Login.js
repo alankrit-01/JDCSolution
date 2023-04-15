@@ -30,6 +30,7 @@ const FactoryLogin = () => {
         }
     })
     useEffect(() => {
+        
     if (initialdata?.error) {
        let error = initialdata.error;
         errorNotify(error);

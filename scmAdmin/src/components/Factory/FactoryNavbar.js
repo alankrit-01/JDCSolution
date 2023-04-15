@@ -12,8 +12,13 @@ import { NavLink } from 'react-router-dom';
 import Ceoimg from  "assets/img/ceo-img.png";
 import ceo2 from  "assets/img/camera-icon.png";
 import locationicon from  "assets/img/location.png";
+import { useSelector } from 'react-redux';
 export default function FactoryNavbar({ showSidebar, setShowSidebar }) {
     const location = useLocation().pathname;
+
+    const factoryData = useSelector((state) => state.FactoryLoginData);
+    // const [factoryUserId, setFactoryUserId] = useState(factoryData.factoryUserEmail);
+    
     return (
         <nav className="custom-navbar md:ml-32 py-6 px-3">
             <div className="container max-w-full mx-auto flex items-center justify-between md:pr-8 md:pl-10">
@@ -90,11 +95,11 @@ export default function FactoryNavbar({ showSidebar, setShowSidebar }) {
                                 </p>
                                 <p className="nothing-part"> <span>Factory</span></p>
 
-                                <p className="click-open-btn"><Icon name="email" size="1xl" color="black" /> <a href="#">factory@gmail.com</a></p>
-                                <p className="click-open-btn"><img src={locationicon} className="location-img" /> <a href="#">Gachibowli, Hyderabad</a></p>
-                                <p className="click-open-btn"><Icon name="phone" size="1xl" color="black" /> <a href="#">+91 9602364756</a></p>
-                                <p className="click-open-btn2">Wallet address</p>
-                                <p className="box-set"> <a href="#">0x9bc444fc09f3660ad09b668f4a73b603b37Of07e <Icon name="email" size="1xl" color="black" /></a></p>
+                                <p className="click-open-btn"><Icon name="email" size="1xl" color="black" /> <a href="#">{factoryData && factoryData.factoryUserEmail}</a></p>
+                                <p className="click-open-btn"><img src={locationicon} className="location-img" /> <a href="#">{factoryData && factoryData.factoryUserCity } , {factoryData && factoryData.factoryUserCountry}</a></p>
+                                <p className="click-open-btn"><Icon name="phone" size="1xl" color="black" /> <a href="#">{factoryData && factoryData.factoryUserCountry}</a></p>
+                                {/* <p className="click-open-btn2">Wallet address</p> */}
+                                {/* <p className="box-set"> <a href="#">0x9bc444fc09f3660ad09b668f4a73b603b37Of07e <Icon name="email" size="1xl" color="black" /></a></p> */}
                                 <p className="sign-button-p"><DropdownItem color="lightBlue">Sign out</DropdownItem></p>
                                 </Dropdown>
                         </div>

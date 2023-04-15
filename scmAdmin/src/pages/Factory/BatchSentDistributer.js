@@ -21,7 +21,9 @@ const BatchSentDistributer = () => {
     let batchData = useLocation();
     let distributerID = batchData.state.distributerID;
     let distributorName = batchData.state.distributorName;
-    let totalBatchSent = batchData.state.totalBatchSent;
+    let distributorEmail = batchData.state.email;
+    let distributorPhone = batchData.state.phone;
+    let distributorAddress = batchData.state.address;
 
     const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
@@ -39,7 +41,7 @@ const BatchSentDistributer = () => {
         },
         {
             name: "Richmint Batch Code",
-            selector: (row) => row.CompanyBatchID,
+            selector: (row) => "B-" + row.CompanyBatchID,
             sortable: true,
         },
         {
@@ -76,11 +78,14 @@ const BatchSentDistributer = () => {
     }, [])
     const initialBatchTemplatedata = useSelector((state) => state.BatchSentRecord);
 
+    var totalbatch = initialBatchTemplatedata && initialBatchTemplatedata.batchSentRec.message.length;
+
+
     useEffect(() => {
         setBatchTemplates(initialBatchTemplatedata.batchSentRec.message && initialBatchTemplatedata.batchSentRec.message)
         setFilterBatchTemplates(initialBatchTemplatedata.batchSentRec.message && initialBatchTemplatedata.batchSentRec.message)
 
-        var a = [{ BatchSize: "There are no record to display" }];
+        var a = [{ BatchName: "There are no record to display" }];
 
         setLoading(true);
         if (
@@ -127,9 +132,9 @@ const BatchSentDistributer = () => {
                                 <div className="w-full lg:w-9/12 pr-4 mb-10 font-light back-set-gray">
                                     <div className="background-factory details-background-color">
                                     <h2>{distributorName && distributorName}</h2>
-                                        <p className="click-open-btn btn-one"> <Icon className="chage-c" name="phone" size="1xl" color="black" />GachiBowli,HYderabad</p>
-                                        <p className="click-open-btn btn-one"> <Icon className="chage-c" name="phone" size="1xl" color="black" />+91 6304334373</p>
-                                        <p className="click-open-btn btn-one"> <Icon className="chage-c" name="email" size="1xl" color="black" />Factory1@gmail.com</p>
+                                        <p className="click-open-btn btn-one"> <Icon className="chage-c" name="phone" size="1xl" color="black" />{distributorAddress && distributorAddress}</p>
+                                        <p className="click-open-btn btn-one"> <Icon className="chage-c" name="phone" size="1xl" color="black" />{distributorPhone && distributorPhone}</p>
+                                        <p className="click-open-btn btn-one"> <Icon className="chage-c" name="email" size="1xl" color="black" />{distributorEmail && distributorEmail}</p>
                                     </div>
                                 </div>
                                 <div className="w-full lg:w-2/12 pl-4 font-light">
@@ -145,7 +150,7 @@ const BatchSentDistributer = () => {
                                     <div className="right-button-section cust-part">
 
                                     <NavLink to="/factory/addBatchTemplate">
-                                        <button className="cust-button">Batches Sent <span className="batches-sent">{totalBatchSent && totalBatchSent}</span></button>
+                                        <button className="cust-button">Batches Sent <span className="batches-sent">{totalbatch && totalbatch}</span></button>
                                     </NavLink>
                                 </div>
                                 </div></div>

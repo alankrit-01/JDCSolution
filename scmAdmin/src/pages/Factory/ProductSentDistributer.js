@@ -1,7 +1,7 @@
 import MainStatusCard from 'components/Factory/MainStatusCard';
 import FactorySidebar from 'components/Factory/Sidebar';
 import Footer from 'components/Factory/Footer';
-import { NavLink, useNavigate,useLocation } from 'react-router-dom';
+import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useMemo, useState } from 'react';
 import DataTable from 'react-data-table-component';
@@ -18,6 +18,10 @@ const ProductSentDistributer = () => {
     const factoryData = useSelector((state) => state.FactoryLoginData);
     let batchData = useLocation();
     let distributerID = batchData.state.distributerID;
+    let distributorName = batchData.state.distributorName;
+    let distributorEmail = batchData.state.email;
+    let distributorPhone = batchData.state.phone;
+    let distributorAddress = batchData.state.address;
 
     const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
@@ -28,20 +32,20 @@ const ProductSentDistributer = () => {
 
 
     const columns = [
-       
+
         {
             name: "Product Name",
-            selector: (row) => row.BatchName,
+            selector: (row) => row.productName,
             sortable: true,
         },
         {
             name: "Product Id",
-            selector: (row) => row.BatchID,
+            selector: (row) => row.productID,
             sortable: true,
         },
         {
             name: "Richmint Product Code",
-            selector: (row) => "P-" + row.CompanyBatchID,
+            selector: (row) => "P-" + row.productID,
             sortable: true,
         },
         {
@@ -51,10 +55,11 @@ const ProductSentDistributer = () => {
         },
         {
             name: "Action",
-            selector: (row) => <button className="custom-details-btn" onClick={() => navigate('/factory/batchSentDetail', { state: { BatchID: row.BatchID } })}>View Batch</button>,
+            selector: (row) => <button className="custom-details-btn">Product Status</button>,
             ignoreRowClick: true,
             allowOverflow: true,
             button: true,
+            width:"200px"
         },
         // {
         //     selector: (row) => <button className="custom-details-btn" onClick={() => navigate('/factory/BatchProductQr', { state: { BatchID: row.BatchID } })}>Batch Product Qr</button>,
@@ -72,22 +77,41 @@ const ProductSentDistributer = () => {
         dispatch(getBatchByDistributer(data))
     }, [])
     const initialBatchTemplatedata = useSelector((state) => state.BatchSentRecord);
+    const batchProductData = initialBatchTemplatedata.batchSentRec.message;
 
+    let batchProductDataArray = [];
+    let totalProductSent = 0;
+    for (let i = 0; i < batchProductData.length; i++) {
+        const batchProductRec = batchProductData && batchProductData[i].ProductIDs;
+        const batchProductRecordLength = batchProductRec && batchProductRec.length
+        for (let j = 0; j < batchProductRecordLength; j++) {
+            totalProductSent++;
+            batchProductDataArray.push({
+                BatchID: batchProductData[i].BatchID,
+                productName: batchProductData[i].BatchName,
+                productID: batchProductRec[j],
+            })
+        }
+    }
+
+
+
+    //console.log("batchProductDataResult", batchProductDataArray)
 
 
     useEffect(() => {
-        setBatchTemplates(initialBatchTemplatedata.batchSentRec.message && initialBatchTemplatedata.batchSentRec.message)
-        setFilterBatchTemplates(initialBatchTemplatedata.batchSentRec.message && initialBatchTemplatedata.batchSentRec.message)
+        setBatchTemplates(batchProductDataArray && batchProductDataArray)
+        setFilterBatchTemplates(batchProductDataArray && batchProductDataArray)
 
         var a = [{ BatchSize: "There are no record to display" }];
 
         setLoading(true);
         if (
-            initialBatchTemplatedata.batchSentRec.message != 0 &&
-            initialBatchTemplatedata.batchSentRec.message != null &&
-            initialBatchTemplatedata.batchSentRec.message.message != ""
+            batchProductDataArray != 0 &&
+            batchProductDataArray != null &&
+            batchProductDataArray != ""
         ) {
-            setFilterBatchTemplates(initialBatchTemplatedata.batchSentRec.message && initialBatchTemplatedata.batchSentRec.message);
+            setFilterBatchTemplates(batchProductDataArray && batchProductDataArray);
 
         } else {
             setLoading(false);
@@ -98,7 +122,7 @@ const ProductSentDistributer = () => {
 
     useEffect(() => {
         const result = BatchTemplates.filter((allBatchTemplate) => {
-            return allBatchTemplate.BatchName.toLowerCase().match(Search.toLowerCase());
+            return allBatchTemplate.productName.toLowerCase().match(Search.toLowerCase());
         })
         setFilterBatchTemplates(result)
     }, [Search])
@@ -121,13 +145,13 @@ const ProductSentDistributer = () => {
                         <div className="grid grid-cols-1 px-4 mb-16">
 
                             <div className="flex flex-wrap mt-10">
-                            <div className="w-full lg:w-1/12"></div>
+                                <div className="w-full lg:w-1/12"></div>
                                 <div className="w-full lg:w-9/12 pr-4 mb-10 font-light back-set-gray">
                                     <div className="background-factory details-background-color">
-                                    <h2>Distributor - 1</h2>
-                                        <p className="click-open-btn btn-one"> <Icon className="chage-c" name="phone" size="1xl" color="black" />GachiBowli,HYderabad</p>
-                                        <p className="click-open-btn btn-one"> <Icon className="chage-c" name="phone" size="1xl" color="black" />+91 6304334373</p>
-                                        <p className="click-open-btn btn-one"> <Icon className="chage-c" name="email" size="1xl" color="black" />Factory1@gmail.com</p>
+                                        <h2>{distributorName && distributorName}</h2>
+                                        <p className="click-open-btn btn-one"> <Icon className="chage-c" name="phone" size="1xl" color="black" />{distributorAddress && distributorAddress}</p>
+                                        <p className="click-open-btn btn-one"> <Icon className="chage-c" name="phone" size="1xl" color="black" />{distributorPhone && distributorPhone}</p>
+                                        <p className="click-open-btn btn-one"> <Icon className="chage-c" name="email" size="1xl" color="black" />{distributorEmail && distributorEmail}</p>
                                     </div>
                                 </div>
                                 <div className="w-full lg:w-2/12 pl-4 font-light">
@@ -142,10 +166,10 @@ const ProductSentDistributer = () => {
 
                                     <div className="right-button-section cust-part">
 
-                                    <NavLink to="/factory/addBatchTemplate">
-                                        <button className="cust-button">Product Sent <span className="batches-sent">15</span></button>
-                                    </NavLink>
-                                </div>
+                                        <NavLink to="/factory/addBatchTemplate">
+                                            <button className="cust-button">Product Sent <span className="batches-sent">{totalProductSent && totalProductSent}</span></button>
+                                        </NavLink>
+                                    </div>
                                 </div></div>
 
                             <DataTable
