@@ -818,15 +818,6 @@ app.get('/api/authenticateProduct', async (req, res) => {
     if (!data) {
       const Data = new verificationData({
         _id: new mongoose.Types.ObjectId(),
-<<<<<<< HEAD
-        factoryID: "",
-        distributorID: "",
-        customerID: customerID,
-        batchDescription: "",
-        batchID: 0,
-        productId: ProductID,
-        level: 1
-=======
         factoryID:"",
         distributorID:"",
         customerID:customerID,
@@ -835,7 +826,6 @@ app.get('/api/authenticateProduct', async (req, res) => {
         batchID:0,
         productId:ProductID,
         level:1 
->>>>>>> 8130e8466df63044b7e2961163e53fdc2ad6917c
       })
       Data.save().then((result) => {
         console.log(result);
