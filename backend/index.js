@@ -249,29 +249,6 @@ app.get('/api/viewListOfBatchesProducedByFactory', async (req, res) => {
   }
 });
 
-app.get('/api/factoryStatistics', async (req, res) => {
-  try {
-    const FactoryID = req.query.factoryID;
-    if (FactoryID != '' && FactoryID !== undefined) {
-      const batchquery = { FactoryID: FactoryID };
-      const distributerquery = { role: "Distributer", adminId: "637f29523bcd21b57592615b" };
-      const reportquery = { senderId: FactoryID };
-
-      const countBatch = await batch.countDocuments(batchquery);
-      const countDistributer = await User.countDocuments(distributerquery);
-      const countReport = await ScanIssueReport.countDocuments(reportquery);
-
-      res.status(200).json({ status: "success", totalBatches: countBatch, totalReport: countReport, totalDisributer: countDistributer });
-    } else {
-      res.status(200).json({ status: "fail", message: "Please Provide Factory Details" });
-    }
-
-  } catch (error) {
-    console.log(error)
-    res.status(400).send({ error: error.message });
-  }
-});
-
 
 app.get('/api/viewBatchCount', async (req, res) => {
   try {
@@ -287,7 +264,6 @@ app.get('/api/viewBatchCount', async (req, res) => {
     res.status(400).send({ error: error.message });
   }
 });
-
 
 app.get('/api/viewBatchCountByDistributors', async (req, res) => {
   try {
@@ -361,7 +337,6 @@ app.get('/api/viewBatchRecordByBatchId', async (req, res) => {
   }
 });
 
-
 app.get('/api/viewProductIDsInBatch', async (req, res) => {
   try {
     let BatchID = req.query.batchID;
@@ -398,6 +373,34 @@ app.get('/api/viewProductsByFilter', async (req, res) => {
   }
 });
 
+
+app.get('/api/factoryStatistics', async (req, res) => {
+  try {
+    const FactoryID = req.query.factoryID;
+    if (FactoryID != '' && FactoryID !== undefined) {
+      let result = await batch.aggregate([
+        { $match: { FactoryID: FactoryID } },
+        { $group: { _id: '$FactoryID',Products: { $sum: "$BatchSize" }} },
+      ]);
+
+      const batchquery = { FactoryID: FactoryID };
+      const distributerquery = { role: "Distributer", adminId: "637f29523bcd21b57592615b" };
+      const reportquery = { senderId: FactoryID };
+
+      const countBatch = await batch.countDocuments(batchquery);
+      const countDistributer = await User.countDocuments(distributerquery);
+      const countReport = await ScanIssueReport.countDocuments(reportquery);
+
+      res.status(200).json({ status: "success", totalBatches: countBatch, totalReport: countReport, totalDisributer: countDistributer, totalProducts: result[0].Products });
+    } else {
+      res.status(200).json({ status: "fail", message: "Please Provide Factory Details" });
+    }
+
+  } catch (error) {
+    console.log(error)
+    res.status(400).send({ error: error.message });
+  }
+});
 
 
 ////////////////// API FOR DISTIBUTOR ////////////////////
