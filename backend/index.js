@@ -788,7 +788,6 @@ app.get('/api/authenticateProduct', async (req, res) => {
     // let data = await contract.ProductMapping(ProductID);
     let data = await product.findOne({ ProductID });
     
-    
     if (!data) {
       const Data = new verificationData({
         _id: new mongoose.Types.ObjectId(),
