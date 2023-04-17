@@ -1020,7 +1020,6 @@ app.get('/api/viewListOfBatchTemplates', async (req, res) => {
 ///////////// Vipin Work////////////////
 ///////////////////////////////////////
 
-
 const upload = multer({
   storage: multer.diskStorage({
     destination: function (req, file, cb) {
@@ -1692,7 +1691,6 @@ app.post('/api/rateus', jsonParser, async function (req, res) {
 
 app.post('/api/scanIssueReport', jsonParser, async function (req, res) {
   try {
-    console.log("req.body.scanIssue.toString();",req.body.scanIssue.toString())
     let uid = req.body.uid;
     let productName = req.body.productName;
     let issueItemId = req.body.issueItemId;

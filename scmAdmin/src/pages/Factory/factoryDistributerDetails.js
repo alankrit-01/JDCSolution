@@ -6,6 +6,7 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import cumulative from "assets/img/cumulative.png";
+import PieRechartComponent from "components/Factory/PieChart";
 const FactoryDistributerDetails = () => {
     const dataFetchedRef = useRef(false);
     const dispatch = useDispatch();
@@ -101,7 +102,6 @@ const FactoryDistributerDetails = () => {
                                                     <option value="blue">Blue </option>
                                                 </select>
                                             </div>
-
                                         </div>
                                         <div className="liner-part">
                                             <p>Batches sent</p>
@@ -111,7 +111,10 @@ const FactoryDistributerDetails = () => {
                                         </div>
                                     </div>
                                     <div className="w-full lg:w-6/12 pl-4 mb-10 font-light self">
-                                        <h3>Products Sent</h3>
+                                        {/* <h3>Products Sent</h3> */}
+                                        <PieRechartComponent>
+
+                                        </PieRechartComponent>
                                     </div>
                                 </div>
                             </div>
