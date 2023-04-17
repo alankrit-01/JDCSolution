@@ -37,7 +37,7 @@ const FactorySelfReports = () => {
   const [IssueReport, setIssueReport] = useState([]);
   const [Search, setSearch] = useState("");
   const [FilterIssueReport, setFilterIssueReport] = useState([]);
-
+  let temp;
   const columns = [
     {
       name: "Comment",
@@ -45,16 +45,6 @@ const FactorySelfReports = () => {
       sortable: true,
       width: "750px"
     },
-    // {
-    //     name: "Email",
-    //     selector: (row) => row.email,
-    //     sortable: true,
-    // },
-    // {
-    //     name: "Descrition",
-    //     selector: (row) => row.description,
-    //     sortable: true,
-    // },
     {
       name: "Date",
       selector: (row) => row.created,
@@ -63,6 +53,7 @@ const FactorySelfReports = () => {
     {
       name: "Report",
       selector: (row) => (
+         
         //   <button className="custom-details-btn" onClick={() => Popup()}>View More</button>
         <Popup
           trigger={<Button className="view-more-part2">View more</Button>}
@@ -73,6 +64,7 @@ const FactorySelfReports = () => {
             class="popup"
             className=" max-h-max bg-[#CCCCCC] ml-56 px-2 max-w-2xl pb-6 text-[#0c3f6a] pr-6 position-set-part"
           >
+            <p  style={{display: "none"}}>{temp = row.scanIssue.split(',')}</p>
             <div className="flex">
               <div className="mt-6 ml-6">
                 <h5 className="text-lg font-extrabold">
@@ -80,31 +72,18 @@ const FactorySelfReports = () => {
                 </h5>
                 <br></br>
                 <div className="text-sm">
-
-                {row.scanIssue && row.scanIssue}
-
-                  <div className="flex">
+                  {temp && temp.map((x)=><div className="flex">
                     <input
                       className="w-4 h-4"
                       type="checkbox"
-                    //   checked={checked}
+                      checked={"checked"}
                     //   onChange={handleChange}
                     />
                     <p className="pl-2">
-                      Authentication Failed could be a Fake Product
+                      {x && x}
                     </p>
-                  </div>
-                  <div className="flex">
-                    <input
-                      className="w-4 h-4"
-                      type="checkbox"
-                    //   checked={checked}
-                    //   onChange={handleChange}
-                    />
-                    <p className="pl-2">
-                      Unable to scan/Enter Qr Code Software Issue
-                    </p>
-                  </div>
+                  </div>)}
+                  
                 </div>
               </div>
               <div className="mt-6 ml-36  text-left text-sm">

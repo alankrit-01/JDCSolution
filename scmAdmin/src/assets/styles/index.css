@@ -1424,3 +1424,16 @@ span.error {
 .batch-sent:focus {
     background-color: #0c3f6a;
 }
+
+.issue-textarea {
+    padding: 10px;
+    width: 100%;
+    background: none;
+    border: 1px solid #164770 !important;
+    color: #164770;
+    height: 120px;
+}
+.issue-textarea::placeholder {
+    color: #164770;
+
+}    

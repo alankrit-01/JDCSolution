@@ -87,15 +87,12 @@ const AddFactoryReport = () => {
                                                         {errors.scanIssue && <span className="error">Select Atleast One Issue</span>}
                                                     </ul>
                                                 </div>
-                                                <div className="w-full lg:w-11/12 flex flex-wrap mb-10 font-light lorem-text">
-                                                    <textarea {...register("comment", { required: true })} placeholder="Comment" required className="w-full h-full focus:outline-none" />
+                                                <div className="w-full lg:w-12/12 flex flex-wrap mb-10 font-light lorem-text">
+                                                    <textarea {...register("comment", { required: true })} placeholder="Comment" required className="w-full h-full focus:outline-none issue-textarea" />
                                                     {errors.comment && <span className="error"> comment is required.</span>}
                                                 </div>
-                                                {/* <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                                                        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                                                        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                                                        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>  
-                                                         */}
+                                                
+                                                        
                                             </div>
                                             <div className="flex">
                                                 <div className="w-full lg:w-12/12 pr-4 mb-10 font-light button-bg-use">
