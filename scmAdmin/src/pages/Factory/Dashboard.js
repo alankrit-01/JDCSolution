@@ -11,12 +11,14 @@ import DashboardVector from 'assets/img/vactor.jpg';
 import sendfree from 'assets/img/free-send.png';
 
 import PieRechartComponent from 'components/Factory/PieChart';
-
+import {resetLoginData} from "Services/action";
 import  GoogleMapReact  from 'google-map-react';
 import  AnyReactComponent  from 'google-map-react';
-
+import { useDispatch} from "react-redux";
+import { useEffect } from "react";
+    
 const FactoryDashboard = () => {
-
+    const dispatch = useDispatch();
 
     const defaultProps = {
         center: {
@@ -25,6 +27,12 @@ const FactoryDashboard = () => {
         },
         zoom: 11
     };
+
+    useEffect(()=>{
+        dispatch(resetLoginData());
+      },
+      []
+      )
 
     return (
         <>

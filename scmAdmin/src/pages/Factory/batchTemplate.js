@@ -144,7 +144,7 @@ const BatchTemplate = () => {
                         <div className="grid grid-cols-1 px-4 mb-16">
                         <div class="grid grid-cols-3 gap-4">
                                 <div>
-                                    <h2 className="head-cust-color">Batch List</h2>
+                                    <h2 className="head-cust-color">Batches List</h2>
                                 </div>
                                 <div>
                                     <input type="text" className="cust-input" placeholder="Search" value={Search}

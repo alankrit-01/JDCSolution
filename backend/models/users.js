@@ -18,6 +18,6 @@ let userSchema = new mongoose.Schema({
     locationurl:String,
     userStatus:String,
     image:String,
-    created:Date,
+    created:String,
 })
 module.exports=mongoose.model('users',userSchema)

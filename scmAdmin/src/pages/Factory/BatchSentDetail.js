@@ -38,7 +38,7 @@ const BatchSentDetail = () => {
         },
         {
             name: "Richmint Product Code",
-            selector: (row) => row.BatchID,
+            selector: (row) => "P-"+row.BatchID,
             sortable: true,
         },
         {

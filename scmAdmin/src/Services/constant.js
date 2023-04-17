@@ -28,9 +28,12 @@ export const Set_Company_List = 'Set_Company_List';
 export const Set_SuperAdmin_Logout = 'Set_SuperAdmin_Logout';
 
 export const AdminUserLogin = 'AdminUserLogin';
+export const Reset_Login_Data ='Reset_Login_Data';
+export const Set_Reset_Login_Data ='Set_Reset_Login_Data';
 export const Get_Local_Store_Data = 'Get_Local_Store_Data';
 export const set_Local_Store_Data = "set_Local_Store_Data";
 export const Set_Admin_Login = 'Set_Admin_Login'; 
+export const Admin_Login_Invalid = 'Admin_Login_Invalid';
 export const Admin_Login_Fail = 'Admin_Login_Fail';
 export const AdminUserLogout = 'AdminUserLogout';
 export const Set_Admin_Logout = 'Set_Admin_Logout';
@@ -80,10 +83,11 @@ export const Factory_Login_Invalid = 'Factory_Login_Invalid';
 export const Factory_Login_Fail = 'Factory_Login_Fail';
 export const FactoryUserLogout = 'FactoryUserLogout';
 export const Set_Factory_Logout = 'Set_Factory_Logout';
+
 export const Store_Factory = 'Store_Factory';
 export const Reset_Factory_Data = 'Reset_Factory_Data';
-export const Store_Factory_Request = 'Store_Factory_Request';
 export const Set_Reset_Factory_Data = 'Set_Reset_Factory_Data';
+export const Store_Factory_Request = 'Store_Factory_Request';
 export const Set_Store_Factory_Data = 'Set_Store_Factory_Data';
 export const Set_Store_Factory_Data_Already_Exist = 'Set_Store_Factory_Data_Already_Exist';
 export const Set_Store_Factory_Data_Fail = 'Set_Store_Factory_Data_Fail';
@@ -116,6 +120,21 @@ export const Set_Store_Company_Feedback_Data = 'Set_Store_Retailer_Data';
 export const Set_Store_Company_Feedback_Data_Fail = 'Set_Store_Company_Feedback_Data_Fail';
 export const Check_Company_Feedback_Success_data = 'Check_Company_Feedback_Success_data';
 export const Check_Company_Feedback_Success_data_1 = 'Check_Company_Feedback_Success_data_1';
+
+export const Reset_Factory_Report_Data = 'Reset_Factory_Report_Data';
+export const Set_Reset_Factory_Report_Data = 'Set_Reset_Factory_Report_Data';
+
+export const Store_Factory_Report = 'Store_Factory_Report';
+export const Store_Factory_Report_Request = 'Store_Factory_Report_Request';
+export const Set_Store_Factory_Report_Data = 'Set_Store_Factory_Report_Data';
+export const Set_Store_Factory_Report_Data_Fail = 'Set_Store_Factory_Report_Data_Fail';
+export const Check_Factory_Report_Success_data = 'Check_Factory_Report_Success_data';
+export const Check_Factory_Report_Success_data_1 = 'Check_Factory_Report_Success_data_1';
+
+
+export const Get_Self_Report = 'Get_Self_Report';
+export const Set_Self_Report_List = 'Set_Self_Report_List';
+
 
 
 export const Store_Product_Template = 'Store_Product_Template';
@@ -153,5 +172,5 @@ export const Get_Batch_Detail = 'Get_Batch_Detail';
 export const Set_Batch_Detail_List = 'Set_Batch_Detail_List';
 export const Reset_Batch_Template_Data = 'Reset_Batch_Template_Data';
 export const Set_Reset_Batch_Template_Data = 'Set_Reset_Batch_Template_Data';
-
-
+export const Get_Factory_Statics = 'Get_Factory_Statics';
+export const Set_Factory_Statics_List = 'Set_Factory_Statics_List';

@@ -1395,15 +1395,32 @@ span.error {
 .leading-none {
     line-height: inherit;
 }
+
 .location-img2 {
     width: 12px;
     display: inline-block;
 }
+
 .position-set-part2 {
     position: relative;
     top: 154px;
 }
+
 .position-set-part3 {
     position: relative;
     top: 210px;
+}
+
+.batch-sent {
+    width: 250px;
+    height: 50px;
+    background-color: #0c3f6a;
+}
+
+.batch-sent:hover {
+    background-color: #0c3f6a;
+}
+
+.batch-sent:focus {
+    background-color: #0c3f6a;
 }

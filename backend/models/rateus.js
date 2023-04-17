@@ -3,7 +3,7 @@ let rateusSchema = new mongoose.Schema({
     _id:mongoose.Schema.Types.ObjectId,   
     cid:String,
     rating:String,     
-    created:Date,
+    created:String,
     comment:String,
     services:String
 })
