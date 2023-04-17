@@ -133,5 +133,5 @@ const PieRechartComponent = () => {
       </div>
     </>
   ); 
-};
+}; 
 export default PieRechartComponent;
