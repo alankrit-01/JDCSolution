@@ -249,7 +249,7 @@ app.get('/api/viewListOfBatchesProducedByFactory', async (req, res) => {
   }
 });
 
-app.get('/api/factoryStatics', async (req, res) => {
+app.get('/api/factoryStatistics', async (req, res) => {
   try {
     const FactoryID = req.query.factoryID;
     if (FactoryID != '' && FactoryID !== undefined) {
@@ -361,6 +361,7 @@ app.get('/api/viewBatchRecordByBatchId', async (req, res) => {
   }
 });
 
+
 app.get('/api/viewProductIDsInBatch', async (req, res) => {
   try {
     let BatchID = req.query.batchID;
@@ -370,6 +371,27 @@ app.get('/api/viewProductIDsInBatch', async (req, res) => {
       console.log(error);
       res.status(200).json({ status: "success", message: "Returned data is empty" });
     })
+  } catch (error) {
+    console.log(error.message);
+    res.status(400).send({ error: error.message });
+  }
+});
+
+app.get('/api/viewProductsByFilter', async (req, res) => {
+  try {
+    const FactoryID = req.query.factoryID;
+    let result = await batch.aggregate([
+      { $match: { FactoryID: FactoryID } },
+      { $group: { _id: '$ProductTemplateID', Batches: { $sum: 1 }, Products: { $sum: "$BatchSize" }, Name: { $first: '$BatchName' }, BatchDescription: { $first: '$BatchDescription' } } },
+      { $sort: { _id: 1 } }
+    ]);
+
+    res.status(200).json({ status: "success", message: result });
+    // batch.find({ FactoryID }).then((documents) => {
+    // }).catch((error) => {
+    //   console.log(error);
+    //   res.status(200).json({ status: "success", message: "Returned data is empty" });
+    // })
   } catch (error) {
     console.log(error.message);
     res.status(400).send({ error: error.message });
@@ -813,7 +835,6 @@ app.get('/api/authenticateProduct', async (req, res) => {
 
     // let data = await contract.ProductMapping(ProductID);
     let data = await product.findOne({ ProductID });
-    
     
     if (!data) {
       const Data = new verificationData({
