@@ -118,7 +118,7 @@ app.post('/api/factoryAddProductTemplate', async (req, res) => {
 app.get('/api/viewListOfProductTemplates', async (req, res) => {
   try {
     const FactoryID = req.query.factoryID;
-    productTemplate.find({ FactoryID }).sort({ ProductTemplateID: 1 }).then((documents) => {
+    productTemplate.find({ FactoryID }).sort({_id: -1}).then((documents) => {
       res.status(200).json({ status: "success", message: documents });
     }).catch((error) => {
       console.log(error);
@@ -237,7 +237,7 @@ app.post('/api/factoryAddBatch', addbatchMIDDLEWARE, async (req, res) => {
 app.get('/api/viewListOfBatchesProducedByFactory', async (req, res) => {
   try {
     const FactoryID = req.query.factoryID;
-    batch.find({ FactoryID }).sort({ ProductTemplateID: 1 }).then((documents) => {
+    batch.find({ FactoryID }).sort({_id: -1}).then((documents) => {
       res.status(200).json({ status: "success", message: documents });
     }).catch((error) => {
       console.log(error);
