@@ -10,6 +10,8 @@ let customerData = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "product"
     },
+    ProductName:String,
+    ProductID:Number,
     CustomerID:String,
     CustomerName:String,
     TimeStamp:String
