@@ -1437,3 +1437,15 @@ span.error {
     color: #164770;
 
 }    
+.productName{
+    font-weight: 600;
+    font-size: 16px;
+    text-align: center;
+}
+.factoryDistributerDetail h2.heading-background {
+    display: none;
+}
+
+.profile-data {
+    width: 300px;
+}

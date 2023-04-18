@@ -5,18 +5,13 @@ import { getAllLevelFails, sentProductListByFactory } from "Services/action";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "@material-tailwind/react/Button";
 
-const PieRechartComponent = () => {
+const DistributerDetailChart = () => {
 
   const factoryData = useSelector((state) => state.FactoryLoginData);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [Failedlevel1, setFailedlevel1] = useState([]);
-  const [Failedlevel2, setFailedlevel2] = useState([]);
-  const [Failedlevel3, setFailedlevel3] = useState([]);
-  const [Failedlevel4, setFailedlevel4] = useState([]);
-  const [Failedlevel5, setFailedlevel5] = useState([]);
 
   useEffect(() => {
     const data = {
@@ -108,19 +103,6 @@ const PieRechartComponent = () => {
           <Tooltip content={<AuthenticationLevelTooltip />} />
 
 
-
-
-          {AuthenticationLevelData.map((entry, index) => (
-            <Cell
-              key={`cell-${index}`}
-              fill={
-                AuthenticationLevelCOLORS[
-                index % AuthenticationLevelCOLORS.length
-                ]
-              }
-            />
-          ))}
-
           {/* <Legend
             layout="vertical"
             verticalAlign="bottom"
@@ -138,4 +120,4 @@ const PieRechartComponent = () => {
     </>
   );
 };
-export default PieRechartComponent;
+export default DistributerDetailChart;

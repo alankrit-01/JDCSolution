@@ -128,9 +128,9 @@ useEffect(()=>{
 
           </div>
 
-          {/* <div className="container mx-auto max-w-full h-96 ">
-            <PieRechartComponent />
-          </div> */}
+          <div className="container mx-auto max-w-full h-96 ">
+            {/* <PieRechartComponent /> */}
+          </div>
         </div>
         <Footer />
       </div>

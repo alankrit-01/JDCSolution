@@ -174,3 +174,9 @@ export const Reset_Batch_Template_Data = 'Reset_Batch_Template_Data';
 export const Set_Reset_Batch_Template_Data = 'Set_Reset_Batch_Template_Data';
 export const Get_Factory_Statics = 'Get_Factory_Statics';
 export const Set_Factory_Statics_List = 'Set_Factory_Statics_List';
+export const Sent_Product_List_By_Factory = 'Sent_Product_List_By_Factory';
+export const Set_Factory_Sent_Product_List = 'Set_Factory_Sent_Product_List';
+
+
+
+
