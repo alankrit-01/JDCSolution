@@ -613,6 +613,32 @@ app.get('/api/viewRecentSellsToRetailers', async (req, res) => {
   }
 });
 
+app.get('/api/viewBatchAndProductCountForDistributor', async (req, res) => {
+  try {
+    const DistributorID = req.query.distributorID;
+    let result = await batch.aggregate([
+      { $match: { DistributorID: DistributorID } },
+      { $group: { _id: '$DistributorID', BatchesReceived: { $sum: 1 }, ProductsReceived: { $sum: "$BatchSize" }, ProductsSold: { $sum: "$AmountLeftForSellingTORetailer" }} },
+      { $sort: { _id: 1 } }
+    ]);
+
+    let result2 = await batch.aggregate([
+      { $match: { DistributorID: DistributorID } },
+      { $group: { _id: '$ProductTemplateID', ProductsReceived: { $sum: "$BatchSize" }, Name: { $first: '$BatchName' }} },
+      { $sort: { _id: 1 } }
+    ]);
+    console.log(result2);
+
+    result[0].ProductsSold = result[0].ProductsReceived- result[0].ProductsSold;
+    result[0].ProductReceivedDetail=result2;
+    
+    res.status(200).json({ status: "success", message: result[0] });
+  } catch (error) {
+    console.log(error.message);
+    res.status(400).send({ error: error.message });
+  }
+});
+
 
 ////////////////// API FOR RETAILER ////////////////////
 
