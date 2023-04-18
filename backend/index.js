@@ -41,7 +41,7 @@ MONGO_URL = "mongodb+srv://vipin:vipinrichmint@cluster0.y8ufn.mongodb.net/nodeda
 mongoose.connect(MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true }).then(() => console.log("Connected"));
 
 
-let contractAddress = "0x0E7cf2B798C33c15E88BCF43935766Bd6a8FD80B";
+let contractAddress = "0x5DDc7d8D7ca5E212CbDCE6fB46EFe51f45441b4e";
 let contract;
 
 const connectToMatic = async () => {
@@ -118,7 +118,7 @@ app.post('/api/factoryAddProductTemplate', async (req, res) => {
 app.get('/api/viewListOfProductTemplates', async (req, res) => {
   try {
     const FactoryID = req.query.factoryID;
-    productTemplate.find({ FactoryID }).sort({ ProductTemplateID: 1 }).then((documents) => {
+    productTemplate.find({ FactoryID }).sort({_id: -1}).then((documents) => {
       res.status(200).json({ status: "success", message: documents });
     }).catch((error) => {
       console.log(error);
@@ -237,7 +237,7 @@ app.post('/api/factoryAddBatch', addbatchMIDDLEWARE, async (req, res) => {
 app.get('/api/viewListOfBatchesProducedByFactory', async (req, res) => {
   try {
     const FactoryID = req.query.factoryID;
-    batch.find({ FactoryID }).sort({ ProductTemplateID: 1 }).then((documents) => {
+    batch.find({ FactoryID }).sort({_id: -1}).then((documents) => {
       res.status(200).json({ status: "success", message: documents });
     }).catch((error) => {
       console.log(error);
@@ -372,7 +372,6 @@ app.get('/api/viewProductsByFilter', async (req, res) => {
     res.status(400).send({ error: error.message });
   }
 });
-
 
 app.get('/api/factoryStatistics', async (req, res) => {
   try {
@@ -621,18 +620,22 @@ app.get('/api/viewBatchAndProductCountForDistributor', async (req, res) => {
       { $group: { _id: '$DistributorID', BatchesReceived: { $sum: 1 }, ProductsReceived: { $sum: "$BatchSize" }, ProductsSold: { $sum: "$AmountLeftForSellingTORetailer" }} },
       { $sort: { _id: 1 } }
     ]);
+    // console.log(result)
 
     let result2 = await batch.aggregate([
       { $match: { DistributorID: DistributorID } },
       { $group: { _id: '$ProductTemplateID', ProductsReceived: { $sum: "$BatchSize" }, Name: { $first: '$BatchName' }} },
       { $sort: { _id: 1 } }
     ]);
-    console.log(result2);
-
-    result[0].ProductsSold = result[0].ProductsReceived- result[0].ProductsSold;
-    result[0].ProductReceivedDetail=result2;
-    
-    res.status(200).json({ status: "success", message: result[0] });
+    // console.log(result2);
+    if(result.length){
+      result[0].ProductsSold = result[0].ProductsReceived- result[0].ProductsSold;
+      result[0].ProductReceivedDetail=result2;
+  
+      res.status(200).json({ status: "success", message: result[0] });
+    }else{
+      res.status(200).json({ status: "failure", message: "Result is empty" });
+    }
   } catch (error) {
     console.log(error.message);
     res.status(400).send({ error: error.message });
@@ -808,11 +811,14 @@ app.post('/api/sellToCustomer', async (req, res) => {
         CustomerID: customerID,
         CustomerName: customerName,
         DateWhenSoldToCustomer: timeStamp,
-      })
-
+      }) 
+      const batchData = await batch.findOne({BatchID:productData.BatchID});
+      console.log(batchData);
       const data = new customerData({
         _id: new mongoose.Types.ObjectId(),
         ProductRef: productData._id,
+        ProductID: ProductID,
+        ProductName: batchData.BatchName,
         CustomerID: customerID,
         CustomerName: customerName,
         TimeStamp: timeStamp
@@ -836,12 +842,24 @@ app.get('/api/viewProductBoughts', async (req, res) => {
   try {
     let CustomerID = req.query.customerID;
     const documents = await customerData.find({ CustomerID: CustomerID })
-      .populate("ProductRef")
-    // .populate({
-    //   path: 'ProductID',
-    //   model: 'product',
-    //   select: 'DOM', 
-    // });
+      // .populate("ProductRef")
+    console.log(documents);
+    if (documents) {
+      res.status(200).json({ status: "success", message: documents });
+    } else {
+      res.status(200).json({ status: "success", message: "Returned data is empty" });
+    }
+  } catch (error) {
+    console.log(error.message);
+    res.status(400).send({ error: error.message });
+  }
+});
+
+app.get('/api/viewProductBoughtDetail', async (req, res) => {
+  try {
+    let ProductID = req.query.productID;
+    const documents = await customerData.findOne({ ProductID: ProductID })
+      // .populate("ProductRef")
     console.log(documents);
     if (documents) {
       res.status(200).json({ status: "success", message: documents });
