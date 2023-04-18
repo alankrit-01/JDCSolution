@@ -26,15 +26,15 @@ const PieRechartComponent = () => {
   const initialFraudScansdata = useSelector((state) => state.FraudScansRecord);
   const initialFailsLeveldata = useSelector((state) => state.FailsLevelRecord);
 
-
+console.log("initialFraudScansdata", initialFraudScansdata)
   
-  let allFraudScansData = initialFraudScansdata.fraudScansRec
-  let allFailsLevelData = initialFailsLeveldata.failsLevelRec
+  let allFraudScansData = initialFraudScansdata && initialFraudScansdata.fraudScansRec
+  let allFailsLevelData = initialFailsLeveldata && initialFailsLeveldata.failsLevelRec
 
 
     useEffect(() => {
-        let level1FailData = allFraudScansData.filter((arr) => arr.isDistributor === true);
-        let level2FailData = allFraudScansData.filter((arr) => arr.isRetailer === true);
+        let level1FailData = allFraudScansData.filter((arr) => arr?.isDistributor);
+        let level2FailData = allFraudScansData.filter((arr) => arr?.isRetailere);
         setLevel1FraudScans(level1FailData)
         setLevel2FraudScans(level2FailData)
 

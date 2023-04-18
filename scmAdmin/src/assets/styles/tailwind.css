@@ -4349,6 +4349,17 @@ span.error {
     color: #164770;
 
 }
+.productName{
+    font-weight: 600;
+    font-size: 16px;
+    text-align: center;
+}
+.factoryDistributerDetail h2.heading-background {
+    display: none;
+}
+.profile-data {
+    width: 300px;
+}
 .hover\:scale-105:hover{
 	--tw-scale-x: 1.05;
 	--tw-scale-y: 1.05;
@@ -4630,4 +4641,4 @@ span.error {
 	.xl\:grid-cols-5{
 		grid-template-columns: repeat(5, minmax(0, 1fr));
 	}
-}    
+}

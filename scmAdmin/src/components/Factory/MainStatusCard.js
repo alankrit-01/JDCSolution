@@ -15,6 +15,7 @@ import DistributerImg from 'assets/img/distributer.png';
 import ProductTempImg from 'assets/img/products-template.png';
 import BatchImg from 'assets/img/batches-sent.png';
 import FeedbackImg from 'assets/img/Reports.png';
+import ReportIssued from 'assets/img/ReportsExport.png';
 
 
 
@@ -27,11 +28,13 @@ const MainStatusCard = () => {
     const factoryData = useSelector((state) => state.FactoryLoginData);
     const [factoryUserId, setFactoryUserId] = useState(factoryData.factoryUserId);
     const initialFactoryStaticsdata = useSelector((state) => state.FactoryStaticsRecord);
-    // console.log("data here",initialFactoryStaticsdata)
+    //  console.log("data here",initialFactoryStaticsdata)
    
     const totalDisributer = initialFactoryStaticsdata && initialFactoryStaticsdata.factoryStaticsRec.totalDisributer;
     const  totalreports = initialFactoryStaticsdata && initialFactoryStaticsdata.factoryStaticsRec.totalReport;
     const  totalBatches = initialFactoryStaticsdata && initialFactoryStaticsdata.factoryStaticsRec.totalBatches;
+    const  totalProducts = initialFactoryStaticsdata && initialFactoryStaticsdata.factoryStaticsRec.totalProducts;
+
     
     useEffect(() => {
         const data = {
@@ -67,7 +70,7 @@ const MainStatusCard = () => {
                     <NavLink to="/factory/distributer">
                         <Card className="main-tiles p-0">
                             <CardRow className="inner-tiles">
-                                <CardStatus className="tiles-title" title={totalDisributer} />
+                                <CardStatus className="tiles-title" title={totalDisributer && totalDisributer} />
                                 <img src={DistributerImg} className="w-24 h-24" />
                                 <CardStatus className="tiles-title-bottom" title={"Distributer"} />
                             </CardRow>
@@ -78,7 +81,7 @@ const MainStatusCard = () => {
                     <NavLink to="/factory/batchSent">
                         <Card className="main-tiles p-0">
                             <CardRow className="inner-tiles">
-                                <CardStatus className="tiles-title" title={totalBatches} />
+                                <CardStatus className="tiles-title" title={totalBatches && totalBatches} />
                                 <img src={BatchImg} className="w-24 h-24" />
                                 <CardStatus className="tiles-title-bottom" title={"Batches Sent"} />
                             </CardRow>
@@ -89,7 +92,7 @@ const MainStatusCard = () => {
                     <NavLink to="/factory/productTemplate">
                         <Card className="main-tiles p-0">
                             <CardRow className="inner-tiles">
-                                <CardStatus className="tiles-title" title={100} />
+                                <CardStatus className="tiles-title" title={totalProducts && totalProducts} />
                                 <img src={ProductTempImg} className="w-24 h-24" />
                                 <CardStatus className="tiles-title-bottom" title={"Products Sent"} />
                             </CardRow>
@@ -100,12 +103,21 @@ const MainStatusCard = () => {
                 <NavLink to="/factory/factorySelfReports">
                     <Card className="main-tiles p-0">
                         <CardRow className="inner-tiles">
-                            <CardStatus className="tiles-title" title={totalreports} />
-                            <img src={FeedbackImg} className="w-24 h-24" />
+                            <CardStatus className="tiles-title" title={totalreports && totalreports} />
+                            <img src={ReportIssued} className="w-24 h-24" />
                             <CardStatus className="tiles-title-bottom" title={"Reports issued"} />
                         </CardRow>
                     </Card>
                     </NavLink>
+                </div>
+                <div className="px-4 mb-10 main-tiles-section">
+                    <Card className="main-tiles p-0">
+                        <CardRow className="inner-tiles">
+                            <CardStatus className="tiles-title" title={100} />
+                            <img src={FeedbackImg} className="w-24 h-24" />
+                            <CardStatus className="tiles-title-bottom" title={"Reports Received"} />
+                        </CardRow>
+                    </Card>
                 </div>
                 {/* <StatusCard
                 color="purple"

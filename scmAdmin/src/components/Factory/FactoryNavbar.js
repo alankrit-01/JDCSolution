@@ -87,6 +87,7 @@ export default function FactoryNavbar({ showSidebar, setShowSidebar }) {
                                     to="/factory/settings">
 
                                 </NavLink>
+                                <div className='profile-data'>
 
                                 <a href="#"><img src={Ceoimg} className="ceo-img-part" />
                                 </a>
@@ -101,6 +102,8 @@ export default function FactoryNavbar({ showSidebar, setShowSidebar }) {
                                 {/* <p className="click-open-btn2">Wallet address</p> */}
                                 {/* <p className="box-set"> <a href="#">0x9bc444fc09f3660ad09b668f4a73b603b37Of07e <Icon name="email" size="1xl" color="black" /></a></p> */}
                                 <p className="sign-button-p"><DropdownItem color="lightBlue">Sign out</DropdownItem></p>
+                                
+                                </div>
                                 </Dropdown>
                         </div>
                     </div>

@@ -6,7 +6,7 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import cumulative from "assets/img/cumulative.png";
-import PieRechartComponent from "components/Factory/PieChart";
+import DistributerDetailChart from "components/Factory/distributerDetailChart";
 const FactoryDistributerDetails = () => {
     const dataFetchedRef = useRef(false);
     const dispatch = useDispatch();
@@ -81,7 +81,7 @@ const FactoryDistributerDetails = () => {
                                             <li className="main-details">
                                                 <li className="factory-bg5">Latitude  <span>{userLatitude && userLatitude}</span></li>
                                                 <li className="factory-bg6">Longitude <span> {userLongitude && userLongitude}</span></li></li>
-                                            <li className="factory-bg7">Wallet address  <span className="space-l2 ">: 0x9bc444fc09f366adO9b668f4a73b639c</span></li>
+                                            {/* <li className="factory-bg7">Wallet address  <span className="space-l2 ">: 0x9bc444fc09f366adO9b668f4a73b639c</span></li> */}
                                         </ul>
                                         <div className="button-buttom-part center-width">
                                             <div className="received-part-two report-drop buttion-cumulative">
@@ -110,11 +110,9 @@ const FactoryDistributerDetails = () => {
                                             <p><span className="bg-span-part3"> </span>  <span className="bg-span-part4"> 200</span></p>
                                         </div>
                                     </div>
-                                    <div className="w-full lg:w-6/12 pl-4 mb-10 font-light self">
-                                        {/* <h3>Products Sent</h3> */}
-                                        <PieRechartComponent>
-
-                                        </PieRechartComponent>
+                                    <div className="w-full lg:w-6/12 pl-4 mb-10 font-light self factoryDistributerDetail">
+                                        <h3>Products Received</h3>
+                                        <DistributerDetailChart />
                                     </div>
                                 </div>
                             </div>
