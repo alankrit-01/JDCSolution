@@ -373,7 +373,6 @@ app.get('/api/viewProductsByFilter', async (req, res) => {
   }
 });
 
-
 app.get('/api/factoryStatistics', async (req, res) => {
   try {
     const FactoryID = req.query.factoryID;
@@ -621,18 +620,22 @@ app.get('/api/viewBatchAndProductCountForDistributor', async (req, res) => {
       { $group: { _id: '$DistributorID', BatchesReceived: { $sum: 1 }, ProductsReceived: { $sum: "$BatchSize" }, ProductsSold: { $sum: "$AmountLeftForSellingTORetailer" }} },
       { $sort: { _id: 1 } }
     ]);
+    // console.log(result)
 
     let result2 = await batch.aggregate([
       { $match: { DistributorID: DistributorID } },
       { $group: { _id: '$ProductTemplateID', ProductsReceived: { $sum: "$BatchSize" }, Name: { $first: '$BatchName' }} },
       { $sort: { _id: 1 } }
     ]);
-    console.log(result2);
-
-    result[0].ProductsSold = result[0].ProductsReceived- result[0].ProductsSold;
-    result[0].ProductReceivedDetail=result2;
-
-    res.status(200).json({ status: "success", message: result[0] });
+    // console.log(result2);
+    if(result.length){
+      result[0].ProductsSold = result[0].ProductsReceived- result[0].ProductsSold;
+      result[0].ProductReceivedDetail=result2;
+  
+      res.status(200).json({ status: "success", message: result[0] });
+    }else{
+      res.status(200).json({ status: "failure", message: "Result is empty" });
+    }
   } catch (error) {
     console.log(error.message);
     res.status(400).send({ error: error.message });
