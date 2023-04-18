@@ -1,47 +1,46 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
-import { getAllLevelFails, sentProductListByFactory } from "Services/action";
+import { distributerBatchProductChartData } from "Services/action";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "@material-tailwind/react/Button";
 
-const DistributerDetailChart = () => {
-
-  const factoryData = useSelector((state) => state.FactoryLoginData);
-
+const DistributerDetailChart = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
 
   useEffect(() => {
     const data = {
-      factoryID: factoryData.factoryUserId
+        distributorID: props?.distributerId
+        //distributorID:"64018f3a935253a09320cb0e"
     }
-    dispatch(sentProductListByFactory(data));
+    dispatch(distributerBatchProductChartData(data));
   }, []);
 
-  const initialFactoryProductSentData = useSelector((state) => state.FactorySentProductListRecord);
+  const initialDistBatchProductChartData = useSelector((state) => state?.DistributerBatchProductChartData);
 
-  let allProductSentData = initialFactoryProductSentData && initialFactoryProductSentData.factorySentProductRec.message;
-
+  let allProductReceived = initialDistBatchProductChartData && initialDistBatchProductChartData?.distributerBatchProductRec?.message;
+let allProductReceivedData  = allProductReceived?.ProductReceivedDetail
 
   var totalProduct = 0
-  for (let i = 0; i < allProductSentData?.length; i++) {
-    totalProduct = totalProduct + allProductSentData[i].Products
+  for (let i = 0; i < allProductReceivedData?.length; i++) {
+    totalProduct = totalProduct + allProductReceivedData[i].ProductsReceived
+
   }
 
 
   let AuthenticationLevelData = [];
 
-  for (let i = 0; i < allProductSentData?.length; i++) {
+  for (let i = 0; i < allProductReceivedData?.length; i++) {
 
-    let value = allProductSentData[i].Products / totalProduct * 100;
-    let args = Math.round(value);
+    let productPercentValue = allProductReceivedData[i].ProductsReceived / totalProduct * 100;
+    let productPercentValueData = Math.round(productPercentValue);
 
     AuthenticationLevelData.push({
-      name: allProductSentData[i].Name,
-      value: args,
-      productQty: allProductSentData[i].Products
+      name: allProductReceivedData[i].Name,
+      value: productPercentValueData,
+      productQty: allProductReceivedData[i].ProductsReceived
     })
   }
 
@@ -77,6 +76,11 @@ const DistributerDetailChart = () => {
     <>
       <div>
         <h2 className="heading-background">Factory Products</h2>
+
+
+        { initialDistBatchProductChartData.distributerBatchProductRec === undefined ? <div className="no-record mt-20">No Product Received</div> : null}
+
+
         <PieChart width={400} height={400}>
           <Pie
             data={AuthenticationLevelData}
@@ -109,6 +113,7 @@ const DistributerDetailChart = () => {
             align="center"
           /> */}
         </PieChart>
+
         {AuthenticationLevelData.map((entry, index) => (
           <>
             <div className="productData">

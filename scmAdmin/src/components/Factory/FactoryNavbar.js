@@ -1,4 +1,5 @@
-import { useLocation } from 'react-router-dom';
+import { Navigate,useLocation, NavLink, useNavigate } from "react-router-dom";
+
 import Button from '@material-tailwind/react/Button';
 import Icon from '@material-tailwind/react/Icon';
 import Image from '@material-tailwind/react/Image';
@@ -8,16 +9,25 @@ import ProfilePicture from 'assets/img/richmint.png';
 import RCheckLogo from 'assets/img/r-check-logo.png';
 import bell from "assets/img/bell.png"
 import mail from "assets/img/mail.png";
-import { NavLink } from 'react-router-dom';
 import Ceoimg from  "assets/img/ceo-img.png";
 import ceo2 from  "assets/img/camera-icon.png";
 import locationicon from  "assets/img/location.png";
-import { useSelector } from 'react-redux';
+import { factoryLogout } from "../../Services/action";
+import { useDispatch, useSelector } from "react-redux";
+
 export default function FactoryNavbar({ showSidebar, setShowSidebar }) {
     const location = useLocation().pathname;
 
+    const dispatch = useDispatch();
+  const navigate = useNavigate();
+
     const factoryData = useSelector((state) => state.FactoryLoginData);
     // const [factoryUserId, setFactoryUserId] = useState(factoryData.factoryUserEmail);
+
+    const logout = () => {
+        dispatch(factoryLogout());
+        navigate("/factory");
+      };
     
     return (
         <nav className="custom-navbar md:ml-32 py-6 px-3">
@@ -101,7 +111,12 @@ export default function FactoryNavbar({ showSidebar, setShowSidebar }) {
                                 <p className="click-open-btn"><Icon name="phone" size="1xl" color="black" /> <a href="#">{factoryData && factoryData.factoryUserCountry}</a></p>
                                 {/* <p className="click-open-btn2">Wallet address</p> */}
                                 {/* <p className="box-set"> <a href="#">0x9bc444fc09f3660ad09b668f4a73b603b37Of07e <Icon name="email" size="1xl" color="black" /></a></p> */}
-                                <p className="sign-button-p"><DropdownItem color="lightBlue">Sign out</DropdownItem></p>
+                                <p className="sign-button-p"><DropdownItem color="lightBlue" onClick={() => {
+                    const confirmBox = window.confirm("Are you sure you want to logout?");
+                    if (confirmBox === true) {
+                      logout();
+                    }
+                  }}>Sign out</DropdownItem></p>
                                 
                                 </div>
                                 </Dropdown>

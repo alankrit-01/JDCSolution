@@ -1449,3 +1449,6 @@ span.error {
 .profile-data {
     width: 300px;
 }
+.no-record{
+    text-align: center;
+}

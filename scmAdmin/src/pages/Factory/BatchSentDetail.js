@@ -16,6 +16,9 @@ import Icon from "@material-tailwind/react/Icon";
 
 const BatchSentDetail = () => {
 
+    const factoryData = useSelector((state) => state.FactoryLoginData);
+
+
     let batchData = useLocation();
     let BatchID = batchData.state.BatchID;
     let companyBatchID = batchData.state.companyBatchID;
@@ -48,18 +51,18 @@ const BatchSentDetail = () => {
             allowOverflow: true,
             button: true,
             width:"200px"
-        },
+        }, 
         // {
         //     selector: (row) => <button className="custom-details-btn" onClick={() => navigate('/factory/BatchProductQr', { state: { BatchID: row.BatchID } })}>Batch Product Qr</button>,
         //     ignoreRowClick: true,
         //     allowOverflow: true,
         //     button: true,
         //     width: "150px"
-        // },
+        // }, 
     ];
     useEffect(() => {
         const data = {
-            factoryID: "63b2b20d8e21a6111d6b4265"
+            factoryID: factoryData.factoryUserId
         }
         dispatch(getBatchTemplate(data))
     }, [])
