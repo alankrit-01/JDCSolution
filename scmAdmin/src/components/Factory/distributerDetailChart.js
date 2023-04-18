@@ -78,7 +78,7 @@ let allProductReceivedData  = allProductReceived?.ProductReceivedDetail
         <h2 className="heading-background">Factory Products</h2>
 
 
-        { initialDistBatchProductChartData.distributerBatchProductRec === undefined ? <div className="no-record mt-20">No Product Received</div> : null}
+        { initialDistBatchProductChartData.distributerBatchProductRec.message == "Result is empty" ? <div className="no-record mt-20">No Product Received</div> : null}
 
 
         <PieChart width={400} height={400}>

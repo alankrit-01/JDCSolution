@@ -9,7 +9,7 @@ import { Button } from "@material-tailwind/react";
 import Input from '@material-tailwind/react/Input';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { getBatchTemplate, checkBatchTemplateSuccessdata } from 'Services/action';
+import { getBatchDetail } from 'Services/action';
 import loader from "assets/img/loading.gif";
 import cumulative from "assets/img/cumulative.png";
 import Icon from "@material-tailwind/react/Icon";
@@ -35,13 +35,13 @@ const BatchSentDetail = () => {
     const columns = [
         {
             name: "Product Id",
-            selector: (row) => row.BatchID,
+            selector: (row) => row.ProductID,
             sortable: true,
 
         },
         {
             name: "Richmint Product Code",
-            selector: (row) => "P-"+row.BatchID,
+            selector: (row) => "P-"+row.CompanyProductID,
             sortable: true,
         },
         {
@@ -62,26 +62,28 @@ const BatchSentDetail = () => {
     ];
     useEffect(() => {
         const data = {
-            factoryID: factoryData.factoryUserId
+            batchID: BatchID
         }
-        dispatch(getBatchTemplate(data))
+        dispatch(getBatchDetail(data))
     }, [])
-    const initialBatchTemplatedata = useSelector((state) => state.BatchTemplateRecord);
+    const initialBatchTemplatedata = useSelector((state) => state.BatchDetailRecord);
+
+    console.log("initialBatchTemplatedata",initialBatchTemplatedata?.batchDetailRec?.Products)
 
 
     useEffect(() => {
-        setBatchTemplates(initialBatchTemplatedata.batchTemplateRec.message && initialBatchTemplatedata.batchTemplateRec.message)
-        setFilterBatchTemplates(initialBatchTemplatedata.batchTemplateRec.message && initialBatchTemplatedata.batchTemplateRec.message)
+        setBatchTemplates(initialBatchTemplatedata && initialBatchTemplatedata?.batchDetailRec?.Products)
+        setFilterBatchTemplates(initialBatchTemplatedata && initialBatchTemplatedata?.batchDetailRec?.Products)
 
         var a = [{ BatchSize: "There are no record to display" }];
 
         setLoading(true);
         if (
-            initialBatchTemplatedata.batchTemplateRec.message != 0 &&
-            initialBatchTemplatedata.batchTemplateRec.message != null &&
-            initialBatchTemplatedata.batchTemplateRec.message.message != ""
+            initialBatchTemplatedata?.batchDetailRec?.Products != 0 &&
+            initialBatchTemplatedata?.batchDetailRec?.Products != null &&
+            initialBatchTemplatedata?.batchDetailRec?.Products != ""
         ) {
-            setFilterBatchTemplates(initialBatchTemplatedata.batchTemplateRec.message && initialBatchTemplatedata.batchTemplateRec.message);
+            setFilterBatchTemplates(initialBatchTemplatedata && initialBatchTemplatedata.batchDetailRec.Products);
 
         } else {
             setLoading(false);
@@ -90,12 +92,12 @@ const BatchSentDetail = () => {
         }
     }, [initialBatchTemplatedata])
 
-    useEffect(() => {
-        const result = BatchTemplates.filter((allBatchTemplate) => {
-            return allBatchTemplate.BatchName.toLowerCase().match(Search.toLowerCase());
-        })
-        setFilterBatchTemplates(result)
-    }, [Search])
+    // useEffect(() => {
+    //     const result = BatchTemplates.filter((allBatchTemplate) => {
+    //         return allBatchTemplate.BatchName.toLowerCase().match(Search.toLowerCase());
+    //     })
+    //     setFilterBatchTemplates(result)
+    // }, [Search])
 
     return (
         <>

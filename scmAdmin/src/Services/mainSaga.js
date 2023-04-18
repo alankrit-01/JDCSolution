@@ -38,7 +38,7 @@ function* getUserDetail(data) {
     const requestData = data.data
 
     try {
-        let uri = API_URL.concat('/userById')
+        let uri = API_URL.concat('/userByIdTest')
         const userRecord = yield call(Axios.post, uri, requestData)
         const result = userRecord.data;
         yield put({ type: Set_User_Detail, result })

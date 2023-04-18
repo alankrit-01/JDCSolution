@@ -1345,7 +1345,7 @@ app.post('/api/login', jsonParser, async function (req, res) {
   }
 })
 
-app.post('/api/userById', jsonParser, async function (req, res) {
+app.post('/api/userByIdTest', jsonParser, async function (req, res) {
   let userId = '';
   userId = req.body._id
   if (userId) {

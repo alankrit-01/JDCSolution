@@ -55,7 +55,6 @@ const FactoryDistributerDetails = () => {
             setUserLatitude(initialdata?.userDetailRec?.userRecord?.longitude);
             setUserLongitude(initialdata?.userDetailRec?.userRecord?.latitude);
 
-
         }
     }, [initialdata]);
 
@@ -111,21 +110,22 @@ const FactoryDistributerDetails = () => {
                                             </div>
                                         </div>
                                         <div className="liner-part">
+                                            {console.log("initialDistBatchProductChartData",initialDistBatchProductChartData.distributerBatchProductRec)}
                                             <p>Batches sent</p>
                                             <p><span className="bg-span-part"> </span>  <span className="bg-span-part2">
-                                            { initialDistBatchProductChartData.distributerBatchProductRec === undefined ? 0 : initialDistBatchProductChartData?.distributerBatchProductRec?.message?.BatchesReceived}
+                                            { initialDistBatchProductChartData.distributerBatchProductRec.message == "Result is empty" ? 0 : initialDistBatchProductChartData?.distributerBatchProductRec?.message?.BatchesReceived}
 
                                                 </span></p>
                                             <p>Products Received</p>
                                             <p><span className="bg-span-part3"> </span>  <span className="bg-span-part4"> 
                                             
-                                            { initialDistBatchProductChartData.distributerBatchProductRec === undefined ? 0 : initialDistBatchProductChartData?.distributerBatchProductRec?.message?.ProductsReceived}
+                                            { initialDistBatchProductChartData.distributerBatchProductRec.message == "Result is empty" ? 0 : initialDistBatchProductChartData?.distributerBatchProductRec?.message?.ProductsReceived}
                                             </span></p>
 
                                             <p>Products Received</p>
                                             <p><span className="bg-span-part3"> </span>  <span className="bg-span-part4"> 
                                             
-                                            { initialDistBatchProductChartData.distributerBatchProductRec === undefined ? 0 : initialDistBatchProductChartData?.distributerBatchProductRec?.message?.ProductsSold}
+                                            { initialDistBatchProductChartData.distributerBatchProductRec.message == "Result is empty" ? 0 : initialDistBatchProductChartData?.distributerBatchProductRec?.message?.ProductsSold}
                                             </span></p>
 
                                         </div>
