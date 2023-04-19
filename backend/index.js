@@ -249,7 +249,6 @@ app.get('/api/viewListOfBatchesProducedByFactory', async (req, res) => {
   }
 });
 
-
 app.get('/api/viewBatchCount', async (req, res) => {
   try {
     const FactoryID = req.query.factoryID;
@@ -967,9 +966,9 @@ app.get('/api/cutomerScansHistory', async (req, res) => {
   let customerID = req.query.customerID;
   try {
     verificationData.find({ customerID: customerID }).then((data) => {
-      res.status(200).json(data)
+      if(data.length) res.status(200).json(data)
+      else res.status(200).json({"status": "success","message": "No Scan History Found"})
     })
-
   } catch (error) {
     console.log(error.message);
     res.status(400).send({ error: error.message });
