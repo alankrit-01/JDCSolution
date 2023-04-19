@@ -176,6 +176,9 @@ export const Get_Factory_Statics = 'Get_Factory_Statics';
 export const Set_Factory_Statics_List = 'Set_Factory_Statics_List';
 export const Sent_Product_List_By_Factory = 'Sent_Product_List_By_Factory';
 export const Set_Factory_Sent_Product_List = 'Set_Factory_Sent_Product_List';
+export const Distributer_Batch_Product_Chart_Data = 'Distributer_Batch_Product_Chart_Data';
+export const Set_Distributer_Batch_Product_Chart = 'Set_Distributer_Batch_Product_Chart';
+
 
 
 

@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 import { storeProductTemplate  } from "Services/action";
 import arrow from "assets/img/arrow-icon.png";
 
-const AddProductTemplate = () => {
+const AddProductTemplate = () => { 
     const factoryData = useSelector((state) => state.FactoryLoginData);
     const [productId, setProductId] = useState(null);
     const [productNameError, setproductNameError] = useState('');

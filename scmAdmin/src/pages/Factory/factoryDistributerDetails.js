@@ -8,6 +8,13 @@ import { useLocation, useNavigate } from "react-router-dom";
 import cumulative from "assets/img/cumulative.png";
 import DistributerDetailChart from "components/Factory/distributerDetailChart";
 const FactoryDistributerDetails = () => {
+
+    const initialDistBatchProductChartData = useSelector((state) => state?.DistributerBatchProductChartData);
+
+
+
+    console.log("initialDistBatchProductChartData",initialDistBatchProductChartData)
+
     const dataFetchedRef = useRef(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -38,7 +45,7 @@ const FactoryDistributerDetails = () => {
 
     useEffect(() => {
         if (initialdata) {
-            console.log("initialdata", initialdata?.userDetailRec?.userRecord)
+            // console.log("initialdata", initialdata?.userDetailRec?.userRecord)
             setUserName(initialdata?.userDetailRec?.userRecord?.name);
             setUserEmail(initialdata?.userDetailRec?.userRecord?.email);
             setUserPhone(initialdata?.userDetailRec?.userRecord?.phone);
@@ -47,7 +54,6 @@ const FactoryDistributerDetails = () => {
             setUserState(initialdata?.userDetailRec?.userRecord?.state);
             setUserLatitude(initialdata?.userDetailRec?.userRecord?.longitude);
             setUserLongitude(initialdata?.userDetailRec?.userRecord?.latitude);
-
 
         }
     }, [initialdata]);
@@ -97,22 +103,37 @@ const FactoryDistributerDetails = () => {
                                             <div className="received-part-two batch eye-liner-part">
 
                                                 <select id="colours" className="dd-button batch-selected option-down">
-                                                    <option value="red"> Eye Liner</option>
-                                                    <option value="green">Green</option>
-                                                    <option value="blue">Blue </option>
+                                                    <option value="red"> All Products</option>
+                                                    {/* <option value="green">Green</option>
+                                                    <option value="blue">Blue </option> */}
                                                 </select>
                                             </div>
                                         </div>
                                         <div className="liner-part">
+                                            {console.log("initialDistBatchProductChartData",initialDistBatchProductChartData.distributerBatchProductRec)}
                                             <p>Batches sent</p>
-                                            <p><span className="bg-span-part"> </span>  <span className="bg-span-part2"> 50</span></p>
-                                            <p>Products Sent</p>
-                                            <p><span className="bg-span-part3"> </span>  <span className="bg-span-part4"> 200</span></p>
+                                            <p><span className="bg-span-part"> </span>  <span className="bg-span-part2">
+                                            { initialDistBatchProductChartData.distributerBatchProductRec.message == "Result is empty" ? 0 : initialDistBatchProductChartData?.distributerBatchProductRec?.message?.BatchesReceived}
+
+                                                </span></p>
+                                            <p>Products Received</p>
+                                            <p><span className="bg-span-part3"> </span>  <span className="bg-span-part4"> 
+                                            
+                                            { initialDistBatchProductChartData.distributerBatchProductRec.message == "Result is empty" ? 0 : initialDistBatchProductChartData?.distributerBatchProductRec?.message?.ProductsReceived}
+                                            </span></p>
+
+                                            <p>Products Received</p>
+                                            <p><span className="bg-span-part3"> </span>  <span className="bg-span-part4"> 
+                                            
+                                            { initialDistBatchProductChartData.distributerBatchProductRec.message == "Result is empty" ? 0 : initialDistBatchProductChartData?.distributerBatchProductRec?.message?.ProductsSold}
+                                            </span></p>
+
                                         </div>
                                     </div>
                                     <div className="w-full lg:w-6/12 pl-4 mb-10 font-light self factoryDistributerDetail">
                                         <h3>Products Received</h3>
-                                        <DistributerDetailChart />
+
+                                        <DistributerDetailChart distributerId={initialdata?.userDetailRec?.userRecord?._id} />
                                     </div>
                                 </div>
                             </div>

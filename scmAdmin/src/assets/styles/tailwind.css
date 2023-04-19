@@ -671,6 +671,9 @@ video {
 .-ml-4{
 	margin-left: -1rem;
 }
+.mt-20{
+	margin-top: 5rem;
+}
 .mb-16{
 	margin-bottom: 4rem;
 }
@@ -4359,6 +4362,9 @@ span.error {
 }
 .profile-data {
     width: 300px;
+}
+.no-record{
+    text-align: center;
 }
 .hover\:scale-105:hover{
 	--tw-scale-x: 1.05;

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Navigate, NavLink, useNavigate } from "react-router-dom";
-import FactoryNavbar from "./FactoryNavbar";
+import FactoryNavbar from "./FactoryNavbar"; 
 import { factoryLogout } from "../../Services/action";
 import Icon from "@material-tailwind/react/Icon";
 import H6 from "@material-tailwind/react/Heading6";
