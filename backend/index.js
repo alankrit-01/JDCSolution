@@ -860,7 +860,7 @@ app.get('/api/viewProductBoughtDetail', async (req, res) => {
     const documents = await customerData.findOne({ ProductID: ProductID })
       // .populate("ProductRef")    
     console.log(documents);
-    if (documents.length) {
+    if (documents) {
       res.status(200).json({ status: "success", message: documents });
     } else {
       res.status(200).json({ status: "success", message:[] });
@@ -967,8 +967,16 @@ app.get('/api/cutomerScansHistory', async (req, res) => {
   let customerID = req.query.customerID;
   try {
     verificationData.find({ customerID: customerID }).then((data) => {
-      if(data.length) res.status(200).json(data)
-      else res.status(200).json({status: "success",message: []})
+      // if(data.length) res.status(200).json(data)
+      // else res.status(200).json({status: "success",message: []})
+
+      console.log(data);
+      if (data) {
+        res.status(200).json({ status: "success", message: data });
+      } else {
+        res.status(200).json({ status: "success", message:[] });
+      }
+
     })
   } catch (error) {
     console.log(error.message);
