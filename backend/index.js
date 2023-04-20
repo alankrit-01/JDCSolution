@@ -891,7 +891,8 @@ app.get('/api/authenticateProduct', async (req, res) => {
         batchDescription:"",
         batchID:0,
         productId:ProductID,
-        level:1 
+        level:1,
+        timeStamp:"" 
       })
       Data.save().then((result) => {
         console.log(result);
@@ -936,7 +937,7 @@ app.get('/api/authenticateProduct', async (req, res) => {
         level = 6;
         status = "All Authentication Level Passed"
       }
-
+      const time =new Date().toLocaleString();
       const Data = new verificationData({
         _id: new mongoose.Types.ObjectId(),
         factoryID: data2.FactoryID,
@@ -946,7 +947,8 @@ app.get('/api/authenticateProduct', async (req, res) => {
         batchDescription: data2.BatchDescription,
         batchID: BatchID,
         productId: ProductID,
-        level: level
+        level: level,
+        timeStamp:time
       })
       Data.save().then((result) => {
         console.log(result);
