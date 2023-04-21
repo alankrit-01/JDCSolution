@@ -987,7 +987,7 @@ app.get('/api/cutomerScansHistory', async (req, res) => {
 
 /////////////////////////////// ADMIN APIS //////////////////////////////////////////
 
-app.get('/api/getscans', function (req, res) {
+app.get('/api/getScans', function (req, res) {
   try {
     scan.find().then((data) => {
       // console.log(data);
