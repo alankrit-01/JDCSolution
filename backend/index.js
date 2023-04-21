@@ -519,7 +519,7 @@ app.post('/api/distributorScansBatch', distributorScanMIDDLEWARE, async (req, re
           Email: user.email,
           orignalLocation: (user.address + " " + user.city + " " + user.country),
           distanceSeprated: sepration_distance,
-        })
+        }) 
         Data.save().then((result) => {
           console.log(result);
           res.status(200).json({ status: "success", message: "Incorrect scan location fraud detected" })
@@ -835,6 +835,34 @@ app.post('/api/sellToCustomer', async (req, res) => {
   }
 })
 
+app.get('/api/viewBatchAndProductCountForRetailer', async (req, res) => {
+  try {
+    const RetailerID = req.query.retailerID;
+    let result = await product.aggregate([
+      { $match: { RetailerID: RetailerID } },
+      { $group: { _id: '$RetailerID', ProductsReceived: { $sum: 1 }, ProductsSold: { $sum: { $cond: [{ $ne: ['$CustomerID', ''] }, 1, 0] } } } },
+      { $sort: { _id: 1 } }
+    ]);
+    let result2 = await product.aggregate([
+      { $match: { RetailerID: RetailerID } },
+      { $group: { _id: '$ProductTemplateID', ProductsReceived: { $sum: 1 }, Name: { $first: '$BatchName' }} },
+      { $sort: { _id: 1 } }
+    ]);
+
+    console.log(result);
+
+    if(result){
+      res.status(200).json({ status: "success", message: result });
+    }else{
+      res.status(200).json({ status: "failure", message: "Result is empty" });
+    }
+  } catch (error) {
+    console.log(error.message);
+    res.status(400).send({ error: error.message });
+  }
+});
+
+
 ////////////////// API FOR CUSTOMERS ////////////////////
 
 app.get('/api/viewProductBoughts', async (req, res) => {
@@ -1006,9 +1034,7 @@ app.get('/api/viewLevelCounts', async (req, res) => {
     verificationData.find().then((data) => {
       // console.log(data);
       res.status(200).json(data)
-    })
-
-
+    }) 
   } catch (error) {
     console.log(error.message);
     res.status(400).send({ error: error.message });

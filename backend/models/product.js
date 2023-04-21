@@ -14,6 +14,6 @@ let product = new mongoose.Schema({
     DateWhenSoldToCustomer:String,
     RetailerLatitude:String,
     RetailerLongitude:String,
-    CustomerName:String
+    CustomerName:String 
 })
 module.exports=mongoose.model('product',product)    
