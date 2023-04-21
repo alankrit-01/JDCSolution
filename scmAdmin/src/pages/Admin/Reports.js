@@ -5,12 +5,7 @@ import { NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getFeedback } from 'Services/action';
 import { useEffect, useMemo, useState } from 'react';
-import DataTable from 'react-data-table-component';
-import { Button } from "@material-tailwind/react";
-import Input from '@material-tailwind/react/Input';
-import loader from "assets/img/loading.gif";
-import star from "assets/img/star.png";
-import star2 from "assets/img/star-se.png";
+
 import cumulative from "assets/img/cumulative.png";
 
 const Reports = () => {
@@ -19,31 +14,7 @@ const Reports = () => {
     const dispatch = useDispatch();
     const [Feedback, setFeedback] = useState([]);
     const [Search, setSearch] = useState("");
-    const [FilterFeedback, setFilterFeedback] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const columns = [
-        {
-            name: "Name",
-            selector: (row) => row.name,
-            sortable: true,
-        },
-        {
-            name: "Subject",
-            selector: (row) => row.subject,
-            sortable: true,
-        },
-        {
-            name: "Descrition",
-            selector: (row) => row.description,
-            sortable: true,
-        },
-        {
-            name: "Date",
-            selector: (row) => row.date,
-            sortable: true,
-        },
-    ];
-
+  
     useEffect(() => {
         const data = {
             receiverUserID: adminUserId,
@@ -51,32 +22,7 @@ const Reports = () => {
         }
         dispatch(getFeedback(data))
     }, [])
-
     const initialdata = useSelector((state) => state.FeedbackRecord);
-
-    useEffect(() => {
-        var a = [{ subject: "There are no record to display" }];
-        setFeedback(initialdata.feedbackRec);
-        setLoading(true);
-        if (
-            initialdata.feedbackRec != 0 &&
-            initialdata.feedbackRec != null &&
-            initialdata.feedbackRec != ""
-        ) {
-            setFilterFeedback(initialdata.feedbackRec);
-        } else {
-            setLoading(false);
-
-            setFilterFeedback(a);
-        }
-    }, [initialdata])
-
-    useEffect(() => {
-        const result = Feedback.filter((feedbackval) => {
-            return feedbackval.name.toLowerCase().match(Search.toLowerCase());
-        })
-        setFilterFeedback(result)
-    }, [Search])
     return (
         <>
             <Sidebar />

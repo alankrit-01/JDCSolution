@@ -12,12 +12,12 @@ const BatchQr = () => {
 
     let batchData = useLocation();
     let batchtId = batchData.state.BatchID;
-    let companybatchtId = batchData.state.BatchID;
+    let companybatchtId = batchData.state.companyBatchID;
     const [batchSize, setBatchSize] = useState('');
     const [productName, setProductName] = useState('');
     const [productDescription, setProductDescription] = useState('');
 
-    const [url1, setUrl1] = useState();
+    const [url1, setUrl1] = useState(); 
     useMemo(() => {
         const url = (`${batchtId}`);
         setUrl1(url)

@@ -4,9 +4,9 @@ import degreeBatch from "assets/img/degree3.jpg";
 function ProgressCard() {
   return (
     <>
-    <div className="grid grid-cols-1 ml-1 mb-2  bg-[#0c3f6a]  w-92  h-88">
-            <div className=" text-white "><h5 className='mt-1  ml-3'>All Products</h5></div>
-            <div className="px-0  main-tiles-section  inline-flex mt-2  bg-red-400">
+    <div className="grid grid-cols-1 ml-7 mb-2  bg-[#0c3f6a]  w-96 h-full">
+            <div className=" text-white mt-5 ml-3">Product Name</div>
+            <div className="px-0  main-tiles-section  inline-flex mt-3  bg-red-400">
               <div className=" w-60 h-full  bg-[#EDF6FB] py-12  text-left ">
                 <div>
                   {/* <h4>Scans Done</h4> */}

@@ -10,15 +10,18 @@ import Textarea from '@material-tailwind/react/Textarea';
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { storeProductTemplate  } from "Services/action";
+import { storeProductTemplate } from "Services/action";
 import arrow from "assets/img/arrow-icon.png";
+import loader from "assets/img/loading.gif";
 
-const AddProductTemplate = () => { 
+const AddProductTemplate = () => {
     const factoryData = useSelector((state) => state.FactoryLoginData);
     const [productId, setProductId] = useState(null);
     const [productNameError, setproductNameError] = useState('');
     const [productDescriptionError, setproductDescriptionError] = useState('')
     const [factoryUserId, setFactoryUserId] = useState(factoryData.factoryUserId);
+    const [loading, setLoading] = useState(false);
+    const [disabled, setDisabled] = useState(false);
 
     function randomProductId() {
         let currentTimestamp = Date.now()
@@ -36,36 +39,41 @@ const AddProductTemplate = () => {
 
     const [productName, setProductName] = useState('');
     const [productDescription, setProductDescription] = useState('');
+    
 
     function handleSubmit(event) {
+       
         event.preventDefault();
+       
+       
+        setLoading(true);
+        setDisabled(true);
         const productNameRegex = /^[a-zA-Z ]+$/;
         const productDescriptionRegex = /^[a-zA-Z ]+$/;
 
-        { productName == '' ? setproductNameError("Product Name is required") : (productNameRegex.test(productName) === false ? setproductNameError("Invalid Product Name") : setproductNameError(true)) }
-        { productDescription == '' ? setproductDescriptionError("Product Name is required") : (productDescriptionRegex.test(productDescription) === false ? setproductDescriptionError("Invalid Product Description") : setproductDescriptionError(true)) }
-    }
-
-    useMemo(() => {
         const data = {
             productTemplateID: productId,
             productName: productName,
             productDescription: productDescription,
             factoryID: factoryUserId
         }
-        if (productNameError == true && productDescriptionError == true) {
-            dispatch(storeProductTemplate(data))
-        }
-    }, [productNameError, productDescriptionError])
+        dispatch(storeProductTemplate(data))
+
+    }
 
     const initialProductTemplateStoredata = useSelector((state) => state.StoreProductTemplateData);
-console.log("initialProductTemplateStoredata",initialProductTemplateStoredata)
     useEffect(() => {
+        setLoading(true)
         if (initialProductTemplateStoredata?.success) {
             navigate('/factory/productTemplate')
         }
+        setLoading(false)
     }, [initialProductTemplateStoredata])
-    return ( 
+
+    // const onClick = () => {
+    //     setDisabled(true);
+    //   };
+    return (
         <>
             <FactorySidebar />
             <div className="md:ml-32">
@@ -114,7 +122,19 @@ console.log("initialProductTemplateStoredata",initialProductTemplateStoredata)
                                                 </div>
                                                 <div className="flex mt-10 submit-button-factory">
                                                     <div className="w-full lg:w-6/12 pr-4 mb-10 font-light btn-w-full">
-                                                        <Button className="form-button" type="submit">Submit</Button>
+                                                        <Button className="form-button" type="submit" disabled={disabled} >Submit
+                                                            {
+                                                                loading ?
+                                                                    <div>
+
+                                                                        <img
+                                                                            style={{ width: "20px", height: "20px" }}
+                                                                            src={loader}
+                                                                        ></img>
+                                                                    </div> : ""
+                                                            }
+
+                                                        </Button>
                                                     </div>
 
                                                     <div className="w-full lg:w-6/12 pr-4 mb-10 font-light btn-w-full">

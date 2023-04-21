@@ -28,8 +28,8 @@ const AddFactoryReport = () => {
     const { register, handleSubmit, formState: { errors } } = useForm({});
 
     function onSubmit(data) {
-         dispatch(resetFactoryReportData());
-         dispatch(storeFactoryReport(data));
+        dispatch(resetFactoryReportData());
+        dispatch(storeFactoryReport(data));
     }
 
     const initialFactoryReportStoredata = useSelector((state) => state.FactoryReportRecord);
@@ -41,7 +41,7 @@ const AddFactoryReport = () => {
 
     return (
         <>
-         <ToastContainer />
+            <ToastContainer />
             <FactorySidebar />
             <div className="md:ml-32">
                 <div className="pt-14 pb-20 px-3 md:px-8 h-auto">
@@ -72,9 +72,10 @@ const AddFactoryReport = () => {
                                                 </div>
                                                 <div className="w-full lg:w-12/12 flex flex-wrap mb-10 font-light">
                                                     <ul className="checkbox-text-part">
-                                                    <input {...register("uid")} className="form-control-part" type="hidden" value={initialdata && initialdata.factoryUserId} />
-                                                    <input {...register("name")} className="form-control-part" type="hidden" value={initialdata && initialdata.factoryUserName} />
-                                                    <input {...register("email")} className="form-control-part" type="hidden" value={initialdata && initialdata.factoryUserEmail} />
+                                                        <input {...register("uid")} type="hidden" value={initialdata && initialdata.factoryUserId} />
+                                                        <input {...register("role")} type="hidden" value="Factory" />
+                                                        <input {...register("name")} type="hidden" value={initialdata && initialdata.factoryUserName} />
+                                                        <input {...register("email")} type="hidden" value={initialdata && initialdata.factoryUserEmail} />
                                                         <li>
                                                             <input {...register("scanIssue")} className="form-control-part" type="checkbox" value="Issue with received raw materials" /><span> Issue with received raw materials</span>
                                                         </li>
@@ -91,8 +92,8 @@ const AddFactoryReport = () => {
                                                     <textarea {...register("comment", { required: true })} placeholder="Comment" required className="w-full h-full focus:outline-none issue-textarea" />
                                                     {errors.comment && <span className="error"> comment is required.</span>}
                                                 </div>
-                                                
-                                                        
+
+
                                             </div>
                                             <div className="flex">
                                                 <div className="w-full lg:w-12/12 pr-4 mb-10 font-light button-bg-use">

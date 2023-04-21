@@ -1,16 +1,12 @@
 import MainStatusCard from "components/Admin/MainStatusCard";
 import Sidebar from "components/Admin/Sidebar";
 import Footer from "components/Admin/Footer";
-import Card from '@material-tailwind/react/Card';
-import CardHeader from '@material-tailwind/react/CardHeader';
-import CardBody from '@material-tailwind/react/CardBody';
-import Button from '@material-tailwind/react/Button';
-import Input from '@material-tailwind/react/Input';
-import Textarea from '@material-tailwind/react/Textarea';
-import { storeFactory } from "Services/action";
-import React, { useMemo, useRef, useState } from "react";
+import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
+
+import { getUserDetail, sentProductListByFactory } from "Services/action";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import cumulative from "assets/img/cumulative.png";
 const FactoryDetails = () => {
     const dataFetchedRef = useRef(false);
@@ -18,51 +14,105 @@ const FactoryDetails = () => {
     const [adminUserId, setAdminUserId] = useState(admindata.adminUserId);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [phone, setPhone] = useState('');
-    const [address, setAddress] = useState('');
-    const [city, setCity] = useState('');
-    const [country, setCountry] = useState('');
-    const [latitude, setLatitude] = useState('');
-    const [longitude, setLongitude] = useState('');
-    const [emailError, setemailError] = useState('');
 
-    function handleSubmit(event) {
-        event.preventDefault();
-        const emailRegex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-        { email == '' ? setemailError("Email is required") : (emailRegex.test(email) === false ? setemailError("Invalid Email") : setemailError(true)) }
+
+    const [userName, setUserName] = useState('');
+    const [userEmail, setUserEmail] = useState('');
+    const [userPhone, setUserPhone] = useState('');
+    const [userPincode, setUserPincode] = useState('');
+    const [userCity, setUserCity] = useState('');
+    const [userState, setUserState] = useState('');
+    const [userLatitude, setUserLatitude] = useState('');
+    const [userLongitude, setUserLongitude] = useState('');
+
+    let userData = useLocation();
+    let userId = userData.state.userId;
+    useEffect(() => {
+        const data = {
+            _id: userId
+        }
+        dispatch(getUserDetail(data))
+
+        const ProductUserId = {
+            factoryID: userId
+        }
+        dispatch(sentProductListByFactory(ProductUserId));
+
+    }, [])
+    const initialdata = useSelector((state) => state.UserDetailRecord);
+
+
+
+
+
+    const initialFactoryProductSentData = useSelector((state) => state.FactorySentProductListRecord);
+
+    let allProductSentData = initialFactoryProductSentData && initialFactoryProductSentData.factorySentProductRec.message;
+
+    console.log("initialDistBatchProductChartData", allProductSentData)
+
+    var totalProduct = 0;
+    var totalBatch = 0;
+    for (let i = 0; i < allProductSentData?.length; i++) {
+        totalProduct = totalProduct + allProductSentData[i].Products
+        totalBatch = totalBatch + allProductSentData[i].Batches
+    }
+    let productDataInPercent = [];
+
+    for (let i = 0; i < allProductSentData?.length; i++) {
+
+        let value = allProductSentData[i].Products / totalProduct * 100;
+        let args = Math.round(value);
+
+        productDataInPercent.push({
+            name: allProductSentData[i].Name,
+            value: args,
+            productQty: allProductSentData[i].Products
+        })
     }
 
-    useMemo(() => {
-        const data = {
-            name: name,
-            email: email,
-            phone: phone,
-            address: address,
-            role: "Factory",
-            city: city,
-            country: country,
-            latitude: latitude,
-            longitude: longitude,
-            adminId: adminUserId,
+
+    const AuthenticationLevelCOLORS = [
+        "#8884d8",
+        "#82ca9d",
+        "#FFBB28",
+        "#FF8042",
+        "#AF19FF",
+    ];
+
+
+
+    const AuthenticationLevelTooltip = ({ active, payload, label }) => {
+        if (active) {
+            return (
+                <div
+                    className="custom-tooltip"
+                    style={{
+                        backgroundColor: "#ffff",
+                        padding: "5px",
+                        border: "1px solid #cccc",
+                    }}
+                >
+                    <label>{`${payload[0].name} : ${payload[0].value}`} %</label>
+                </div>
+            );
         }
-        if (emailError == true) {
-            if (dataFetchedRef.current) return;
-            dataFetchedRef.current = true;
-            dispatch(storeFactory(data))
+        return null;
+    };
+
+
+    useEffect(() => {
+        if (initialdata) {
+            setUserName(initialdata?.userDetailRec?.userRecord?.name);
+            setUserEmail(initialdata?.userDetailRec?.userRecord?.email);
+            setUserPhone(initialdata?.userDetailRec?.userRecord?.phone);
+            setUserPincode(initialdata?.userDetailRec?.userRecord?.pincode);
+            setUserCity(initialdata?.userDetailRec?.userRecord?.city);
+            setUserState(initialdata?.userDetailRec?.userRecord?.state);
+            setUserLatitude(initialdata?.userDetailRec?.userRecord?.longitude);
+            setUserLongitude(initialdata?.userDetailRec?.userRecord?.latitude);
         }
-    }, [emailError])
-
-
-    const initialFactoryStoredata = useSelector((state) => state.FactoryStoreData);
-
-    useMemo(() => {
-        if (initialFactoryStoredata.success == true) {
-            navigate('/admin/factory')
-        }
-    }, [initialFactoryStoredata])
-
+    }, [initialdata]);
     return (
         <>
             <Sidebar />
@@ -77,25 +127,21 @@ const FactoryDetails = () => {
                         <div className="grid grid-cols-1 xl:grid-cols-6">
                             <div className="xl:col-start-1 xl:col-end-7 px-4 mb-16">
                                 <div>
-                                    <h2 className="head-cust-color">Factory -  Beta Details</h2>
-
+                                    <h2 className="head-cust-color">Factory -  {userName && userName.charAt(0).toUpperCase() + userName.slice(1)} Details</h2>
                                 </div>
-
                                 <div className="flex flex-wrap mt-5">
-
                                     <div className="w-full lg:w-6/12 pr-4 mb-10 font-light">
                                         <ul className="factory-beta">
-                                            <li className="factory-bg">Factory Name  <span>: Beta</span></li>
-                                            <li className="factory-bg2">Email <span>: beta@gmail.com</span></li>
-                                            <li className="factory-bg">Phone No  <span className="space-l">: +91 9304334373</span></li>
-                                            <li className="factory-bg2">PIN  <span className="space-l2 ">: 600012</span></li>
+                                            <li className="factory-bg">Factory Name  <span>: {userName && userName.charAt(0).toUpperCase() + userName.slice(1)}</span></li>
+                                            <li className="factory-bg2">Email <span>: {userEmail && userEmail}</span></li>
+                                            <li className="factory-bg">Phone No  <span className="space-l">: {userPhone && userPhone}</span></li>
+                                            <li className="factory-bg2">PIN  <span className="space-l2 ">: {userPincode && userPincode}</span></li>
                                             <li className="main-details">
-                                                <li className="factory-bg3">City : Chennai</li>
-                                                <li className="factory-bg4">State: Tamilnadu</li></li>
+                                                <li className="factory-bg3">City : {userCity && userCity.charAt(0).toUpperCase() + userCity.slice(1)}</li>
+                                                <li className="factory-bg4">State: {userState && userState.charAt(0).toUpperCase() + userState.slice(1)}</li></li>
                                             <li className="main-details">
-                                                <li className="factory-bg5">Latitude  <span>13.0827' N</span></li>
-                                                <li className="factory-bg6">Longitude <span> 80.2707' E</span></li></li>
-                                            <li className="factory-bg7">Wallet address  <span className="space-l2 ">: 0x9bc444fc09f366adO9b668f4a73b639c</span></li>
+                                                <li className="factory-bg5">Latitude  <span>{userLatitude && userLatitude}</span></li>
+                                                <li className="factory-bg6">Longitude <span> {userLongitude && userLongitude}</span></li></li>
                                         </ul>
                                         <div className="button-buttom-part center-width">
                                             <div className="received-part-two report-drop buttion-cumulative">
@@ -111,9 +157,14 @@ const FactoryDetails = () => {
                                             <div className="received-part-two batch eye-liner-part">
 
                                                 <select id="colours" className="dd-button batch-selected option-down">
-                                                    <option value="red"> Eye Liner</option>
-                                                    <option value="green">Green</option>
-                                                    <option value="blue">Blue </option>
+                                                    <option>All Product</option>
+
+                                                    {productDataInPercent.map((entry, index) => (
+                                                        <>
+                                                            <option value="red"> {entry && entry?.name}</option>
+                                                        </>
+                                                    ))}
+
                                                 </select>
                                             </div>
 
@@ -122,15 +173,50 @@ const FactoryDetails = () => {
 
                                         <div className="liner-part">
                                             <p>Batches sent</p>
-                                            <p><span className="bg-span-part"> </span>  <span className="bg-span-part2"> 50</span></p>
+                                            <p><span className="bg-span-part"> </span>  <span className="bg-span-part2">
+                                                {totalBatch && totalBatch}                                            </span></p>
 
                                             <p>Products Sent</p>
-                                            <p><span className="bg-span-part3"> </span>  <span className="bg-span-part4"> 200</span></p>
+                                            <p><span className="bg-span-part3"> </span>  <span className="bg-span-part4"> {totalProduct && totalProduct}</span></p>
                                         </div>
 
                                     </div>
                                     <div className="w-full lg:w-6/12 pl-4 mb-10 font-light self">
                                         <h3>Products Sent</h3>
+                                        { allProductSentData.length == 0 ? <div className="no-record mt-20">No Product Sent</div> : null}
+                                        <PieChart width={400} height={400}>
+                                            <Pie
+                                                data={productDataInPercent}
+                                                color="#000000"
+                                                dataKey="value"
+                                                nameKey="name"
+                                                cx="50%"
+                                                cy="50%"
+                                                outerRadius={120}
+                                                fill="#8884d8"
+                                            >
+                                                {productDataInPercent.map((entry, index) => (
+                                                    <Cell
+
+                                                        key={`cell-${index}`}
+                                                        fill={
+                                                            AuthenticationLevelCOLORS[
+                                                            index % AuthenticationLevelCOLORS.length
+                                                            ]
+                                                        }
+                                                    />
+                                                ))}
+                                            </Pie>
+                                            <Tooltip content={<AuthenticationLevelTooltip />} />
+
+
+
+                                            {/* <Legend
+            layout="vertical"
+            verticalAlign="bottom"
+            align="center"
+          /> */}
+                                        </PieChart>
                                     </div>
                                 </div>
 

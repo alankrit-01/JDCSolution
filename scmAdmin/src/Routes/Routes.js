@@ -51,6 +51,7 @@ import BatchDetail from 'pages/Admin/BatchDetail';
 import ProductCovered from 'pages/Admin/ProductCovered';
 import ProductCoveredDetail from 'pages/Admin/ProductCoveredDetail';
 
+import TotalFrouds from 'pages/Admin/TotalFrouds';
 
 
 
@@ -143,6 +144,8 @@ const WebRoutes = () => {
 
             <Route path="/admin/productCovered" index element={<ProductCovered />} />
             <Route path="/admin/productCoveredDetail" index element={<ProductCoveredDetail />} />
+
+            <Route path="/admin/totalFrouds" index element={<TotalFrouds/>} />
 
             <Route path="/factory" index element={<FactoryLogin />} />
             <Route path="/factory/dashboard" index element={<FactoryDashboard />} />

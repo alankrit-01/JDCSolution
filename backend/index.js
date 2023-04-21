@@ -1464,7 +1464,7 @@ app.post('/api/adminLogin', jsonParser, async function (req, res) {
       const validPassword = await bcrypt.compare(req.body.password, userData.password);
       if (validPassword) {
         jwt.sign({ userData }, jwtkey, { expiresIn: '300s' }, (err, token) => {
-          res.status(200).json({ token, userId: userData._id, userEmail: userData.email, userRole: userData.role, userName: userData.name, address: userData.address, city: userData.city, country: userData.country, latitude: userData.latitude, longitude: userData.longitude, adminId: userData.adminId })
+          res.status(200).json({ token, userId: userData._id, userPhone: userData.phone, userEmail: userData.email, userRole: userData.role, userName: userData.name, address: userData.address, city: userData.city, country: userData.country, latitude: userData.latitude, longitude: userData.longitude, adminId: userData.adminId })
         })
       } else {
         res.status(200).json({ status: "fail", message: "Invalid Password" });

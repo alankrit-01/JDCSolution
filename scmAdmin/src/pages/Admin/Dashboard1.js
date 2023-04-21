@@ -13,10 +13,8 @@ import Dropdown from "@material-tailwind/react/Dropdown";
 import DropdownItem from "@material-tailwind/react/DropdownItem";
 import cumulative from "assets/img/cumulative.png";
 import { useEffect } from "react";
-import { resetLoginData } from "Services/action";
-import { useDispatch } from "react-redux";
-import  GoogleMapReact  from 'google-map-react';
-import  AnyReactComponent  from 'google-map-react';
+import {resetLoginData} from "Services/action";
+import { useDispatch} from "react-redux";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
@@ -39,21 +37,12 @@ const Dashboard = () => {
       items: 1,
     },
   };
-  useEffect(() => {
-    dispatch(resetLoginData());
-  },
-    []
-  )
-
-
-  const defaultProps = {
-    center: {
-        lat: 26.859970,
-        lng: 75.806236
-    },
-    zoom: 11
-};
-
+useEffect(()=>{
+  dispatch(resetLoginData());
+},
+[]
+)
+  
   return (
     <>
       <Sidebar />
@@ -69,9 +58,9 @@ const Dashboard = () => {
                   </div>
                   <div className="add-batch-dashboard-title mt-0">
                     <Dropdown
-                      buttonText={
-                        <h6 className="mr-10 text-xl mt-2 text-white font-weight-text">ADD</h6>
-                      }
+                     buttonText={
+                      <h6 className="mr-10 text-xl mt-2 text-white font-weight-text">ADD</h6>
+                         }
                       style={{
                         padding: 9,
                         color: "white",
@@ -82,23 +71,23 @@ const Dashboard = () => {
                         width: "40px",
                         hieght: "40px",
                         marginTop: "6px",
-                        marginb: "20px",
+                        marginb: "20px", 
                         height: "22px"
                       }}
                     >
                       <DropdownItem >
-                        <NavLink to="/admin/addfactory">
-                          Add Factory
+                      <NavLink to="/admin/addfactory">
+                       Add Factory
                         </NavLink>
                       </DropdownItem>
                       <DropdownItem>
-                        <NavLink to="/admin/adddistributer">
-                          Add Distributer
+                      <NavLink to="/admin/adddistributer">
+                       Add Distributer
                         </NavLink>
                       </DropdownItem>
                       <DropdownItem>
-                        <NavLink to="/admin/addretailer">
-                          Add Retailer
+                      <NavLink to="/admin/addretailer">
+                       Add Retailer
                         </NavLink>
                       </DropdownItem>
                     </Dropdown>
@@ -111,59 +100,37 @@ const Dashboard = () => {
 
           <div className="received-part-two2 report-drop cumulative">
             <img src={cumulative} />
+
             <select id="colours" className="dd-button">
               <option value="red">Cumulative</option>
-              <option value="green">Monthly</option>
-              <option value="blue">Last 24hrs</option>
+              <option value="green">Green</option>
+              <option value="blue">Blue </option>
             </select>
           </div>
+
+       
         </div>
 
         <div className="px-3 md:px-8 h-20" />
         <div className="px-3 md:px-8 -mt-24">
-
+       
           <div>
             <MainStatusCard />
           </div>
-          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 mb-4">
-
-            <div className="px-4 mb-10 main-tiles-section">
-              <ProgressCard />
-            </div>
-            <div className="px-4 mb-10 main-tiles-section">
-              <PieRechartComponents />
-            </div>
-           
-            <div className="px-4 mb-10 main-tiles-section">
-              <div>
-                <h2 className="heading-background">Distributor Locations</h2>
-              </div>
-              <div className='w-80 h-96 map-padding-use'>
-
-                {/* <div style={{ height: '100vh', width: '100%' }}> */}
-                <GoogleMapReact
-                  bootstrapURLKeys={{ key: "AIzaSyChufzuq8C_rWT2fSVe_0WLEqjiktQen-Q" }}
-                  defaultCenter={defaultProps.center}
-                  defaultZoom={defaultProps.zoom}
-                >
-                  <AnyReactComponent
-                    lat={26.859970}
-                    lng={75.806236}
-                    text="My Marker"
-                  />
-                </GoogleMapReact>
-                {/* </div> */}
-
-
-              </div>
-            </div>
-
+          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 mb-3">
+            
+          <div>
+            <ProgressCard />
+          </div>
+          <div className="px-4 mb-10  max-w-56main-tiles-section">
+            <PieRechartComponents />
+          </div>
 
           </div>
 
-          {/* <div className="container mx-auto max-w-full h-96 ">
-            <PieRechartComponent />
-          </div> */}
+          <div className="container mx-auto max-w-full h-96 ">
+            {/* <PieRechartComponent /> */}
+          </div>
         </div>
         <Footer />
       </div>

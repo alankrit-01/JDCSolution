@@ -78,62 +78,58 @@ const RetailerDetails = () => {
                             <div className="xl:col-start-1 xl:col-end-7 px-4 mb-16">
                                 <div>
                                     <h2 className="head-cust-color">Retailer -  Beta Details</h2>
-                                    
+
                                 </div>
-                               
-                                            <div className="flex flex-wrap mt-5">
-                                                
-                                                <div className="w-full lg:w-6/12 pr-4 mb-10 font-light">
-                                                <ul className="factory-beta">
-                                        <li className="factory-bg">Retailer Name  <span>: Beta</span></li>
-                                        <li className="factory-bg2">Email <span>: beta@gmail.com</span></li>
-                                        <li className="factory-bg">Phone No  <span className="space-l">: +91 9304334373</span></li>
-                                        <li className="factory-bg2">PIN  <span className="space-l2 ">: 600012</span></li>
-                                        <li className="main-details"> 
-                                        <li className="factory-bg3">City : Chennai</li>
-                                        <li className="factory-bg4">State: Tamilnadu</li></li>
-                                        <li className="main-details"> 
-                                        <li className="factory-bg5">Latitude  <span>13.0827' N</span></li>
-                                        <li className="factory-bg6">Longitude <span> 80.2707' E</span></li></li>
-                                        <li className="factory-bg7">Wallet address  <span className="space-l2 ">: 0x9bc444fc09f366adO9b668f4a73b639c</span></li>
-                                    </ul>
-                                    <div className="button-buttom-part center-width">
-                                    <div className="received-part-two report-drop buttion-cumulative">
-                  <img src={cumulative} />
 
-                  <select id="colours" className="dd-button">
-                    <option value="red">Cumulative</option>
-                    <option value="green">Green</option>
-                    <option value="blue">Blue </option>
+                                <div className="flex flex-wrap mt-5">
 
-                  </select>
-                </div>
- <div className="received-part-two batch eye-liner-part">
+                                    <div className="w-full lg:w-6/12 pr-4 mb-10 font-light">
+                                        <ul className="factory-beta">
+                                            <li className="factory-bg">Retailer Name  <span>: Beta</span></li>
+                                            <li className="factory-bg2">Email <span>: beta@gmail.com</span></li>
+                                            <li className="factory-bg">Phone No  <span className="space-l">: +91 9304334373</span></li>
+                                            <li className="factory-bg2">PIN  <span className="space-l2 ">: 600012</span></li>
+                                            <li className="main-details">
+                                                <li className="factory-bg3">City : Chennai</li>
+                                                <li className="factory-bg4">State: Tamilnadu</li></li>
+                                            <li className="main-details">
+                                                <li className="factory-bg5">Latitude  <span>13.0827' N</span></li>
+                                                <li className="factory-bg6">Longitude <span> 80.2707' E</span></li></li>
+                                            <li className="factory-bg7">Wallet address  <span className="space-l2 ">: 0x9bc444fc09f366adO9b668f4a73b639c</span></li>
+                                        </ul>
+                                        <div className="button-buttom-part center-width">
+                                            <div className="received-part-two report-drop buttion-cumulative">
+                                                <img src={cumulative} />
 
-<select id="colours" className="dd-button batch-selected option-down">
-  <option value="red"> Eye Liner</option>
-  <option value="green">Green</option>
-  <option value="blue">Blue </option>
-</select>
-</div>
-                                            
-                                        </div>
+                                                <select id="colours" className="dd-button">
+                                                    <option value="red">Cumulative</option>
+                                                    <option value="green">Green</option>
+                                                    <option value="blue">Blue </option>
 
-<div className="liner-part">
-   <p>Batches sent</p>
-   <p><span className="bg-span-part"> </span>  <span className="bg-span-part2"> 50</span></p>
-
-   <p>Products Sent</p>
-   <p><span className="bg-span-part3"> </span>  <span className="bg-span-part4"> 200</span></p>
-</div>
-
-                                                </div>
-                                                <div className="w-full lg:w-6/12 pl-4 mb-10 font-light self">
-                                                  <h3>Products Sent</h3>
-                                                </div>
+                                                </select>
                                             </div>
-                                            
-                                    
+                                            <div className="received-part-two batch eye-liner-part">
+
+                                                <select id="colours" className="dd-button batch-selected option-down">
+                                                    <option value="red"> Eye Liner</option>
+                                                    <option value="green">Green</option>
+                                                    <option value="blue">Blue </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div className="liner-part">
+                                            <p>Batches sent</p>
+                                            <p><span className="bg-span-part"> </span>  <span className="bg-span-part2"> 50</span></p>
+                                            <p>Products Sent</p>
+                                            <p><span className="bg-span-part3"> </span>  <span className="bg-span-part4"> 200</span></p>
+                                        </div>
+                                    </div>
+                                    <div className="w-full lg:w-6/12 pl-4 mb-10 font-light self">
+                                        <h3>Products Received</h3>
+                                    </div>
+                                </div>
+
+
                             </div>
                         </div>
                     </div>
