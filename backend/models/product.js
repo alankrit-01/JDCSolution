@@ -5,6 +5,11 @@ let product = new mongoose.Schema({
     CompanyProductID:Number, 
     BatchID:Number,
     ProductTemplateID:Number, 
+    ProductName:String, 
+    // ProductTemplateRef:{      
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: "productTemplate"
+    // },  
     DOM:String,
     CustomerID:String,
     RetailerID:String,

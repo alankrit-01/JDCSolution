@@ -41,7 +41,7 @@ MONGO_URL = "mongodb+srv://vipin:vipinrichmint@cluster0.y8ufn.mongodb.net/nodeda
 mongoose.connect(MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true }).then(() => console.log("Connected"));
 
 
-let contractAddress = "0xdb5B22dcff6966379144C6b8737BEf37AA16fcC9";
+let contractAddress = "0xEe146EC6281CA6fb98E40610F2ef85E241010509";
 let contract;
 
 const connectToMatic = async () => {
@@ -197,6 +197,7 @@ app.post('/api/factoryAddBatch', addbatchMIDDLEWARE, async (req, res) => {
       CompanyBatchID: companyBatchID,
       ProductIDs: productIDs
     })
+    const templateData =await productTemplate.findOne({ProductTemplateID:productTemplateID});
 
     const products = [];
     for (let i = 0; i < batchSize; i++) {
@@ -206,6 +207,7 @@ app.post('/api/factoryAddBatch', addbatchMIDDLEWARE, async (req, res) => {
         CompanyProductID: companyProductIDs[i],
         BatchID: batchID,
         ProductTemplateID: productTemplateID,
+        ProductName: templateData.Name,
         DOM: dateOfProduction,
         CustomerID: "",
         RetailerID: "",
@@ -845,14 +847,14 @@ app.get('/api/viewBatchAndProductCountForRetailer', async (req, res) => {
     ]);
     let result2 = await product.aggregate([
       { $match: { RetailerID: RetailerID } },
-      { $group: { _id: '$ProductTemplateID', ProductsReceived: { $sum: 1 }, Name: { $first: '$BatchName' }} },
+      { $group: { _id: '$ProductTemplateID', ProductsReceived: { $sum: 1 }, ProductName: { $first: '$ProductName' }} },
       { $sort: { _id: 1 } }
     ]);
 
-    console.log(result);
+    result[0].ProductReceivedDetail=result2;
+    if(result.length){
 
-    if(result){
-      res.status(200).json({ status: "success", message: result });
+      res.status(200).json({ status: "success", message: result[0] });
     }else{
       res.status(200).json({ status: "failure", message: "Result is empty" });
     }
