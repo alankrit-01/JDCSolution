@@ -6,10 +6,10 @@ let customerData = new mongoose.Schema({
     //     type: mongoose.Schema.Types.ObjectId,
     //     ref: "batch"                         
     // },         
-    ProductRef:{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "product"
-    },
+    // ProductRef:{
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: "product"
+    // },
     ProductName:String,
     ProductID:Number,
     CustomerID:String,

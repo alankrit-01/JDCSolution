@@ -41,7 +41,7 @@ MONGO_URL = "mongodb+srv://vipin:vipinrichmint@cluster0.y8ufn.mongodb.net/nodeda
 mongoose.connect(MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true }).then(() => console.log("Connected"));
 
 
-let contractAddress = "0x5DDc7d8D7ca5E212CbDCE6fB46EFe51f45441b4e";
+let contractAddress = "0xdb5B22dcff6966379144C6b8737BEf37AA16fcC9";
 let contract;
 
 const connectToMatic = async () => {
@@ -248,7 +248,6 @@ app.get('/api/viewListOfBatchesProducedByFactory', async (req, res) => {
     res.status(400).send({ error: error.message });
   }
 });
-
 
 app.get('/api/viewBatchCount', async (req, res) => {
   try {
@@ -816,7 +815,7 @@ app.post('/api/sellToCustomer', async (req, res) => {
       console.log(batchData);
       const data = new customerData({
         _id: new mongoose.Types.ObjectId(),
-        ProductRef: productData._id,
+        // ProductRef: productData._id,
         ProductID: ProductID,
         ProductName: batchData.BatchName,
         CustomerID: customerID,
@@ -844,10 +843,10 @@ app.get('/api/viewProductBoughts', async (req, res) => {
     const documents = await customerData.find({ CustomerID: CustomerID })
       // .populate("ProductRef")
     console.log(documents);
-    if (documents) {
+    if (documents.length) {
       res.status(200).json({ status: "success", message: documents });
     } else {
-      res.status(200).json({ status: "success", message: "Returned data is empty" });
+      res.status(200).json({ status: "success", message: [] });
     }
   } catch (error) {
     console.log(error.message);
@@ -859,19 +858,18 @@ app.get('/api/viewProductBoughtDetail', async (req, res) => {
   try {
     let ProductID = req.query.productID;
     const documents = await customerData.findOne({ ProductID: ProductID })
-      // .populate("ProductRef")
+      // .populate("ProductRef")    
     console.log(documents);
     if (documents) {
       res.status(200).json({ status: "success", message: documents });
     } else {
-      res.status(200).json({ status: "success", message: "Returned data is empty" });
+      res.status(200).json({ status: "success", message:[] });
     }
   } catch (error) {
     console.log(error.message);
     res.status(400).send({ error: error.message });
   }
 });
-
 
 app.get('/api/authenticateProduct', async (req, res) => {
   try {
@@ -893,7 +891,8 @@ app.get('/api/authenticateProduct', async (req, res) => {
         batchDescription:"",
         batchID:0,
         productId:ProductID,
-        level:1 
+        level:1,
+        timeStamp:"" 
       })
       Data.save().then((result) => {
         console.log(result);
@@ -938,7 +937,7 @@ app.get('/api/authenticateProduct', async (req, res) => {
         level = 6;
         status = "All Authentication Level Passed"
       }
-
+      const time =new Date().toLocaleString();
       const Data = new verificationData({
         _id: new mongoose.Types.ObjectId(),
         factoryID: data2.FactoryID,
@@ -948,7 +947,8 @@ app.get('/api/authenticateProduct', async (req, res) => {
         batchDescription: data2.BatchDescription,
         batchID: BatchID,
         productId: ProductID,
-        level: level
+        level: level,
+        timeStamp:time
       })
       Data.save().then((result) => {
         console.log(result);
@@ -967,18 +967,27 @@ app.get('/api/cutomerScansHistory', async (req, res) => {
   let customerID = req.query.customerID;
   try {
     verificationData.find({ customerID: customerID }).then((data) => {
-      res.status(200).json(data)
-    })
+      // if(data.length) res.status(200).json(data)
+      // else res.status(200).json({status: "success",message: []})
 
+      console.log(data);
+      if (data) {
+        res.status(200).json({ status: "success", message: data });
+      } else {
+        res.status(200).json({ status: "success", message:[] });
+      }
+
+    })
   } catch (error) {
     console.log(error.message);
     res.status(400).send({ error: error.message });
   }
 });
 
+
 /////////////////////////////// ADMIN APIS //////////////////////////////////////////
 
-app.get('/api/getscans', function (req, res) {
+app.get('/api/getScans', function (req, res) {
   try {
     scan.find().then((data) => {
       // console.log(data);

@@ -9,5 +9,6 @@ let verificationSchema = new mongoose.Schema({
     batchID:Number,
     productId:Number,
     level:Number,
+    timeStamp:String
 })  
 module.exports=mongoose.model('verificationData',verificationSchema)    
