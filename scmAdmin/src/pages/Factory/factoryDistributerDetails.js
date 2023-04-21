@@ -10,11 +10,6 @@ import DistributerDetailChart from "components/Factory/distributerDetailChart";
 const FactoryDistributerDetails = () => {
 
     const initialDistBatchProductChartData = useSelector((state) => state?.DistributerBatchProductChartData);
-
-
-
-    console.log("initialDistBatchProductChartData",initialDistBatchProductChartData)
-
     const dataFetchedRef = useRef(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -28,12 +23,8 @@ const FactoryDistributerDetails = () => {
     const [userLatitude, setUserLatitude] = useState('');
     const [userLongitude, setUserLongitude] = useState('');
 
-
-
-
     let userData = useLocation();
     let userId = userData.state.userId;
-
     useEffect(() => {
         const data = {
             _id: userId
@@ -45,7 +36,6 @@ const FactoryDistributerDetails = () => {
 
     useEffect(() => {
         if (initialdata) {
-            // console.log("initialdata", initialdata?.userDetailRec?.userRecord)
             setUserName(initialdata?.userDetailRec?.userRecord?.name);
             setUserEmail(initialdata?.userDetailRec?.userRecord?.email);
             setUserPhone(initialdata?.userDetailRec?.userRecord?.phone);
@@ -87,7 +77,6 @@ const FactoryDistributerDetails = () => {
                                             <li className="main-details">
                                                 <li className="factory-bg5">Latitude  <span>{userLatitude && userLatitude}</span></li>
                                                 <li className="factory-bg6">Longitude <span> {userLongitude && userLongitude}</span></li></li>
-                                            {/* <li className="factory-bg7">Wallet address  <span className="space-l2 ">: 0x9bc444fc09f366adO9b668f4a73b639c</span></li> */}
                                         </ul>
                                         <div className="button-buttom-part center-width">
                                             <div className="received-part-two report-drop buttion-cumulative">
@@ -104,17 +93,14 @@ const FactoryDistributerDetails = () => {
 
                                                 <select id="colours" className="dd-button batch-selected option-down">
                                                     <option value="red"> All Products</option>
-                                                    {/* <option value="green">Green</option>
-                                                    <option value="blue">Blue </option> */}
+                                                   
                                                 </select>
                                             </div>
                                         </div>
                                         <div className="liner-part">
-                                            {console.log("initialDistBatchProductChartData",initialDistBatchProductChartData.distributerBatchProductRec)}
                                             <p>Batches sent</p>
                                             <p><span className="bg-span-part"> </span>  <span className="bg-span-part2">
                                             { initialDistBatchProductChartData.distributerBatchProductRec.message == "Result is empty" ? 0 : initialDistBatchProductChartData?.distributerBatchProductRec?.message?.BatchesReceived}
-
                                                 </span></p>
                                             <p>Products Received</p>
                                             <p><span className="bg-span-part3"> </span>  <span className="bg-span-part4"> 
@@ -122,7 +108,7 @@ const FactoryDistributerDetails = () => {
                                             { initialDistBatchProductChartData.distributerBatchProductRec.message == "Result is empty" ? 0 : initialDistBatchProductChartData?.distributerBatchProductRec?.message?.ProductsReceived}
                                             </span></p>
 
-                                            <p>Products Received</p>
+                                            <p>Products Sold</p>
                                             <p><span className="bg-span-part3"> </span>  <span className="bg-span-part4"> 
                                             
                                             { initialDistBatchProductChartData.distributerBatchProductRec.message == "Result is empty" ? 0 : initialDistBatchProductChartData?.distributerBatchProductRec?.message?.ProductsSold}

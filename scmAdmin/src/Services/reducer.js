@@ -9,6 +9,7 @@ const superAdminData = {
     superAdminUserId: "",
     superAdminUserName: "",
     superAdminUserEmail: "",
+    superAdminUserPhone: "",
     superAdmintoken: "",
     superAdminUserRole: "",
     superAdminUserAddress: "",
@@ -37,6 +38,7 @@ const adminData = {
     superAdminId: "",
     adminUsername: "",
     adminUserEmail: "",
+    adminUserPhone: "",
     admintoken: "",
     adminUserRole: "",
     adminUserAddress: "",
@@ -366,6 +368,8 @@ export const AdminLoginData = (initialdata = adminData, action) => {
             initialdata = { ...initialdata, adminUserName: username }
             let userEmail = localStorage.getItem('adminUserEmail');
             initialdata = { ...initialdata, adminUserEmail: userEmail }
+            let userPhone = localStorage.getItem('adminUserPhone');
+            initialdata = { ...initialdata, adminUserPhone: userPhone }
             let token = localStorage.getItem('admintoken');
             initialdata = { ...initialdata, admintoken: token }
             let userRole = localStorage.getItem('adminUserRole');
@@ -396,6 +400,8 @@ export const AdminLoginData = (initialdata = adminData, action) => {
             initialdata = { ...initialdata, adminUserName: username1 }
             let userEmail1 = localStorage.getItem('adminUserEmail');
             initialdata = { ...initialdata, adminUserEmail: userEmail1 }
+            let userPhone1 = localStorage.getItem('adminUserPhone');
+            initialdata = { ...initialdata, adminUserPhone: userPhone1 }
             let token1 = localStorage.getItem('admintoken');
             initialdata = { ...initialdata, admintoken: token1 }
             let userRole1 = localStorage.getItem('adminUserRole');
@@ -417,6 +423,7 @@ export const AdminLoginData = (initialdata = adminData, action) => {
             localStorage.removeItem('superAdminId');
             localStorage.removeItem('adminUserName');
             localStorage.removeItem('adminUserEmail');
+            localStorage.removeItem('adminUserPhone');
             localStorage.removeItem('admintoken');
             localStorage.removeItem('adminUserRole');
             localStorage.removeItem('adminUserAddress');
@@ -428,6 +435,7 @@ export const AdminLoginData = (initialdata = adminData, action) => {
             initialdata = { ...initialdata, superAdminId: "" }
             initialdata = { ...initialdata, adminUserName: "" }
             initialdata = { ...initialdata, adminUserEmail: "" }
+            initialdata = { ...initialdata, adminUserPhone: "" }
             initialdata = { ...initialdata, admintoken: "" }
             initialdata = { ...initialdata, adminUserRole: "" }
             initialdata = { ...initialdata, adminUserAddress: "" }
@@ -811,14 +819,10 @@ export const StoreProductTemplateData = (initialdata = storeProductTemplateData,
             break;
         case Store_Product_Template_Request:
             initialdata = { ...initialdata, success: false, store_request: true, error: false }
-            console.log("initialdata sdsd", initialdata)
-
             return initialdata;
             break;
         case Set_Store_Product_Template_Data:
             initialdata = { ...initialdata, success: true, store_request: false, error: false }
-            console.log("initialdata fffff", initialdata)
-
             return initialdata;
             break;
         case Check_Product_Template_Success_data_1:
@@ -980,7 +984,7 @@ export const FactorySentProductListRecord = (initialdata = factorySentProductDat
             return initialdata
             break;
     }
-}
+} 
 export const DistributerBatchProductChartData = (initialdata = distributerBathProdChartData, action) => {
     switch (action.type) {
         case Set_Distributer_Batch_Product_Chart:

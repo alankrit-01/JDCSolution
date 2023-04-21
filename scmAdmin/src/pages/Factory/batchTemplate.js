@@ -67,7 +67,7 @@ const BatchTemplate = () => {
         },
         {
             name: "Action",
-            selector: (row) => <button className="custom-details-btn" onClick={() => navigate('/factory/BatchQr', { state: { BatchID:  row.BatchID } })}>Batch Qr</button>,
+            selector: (row) => <button className="custom-details-btn" onClick={() => navigate('/factory/BatchQr', { state: { BatchID:  row.BatchID, companyBatchID:  row.CompanyBatchID } })}>Batch Qr</button>,
             ignoreRowClick: true,
             allowOverflow: true,
             button: true,
@@ -91,7 +91,7 @@ const BatchTemplate = () => {
     const initialBatchTemplatedata = useSelector((state) => state.BatchTemplateRecord);
     const initialBatchTemplateStoredata = useSelector((state) => state.StoreBatchTemplateData);
 
-    console.log("initialBatchTemplatedata",initialBatchTemplateStoredata)
+    //  console.log("initialBatchTemplatedata",initialBatchTemplatedata)
 
  
     useEffect(() => {
@@ -102,8 +102,8 @@ const BatchTemplate = () => {
 
     useEffect(() => {
         if(initialBatchTemplatedata?.batchTemplateRec){
-        setBatchTemplates(initialBatchTemplatedata.batchTemplateRec.message && initialBatchTemplatedata.batchTemplateRec.message)
-        setFilterBatchTemplates(initialBatchTemplatedata.batchTemplateRec.message && initialBatchTemplatedata.batchTemplateRec.message)
+        setBatchTemplates(initialBatchTemplatedata && initialBatchTemplatedata?.batchTemplateRec?.message)
+        setFilterBatchTemplates(initialBatchTemplatedata && initialBatchTemplatedata?.batchTemplateRec?.message)
         }
         var a = [{ BatchSize: "There are no record to display" }];
        
@@ -113,7 +113,7 @@ const BatchTemplate = () => {
             initialBatchTemplatedata.batchTemplateRec.message != null &&
             initialBatchTemplatedata.batchTemplateRec.message.message != ""
         ) {
-            setFilterBatchTemplates(initialBatchTemplatedata.batchTemplateRec.message && initialBatchTemplatedata.batchTemplateRec.message);
+            setFilterBatchTemplates(initialBatchTemplatedata && initialBatchTemplatedata?.batchTemplateRec?.message);
             
         } } else {
           setLoading(false);

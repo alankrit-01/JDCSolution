@@ -109,8 +109,6 @@ export default function FactoryNavbar({ showSidebar, setShowSidebar }) {
                                 <p className="click-open-btn"><Icon name="email" size="1xl" color="black" /> <a href="#">{factoryData && factoryData.factoryUserEmail}</a></p>
                                 <p className="click-open-btn"><img src={locationicon} className="location-img" /> <a href="#">{factoryData && factoryData.factoryUserCity } , {factoryData && factoryData.factoryUserCountry}</a></p>
                                 <p className="click-open-btn"><Icon name="phone" size="1xl" color="black" /> <a href="#">{factoryData && factoryData.factoryUserCountry}</a></p>
-                                {/* <p className="click-open-btn2">Wallet address</p> */}
-                                {/* <p className="box-set"> <a href="#">0x9bc444fc09f3660ad09b668f4a73b603b37Of07e <Icon name="email" size="1xl" color="black" /></a></p> */}
                                 <p className="sign-button-p"><DropdownItem color="lightBlue" onClick={() => {
                     const confirmBox = window.confirm("Are you sure you want to logout?");
                     if (confirmBox === true) {

@@ -271,6 +271,7 @@ export const factoryLogout = (data) =>{
 
 
 export const storeProductTemplate = (data) =>{
+    console.log("data",data)
     return{
         type:Store_Product_Template,
         data:data 

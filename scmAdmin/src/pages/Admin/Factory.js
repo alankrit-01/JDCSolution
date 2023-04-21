@@ -14,10 +14,10 @@ import loader from "assets/img/loading.gif";
 import { handleUserStatus } from "Services/action";
 import Arrowdown from 'assets/img/down-arrow.png';
 
-
-
 const Factory = () => {
   const dataFetchedRef = useRef(false);
+  const adminLoginData = useSelector((state) => state.AdminLoginData);   
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [Factories, setFactories] = useState([]);
@@ -50,12 +50,12 @@ const Factory = () => {
     {
       name: "Information",
       selector: (row) => (
-        <button className="custom-details-btn" onClick={() => navigate('/admin/factoryDetails', { state: { userId:  row.name } })}>Details</button>
+        <button className="custom-details-btn" onClick={() => navigate('/admin/factoryDetails', { state: { userId:  row._id } })}>Details</button>
       ),
       sortable: true,
     },
     // {
-    //   name: <div className="text-base">Action</div>,
+    //   name: <div className="text-base">Action</div>, 
     //   if: row => row.userStatus.includes('Active'),
     //   selector: (row) => (
     //     <Button
@@ -116,6 +116,7 @@ const Factory = () => {
   }, []);
 
   useEffect(() => {
+    
     dispatch(getFactory());
     dispatch(resetFactoryData());
   }, []);

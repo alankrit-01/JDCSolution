@@ -67,7 +67,7 @@ const Distributer = () => {
     {
       name: "Information",
       selector: (row) => (
-        <button className="custom-details-btn" onClick={() => navigate('/admin/distributerDetails', { state: { userId:  row.name } })}>Details</button>
+        <button className="custom-details-btn" onClick={() => navigate('/admin/distributerDetails', { state: { userId:  row._id } })}>Details</button>
       ),
       sortable: true,
     },

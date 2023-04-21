@@ -8,12 +8,11 @@ import Button from "@material-tailwind/react/Button";
 const DistributerDetailChart = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+ 
 
   useEffect(() => {
     const data = {
         distributorID: props?.distributerId
-        //distributorID:"64018f3a935253a09320cb0e"
     }
     dispatch(distributerBatchProductChartData(data));
   }, []);

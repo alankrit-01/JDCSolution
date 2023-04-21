@@ -54,10 +54,7 @@ const MainStatusCard = () => {
         setFactories(initialFactorydata.factoryRec.length)
         setRetailer(initialRetailerdata.retailerRec.length)
         setFeedback(initialfeedbackdata.feedbackRec.length)
-
     }, [initialdata, initialFactorydata, initialRetailerdata,initialfeedbackdata])
-
-
 
     const responsive = {
         superLargeDesktop: {

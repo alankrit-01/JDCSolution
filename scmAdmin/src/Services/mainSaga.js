@@ -14,11 +14,11 @@ function* superAdminUserLogin(data) {
         localStorage.setItem('superAdminUserEmail', superAdminLoginRes.data.userEmail);
         localStorage.setItem('superAdmintoken', superAdminLoginRes.data.token);
         localStorage.setItem('superAdminUserRole', superAdminLoginRes.data.userRole);
-        localStorage.setItem('superAdminUserAddress', superAdminLoginRes.data.userAddress);
-        localStorage.setItem('superAdminUserCity', superAdminLoginRes.data.userCity);
-        localStorage.setItem('superAdminUserCountry', superAdminLoginRes.data.userCountry);
-        localStorage.setItem('superAdminUserLatitude', superAdminLoginRes.data.userLatitude);
-        localStorage.setItem('superAdminUserLongitude', superAdminLoginRes.data.userLongitude);
+        localStorage.setItem('superAdminUserAddress', superAdminLoginRes.data.address);
+        localStorage.setItem('superAdminUserCity', superAdminLoginRes.data.city);
+        localStorage.setItem('superAdminUserCountry', superAdminLoginRes.data.country);
+        localStorage.setItem('superAdminUserLatitude', superAdminLoginRes.data.latitude);
+        localStorage.setItem('superAdminUserLongitude', superAdminLoginRes.data.longitude);
         yield put({ type: Set_SuperAdmin_Login, result })
     } catch (error) {
         console.log("Error is ", error)
@@ -124,22 +124,24 @@ function* adminUserLogin(data) {
         let uri = API_URL.concat('/adminLogin')
         const adminLoginRes = yield call(Axios.post, uri, requestData)
         const result = adminLoginRes.data;
-        if (result.status == 'fail') {
+        console.log("result",result)
+        if (result.status == 'fail') { 
             yield put({ type: Admin_Login_Invalid, result })
         } else {
             localStorage.setItem('adminUserId', adminLoginRes.data.userId);
-            localStorage.setItem('superAdminId', adminLoginRes.data.superAdminId);
+            localStorage.setItem('superAdminId', adminLoginRes.data.adminId);
             localStorage.setItem('adminUserName', adminLoginRes.data.userName);
             localStorage.setItem('adminUserEmail', adminLoginRes.data.userEmail);
+            localStorage.setItem('adminUserPhone', adminLoginRes.data.userPhone);
             localStorage.setItem('admintoken', adminLoginRes.data.token);
             localStorage.setItem('adminUserRole', adminLoginRes.data.userRole);
-            localStorage.setItem('adminUserAddress', adminLoginRes.data.userAddress);
-            localStorage.setItem('adminUserCity', adminLoginRes.data.userCity);
-            localStorage.setItem('adminUserCountry', adminLoginRes.data.userCountry);
-            localStorage.setItem('adminUserLatitude', adminLoginRes.data.userLatitude);
-            localStorage.setItem('adminUserLongitude', adminLoginRes.data.userLongitude);
+            localStorage.setItem('adminUserAddress', adminLoginRes.data.address);
+            localStorage.setItem('adminUserCity', adminLoginRes.data.city);
+            localStorage.setItem('adminUserCountry', adminLoginRes.data.country);
+            localStorage.setItem('adminUserLatitude', adminLoginRes.data.latitude);
+            localStorage.setItem('adminUserLongitude', adminLoginRes.data.longitude);
             yield put({ type: Set_Admin_Login, result })
-        }
+        } 
     } catch (error) {
         console.log("Error is ", error)
         yield put({ type: Admin_Login_Fail })
@@ -414,7 +416,6 @@ function* storeCompanyFeedback(data) {
 function* checkCompanyFeedbackSuccessdata(data) {
     const requestData = data.data
     yield put({ type: Check_Company_Feedback_Success_data_1 })
-
 }
 
 function* storeMultiUser(data) {
@@ -425,9 +426,7 @@ function* storeMultiUser(data) {
             valuesArray.push([value[0], value[1], value[2], value[3], value[4], value[5], value[6], value[7], value[8], value[9]])
         })
         let uri = API_URL.concat('/addMultiUser')
-        console.log("uri", uri && uri)
         const storeDistributerRes = yield call(Axios.post, uri, valuesArray)
-        console.log("storeDistributerRes", storeDistributerRes && storeDistributerRes)
         const result = storeDistributerRes.data;
         // if (valuesArray[0].pop() == 'Distributer') {
         //     yield put({ type: Set_Store_Distributer_Data, result })
@@ -440,7 +439,7 @@ function* storeMultiUser(data) {
     }
 }
 function* storeProductTemplate(data) {
-    const requestData = data.data
+    const requestData = data.data 
     try {
         let uri = BLOCKCHAIN_API_URL.concat('/factoryAddProductTemplate')
         const storeProductTemplateRes = yield call(Axios.post, uri, requestData)

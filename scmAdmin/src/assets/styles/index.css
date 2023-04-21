@@ -1452,3 +1452,7 @@ span.error {
 .no-record{
     text-align: center;
 }
+.form-button:disabled {
+   
+    background-color:grey;
+}

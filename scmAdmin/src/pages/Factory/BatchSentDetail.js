@@ -68,7 +68,9 @@ const BatchSentDetail = () => {
     }, [])
     const initialBatchTemplatedata = useSelector((state) => state.BatchDetailRecord);
 
-    console.log("initialBatchTemplatedata",initialBatchTemplatedata?.batchDetailRec?.Products)
+    let totalproduct = initialBatchTemplatedata?.batchDetailRec?.Products?.length
+
+    console.log("initialBatchTemplatedata",totalproduct)
 
 
     useEffect(() => {
@@ -152,7 +154,7 @@ const BatchSentDetail = () => {
                                     <div className="right-button-section cust-part2">
 
                                         <NavLink to="/factory/addBatchTemplate">
-                                            <button className="cust-button">Product Sent <span className="batches-sent">55</span></button>
+                                            <button className="cust-button">Product Sent <span className="batches-sent">{totalproduct && totalproduct}</span></button>
                                         </NavLink>
                                     </div>
 
