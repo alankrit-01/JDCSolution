@@ -340,21 +340,18 @@ export const getBatchDetail = (data) =>{
         data:data 
     }  
 }
-
 export const getFactoryStatics = (data) =>{
     return{
         type:Get_Factory_Statics,
         data:data 
     } 
 }
-
 export const sentProductListByFactory = (data) =>{
     return{
         type:Sent_Product_List_By_Factory,
         data:data 
     } 
 }
-
 export const distributerBatchProductChartData = (data) =>{
     return{
         type:Distributer_Batch_Product_Chart_Data,
