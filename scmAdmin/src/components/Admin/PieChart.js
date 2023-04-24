@@ -26,7 +26,7 @@ const PieRechartComponent = () => {
   const initialFraudScansdata = useSelector((state) => state.FraudScansRecord);
   const initialFailsLeveldata = useSelector((state) => state.FailsLevelRecord);
 
-console.log("initialFraudScansdata", initialFraudScansdata)
+ console.log("initialFraudScansdata", initialFraudScansdata)
   
   let allFraudScansData = initialFraudScansdata && initialFraudScansdata.fraudScansRec
   let allFailsLevelData = initialFailsLeveldata && initialFailsLeveldata.failsLevelRec

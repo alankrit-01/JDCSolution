@@ -131,7 +131,7 @@ const Dashboard = () => {
               <ProgressCard />
             </div>
             <div className="px-4 mb-10 main-tiles-section">
-              <PieRechartComponents />
+              <PieRechartComponents /> 
             </div>
            
             <div className="px-4 mb-10 main-tiles-section">
