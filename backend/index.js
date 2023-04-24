@@ -118,7 +118,7 @@ app.post('/api/factoryAddProductTemplate', async (req, res) => {
 app.get('/api/viewListOfProductTemplates', async (req, res) => {
   try {
     const FactoryID = req.query.factoryID;
-    productTemplate.find({ FactoryID }).sort({_id: -1}).then((documents) => {
+    productTemplate.find({ FactoryID }).sort({ _id: -1 }).then((documents) => {
       res.status(200).json({ status: "success", message: documents });
     }).catch((error) => {
       console.log(error);
@@ -197,7 +197,7 @@ app.post('/api/factoryAddBatch', addbatchMIDDLEWARE, async (req, res) => {
       CompanyBatchID: companyBatchID,
       ProductIDs: productIDs
     })
-    const templateData =await productTemplate.findOne({ProductTemplateID:productTemplateID});
+    const templateData = await productTemplate.findOne({ ProductTemplateID: productTemplateID });
 
     const products = [];
     for (let i = 0; i < batchSize; i++) {
@@ -239,7 +239,7 @@ app.post('/api/factoryAddBatch', addbatchMIDDLEWARE, async (req, res) => {
 app.get('/api/viewListOfBatchesProducedByFactory', async (req, res) => {
   try {
     const FactoryID = req.query.factoryID;
-    batch.find({ FactoryID }).sort({_id: -1}).then((documents) => {
+    batch.find({ FactoryID }).sort({ _id: -1 }).then((documents) => {
       res.status(200).json({ status: "success", message: documents });
     }).catch((error) => {
       console.log(error);
@@ -380,7 +380,7 @@ app.get('/api/factoryStatistics', async (req, res) => {
     if (FactoryID != '' && FactoryID !== undefined) {
       let result = await batch.aggregate([
         { $match: { FactoryID: FactoryID } },
-        { $group: { _id: '$FactoryID',Products: { $sum: "$BatchSize" }} },
+        { $group: { _id: '$FactoryID', Products: { $sum: "$BatchSize" } } },
       ]);
 
       const batchquery = { FactoryID: FactoryID };
@@ -521,7 +521,7 @@ app.post('/api/distributorScansBatch', distributorScanMIDDLEWARE, async (req, re
           Email: user.email,
           orignalLocation: (user.address + " " + user.city + " " + user.country),
           distanceSeprated: sepration_distance,
-        }) 
+        })
         Data.save().then((result) => {
           console.log(result);
           res.status(200).json({ status: "success", message: "Incorrect scan location fraud detected" })
@@ -618,23 +618,23 @@ app.get('/api/viewBatchAndProductCountForDistributor', async (req, res) => {
     const DistributorID = req.query.distributorID;
     let result = await batch.aggregate([
       { $match: { DistributorID: DistributorID } },
-      { $group: { _id: '$DistributorID', BatchesReceived: { $sum: 1 }, ProductsReceived: { $sum: "$BatchSize" }, ProductsSold: { $sum: "$AmountLeftForSellingTORetailer" }} },
+      { $group: { _id: '$DistributorID', BatchesReceived: { $sum: 1 }, ProductsReceived: { $sum: "$BatchSize" }, ProductsSold: { $sum: "$AmountLeftForSellingTORetailer" } } },
       { $sort: { _id: 1 } }
     ]);
     // console.log(result)
 
     let result2 = await batch.aggregate([
       { $match: { DistributorID: DistributorID } },
-      { $group: { _id: '$ProductTemplateID', ProductsReceived: { $sum: "$BatchSize" }, Name: { $first: '$BatchName' }} },
+      { $group: { _id: '$ProductTemplateID', ProductsReceived: { $sum: "$BatchSize" }, Name: { $first: '$BatchName' } } },
       { $sort: { _id: 1 } }
     ]);
     // console.log(result2);
-    if(result.length){
-      result[0].ProductsSold = result[0].ProductsReceived- result[0].ProductsSold;
-      result[0].ProductReceivedDetail=result2;
-  
+    if (result.length) {
+      result[0].ProductsSold = result[0].ProductsReceived - result[0].ProductsSold;
+      result[0].ProductReceivedDetail = result2;
+
       res.status(200).json({ status: "success", message: result[0] });
-    }else{
+    } else {
       res.status(200).json({ status: "failure", message: "Result is empty" });
     }
   } catch (error) {
@@ -812,8 +812,8 @@ app.post('/api/sellToCustomer', async (req, res) => {
         CustomerID: customerID,
         CustomerName: customerName,
         DateWhenSoldToCustomer: timeStamp,
-      }) 
-      const batchData = await batch.findOne({BatchID:productData.BatchID});
+      })
+      const batchData = await batch.findOne({ BatchID: productData.BatchID });
       console.log(batchData);
       const data = new customerData({
         _id: new mongoose.Types.ObjectId(),
@@ -847,15 +847,15 @@ app.get('/api/viewBatchAndProductCountForRetailer', async (req, res) => {
     ]);
     let result2 = await product.aggregate([
       { $match: { RetailerID: RetailerID } },
-      { $group: { _id: '$ProductTemplateID', ProductsReceived: { $sum: 1 }, ProductName: { $first: '$ProductName' }} },
+      { $group: { _id: '$ProductTemplateID', ProductsReceived: { $sum: 1 }, ProductName: { $first: '$ProductName' } } },
       { $sort: { _id: 1 } }
     ]);
 
-    result[0].ProductReceivedDetail=result2;
-    if(result.length){
+    result[0].ProductReceivedDetail = result2;
+    if (result.length) {
 
       res.status(200).json({ status: "success", message: result[0] });
-    }else{
+    } else {
       res.status(200).json({ status: "failure", message: "Result is empty" });
     }
   } catch (error) {
@@ -871,7 +871,7 @@ app.get('/api/viewProductBoughts', async (req, res) => {
   try {
     let CustomerID = req.query.customerID;
     const documents = await customerData.find({ CustomerID: CustomerID })
-      // .populate("ProductRef")
+    // .populate("ProductRef")
     console.log(documents);
     if (documents.length) {
       res.status(200).json({ status: "success", message: documents });
@@ -888,12 +888,12 @@ app.get('/api/viewProductBoughtDetail', async (req, res) => {
   try {
     let ProductID = req.query.productID;
     const documents = await customerData.findOne({ ProductID: ProductID })
-      // .populate("ProductRef")    
+    // .populate("ProductRef")    
     console.log(documents);
     if (documents) {
       res.status(200).json({ status: "success", message: documents });
     } else {
-      res.status(200).json({ status: "success", message:[] });
+      res.status(200).json({ status: "success", message: [] });
     }
   } catch (error) {
     console.log(error.message);
@@ -910,32 +910,32 @@ app.get('/api/authenticateProduct', async (req, res) => {
 
     // let data = await contract.ProductMapping(ProductID);
     let data = await product.findOne({ ProductID });
-    
+
     if (!data) {
       const Data = new verificationData({
         _id: new mongoose.Types.ObjectId(),
-        factoryID:"",
-        distributorID:"",
-        customerID:customerID,
-        productName:"",
-        batchDescription:"",
-        batchID:0,
-        productId:ProductID,
-        level:1,
-        timeStamp:"" 
+        factoryID: "",
+        distributorID: "",
+        customerID: customerID,
+        productName: "",
+        batchDescription: "",
+        batchID: 0,
+        productId: ProductID,
+        level: 1,
+        timeStamp: ""
       })
       Data.save().then((result) => {
         console.log(result);
         res.status(200).json({ status: "success", message: "Authentication Level 1 Falied: Product ID not found", level: 1 });
-        
+
       }).catch((err) => console.warn(err))
-      
+
       // res.status(200).json({status:"success", message:"Authentication Level 1 Falied: Product ID not found",level:1}); 
     } else {
       let BatchID = data.BatchID;
       let data2 = await batch.findOne({ BatchID });
-      console.log("Called",data2);
-      
+      console.log("Called", data2);
+
       let level;
       let status;
       lat1 = data.RetailerLatitude
@@ -967,7 +967,7 @@ app.get('/api/authenticateProduct', async (req, res) => {
         level = 6;
         status = "All Authentication Level Passed"
       }
-      const time =new Date().toLocaleString();
+      const time = new Date().toLocaleString();
       const Data = new verificationData({
         _id: new mongoose.Types.ObjectId(),
         factoryID: data2.FactoryID,
@@ -978,7 +978,7 @@ app.get('/api/authenticateProduct', async (req, res) => {
         batchID: BatchID,
         productId: ProductID,
         level: level,
-        timeStamp:time
+        timeStamp: time
       })
       Data.save().then((result) => {
         console.log(result);
@@ -1004,7 +1004,7 @@ app.get('/api/cutomerScansHistory', async (req, res) => {
       if (data) {
         res.status(200).json({ status: "success", message: data });
       } else {
-        res.status(200).json({ status: "success", message:[] });
+        res.status(200).json({ status: "success", message: [] });
       }
 
     })
@@ -1036,7 +1036,7 @@ app.get('/api/viewLevelCounts', async (req, res) => {
     verificationData.find().then((data) => {
       // console.log(data);
       res.status(200).json(data)
-    }) 
+    })
   } catch (error) {
     console.log(error.message);
     res.status(400).send({ error: error.message });
@@ -1358,7 +1358,6 @@ app.post('/api/login', jsonParser, async function (req, res) {
   if (userEmail != '' && userPassword != '' && userEmail != undefined && userPassword != undefined) {
     // const userData = await User.findOne({ email: req.body.email, userStatus: 'Active', role: req.body.role });
     const userData = await User.findOne({ email: req.body.email, role: req.body.role });
-
     if (userData) {
       const validPassword = await bcrypt.compare(req.body.password, userData.password);
       if (validPassword) {
@@ -1842,6 +1841,7 @@ app.post('/api/scanIssueReport', jsonParser, async function (req, res) {
         name: name,
         email: email,
         role: role,
+        status:"Unread",
         created: currentdate,
       })
       data.save().then((result) => {
@@ -1858,11 +1858,19 @@ app.post('/api/scanIssueReport', jsonParser, async function (req, res) {
   }
 })
 
+app.get('/api/getAllReportForCeo', function (req, res) {
+  ScanIssueReport.find().sort({ _id: -1 }).then((data) => {
+    res.status(200).json(data)
+  })
+})
+
 app.get('/api/getSelfReport', function (req, res) {
   ScanIssueReport.find({ senderId: req.query.senderUserID }).sort({ _id: -1 }).then((data) => {
     res.status(200).json(data)
   })
 })
+
+
 
 var server = app.listen(8085, function () {
   console.log("Example app listening at http://127:0:0:1:8085")

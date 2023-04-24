@@ -1,4 +1,4 @@
-import { GETDETAILS,Get_User_Detail, SuperAdminUserLogin, Reset_Login_Data, Get_SuperAdmin_Local_Store_Data,Store_Company,Check_Company_Success_data,Handle_User_Status, Get_Company,Get_Fraud_Scans,Get_All_Level_Fails, SuperAdminUserLogout, AdminUserLogin, AdminUserLogout, Get_Local_Store_Data, Get_Retailers,Get_Retailer_By_Company, Get_Factory,Get_Factory_By_Company, Get_Distributer,Get_Distributer_By_Company, FactoryUserLogin, FactoryUserLogout, Get_Factory_Local_Store_Data,Reset_Factory_Data, Store_Factory,Check_Factory_Success_data,Reset_Distributer_Data, Store_Distributer, Check_Distributer_Success_data, Store_Retailer,Check_Retailer_Success_data,Get_Self_Report, Store_Factory_Report,Reset_Factory_Report_Data, Store_Company_Feedback,Check_Company_Feedback_Success_data,Get_Self_Feedback, Store_Multi_User, Store_Product_Template,Check_Product_Template_Success_data, Get_Product_Template, Reset_Product_Template_Data,Get_Batch_Sent_To_Distributer, Get_Batch_By_Distributer, Store_Batch_Template,Check_Batch_Template_Success_data, Get_Batch_Template,Reset_Batch_Template_Data, Get_Batch_Detail, Get_Feedback,Reset_Retailer_Data ,Get_Factory_Statics, Sent_Product_List_By_Factory, Distributer_Batch_Product_Chart_Data } from "./constant"
+import { GETDETAILS,Get_User_Detail, SuperAdminUserLogin, Reset_Login_Data, Get_SuperAdmin_Local_Store_Data,Store_Company,Check_Company_Success_data,Handle_User_Status, Get_Company,Get_Fraud_Scans,Get_All_Level_Fails, SuperAdminUserLogout, AdminUserLogin, AdminUserLogout, Get_Local_Store_Data, Get_Retailers,Get_Retailer_By_Company, Get_Factory,Get_Factory_By_Company, Get_Distributer,Get_Distributer_By_Company, FactoryUserLogin, FactoryUserLogout, Get_Factory_Local_Store_Data,Reset_Factory_Data, Store_Factory,Check_Factory_Success_data,Reset_Distributer_Data, Store_Distributer, Check_Distributer_Success_data, Store_Retailer,Check_Retailer_Success_data,Get_Self_Report, Store_Factory_Report,Reset_Factory_Report_Data, Store_Company_Feedback,Check_Company_Feedback_Success_data,Get_Self_Feedback, Store_Multi_User, Store_Product_Template,Check_Product_Template_Success_data, Get_Product_Template, Reset_Product_Template_Data,Get_Batch_Sent_To_Distributer, Get_Batch_By_Distributer, Store_Batch_Template,Check_Batch_Template_Success_data, Get_Batch_Template,Reset_Batch_Template_Data, Get_Batch_Detail, Get_Feedback,Reset_Retailer_Data ,Get_Factory_Statics, Sent_Product_List_By_Factory, Distributer_Batch_Product_Chart_Data,Get_Total_Scans, Get_All_Report_For_Ceo } from "./constant"
 export const GetDetails = (data) => {
     return {
         type: GETDETAILS,
@@ -358,7 +358,19 @@ export const distributerBatchProductChartData = (data) =>{
         data:data 
     } 
 }
+export const getTotalScans = (data) =>{
+    return{
+        type:Get_Total_Scans,
+        data:data 
+    } 
+}
 
+export const getAllReportForCeo = (data) =>{
+    return{
+        type:Get_All_Report_For_Ceo,
+        data:data 
+    } 
+}
 
 
 

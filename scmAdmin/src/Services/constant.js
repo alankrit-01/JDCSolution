@@ -178,6 +178,12 @@ export const Sent_Product_List_By_Factory = 'Sent_Product_List_By_Factory';
 export const Set_Factory_Sent_Product_List = 'Set_Factory_Sent_Product_List';
 export const Distributer_Batch_Product_Chart_Data = 'Distributer_Batch_Product_Chart_Data';
 export const Set_Distributer_Batch_Product_Chart = 'Set_Distributer_Batch_Product_Chart';
+export const Get_Total_Scans = 'Get_Total_Scans';
+export const Set_Total_Scan_Data = 'Set_Total_Scan_Data';
+export const Get_All_Report_For_Ceo = 'Get_All_Report_For_Ceo';
+export const Set_All_Report_For_Ceo = 'Set_All_Report_For_Ceo';
+
+
 
 
 

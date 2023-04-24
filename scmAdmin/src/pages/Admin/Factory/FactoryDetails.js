@@ -42,9 +42,6 @@ const FactoryDetails = () => {
     const initialdata = useSelector((state) => state.UserDetailRecord);
 
 
-
-
-
     const initialFactoryProductSentData = useSelector((state) => state.FactorySentProductListRecord);
 
     let allProductSentData = initialFactoryProductSentData && initialFactoryProductSentData.factorySentProductRec.message;

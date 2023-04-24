@@ -16,7 +16,8 @@ let ScanIssueReportSchema = new mongoose.Schema({
     shopImage:String,
     name:String,
     email:String,
-    role:String,         
+    role:String,
+    status:String,         
     created:String,
     
 })
