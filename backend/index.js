@@ -41,7 +41,7 @@ MONGO_URL = "mongodb+srv://vipin:vipinrichmint@cluster0.y8ufn.mongodb.net/nodeda
 mongoose.connect(MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true }).then(() => console.log("Connected"));
 
 
-let contractAddress = "0xEe146EC6281CA6fb98E40610F2ef85E241010509";
+let contractAddress = "0xA87812852a3cDaD74DcDBcB1F8380C25ee661Ebb";
 let contract;
 
 const connectToMatic = async () => {
@@ -555,7 +555,9 @@ app.post('/api/distributorSellToRetailer', async (req, res) => {
   try {
     await session.withTransaction(async () => {
       let document = await batch.findOne({ BatchID });
-      if (document.DistributorScanned == true) {
+      if(!document){
+        res.status(400).json({ status: "failure", message: "Document not found for this BatchID" });
+      }else if (document.DistributorScanned == true) {
         const tx = await contract.distributorSellToRetailer(BatchID, quantity);
         tx.wait();
         console.log("Transaction completed!");
@@ -567,7 +569,6 @@ app.post('/api/distributorSellToRetailer', async (req, res) => {
         await batch.updateOne({ BatchID }, { $set: { AmountLeftForSellingTORetailer: amountLeft - quantity } });
 
         let productIdsToUpdate = document.ProductIDs.slice(sold, sold + quantity);
-        // console.log(productIdsToUpdate);
         await product.updateMany({ ProductID: { $in: productIdsToUpdate } }, { $set: { RetailerID: retailerID, DateWhenSoldToRetailer: timeStamp } });
 
         const data = new distributorRetailer({
@@ -802,7 +803,8 @@ app.post('/api/sellToCustomer', async (req, res) => {
     const customerName = req.body.customerName;
 
     const productData = await product.findOne({ ProductID });
-    console.log(productData)
+    const retailer=await User.findById(productData.RetailerID);
+
     if (productData.RetailerScanned == true) {
       const tx = await contract.retailerSellToCustomer(ProductID, customerID, customerName);
       tx.wait();
@@ -814,7 +816,8 @@ app.post('/api/sellToCustomer', async (req, res) => {
         DateWhenSoldToCustomer: timeStamp,
       }) 
       const batchData = await batch.findOne({BatchID:productData.BatchID});
-      console.log(batchData);
+      const factory =await User.findById(batchData.FactoryID);
+
       const data = new customerData({
         _id: new mongoose.Types.ObjectId(),
         // ProductRef: productData._id,
@@ -822,7 +825,11 @@ app.post('/api/sellToCustomer', async (req, res) => {
         ProductName: batchData.BatchName,
         CustomerID: customerID,
         CustomerName: customerName,
-        TimeStamp: timeStamp
+        TimeStamp: timeStamp,
+        RetailerName:retailer.name,
+        PackagingTimestamp:batchData.DateOfProduction,
+        ManufacturedBy:factory.name,
+        BatchID:productData.BatchID 
       })
       await data.save();
 

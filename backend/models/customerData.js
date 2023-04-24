@@ -14,7 +14,11 @@ let customerData = new mongoose.Schema({
     ProductID:Number,
     CustomerID:String,
     CustomerName:String,
-    TimeStamp:String
+    TimeStamp:String,
+    RetailerName:String,
+    PackagingTimestamp:String,
+    ManufacturedBy:String,
+    BatchID:Number  
 })
 module.exports=mongoose.model('customerData',customerData)    
 
