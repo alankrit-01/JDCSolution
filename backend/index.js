@@ -814,16 +814,10 @@ app.post('/api/sellToCustomer', async (req, res) => {
         CustomerID: customerID,
         CustomerName: customerName,
         DateWhenSoldToCustomer: timeStamp,
-<<<<<<< HEAD
       }) 
       const batchData = await batch.findOne({BatchID:productData.BatchID});
       const factory =await User.findById(batchData.FactoryID);
 
-=======
-      })
-      const batchData = await batch.findOne({ BatchID: productData.BatchID });
-      console.log(batchData);
->>>>>>> f9eec31dd861869b62155b3e2651da9986ce95e0
       const data = new customerData({
         _id: new mongoose.Types.ObjectId(),
         // ProductRef: productData._id,
