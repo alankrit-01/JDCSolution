@@ -30,10 +30,10 @@ const MainStatusCard = () => {
     const initialFactoryStaticsdata = useSelector((state) => state.FactoryStaticsRecord);
     //  console.log("data here",initialFactoryStaticsdata)
    
-    const totalDisributer = initialFactoryStaticsdata && initialFactoryStaticsdata.factoryStaticsRec.totalDisributer;
-    const  totalreports = initialFactoryStaticsdata && initialFactoryStaticsdata.factoryStaticsRec.totalReport;
-    const  totalBatches = initialFactoryStaticsdata && initialFactoryStaticsdata.factoryStaticsRec.totalBatches;
-    const  totalProducts = initialFactoryStaticsdata && initialFactoryStaticsdata.factoryStaticsRec.totalProducts;
+    const totalDisributer = initialFactoryStaticsdata && initialFactoryStaticsdata?.factoryStaticsRec?.totalDisributer;
+    const  totalreports = initialFactoryStaticsdata && initialFactoryStaticsdata?.factoryStaticsRec?.totalReport;
+    const  totalBatches = initialFactoryStaticsdata && initialFactoryStaticsdata?.factoryStaticsRec?.totalBatches;
+    const  totalProducts = initialFactoryStaticsdata && initialFactoryStaticsdata?.factoryStaticsRec?.totalProducts;
 
     
     useEffect(() => {

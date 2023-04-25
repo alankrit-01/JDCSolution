@@ -55,18 +55,18 @@ const Reports = () => {
                                 <div className="w-full lg:w-6/12 pr-4 mb-10 font-light">
                                     <span onClick={() => navigate('/admin/factoryReports', { state: { factoryReportsData:  factoryReportIssue } })}>
                                     <div className="background-feedback-part">
-                                        <h6>{factoryReportIssue && factoryReportIssue.length ? factoryReportIssue.length : "0"}</h6>
+                                        <h6>{factoryReportIssue && factoryReportIssue.length}</h6>
                                         <p>Factory</p>
                                     </div>
                                 </span>
                             </div>
                             <div className="w-full lg:w-6/12 pl-4 mb-10 font-light">
-                                <NavLink to="/admin/distributerReports">
+                                <span onClick={() => navigate('/admin/distributerReports', { state: { distributerReportsData:  distributerReportIssue } })}>
                                     <div className="background-feedback-part">
                                         <h6>{distributerReportIssue && distributerReportIssue.length}</h6>
                                         <p>Distributor</p>
                                     </div>
-                                </NavLink>
+                                </span>
                             </div>
                             <div className="w-full lg:w-6/12 pr-4 mb-10 font-light">
                                 <NavLink to="/admin/retailerReports">
