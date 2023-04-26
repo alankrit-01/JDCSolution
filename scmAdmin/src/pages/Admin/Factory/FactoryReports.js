@@ -25,11 +25,12 @@ const FactoryReports = () => {
 
   let factoryReports = useLocation();
   let factoryReportsData = factoryReports.state.factoryReportsData;
-
+  console.log("data",factoryReportsData)
   const admindata = useSelector((state) => state.AdminLoginData);
   const [adminUserId, setAdminUserId] = useState(admindata.adminUserId);
   const dispatch = useDispatch();
   const [initialdata, setInitialdata] = useState([]);
+  const [totalReports, setTotalReports] = useState([]);
   const [newReportIssue, setNewReportIssue] = useState([]);
   const [pendingReportIssue, setPendingReportIssue] = useState([]);
   const [solvedReportIssue, setSolvedReportIssue] = useState([]);
@@ -88,7 +89,7 @@ const FactoryReports = () => {
                 </h5>
                 <br></br>
                 <div className="text-sm">
-                  <p style={{ display: "none" }}>{issues = row.scanIssue.split(',')}</p>
+                  {/* <p style={{ display: "none" }}>{issues = row.scanIssue.split(',')}</p> */}
 
                   {issues && issues.map((issuesVal) => <div className="flex">
                     <input
@@ -146,6 +147,8 @@ const FactoryReports = () => {
     },
   ];
   useEffect(() => {
+    
+    if(factoryReportsData !== undefined){
     setInitialdata(factoryReportsData);
 
     let newReportIssue = factoryReportsData.filter((reportissue) => reportissue.status == "Unread");
@@ -155,6 +158,13 @@ const FactoryReports = () => {
     setNewReportIssue(newReportIssue);
     setPendingReportIssue(pendingReportIssue);
     setSolvedReportIssue(solvedReportIssue);
+    
+  }
+  else{
+    var factoryReportsData = [{ email: "There are no record to display" }];
+    setInitialdata(factoryReportsData);
+    setTotalReports(0);
+}
 
   }, [factoryReportsData])
 
@@ -197,7 +207,7 @@ const FactoryReports = () => {
                 <div className="w-full lg:w-4/12 pr-4">
                   <div>
                     <h2 className="reports-part">Reports - <span className="factory-bold">Factory</span></h2>
-                    <h4 className="font-spano5"><span>{initialdata && initialdata.length}</span></h4>
+                    <h4 className="font-spano5"><span>{factoryReportsData && factoryReportsData.length}</span></h4>
                   </div>
                 </div>
                 <div className="w-full lg:w-4/12 pl-4 font-light">
@@ -235,7 +245,7 @@ const FactoryReports = () => {
                     ></img>
                   </div>
                 }
-                data={FilterIssueReport}
+                data={factoryReportsData}
                 pagination
                 fixedHeader
                 selectableRows

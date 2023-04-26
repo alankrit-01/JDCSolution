@@ -24,7 +24,9 @@ import { useLocation } from "react-router-dom"
 const RetailerReports = () => {
 
   let issueReports = useLocation();
-  let issueReportsData = issueReports.state.factoryReportsData;
+
+
+  let issueReportsData = issueReports.state.retailerReportsData;
 
   const admindata = useSelector((state) => state.AdminLoginData);
   const [adminUserId, setAdminUserId] = useState(admindata.adminUserId);
@@ -34,7 +36,7 @@ const RetailerReports = () => {
   const [pendingReportIssue, setPendingReportIssue] = useState([]);
   const [solvedReportIssue, setSolvedReportIssue] = useState([]);
 
-
+  const [totalReports, setTotalReports] = useState([]);
   const [IssueReport, setIssueReport] = useState([]);
 
   const [Search, setSearch] = useState("");
@@ -44,7 +46,7 @@ const RetailerReports = () => {
   let issues;
   const columns = [
     {
-      name: "Factory Name",
+      name: "Retailer Name",
       selector: (row) => row.name,
       sortable: true,
     },
@@ -88,7 +90,7 @@ const RetailerReports = () => {
                 </h5>
                 <br></br>
                 <div className="text-sm">
-                  <p style={{ display: "none" }}>{issues = row.scanIssue.split(',')}</p>
+                  {/* <p style={{ display: "none" }}>{issues = row.scanIssue.split(',')}</p> */}
 
                   {issues && issues.map((issuesVal) => <div className="flex">
                     <input
@@ -146,6 +148,7 @@ const RetailerReports = () => {
     },
   ];
   useEffect(() => {
+    if(issueReportsData !== undefined){
     setInitialdata(issueReportsData);
 
     let newReportIssue = issueReportsData.filter((reportissue) => reportissue.status == "Unread");
@@ -155,6 +158,13 @@ const RetailerReports = () => {
     setNewReportIssue(newReportIssue);
     setPendingReportIssue(pendingReportIssue);
     setSolvedReportIssue(solvedReportIssue);
+    }
+    else{
+      var issueReportsData = [{ email: "There are no record to display" }];
+      setInitialdata(issueReportsData);
+      setTotalReports(0);
+  }
+  
 
   }, [issueReportsData])
 
@@ -196,8 +206,8 @@ const RetailerReports = () => {
               <div className="flex flex-wrap feedback-padding lg:w-12/12">
                 <div className="w-full lg:w-4/12 pr-4">
                   <div>
-                    <h2 className="reports-part">Reports - <span className="factory-bold">Factory</span></h2>
-                    <h4 className="font-spano5"><span>{initialdata && initialdata.length}</span></h4>
+                    <h2 className="reports-part">Reports - <span className="factory-bold">Retailer</span></h2>
+                    <h4 className="font-spano5"><span>{issueReportsData && issueReportsData.length}</span></h4>
                   </div>
                 </div>
                 <div className="w-full lg:w-4/12 pl-4 font-light">
@@ -235,7 +245,7 @@ const RetailerReports = () => {
                     ></img>
                   </div>
                 }
-                data={FilterIssueReport}
+                data={issueReportsData}
                 pagination
                 fixedHeader
                 selectableRows

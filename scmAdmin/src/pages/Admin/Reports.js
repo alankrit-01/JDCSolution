@@ -69,20 +69,20 @@ const Reports = () => {
                                 </span>
                             </div>
                             <div className="w-full lg:w-6/12 pr-4 mb-10 font-light">
-                                <NavLink to="/admin/retailerReports">
+                                <span onClick={() => navigate('/admin/retailerReports', { state: { retailerReportsData:  retailerReportIssue } })}>
                                     <div className="background-feedback-part">
                                         <h6>{retailerReportIssue && retailerReportIssue.length}</h6>
                                         <p>Retailer</p>
                                     </div>
-                                </NavLink>
+                                </span>
                             </div>
                             <div className="w-full lg:w-6/12 pl-4 mb-10 font-light">
-                                <NavLink to="/admin/customerReports">
+                                <span onClick={() => navigate('/admin/customerReports', { state: { customerReportsData:  customerReportIssue } })}>
                                     <div className="background-feedback-part">
                                         <h6>{customerReportIssue && customerReportIssue.length}</h6>
                                         <p>Customer</p>
                                     </div>
-                                </NavLink>
+                                </span>
                             </div>
                         </div>
                     </div>

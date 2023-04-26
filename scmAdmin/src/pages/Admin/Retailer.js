@@ -61,7 +61,7 @@ const Retailer = () => {
     {
       name: "Information",
       selector: (row) => (
-        <button className="custom-details-btn" onClick={() => navigate('/admin/retailerDetails', { state: { userId:  row.name } })}>Details</button>
+        <button className="custom-details-btn" onClick={() => navigate('/admin/retailerDetails', { state: { userId:  row._id } })}>Details</button>
       ),
       sortable: true,
     },

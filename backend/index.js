@@ -1711,15 +1711,15 @@ function verifyToken(req, res, next) {
 }
 
 /***************Consumer Section********/
+
+
 app.post('/api/registerconsumer', async function (req, res) {
 
   try {
     let phone = req.body.phone;
-    console.log(phone);
     if (phone == '') {
       res.status(200).json({ status: "success", message: "Phone Number should not be blank" });
     } else {
-
       const checkConsumerExists = await Consumer.findOne({ phone: phone });
       if (!checkConsumerExists) {
         const date = new Date();
@@ -1728,15 +1728,14 @@ app.post('/api/registerconsumer', async function (req, res) {
           _id: new mongoose.Types.ObjectId(),
           phone: phone,
           created: currentdate
-
         })
         data.save().then((result) => {
-          res.status(200).json({ status: "success", message: "Your registration successfull", cid: result._id });
+          res.status(200).json({ status: "success", message: "Your registration successfull", cid: result._id, mobile: result.phone});
         })
           .catch((err) => console.warn(err)
           )
       } else {
-        res.status(200).json({ status: "success", cid: checkConsumerExists._id });
+        res.status(200).json({ status: "success", cid: checkConsumerExists._id, mobile:checkConsumerExists.phone });
       }
     }
   } catch (error) {
@@ -1744,6 +1743,7 @@ app.post('/api/registerconsumer', async function (req, res) {
     res.status(400).send({ error: error.message });
   }
 })
+
 
 app.post('/api/rateus', jsonParser, async function (req, res) {
   try {

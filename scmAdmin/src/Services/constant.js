@@ -1,8 +1,6 @@
 export const API_URL = "http://192.168.1.101:8085/api";
-export const BLOCKCHAIN_API_URL = "http://192.168.1.101:8085/api";
 
 //export const API_URL = "http://34.208.61.209:8085/api";
-//export const BLOCKCHAIN_API_URL = "http://34.208.61.209:8085/api";
 
 export const GETDETAILS = 'GETDETAILS'; 
 export const Get_User_Detail = 'Get_User_Detail'; 
@@ -178,6 +176,9 @@ export const Sent_Product_List_By_Factory = 'Sent_Product_List_By_Factory';
 export const Set_Factory_Sent_Product_List = 'Set_Factory_Sent_Product_List';
 export const Distributer_Batch_Product_Chart_Data = 'Distributer_Batch_Product_Chart_Data';
 export const Set_Distributer_Batch_Product_Chart = 'Set_Distributer_Batch_Product_Chart';
+export const Retailer_Batch_Product_Chart_Data='Retailer_Batch_Product_Chart_Data';
+export const Set_Retailer_Batch_Product_Chart = 'Set_Retailer_Batch_Product_Chart';
+
 export const Get_Total_Scans = 'Get_Total_Scans';
 export const Set_Total_Scan_Data = 'Set_Total_Scan_Data';
 export const Get_All_Report_For_Ceo = 'Get_All_Report_For_Ceo';
