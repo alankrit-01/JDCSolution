@@ -403,6 +403,31 @@ app.get('/api/factoryStatistics', async (req, res) => {
   }
 });
 
+app.get('/api/ceoBatchProductCovered', async (req, res) => {
+  try {
+    const { adminId } = req.query;
+    const users = await User.find({ role: 'Factory', adminId: adminId });
+    const promises = users.map(async (user) => {
+      const batchCount = await batch.countDocuments({ FactoryID: user._id.toString() }).exec();
+      console.log(batchCount)
+      const productCount = await batch.aggregate([
+        { $match: { FactoryID: user._id.toString() } },
+        { $group: { _id: null, total: { $sum: '$BatchSize' } } },
+      ]).exec();
+      console.log(productCount)
+      return {
+        ...user._doc,
+        batchCount,
+        productCount: productCount[0] ? productCount[0].total : 0,
+      };
+    });
+    const results = await Promise.all(promises);
+    res.status(200).json({ status: "success", message: results });
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+});
+
 
 ////////////////// API FOR DISTIBUTOR ////////////////////
 
