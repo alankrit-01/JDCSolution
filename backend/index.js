@@ -382,7 +382,6 @@ app.get('/api/factoryStatistics', async (req, res) => {
         { $match: { FactoryID: FactoryID } },
         { $group: { _id: '$FactoryID', Products: { $sum: "$BatchSize" } } },
       ]);
-
       const batchquery = { FactoryID: FactoryID };
       const distributerquery = { role: "Distributer", adminId: "637f29523bcd21b57592615b" };
       const reportquery = { senderId: FactoryID };
@@ -390,12 +389,14 @@ app.get('/api/factoryStatistics', async (req, res) => {
       const countBatch = await batch.countDocuments(batchquery);
       const countDistributer = await User.countDocuments(distributerquery);
       const countReport = await ScanIssueReport.countDocuments(reportquery);
-
-      res.status(200).json({ status: "success", totalBatches: countBatch, totalReport: countReport, totalDisributer: countDistributer, totalProducts: result[0].Products });
+      let countProduct = 0;
+      if(result.length !== 0){
+        countProduct = result[0].Products
+      } 
+      res.status(200).json({ status: "success", totalBatches: countBatch, totalReport: countReport, totalDisributer: countDistributer, totalProducts: countProduct});
     } else {
       res.status(200).json({ status: "fail", message: "Please Provide Factory Details" });
     }
-
   } catch (error) {
     console.log(error)
     res.status(400).send({ error: error.message });
