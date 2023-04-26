@@ -403,7 +403,7 @@ app.get('/api/factoryStatistics', async (req, res) => {
   }
 });
 
-app.get('/api/ceoBatchCovered', async (req, res) => {
+app.get('/api/ceoBatchProductCovered', async (req, res) => {
   try {
     const { adminId } = req.query;
     const users = await User.find({ role: 'Factory', adminId: adminId });
