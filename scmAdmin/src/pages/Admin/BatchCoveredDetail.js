@@ -1,7 +1,7 @@
 import MainStatusCard from 'components/Admin/MainStatusCard';
 import FactorySidebar from 'components/Admin/Sidebar';
 import Footer from 'components/Admin/Footer';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useMemo, useState } from 'react';
 import DataTable from 'react-data-table-component';
@@ -9,7 +9,7 @@ import { Button } from "@material-tailwind/react";
 import Input from '@material-tailwind/react/Input';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { getBatchTemplate, checkBatchTemplateSuccessdata } from 'Services/action';
+import { getBatchTemplate } from 'Services/action';
 import loader from "assets/img/loading.gif";
 import cumulative from "assets/img/cumulative.png";
 import Icon from "@material-tailwind/react/Icon";
@@ -18,6 +18,16 @@ const BatchCoveredDetail = () => {
     const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
+    let factoryUserData = useLocation();
+    let factoryUserId = factoryUserData.state.factoryID;
+    let factoryName = factoryUserData.state.factoryName;
+    let factoryEmail = factoryUserData.state.factoryEmail;
+    let factoryLocation = factoryUserData.state.factoryLocation;
+    let factoryPhone = factoryUserData.state.factoryPhone;
+
+
+
     const [BatchTemplates, setBatchTemplates] = useState([]);
     const [Search, setSearch] = useState("");
     const [FilterBatchTemplates, setFilterBatchTemplates] = useState([]);
@@ -30,23 +40,23 @@ const BatchCoveredDetail = () => {
             sortable: true,
         },
         {
+            name: "Richmint Batch Code",
+            selector: (row) => row.BatchID,
+            sortable: true,
+        },
+        {
             name: "Product Name",
             selector: (row) => row.BatchName,
             sortable: true,
         },
         {
-            name: "Batch Size",
+            name: "Quantity Of Batch",
             selector: (row) => row.BatchSize,
             sortable: true,
         },
         {
-            name: "Batch Date",
-            selector: (row) => row.DateOfProduction,
-            sortable: true,
-        },
-        {
             name: "Action",
-            selector: (row) => <button className="custom-details-btn" onClick={() => navigate('/admin/BatchDetail', { state: { BatchID: row.BatchID } })}>View Batch</button>,
+            selector: (row) => <button className="custom-details-btn" onClick={() => navigate('/admin/BatchDetail', { state: { BatchID: row.BatchID, companyBatchID: row.CompanyBatchID , productName: row.BatchName } })}>View Batch</button>,
             ignoreRowClick: true,
             allowOverflow: true,
             button: true,
@@ -61,18 +71,16 @@ const BatchCoveredDetail = () => {
     ];
     useEffect(() => {
         const data = {
-            factoryID: "63b2b20d8e21a6111d6b4265"
+            factoryID: factoryUserId
         }
         dispatch(getBatchTemplate(data))
     }, [])
-    const initialBatchTemplatedata = useSelector((state) => state.BatchTemplateRecord);
-
-
+    const initialBatchTemplatedata = useSelector((state) => state?.BatchTemplateRecord);
     useEffect(() => {
-        setBatchTemplates(initialBatchTemplatedata.batchTemplateRec.message && initialBatchTemplatedata.batchTemplateRec.message)
-        setFilterBatchTemplates(initialBatchTemplatedata.batchTemplateRec.message && initialBatchTemplatedata.batchTemplateRec.message)
+        setBatchTemplates(initialBatchTemplatedata && initialBatchTemplatedata?.batchTemplateRec?.message)
+        setFilterBatchTemplates(initialBatchTemplatedata && initialBatchTemplatedata?.batchTemplateRec?.message)
 
-        var a = [{ BatchSize: "There are no record to display" }];
+        var a = [{ BatchName: "There are no record to display" }];
 
         setLoading(true);
         if (
@@ -95,18 +103,13 @@ const BatchCoveredDetail = () => {
         })
         setFilterBatchTemplates(result)
     }, [Search])
-
     return (
         <>
             <FactorySidebar />
             <div className="md:ml-32">
                 <div className="pt-14 pb-10 px-3 md:px-8 h-auto">
                     <div className="container mx-auto max-w-full">
-
-
                         {/* <MainStatusCard /> */}
-
-
                     </div>
                 </div>
                 <div className="px-3 md:px-8 h-auto -mt-24">
@@ -115,10 +118,10 @@ const BatchCoveredDetail = () => {
                             <div className="flex flex-wrap mt-10">
                                 <div className="w-full lg:w-9/12 pr-4 mb-10 font-light back-set-gray">
                                     <div className="background-factory details-background-color">
-                                    <h2>Factory - 1</h2>
-                                        <p className="click-open-btn btn-one"> <Icon className="chage-c" name="phone" size="1xl" color="black" />GachiBowli,HYderabad</p>
-                                        <p className="click-open-btn btn-one"> <Icon className="chage-c" name="phone" size="1xl" color="black" />+91 6304334373</p>
-                                        <p className="click-open-btn btn-one"> <Icon className="chage-c" name="email" size="1xl" color="black" />Factory1@gmail.com</p>
+                                        <h2>{factoryName && factoryName}</h2>
+                                        <p className="click-open-btn btn-one"> <Icon className="chage-c" name="phone" size="1xl" color="black" />{factoryLocation && factoryLocation}</p>
+                                        <p className="click-open-btn btn-one"> <Icon className="chage-c" name="phone" size="1xl" color="black" />{factoryPhone && factoryPhone}</p>
+                                        <p className="click-open-btn btn-one"> <Icon className="chage-c" name="email" size="1xl" color="black" />{factoryEmail && factoryEmail}</p>
                                     </div>
                                 </div>
                                 <div className="w-full lg:w-3/12 pl-4 font-light">
@@ -130,13 +133,9 @@ const BatchCoveredDetail = () => {
                                             <option value="blue">Blue </option>
                                         </select>
                                     </div>
-
                                     <div className="right-button-section cust-part">
-
-                                    <NavLink to="/factory/addBatchTemplate">
-                                        <button className="cust-button">Batches Sent <span className="batches-sent">15</span></button>
-                                    </NavLink>
-                                </div>
+                                        <button className="cust-button">Batches Sent <span className="batches-sent">{FilterBatchTemplates.length && FilterBatchTemplates.length}</span></button>
+                                    </div>
                                 </div></div>
 
                             <DataTable

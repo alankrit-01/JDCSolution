@@ -18,9 +18,9 @@ const BatchTemplate = () => {
     const factoryData = useSelector((state) => state.FactoryLoginData);
     const [factoryUserID, setFactoryUserId] = useState(factoryData.factoryUserId);
     const successNotify = () => toast.success('Batch Added Successfully !.', {
-        position: "bottom-right", 
+        position: "bottom-right",
         autoClose: 5000,
-        hideProgressBar: false, 
+        hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
@@ -60,21 +60,21 @@ const BatchTemplate = () => {
             width: "200px"
         },
         {
-            name: "Batch Date", 
+            name: "Batch Date",
             selector: (row) => row.DateOfProduction,
             sortable: true,
             width: "200px"
         },
         {
             name: "Action",
-            selector: (row) => <button className="custom-details-btn" onClick={() => navigate('/factory/BatchQr', { state: { BatchID:  row.BatchID, companyBatchID:  row.CompanyBatchID } })}>Batch Qr</button>,
+            selector: (row) => <button className="custom-details-btn" onClick={() => navigate('/factory/BatchQr', { state: { BatchID: row.BatchID, companyBatchID: row.CompanyBatchID } })}>Batch Qr</button>,
             ignoreRowClick: true,
             allowOverflow: true,
             button: true,
             width: "150px"
         },
         {
-            selector: (row) => <button className="custom-details-btn" onClick={() => navigate('/factory/BatchProductQr', { state: { BatchID:  row.BatchID } })}>Batch Product Qr</button>,
+            selector: (row) => <button className="custom-details-btn" onClick={() => navigate('/factory/BatchProductQr', { state: { BatchID: row.BatchID } })}>Batch Product Qr</button>,
             ignoreRowClick: true,
             allowOverflow: true,
             button: true,
@@ -83,17 +83,13 @@ const BatchTemplate = () => {
     ];
     useEffect(() => {
         const data = {
-            factoryID:factoryUserID
-        } 
-        dispatch(getBatchTemplate(data)) 
+            factoryID: factoryUserID
+        }
+        dispatch(getBatchTemplate(data))
         dispatch(resetBatchTemplateData())
-    }, [])
+    }, []) 
     const initialBatchTemplatedata = useSelector((state) => state.BatchTemplateRecord);
-    const initialBatchTemplateStoredata = useSelector((state) => state.StoreBatchTemplateData);
-
-    //  console.log("initialBatchTemplatedata",initialBatchTemplatedata)
-
- 
+    const initialBatchTemplateStoredata = useSelector((state) => state.StoreBatchTemplateData); 
     useEffect(() => {
         if (initialBatchTemplateStoredata?.success) {
             successNotify();
@@ -101,33 +97,34 @@ const BatchTemplate = () => {
     }, [initialBatchTemplateStoredata])
 
     useEffect(() => {
-        if(initialBatchTemplatedata?.batchTemplateRec){
-        setBatchTemplates(initialBatchTemplatedata && initialBatchTemplatedata?.batchTemplateRec?.message)
-        setFilterBatchTemplates(initialBatchTemplatedata && initialBatchTemplatedata?.batchTemplateRec?.message)
+        if (initialBatchTemplatedata?.batchTemplateRec) {
+            setBatchTemplates(initialBatchTemplatedata && initialBatchTemplatedata?.batchTemplateRec?.message)
+            setFilterBatchTemplates(initialBatchTemplatedata && initialBatchTemplatedata?.batchTemplateRec?.message)
         }
         var a = [{ BatchSize: "There are no record to display" }];
-       
+
         setLoading(true);
-        if(initialBatchTemplatedata?.batchTemplateRec){
-        if ( initialBatchTemplatedata.batchTemplateRec.message != 0 &&
-            initialBatchTemplatedata.batchTemplateRec.message != null &&
-            initialBatchTemplatedata.batchTemplateRec.message.message != ""
-        ) {
-            setFilterBatchTemplates(initialBatchTemplatedata && initialBatchTemplatedata?.batchTemplateRec?.message);
-            
-        } } else {
-          setLoading(false);
-    
-          setFilterBatchTemplates(a);
+        if (initialBatchTemplatedata?.batchTemplateRec) {
+            if (initialBatchTemplatedata.batchTemplateRec.message != 0 &&
+                initialBatchTemplatedata.batchTemplateRec.message != null &&
+                initialBatchTemplatedata.batchTemplateRec.message.message != ""
+            ) {
+                setFilterBatchTemplates(initialBatchTemplatedata && initialBatchTemplatedata?.batchTemplateRec?.message);
+
+            }
+        } else {
+            setLoading(false);
+
+            setFilterBatchTemplates(a);
         }
     }, [initialBatchTemplatedata])
 
     useEffect(() => {
-            const result = BatchTemplates.filter((allBatchTemplate) => {
-                return allBatchTemplate.BatchName.toLowerCase().match(Search.toLowerCase());
-            })
-            setFilterBatchTemplates(result)
-        }, [Search])
+        const result = BatchTemplates.filter((allBatchTemplate) => {
+            return allBatchTemplate.BatchName.toLowerCase().match(Search.toLowerCase());
+        })
+        setFilterBatchTemplates(result)
+    }, [Search])
 
     return (
         <>
@@ -136,13 +133,13 @@ const BatchTemplate = () => {
             <div className="md:ml-32">
                 <div className="pt-14 pb-20 px-3 md:px-8 h-auto">
                     <div className="container mx-auto max-w-full">
-                            {/* <MainStatusCard /> */}
+                        {/* <MainStatusCard /> */}
                     </div>
                 </div>
                 <div className="px-3 md:px-8 h-auto -mt-24">
                     <div className="container mx-auto max-w-full">
                         <div className="grid grid-cols-1 px-4 mb-16">
-                        <div class="grid grid-cols-3 gap-4">
+                            <div class="grid grid-cols-3 gap-4">
                                 <div>
                                     <h2 className="head-cust-color">Batches List</h2>
                                 </div>
@@ -151,9 +148,9 @@ const BatchTemplate = () => {
                                         onChange={(e) => setSearch(e.target.value)} />
                                 </div>
                                 <div className="right-button-section">
-                                    
+
                                     <NavLink to="/factory/addBatchTemplate">
-                                    <button className="cust-button change-add secound-b"> <span className="dash-bg2"> <img src={sendfree} /> </span>SEND BATCH</button>
+                                        <button className="cust-button change-add secound-b"> <span className="dash-bg2"> <img src={sendfree} /> </span>SEND BATCH</button>
                                     </NavLink>
                                 </div>
                             </div>
@@ -161,20 +158,20 @@ const BatchTemplate = () => {
                                 columns={columns}
                                 noDataComponent={
                                     <div>
-                                      <h4>Loading....</h4>
-                                      <img
-                                        style={{ width: "20px", height: "20px" }}
-                                        src={loader}
-                                      ></img>
+                                        <h4>Loading....</h4>
+                                        <img
+                                            style={{ width: "20px", height: "20px" }}
+                                            src={loader}
+                                        ></img>
                                     </div>
-                                  }
+                                }
                                 data={FilterBatchTemplates}
                                 pagination
                                 fixedHeader
                                 selectableRows
                                 selectableRowsHighlight
                                 highlightOnHover
-                                
+
                             />
                         </div>
                     </div>

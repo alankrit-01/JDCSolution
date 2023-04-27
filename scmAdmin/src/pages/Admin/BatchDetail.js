@@ -1,7 +1,7 @@
 import MainStatusCard from 'components/Admin/MainStatusCard';
 import Sidebar from 'components/Admin/Sidebar';
 import Footer from 'components/Admin/Footer';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useMemo, useState } from 'react';
 import DataTable from 'react-data-table-component';
@@ -9,12 +9,18 @@ import { Button } from "@material-tailwind/react";
 import Input from '@material-tailwind/react/Input';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { getBatchTemplate, checkBatchTemplateSuccessdata } from 'Services/action';
+import { getBatchDetail} from 'Services/action';
 import loader from "assets/img/loading.gif";
 import cumulative from "assets/img/cumulative.png";
 import Icon from "@material-tailwind/react/Icon";
 
 const BatchDetail = () => {
+
+    let batchData = useLocation();
+    let BatchID = batchData.state.BatchID;
+    let companyBatchID = batchData.state.companyBatchID;
+    let productName = batchData.state.productName;
+
     const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -25,62 +31,56 @@ const BatchDetail = () => {
 
     const columns = [
         {
-            name: "Batch Id",
+            name: "Product Id",
             selector: (row) => row.BatchID,
             sortable: true,
         },
         {
-            name: "Product Name",
-            selector: (row) => row.BatchName,
-            sortable: true,
-        },
-        {
-            name: "Batch Size",
-            selector: (row) => row.BatchSize,
-            sortable: true,
-        },
-        {
-            name: "Batch Date",
-            selector: (row) => row.DateOfProduction,
+            name: "Richmint Product Code",
+            selector: (row) => "P-" + row.CompanyProductID,
             sortable: true,
         },
         {
             name: "Action",
-            selector: (row) => <button className="custom-details-btn" onClick={() => navigate('/factory/BatchQr', { state: { BatchID: row.BatchID } })}>View Batch</button>,
+            selector: (row) => <button className="custom-details-btn" >Product Status</button>,
             ignoreRowClick: true,
             allowOverflow: true,
             button: true,
+            width:"200px"
         },
-        // {
-        //     selector: (row) => <button className="custom-details-btn" onClick={() => navigate('/factory/BatchProductQr', { state: { BatchID: row.BatchID } })}>Batch Product Qr</button>,
-        //     ignoreRowClick: true,
-        //     allowOverflow: true,
-        //     button: true,
-        //     width: "150px"
-        // },
+      
     ];
+
+
+
     useEffect(() => {
         const data = {
-            factoryID: "63b2b20d8e21a6111d6b4265"
+            batchID: BatchID
         }
-        dispatch(getBatchTemplate(data))
+        dispatch(getBatchDetail(data))
     }, [])
-    const initialBatchTemplatedata = useSelector((state) => state.BatchTemplateRecord);
+    const initialBatchTemplatedata = useSelector((state) => state.BatchDetailRecord);
+
+    let totalproduct = initialBatchTemplatedata?.batchDetailRec?.Products?.length
+
+    console.log("initialBatchTemplatedata",initialBatchTemplatedata)
+
 
 
     useEffect(() => {
-        setBatchTemplates(initialBatchTemplatedata.batchTemplateRec.message && initialBatchTemplatedata.batchTemplateRec.message)
-        setFilterBatchTemplates(initialBatchTemplatedata.batchTemplateRec.message && initialBatchTemplatedata.batchTemplateRec.message)
+        setBatchTemplates(initialBatchTemplatedata && initialBatchTemplatedata?.batchDetailRec?.Products)
+
+        setFilterBatchTemplates(initialBatchTemplatedata && initialBatchTemplatedata?.batchDetailRec?.Products)
 
         var a = [{ BatchSize: "There are no record to display" }];
 
         setLoading(true);
         if (
-            initialBatchTemplatedata.batchTemplateRec.message != 0 &&
-            initialBatchTemplatedata.batchTemplateRec.message != null &&
-            initialBatchTemplatedata.batchTemplateRec.message.message != ""
+            initialBatchTemplatedata.batchDetailRec.Products != 0 &&
+            initialBatchTemplatedata.batchDetailRec.Products != null &&
+            initialBatchTemplatedata.batchDetailRec.Products != ""
         ) {
-            setFilterBatchTemplates(initialBatchTemplatedata.batchTemplateRec.message && initialBatchTemplatedata.batchTemplateRec.message);
+            setFilterBatchTemplates(initialBatchTemplatedata?.batchDetailRec?.Products && initialBatchTemplatedata?.batchDetailRec?.Products);
 
         } else {
             setLoading(false);
@@ -89,12 +89,12 @@ const BatchDetail = () => {
         }
     }, [initialBatchTemplatedata])
 
-    useEffect(() => {
-        const result = BatchTemplates.filter((allBatchTemplate) => {
-            return allBatchTemplate.BatchName.toLowerCase().match(Search.toLowerCase());
-        })
-        setFilterBatchTemplates(result)
-    }, [Search])
+    // useEffect(() => {
+    //     const result = BatchTemplates.filter((allBatchTemplate) => {
+    //         return allBatchTemplate.BatchName.toLowerCase().match(Search.toLowerCase());
+    //     })
+    //     setFilterBatchTemplates(result)
+    // }, [Search])
 
     return (
         <>
@@ -128,29 +128,26 @@ const BatchDetail = () => {
                                 </div>
                                 <div className="w-full lg:w-3/12 pr-4 mb-10 font-light top-space">
                                     <ul className="id-batch">
-                                        <li>Batch ID  <br /><span>25643686</span></li>
+                                        <li>Batch ID  <br /><span>{BatchID && BatchID}</span></li>
                                     </ul>
 
                                 </div>
 
                                 <div className="w-full lg:w-3/12 pr-4 mb-10 font-light top-space">
                                     <ul className="id-batch">
-                                        <li>Richmint Batch Code <br /><span>B-7862266</span></li>
+                                        <li>Richmint Batch Code <br /><span>B-{companyBatchID && companyBatchID}</span></li>
                                     </ul>
 
                                 </div>
                                 <div className="w-full lg:w-3/12 pr-4 mb-10 font-light top-space">
                                     <ul className="id-batch">
-                                        <li>Product Name <br /><span>Eye Liner</span></li>
+                                        <li>Product Name <br /><span>{productName && productName}</span></li>
                                     </ul>
 
                                 </div>
                                 <div className="w-full lg:w-3/12 pr-4 mb-10 font-light top-space">
                                     <div className="right-button-section cust-part2">
-
-                                        <NavLink to="/factory/addBatchTemplate">
-                                            <button className="cust-button">Products Covered <span className="batches-sent">55</span></button>
-                                        </NavLink>
+                                            <button className="cust-button">Products Covered <span className="batches-sent">{totalproduct && totalproduct}</span></button>
                                     </div>
 
                                 </div>

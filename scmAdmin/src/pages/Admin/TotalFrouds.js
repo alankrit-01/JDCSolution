@@ -49,6 +49,8 @@ const TotalFrouds = () => {
     const initialFailsLeveldata = useSelector((state) => state.FailsLevelRecord);
     let allFailsLevelData = initialFailsLeveldata && initialFailsLeveldata?.failsLevelRec
 
+    console.log("allFailsLevelData",allFailsLevelData)
+
     useEffect(() => {
         let FailDatalevel1 = allFailsLevelData.filter((failsLevel) => failsLevel.level === 1);
         let FailDatalevel2 = allFailsLevelData.filter((failsLevel) => failsLevel.level === 2);
@@ -177,6 +179,7 @@ const TotalFrouds = () => {
                                 {Failedlevel2.length ? <p className="productName" style={{ color: "#82ca9d" }} > {"Level (2)"} ------------ {Failedlevel2.length && Failedlevel2.length}</p> : null}
                                 {Failedlevel3.length ? <p className="productName" style={{ color: "#FFBB28" }} > {"Level (3)"} ------------ {Failedlevel3.length && Failedlevel3.length}</p> : null}
                                 {Failedlevel4.length ? <p className="productName" style={{ color: "#FF8042" }} > {"Level (4)"} ------------ {Failedlevel4.length && Failedlevel4.length}</p> : null}
+                                {Failedlevel5.length ? <p className="productName" style={{ color: "#AF19FF" }} > {"Level (5)"} ------------ {Failedlevel5.length && Failedlevel5.length}</p> : null}
                             </div>
                         </div>
                     </div>

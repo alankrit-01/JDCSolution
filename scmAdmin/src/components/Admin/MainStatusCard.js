@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { getDistributer, getFactory, getRetailers, getFeedback } from 'Services/action';
+import {getCeoStatistics } from 'Services/action';
 import StatusCard from "./StatusCard";
 import { useNavigate } from 'react-router-dom';
 import { NavLink } from "react-router-dom";
@@ -32,30 +32,24 @@ const MainStatusCard = () => {
     const [Factories, setFactories] = useState([]);
     const [Retailer, setRetailer] = useState([]);
     const [Feedback, setFeedback] = useState([]);
+    const [IssueReport, setIssueReport] = useState([]);
 
+    
     useEffect(() => {
-        dispatch(getDistributer())
-        dispatch(getFactory())
-        dispatch(getRetailers())
-
-        const feedbackdata = {
-            receiverUserID: adminUserId
+        const adminUserData = {
+            adminID: adminUserId
         }
-        dispatch(getFeedback(feedbackdata))
-
+        dispatch(getCeoStatistics(adminUserData))
     }, [])
-    const initialdata = useSelector((state) => state.DistributerRecord);
-    const initialFactorydata = useSelector((state) => state.FactoryRecord);
-    const initialRetailerdata = useSelector((state) => state.RetailerRecord);
-    const initialfeedbackdata = useSelector((state) => state.FeedbackRecord);
+    const CeoStaticsRecord = useSelector((state) => state.CeoStaticsRecord);
 
     useEffect(() => {
-        setDistributer(initialdata.distributerRec.length)
-        setFactories(initialFactorydata.factoryRec.length)
-        setRetailer(initialRetailerdata.retailerRec.length)
-        setFeedback(initialfeedbackdata.feedbackRec.length)
-    }, [initialdata, initialFactorydata, initialRetailerdata,initialfeedbackdata])
-
+        setFactories(CeoStaticsRecord?.ceoStaticsRec?.totalFactory)
+        setDistributer(CeoStaticsRecord?.ceoStaticsRec?.totalDisributer)
+        setRetailer(CeoStaticsRecord?.ceoStaticsRec?.totalRetailer)
+        setIssueReport(CeoStaticsRecord?.ceoStaticsRec?.totalIssueReport)
+        setFeedback(CeoStaticsRecord?.ceoStaticsRec?.totalFeedback)
+    }, [CeoStaticsRecord])
     const responsive = {
         superLargeDesktop: {
             // the naming can be any, depends on you.
@@ -125,7 +119,7 @@ const MainStatusCard = () => {
                     <NavLink to="/admin/reports">
                         <Card className="main-tiles p-0">
                             <CardRow className="inner-tiles">
-                                <CardStatus className="tiles-title" title={100} />
+                                <CardStatus className="tiles-title" title={IssueReport && IssueReport} />
                                 <img src={ReportsIcon} className="w-24 h-24" />
                                 <CardStatus className="tiles-title-bottom" title={"Reports Received"} />
                             </CardRow>

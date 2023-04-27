@@ -17,8 +17,6 @@ import Icon from "@material-tailwind/react/Icon";
 const BatchSentDetail = () => {
 
     const factoryData = useSelector((state) => state.FactoryLoginData);
-
-
     let batchData = useLocation();
     let BatchID = batchData.state.BatchID;
     let companyBatchID = batchData.state.companyBatchID;
@@ -69,9 +67,6 @@ const BatchSentDetail = () => {
     const initialBatchTemplatedata = useSelector((state) => state.BatchDetailRecord);
 
     let totalproduct = initialBatchTemplatedata?.batchDetailRec?.Products?.length
-
-    console.log("initialBatchTemplatedata",totalproduct)
-
 
     useEffect(() => {
         setBatchTemplates(initialBatchTemplatedata && initialBatchTemplatedata?.batchDetailRec?.Products)

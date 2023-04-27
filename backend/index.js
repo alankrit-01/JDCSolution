@@ -40,10 +40,8 @@ require('dotenv').config()
 MONGO_URL = "mongodb+srv://vipin:vipinrichmint@cluster0.y8ufn.mongodb.net/nodedatabase?retryWrites=true&w=majority"
 mongoose.connect(MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true }).then(() => console.log("Connected"));
 
-
 let contractAddress = "0xA87812852a3cDaD74DcDBcB1F8380C25ee661Ebb";
 let contract;
-
 const connectToMatic = async () => {
   optionSuccessStatus: 200
   const contractAbi = require('./artifacts/contracts/Supplychain.sol/Supplychain.json')
@@ -1536,6 +1534,29 @@ app.post('/api/adminLogin', jsonParser, async function (req, res) {
 //     }
 //   }
 // })
+
+
+app.get('/api/ceoStatistics', async (req, res) => {
+  try {
+    const adminID = req.query.adminID;
+    if (adminID != '' && adminID !== undefined) {
+      const factoryquery = { role: "Factory", adminId: adminID };
+      const countFactory = await User.countDocuments(factoryquery);
+      const distributerquery = { role: "Distributer", adminId: adminID };
+      const countDistributer = await User.countDocuments(distributerquery);
+      const retailerquery = { role: "Retailer", adminId: adminID };
+      const countRetailer = await User.countDocuments(retailerquery);
+      const countIssueReport = await ScanIssueReport.countDocuments();
+      const countFeedback = await Feedback.countDocuments();
+      res.status(200).json({ status: "success", totalFactory: countFactory,  totalDisributer: countDistributer, totalRetailer: countRetailer, totalIssueReport: countIssueReport, totalFeedback :countFeedback});
+    } else {
+      res.status(200).json({ status: "fail", message: "Please Provide Factory Details" });
+    }
+  } catch (error) {
+    console.log(error)
+    res.status(400).send({ error: error.message });
+  }
+});
 
 app.get('/api/users', function (req, res) {
   User.find().sort({ _id: -1 }).then((data) => {

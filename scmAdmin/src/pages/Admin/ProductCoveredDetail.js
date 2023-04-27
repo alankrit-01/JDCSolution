@@ -1,7 +1,7 @@
 import MainStatusCard from 'components/Admin/MainStatusCard';
 import FactorySidebar from 'components/Admin/Sidebar';
 import Footer from 'components/Admin/Footer';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useMemo, useState } from 'react';
 import DataTable from 'react-data-table-component';
@@ -9,7 +9,7 @@ import { Button } from "@material-tailwind/react";
 import Input from '@material-tailwind/react/Input';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { getBatchTemplate, checkBatchTemplateSuccessdata } from 'Services/action';
+import { getBatchTemplate } from 'Services/action';
 import loader from "assets/img/loading.gif";
 import cumulative from "assets/img/cumulative.png";
 import Icon from "@material-tailwind/react/Icon";
@@ -18,33 +18,44 @@ const ProductCoveredDetail = () => {
     const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
+
+    let factoryUserData = useLocation();
+    let factoryUserId = factoryUserData.state.factoryID;
+    let factoryName = factoryUserData.state.factoryName;
+    let factoryEmail = factoryUserData.state.factoryEmail;
+    let factoryLocation = factoryUserData.state.factoryLocation;
+    let factoryPhone = factoryUserData.state.factoryPhone;
+    let factoryProductCovered = factoryUserData.state.factoryProductCovered;
+
+    
+
     const [BatchTemplates, setBatchTemplates] = useState([]);
     const [Search, setSearch] = useState("");
     const [FilterBatchTemplates, setFilterBatchTemplates] = useState([]);
 
 
     const columns = [
+
+        {
+            name: "Product Name",
+            selector: (row) => row.productName,
+            sortable: true,
+        },
+        {
+            name: "Product ID",
+            selector: (row) => row.productID,
+            sortable: true,
+        },
+        {
+            name: "Richmint Product Code",
+            selector: (row) => row.richmintProductCode,
+            sortable: true,
+        },
         {
             name: "Batch Id",
             selector: (row) => row.BatchID,
             sortable: true,
-        },
-        {
-            name: "Product Name",
-            selector: (row) => row.BatchName,
-            sortable: true,
-        },
-        {
-            name: "Batch Size",
-            selector: (row) => row.BatchSize,
-            sortable: true,
-            width: "150px",
-        },
-        {
-            name: "Batch Date",
-            selector: (row) => row.DateOfProduction,
-            sortable: true,
-            width: "200px",
         },
         {
             name: "Action",
@@ -64,37 +75,53 @@ const ProductCoveredDetail = () => {
     ];
     useEffect(() => {
         const data = {
-            factoryID: "63b2b20d8e21a6111d6b4265"
+            factoryID: factoryUserId
         }
         dispatch(getBatchTemplate(data))
     }, [])
     const initialBatchTemplatedata = useSelector((state) => state.BatchTemplateRecord);
+    const batchProductData = initialBatchTemplatedata?.batchTemplateRec?.message;
+    console.log("batchProductData",batchProductData)
 
+    let batchProductDataArray = [];
+    let totalProductSent = 0;
+    for (let i = 0; i < batchProductData.length; i++) {
+        const batchProductRec = batchProductData && batchProductData[i].ProductIDs;
+        const batchProductRecordLength = batchProductRec && batchProductRec.length
+        for (let j = 0; j < batchProductRecordLength; j++) {
+            totalProductSent++;
+            batchProductDataArray.push({
+                BatchID: batchProductData[i].BatchID,
+                productName: batchProductData[i].BatchName,
+                productID: batchProductRec[j],
+                richmintProductCode: batchProductRec[j],
+
+            })
+        }
+    }
 
     useEffect(() => {
-        setBatchTemplates(initialBatchTemplatedata.batchTemplateRec.message && initialBatchTemplatedata.batchTemplateRec.message)
-        setFilterBatchTemplates(initialBatchTemplatedata.batchTemplateRec.message && initialBatchTemplatedata.batchTemplateRec.message)
+        setBatchTemplates(batchProductDataArray && batchProductDataArray)
+        setFilterBatchTemplates(batchProductDataArray && batchProductDataArray)
 
-        var a = [{ BatchSize: "There are no record to display" }];
+        var a = [{ richmintProductCode: "There are no record to display" }];
 
         setLoading(true);
         if (
-            initialBatchTemplatedata.batchTemplateRec.message != 0 &&
-            initialBatchTemplatedata.batchTemplateRec.message != null &&
-            initialBatchTemplatedata.batchTemplateRec.message.message != ""
+            batchProductDataArray != 0 &&
+            batchProductDataArray &&
+            batchProductDataArray != ""
         ) {
-            setFilterBatchTemplates(initialBatchTemplatedata.batchTemplateRec.message && initialBatchTemplatedata.batchTemplateRec.message);
-
+            setFilterBatchTemplates(batchProductDataArray && batchProductDataArray);
         } else {
             setLoading(false);
-
             setFilterBatchTemplates(a);
         }
     }, [initialBatchTemplatedata])
 
     useEffect(() => {
         const result = BatchTemplates.filter((allBatchTemplate) => {
-            return allBatchTemplate.BatchName.toLowerCase().match(Search.toLowerCase());
+            return allBatchTemplate.productName.toLowerCase().match(Search.toLowerCase());
         })
         setFilterBatchTemplates(result)
     }, [Search])
@@ -118,10 +145,10 @@ const ProductCoveredDetail = () => {
                             <div className="flex flex-wrap mt-10">
                                 <div className="w-full lg:w-9/12 pr-4 mb-10 font-light back-set-gray">
                                     <div className="background-factory details-background-color">
-                                    <h2>Factory - 1</h2>
-                                        <p className="click-open-btn btn-one"> <Icon className="chage-c" name="phone" size="1xl" color="black" />GachiBowli,HYderabad</p>
-                                        <p className="click-open-btn btn-one"> <Icon className="chage-c" name="phone" size="1xl" color="black" />+91 6304334373</p>
-                                        <p className="click-open-btn btn-one"> <Icon className="chage-c" name="email" size="1xl" color="black" />Factory1@gmail.com</p>
+                                    <h2>{factoryName && factoryName}</h2>
+                                        <p className="click-open-btn btn-one"> <Icon className="chage-c" name="phone" size="1xl" color="black" />{factoryLocation && factoryLocation}</p>
+                                        <p className="click-open-btn btn-one"> <Icon className="chage-c" name="phone" size="1xl" color="black" />{factoryPhone && factoryPhone}</p>
+                                        <p className="click-open-btn btn-one"> <Icon className="chage-c" name="email" size="1xl" color="black" />{factoryEmail && factoryEmail}</p>
                                     </div>
                                 </div>
                                 <div className="w-full lg:w-3/12 pl-4 font-light">
@@ -137,7 +164,7 @@ const ProductCoveredDetail = () => {
                                     <div className="right-button-section cust-part">
 
                                     <NavLink to="/factory/addBatchTemplate">
-                                        <button className="cust-button">Batches Sent <span className="batches-sent">15</span></button>
+                                        <button className="cust-button">Batches Sent <span className="batches-sent">{factoryProductCovered && factoryProductCovered}</span></button>
                                     </NavLink>
                                 </div>
                                 </div></div>

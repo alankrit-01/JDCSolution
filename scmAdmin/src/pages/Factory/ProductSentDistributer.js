@@ -77,7 +77,7 @@ const ProductSentDistributer = () => {
         dispatch(getBatchByDistributer(data))
     }, [])
     const initialBatchTemplatedata = useSelector((state) => state.BatchSentRecord);
-    const batchProductData = initialBatchTemplatedata.batchSentRec.message;
+    const batchProductData = initialBatchTemplatedata?.batchSentRec?.message;
 
     let batchProductDataArray = [];
     let totalProductSent = 0;
@@ -93,12 +93,6 @@ const ProductSentDistributer = () => {
             })
         }
     }
-
-
-
-    //console.log("batchProductDataResult", batchProductDataArray)
-
-
     useEffect(() => {
         setBatchTemplates(batchProductDataArray && batchProductDataArray)
         setFilterBatchTemplates(batchProductDataArray && batchProductDataArray)

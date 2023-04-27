@@ -3,6 +3,11 @@ export const API_URL = "http://192.168.1.101:8085/api";
 //export const API_URL = "http://34.208.61.209:8085/api";
 
 export const GETDETAILS = 'GETDETAILS'; 
+
+
+export const Get_Ceo_Statistics = 'Get_Ceo_Statistics';
+export const Set_Ceo_Statistics = 'Set_Ceo_Statistics';
+
 export const Get_User_Detail = 'Get_User_Detail'; 
 export const Set_User_Detail = 'Set_User_Detail'; 
 export const SuperAdminUserLogin = 'SuperAdminUserLogin';
@@ -183,6 +188,10 @@ export const Get_Total_Scans = 'Get_Total_Scans';
 export const Set_Total_Scan_Data = 'Set_Total_Scan_Data';
 export const Get_All_Report_For_Ceo = 'Get_All_Report_For_Ceo';
 export const Set_All_Report_For_Ceo = 'Set_All_Report_For_Ceo';
+export const Get_Batch_Product_For_Ceo = 'Get_Batch_Product_For_Ceo';
+export const Set_Batch_Product_For_Ceo = 'Set_Batch_Product_For_Ceo';
+
+
 
 
 
