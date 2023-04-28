@@ -31,7 +31,6 @@ const Feedback = require('./models/feedbacks');
 const Factory = require('./models/factories');
 const ScanIssueReport = require('./models/scanIssueReport');
 const { collection } = require('./models/users');
-const feedbacks = require('./models/feedbacks');
 
 app.use(express.json());
 app.use(cors());
@@ -1704,6 +1703,9 @@ app.post('/api/addFeedback', jsonParser, function (req, res) {
     senderUserID: req.body.senderUserID,
     receiverUserID: req.body.receiverUserID,
     name: req.body.name,
+    email: req.body.email,
+    phone: req.body.phone,
+    location: req.body.location,
     role: req.body.role,
     rating: req.body.rating,
     services: req.body.services,
@@ -1720,12 +1722,12 @@ app.post('/api/addFeedback', jsonParser, function (req, res) {
 
 app.get('/api/getFeedback', function (req, res) {
   if (req.query.role != undefined) {
-    Feedback.find({ receiverUserID: req.query.receiverUserID, role: req.query.role })
+    Feedback.find({ role: req.query.role })
       .sort({ _id: -1 }).then((data) => {
         res.status(200).json(data)
       })
   } else {
-    Feedback.find({ receiverUserID: req.query.receiverUserID })
+    Feedback.find()
       .sort({ _id: -1 }).then((data) => {
         res.status(200).json(data)
       })

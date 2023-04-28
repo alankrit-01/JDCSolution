@@ -1,7 +1,7 @@
 import MainStatusCard from 'components/Admin/MainStatusCard';
 import Sidebar from 'components/Admin/Sidebar';
 import Footer from 'components/Admin/Footer';
-import { NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom'; 
 import { useDispatch, useSelector } from 'react-redux';
 import { getFeedback } from 'Services/action';
 import { useEffect, useMemo, useState } from 'react';
@@ -29,12 +29,10 @@ const Feedback = () => {
     const [Feedback, setFeedback] = useState([]);
 
     useEffect(() => {
-        const feedreqdata = {
-            receiverUserID: adminUserId,
-        }
-        dispatch(getFeedback(feedreqdata))
+        dispatch(getFeedback())
     }, [])
     const feedbackinitialdata = useSelector((state) => state.FeedbackRecord);
+    console.log("feedbackinitialdata",feedbackinitialdata)
     useEffect(() => {
         setFeedback(feedbackinitialdata.feedbackRec)
     }, [feedbackinitialdata])

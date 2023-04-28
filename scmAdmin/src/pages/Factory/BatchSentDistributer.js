@@ -1,7 +1,7 @@
 import MainStatusCard from 'components/Factory/MainStatusCard';
 import FactorySidebar from 'components/Factory/Sidebar';
 import Footer from 'components/Factory/Footer';
-import { NavLink, useNavigate,useLocation } from 'react-router-dom';
+import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useMemo, useState } from 'react';
 import DataTable from 'react-data-table-component';
@@ -56,7 +56,7 @@ const BatchSentDistributer = () => {
         },
         {
             name: "Action",
-            selector: (row) => <button className="custom-details-btn" onClick={() => navigate('/factory/batchSentDetail', { state: { BatchID: row.BatchID, companyBatchID: row.CompanyBatchID , productName: row.BatchName } })}>View Batch</button>,
+            selector: (row) => <button className="custom-details-btn" onClick={() => navigate('/factory/batchSentDetail', { state: { BatchID: row.BatchID, companyBatchID: row.CompanyBatchID, productName: row.BatchName } })}>View Batch</button>,
             ignoreRowClick: true,
             allowOverflow: true,
             button: true,
@@ -127,11 +127,11 @@ const BatchSentDistributer = () => {
                         <div className="grid grid-cols-1 px-4 mb-16">
 
                             <div className="flex flex-wrap mt-10">
-                            <div className="w-full lg:w-1/12"></div>
+                                <div className="w-full lg:w-1/12"></div>
 
                                 <div className="w-full lg:w-9/12 pr-4 mb-10 font-light back-set-gray">
                                     <div className="background-factory details-background-color">
-                                    <h2>{distributorName && distributorName}</h2>
+                                        <h2>{distributorName && distributorName}</h2>
                                         <p className="click-open-btn btn-one"> <Icon className="chage-c" name="phone" size="1xl" color="black" />{distributorAddress && distributorAddress}</p>
                                         <p className="click-open-btn btn-one"> <Icon className="chage-c" name="phone" size="1xl" color="black" />{distributorPhone && distributorPhone}</p>
                                         <p className="click-open-btn btn-one"> <Icon className="chage-c" name="email" size="1xl" color="black" />{distributorEmail && distributorEmail}</p>
@@ -140,19 +140,19 @@ const BatchSentDistributer = () => {
                                 <div className="w-full lg:w-2/12 pl-4 font-light">
                                     <div className="received-part-two report-drop">
                                         <img src={cumulative} />
-                                        <select id="colours" className="dd-button">
-                                            <option value="red">Cumulative</option>
-                                            <option value="green">Green</option>
-                                            <option value="blue">Blue </option>
+                                        <select id="filters" className="dd-button">
+                                            <option value="cumulative">Cumulative</option>
+                                            <option value="monthly">Monthly</option>
+                                            <option value="24hrs">Last 24hrs </option>
                                         </select>
                                     </div>
 
                                     <div className="right-button-section cust-part">
 
-                                    <NavLink to="/factory/addBatchTemplate">
-                                        <button className="cust-button">Batches Sent <span className="batches-sent">{totalbatch && totalbatch}</span></button>
-                                    </NavLink>
-                                </div>
+                                        <NavLink to="/factory/addBatchTemplate">
+                                            <button className="cust-button">Batches Sent <span className="batches-sent">{totalbatch && totalbatch}</span></button>
+                                        </NavLink>
+                                    </div>
                                 </div></div>
 
                             <DataTable

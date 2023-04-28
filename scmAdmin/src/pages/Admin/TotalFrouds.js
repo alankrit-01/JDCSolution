@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Sidebar from "components/Admin/Sidebar";
 import Footer from "components/Admin/Footer";
 import cumulative from "assets/img/cumulative.png";
-import PieRechartComponents from 'components/Factory/PieChart';
+import warning from "assets/img/warning.png";
 import GoogleMapReact from 'google-map-react';
 import AnyReactComponent from 'google-map-react';
 import Arrowdown from 'assets/img/down-arrow.png';
@@ -121,7 +121,7 @@ const TotalFrouds = () => {
                 <div className="flex mt-6">
                     <div>
                         <div className="px-4 mb-10 main-tiles-section">
-                            <div className="grid grid-cols-1 ml-7 mb-2  bg-[#0c3f6a]  w-96 h-full">
+                            <div className="grid grid-cols-1 ml-7 mb-2  bg-[#0c3f6a]  h-full">
                                 <div className=" text-white "><h5 className='mt-1 p-1  ml-3'>All Products</h5></div>
                                 {/* <div className="px-0  main-tiles-section  inline-flex mt-3  bg-red-400"> */}
                                 <div className=" w-full h-full  bg-[#EDF6FB] py-12  text-left ">
@@ -150,8 +150,8 @@ const TotalFrouds = () => {
                                 {/* </div> */}
 
                             </div>                </div>
-                        <div className="px-4 mb-10 w-96  h- full  bg-[#EDF6FB] ml-9 ">
-                            <h2 className="heading-background w-96 -ml-4">Frouds Detected By Levels</h2>
+                        <div className="px-4 mb-10  h- full  bg-[#EDF6FB] ml-9 ">
+                            <h2 className="heading-background w-96 -ml-4 flex mr-4"><img className="w-8" src={warning} />Warnings</h2>
                             {/* {initialFailsLeveldata.distributerBatchProductRec.message == "Result is empty" ? <div className="no-record mt-20">No Product Received</div> : null} */}
                             <PieChart width={400} height={400}>
                                 <Pie
@@ -175,11 +175,11 @@ const TotalFrouds = () => {
                                 {/* <Legend /> */}
                             </PieChart>
                             <div className="productData">
-                                {Failedlevel1.length ? <p className="productName" style={{ color: "#8884d8" }} > {"Level (1)"} ------------ {Failedlevel1.length && Failedlevel1.length}</p> : null}
+                                {Failedlevel1.length ? <p className="productName" style={{ color: "#8884d8" }} > {"Products not validated by distributer"} ------------ {Failedlevel1.length && Failedlevel1.length}</p> : null}
                                 {Failedlevel2.length ? <p className="productName" style={{ color: "#82ca9d" }} > {"Level (2)"} ------------ {Failedlevel2.length && Failedlevel2.length}</p> : null}
-                                {Failedlevel3.length ? <p className="productName" style={{ color: "#FFBB28" }} > {"Level (3)"} ------------ {Failedlevel3.length && Failedlevel3.length}</p> : null}
+                                {Failedlevel3.length ? <p className="productName" style={{ color: "#FFBB28" }} > {"Products not validated by Retailer"} ------------ {Failedlevel3.length && Failedlevel3.length}</p> : null}
                                 {Failedlevel4.length ? <p className="productName" style={{ color: "#FF8042" }} > {"Level (4)"} ------------ {Failedlevel4.length && Failedlevel4.length}</p> : null}
-                                {Failedlevel5.length ? <p className="productName" style={{ color: "#AF19FF" }} > {"Level (5)"} ------------ {Failedlevel5.length && Failedlevel5.length}</p> : null}
+                                {Failedlevel5.length ? <p className="productName" style={{ color: "#AF19FF" }} > {"Location Mismatch"} ------------ {Failedlevel5.length && Failedlevel5.length}</p> : null}
                             </div>
                         </div>
                     </div>

@@ -82,36 +82,35 @@ const FactoryDistributerDetails = () => {
                                             <div className="received-part-two report-drop buttion-cumulative">
                                                 <img src={cumulative} />
 
-                                                <select id="colours" className="dd-button">
-                                                    <option value="red">Cumulative</option>
-                                                    <option value="green">Green</option>
-                                                    <option value="blue">Blue </option>
-
+                                                <select id="filters" className="dd-button">
+                                                    <option value="cumulative">Cumulative</option>
+                                                    <option value="monthly">Monthly</option>
+                                                    <option value="24hrs">Last 24hrs </option>
                                                 </select>
                                             </div>
                                             <div className="received-part-two batch eye-liner-part">
 
                                                 <select id="colours" className="dd-button batch-selected option-down">
                                                     <option value="red"> All Products</option>
-                                                   
+
                                                 </select>
                                             </div>
                                         </div>
                                         <div className="liner-part">
                                             <p>Batches sent</p>
                                             <p><span className="bg-span-part"> </span>  <span className="bg-span-part2">
-                                            { initialDistBatchProductChartData.distributerBatchProductRec.message == "Result is empty" ? 0 : initialDistBatchProductChartData?.distributerBatchProductRec?.message?.BatchesReceived}
-                                                </span></p>
+                                                {initialDistBatchProductChartData.distributerBatchProductRec.message == "Result is empty" ? 0 : initialDistBatchProductChartData?.distributerBatchProductRec?.message?.BatchesReceived}
+                                            </span></p>
                                             <p>Products Received</p>
-                                            <p><span className="bg-span-part3"> </span>  <span className="bg-span-part4"> 
-                                            
-                                            { initialDistBatchProductChartData.distributerBatchProductRec.message == "Result is empty" ? 0 : initialDistBatchProductChartData?.distributerBatchProductRec?.message?.ProductsReceived}
+                                            <p><span className="bg-span-part3"> </span>  <span className="bg-span-part4">
+
+                                                {initialDistBatchProductChartData.distributerBatchProductRec.message == "Result is empty" ? 0 : initialDistBatchProductChartData?.distributerBatchProductRec?.message?.ProductsReceived}
                                             </span></p>
 
                                             <p>Products Sold</p>
-                                            <p><span className="bg-span-part3"> </span>  <span className="bg-span-part4"> 
-                                            
-                                            { initialDistBatchProductChartData.distributerBatchProductRec.message == "Result is empty" ? 0 : initialDistBatchProductChartData?.distributerBatchProductRec?.message?.ProductsSold}
+                                            <p><span className="bg-span-part3"> </span>  <span className="bg-span-part4">
+
+                                                {initialDistBatchProductChartData.distributerBatchProductRec.message == "Result is empty" ? 0 : initialDistBatchProductChartData?.distributerBatchProductRec?.message?.ProductsSold}
                                             </span></p>
 
                                         </div>

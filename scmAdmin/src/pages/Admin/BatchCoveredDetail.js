@@ -56,7 +56,7 @@ const BatchCoveredDetail = () => {
         },
         {
             name: "Action",
-            selector: (row) => <button className="custom-details-btn" onClick={() => navigate('/admin/BatchDetail', { state: { BatchID: row.BatchID, companyBatchID: row.CompanyBatchID , productName: row.BatchName } })}>View Batch</button>,
+            selector: (row) => <button className="custom-details-btn" onClick={() => navigate('/admin/BatchDetail', { state: { BatchID: row.BatchID, companyBatchID: row.CompanyBatchID, productName: row.BatchName } })}>View Batch</button>,
             ignoreRowClick: true,
             allowOverflow: true,
             button: true,
@@ -127,10 +127,10 @@ const BatchCoveredDetail = () => {
                                 <div className="w-full lg:w-3/12 pl-4 font-light">
                                     <div className="received-part-two report-drop">
                                         <img src={cumulative} />
-                                        <select id="colours" className="dd-button">
-                                            <option value="red">Cumulative</option>
-                                            <option value="green">Green</option>
-                                            <option value="blue">Blue </option>
+                                        <select id="filters" className="dd-button">
+                                            <option value="cumulative">Cumulative</option>
+                                            <option value="monthly">Monthly</option>
+                                            <option value="24hrs">Last 24hrs </option>
                                         </select>
                                     </div>
                                     <div className="right-button-section cust-part">

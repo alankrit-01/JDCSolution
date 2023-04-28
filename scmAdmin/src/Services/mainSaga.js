@@ -97,7 +97,7 @@ function* getCompany(data) {
 
 function* getFraudScans() {
     try {
-        let uri = API_URL.concat('/getFraudScans')
+        let uri = API_URL.concat('/getScans')
         const fraudScansListRes = yield call(Axios.get, uri)
         const result = fraudScansListRes.data;
         yield put({ type: Set_Fraud_Scans_List, result })
@@ -558,12 +558,10 @@ function* getBatchDetail(data) {
 
 function* getFeedback(data) {
     const requestData = data.data
-
     try {
-        let uri = API_URL.concat('/getFeedback?receiverUserID=')
-        uri = uri.concat(requestData.receiverUserID)
-        if (requestData.role != undefined) {
-            uri = uri.concat("&role=")
+        let uri = API_URL.concat('/getFeedback')
+        if (requestData?.role != undefined) {
+            uri = uri.concat("?role=")
             uri = uri.concat(requestData.role)
         }
         const feedbackRes = yield call(Axios.get, uri)

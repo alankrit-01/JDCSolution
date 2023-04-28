@@ -97,11 +97,11 @@ const BatchSent = () => {
                 </div>
                 <div className="received-part-two report-drop">
                   <img src={cumulative} />
-                  <select id="colours" className="dd-button">
-                    <option value="red">Cumulative</option>
-                    <option value="green">Green</option>
-                    <option value="blue">Blue </option>
-                  </select>
+                  <select id="filters" className="dd-button">
+                  <option value="cumulative">Cumulative</option>
+                  <option value="monthly">Monthly</option>
+                  <option value="24hrs">Last 24hrs </option>
+                </select>
                 </div>
                 <div className="search-div">
                   <input type="text" className="cust-input" placeholder="Search" value={Search}

@@ -24,6 +24,8 @@ import star6 from "assets/img/star6.png";
 import star7 from "assets/img/star7.png";
 import star8 from "assets/img/star8.png";
 import star9 from "assets/img/star9.png";
+
+
 const CustomerFeedback = () => {
     const admindata = useSelector((state) => state.AdminLoginData);
     const [adminUserId, setAdminUserId] = useState(admindata.adminUserId);
@@ -32,15 +34,30 @@ const CustomerFeedback = () => {
     const [Search, setSearch] = useState("");
     const [FilterFeedback, setFilterFeedback] = useState([]);
     const [loading, setLoading] = useState(false);
+    let starimg = <img className='w-4 h-4' src={star} />;
+
+
+    function StarRating(props) {
+        let leftRating = 5 - props.rating;
+        let mainRating = [];
+        for (let i = 0; i < props.rating; i++) {
+            mainRating.push(<img className='shrink w-6 h-6 ml-3' src={star} />);
+        }
+        for (let i = 0; i < leftRating; i++) {
+            mainRating.push(<img className='shrink w-6 h-6 ml-3' src={starGrey} />);
+        }
+        return mainRating;
+    }
     const columns = [
         {
-            name: "Customer Name",
+            name: "Name",
             selector: (row) => row.name,
             sortable: true,
         },
         {
             name: "Rating",
-            selector: (row) => row.rating,
+            selector: (row) =>
+                <div className='flex'><p>{row.rating} </p> <p>{starimg}</p></div>,
             sortable: true,
         },
         {
@@ -61,87 +78,57 @@ const CustomerFeedback = () => {
         {
             name: "Feedback",
             selector: (row) => (
-              <Popup
-                trigger={<Button className="view-more-part2">View Feedback</Button>}
-                position="left center"
-                marginLeft="30px"
-              >
-                <div
-                  class="popup"
-                  className=" h-92 bg-[#CCCCCC] ml-56 px-2 max-w-2xl text-[#0c3f6a] pr-6 p-9 position-set-part2"
-                >
-                  <div className="flex">
-                    <div className="mt-6 ml-6">
-                      <h2 className="text-xl font-extrabold">
-                        Feedback by customer
-                      </h2>
-                      <br></br>
-                      <div className="image-part1 img w-36 h-14 flex ">
-                        <img className=" w-3 h-4 ml-3 pt-0" src={star} />
-                        <img className="shrink w-4 h-5 ml-3" src={star} />
-                        <img className="shrink w-5 h-5 ml-3" src={star} />
-                        <img className="shrink w-6 h-6 ml-3" src={star} />
-                        <img className="shrink w-7 h-7 ml-3" src={starGrey} />
-                        <p className="text-[#0c3f6a] font-extrabold text-2xl">
-                          {" "}
-                          -3.0
-                        </p>
-                      </div>
+                <Popup trigger=
+                    {<Button className="view-more-part2">View Feedback</Button>}
+                    position="left center" marginLeft="30px">
+                    <div class="popup" className=" h-92 bg-[#CCCCCC] ml-56 px-2 max-w-2xl text-[#0c3f6a] pr-6 p-9 position-set-part2">                    <div className='flex'>
+                        <div className='mt-6 ml-6'><h2 className='text-xl font-extrabold'>Feedback by Customer</h2><br></br>
+                            <div className="image-part1 img w-36 h-14 flex ">
+
+                                <StarRating rating={row?.rating} />
+                                <p className='text-[#0c3f6a] font-extrabold text-2xl'> - {row.rating}</p>
+
+                            </div>
+                        </div>
+                        <div className='mt-6 ml-36  text-left'>
+
+                            <div className='flex'><h5 className='font-medium'>Customer Name</h5><p>: {row.name && row.name}</p></div>
+                            <div className='flex'><h5 className='font-medium'>Location</h5> <p>: {row.location && row.location}</p></div>
+                            <div className='flex'><h5 className='font-medium'>Phone No</h5> <p>: {row.phone && row.phone}</p></div>
+                            <div className='flex'> <h5 className='font-medium'>Email</h5> <p>:{row.email && row.email}</p></div>
+                        </div>
+                    </div><br></br>
+                        <div className='ml-6  font-extrabold'><h3>Remarks</h3></div>
+                        <br></br>
+
+                        <div className='ml-6  mr-6  h-20 text-left border border-[#243c5a] rounded-md max-w-2xl px-2'>
+                            <p>{row.comment && row.comment}</p>
+                        </div>
+
                     </div>
-                    <div className="mt-6 ml-36  text-left">
-                      <div className="flex">
-                        <h5 className="font-medium">Customer Name</h5>
-                        <p>: Alpha</p>
-                      </div>
-                      <div className="flex">
-                        <h5 className="font-medium">Location</h5> <p>: Karnatka</p>
-                      </div>
-                      <div className="flex">
-                        <h5 className="font-medium">Phone No</h5> <p>: 9998702364</p>
-                      </div>
-                      <div className="flex">
-                        {" "}
-                        <h5 className="font-medium">Email : alpha@gmail.com</h5>
-                      </div>
-                    </div>
-                  </div>
-                  <br></br>
-                  <div className="ml-6  font-extrabold">
-                    <h3>Remarks</h3>
-                  </div>
-                  <br></br>
-      
-                  <div className="ml-6  mr-6  h-20 text-left border border-[#243c5a] rounded-md max-w-2xl px-2">
-                    <p>
-                      {" "}
-                      Lorem ipsum is placeholder text commonly used in the graphic,
-                      print, publishing industries for previewing layouts and visual
-                      mockups.
-                    </p>
-                  </div>
-                </div>
-              </Popup>
+
+                </Popup>
             ),
             sortable: true,
-          },
+        },
     ];
     useEffect(() => {
         const data = {
-            receiverUserID: adminUserId,
             role: 'Customer',
         }
         dispatch(getFeedback(data))
     }, [])
 
     const initialdata = useSelector((state) => state.FeedbackRecord);
+
     useEffect(() => {
-        var a = [{ comment: "There are no record to display" }];
-        setFeedback(initialdata.feedbackRec);
+        var a = [{ subject: "There are no record to display" }];
+        setFeedback(initialdata?.feedbackRec);
         setLoading(true);
         if (
-            initialdata.feedbackRec != 0 &&
-            initialdata.feedbackRec != null &&
-            initialdata.feedbackRec != ""
+            initialdata?.feedbackRec != 0 &&
+            initialdata?.feedbackRec != null &&
+            initialdata?.feedbackRec != ""
         ) {
             setFilterFeedback(initialdata.feedbackRec);
         } else {
@@ -149,14 +136,12 @@ const CustomerFeedback = () => {
             setFilterFeedback(a);
         }
     }, [initialdata])
-
     useEffect(() => {
         const result = Feedback.filter((feedbackval) => {
             return feedbackval.name.toLowerCase().match(Search.toLowerCase());
         })
         setFilterFeedback(result)
     }, [Search])
-
 
     var customerRatingSum = 0;
     for (let i = 0; i < FilterFeedback.length; i++) {
@@ -165,7 +150,7 @@ const CustomerFeedback = () => {
     var numberOfCustRating = FilterFeedback.length;
     var custAverageRating = customerRatingSum / numberOfCustRating;
 
-    if(isNaN(custAverageRating)){
+    if (isNaN(custAverageRating)) {
         custAverageRating = 0;
     }
 
@@ -176,7 +161,7 @@ const CustomerFeedback = () => {
 
     var custLeftFullRating = String(custLeftRatingNumber).charAt(0);
     var custLeftFullRatingNumber = Number(custLeftFullRating);
-   
+
     var custpointRating = String(custAverageRating).charAt(2);
     var custpointRatingNumber = Number(custpointRating);
 
@@ -214,9 +199,8 @@ const CustomerFeedback = () => {
     for (let i = 0; i < custLeftFullRatingNumber; i++) {
         customerLeftRating.push(<img src={starGrey} />);
     }
-
     var totalfeedback = 0
-    if(custAverageRating !== 0){
+    if (custAverageRating !== 0) {
         totalfeedback = FilterFeedback.length;
     }
 
@@ -248,19 +232,16 @@ const CustomerFeedback = () => {
                                 </div>
                                 <div className="w-full lg:w-3/12 pl-4 font-light">
                                     <div className="detail-button-review">
-                                        <span className="point-part review-part">
-                                             {custAverageRating.toFixed(1)}
-                                        </span>
+                                        <span className="point-part review-part">{custAverageRating.toFixed(1)}</span>
                                     </div>
                                 </div>
                                 <div className="w-full lg:w-2/12 pl-4 font-light">
                                     <div className="received-part-two report-drop image-sets">
                                         <img src={cumulative} />
-                                        <select id="colours" className="dd-button">
-                                            <option value="red">Cumulative</option>
-                                            <option value="green">Green</option>
-                                            <option value="blue">Blue </option>
-
+                                        <select id="filters" className="dd-button">
+                                            <option value="cumulative">Cumulative</option>
+                                            <option value="monthly">Monthly</option>
+                                            <option value="24hrs">Last 24hrs </option>
                                         </select>
                                     </div>
 

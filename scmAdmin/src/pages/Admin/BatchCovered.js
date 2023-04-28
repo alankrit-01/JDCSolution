@@ -21,7 +21,7 @@ const BatchCovered = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  useEffect(() => { 
+  useEffect(() => {
     const data = {
       adminId: adminUserId,
     };
@@ -59,20 +59,20 @@ const BatchCovered = () => {
                 </div>
                 <div className="received-part-two report-drop">
                   <img src={cumulative} />
-                  <select id="colours" className="dd-button">
-                    <option value="red">Cumulative</option>
-                    <option value="green">Green</option>
-                    <option value="blue">Blue </option>
+                  <select id="filters" className="dd-button">
+                    <option value="cumulative">Cumulative</option>
+                    <option value="monthly">Monthly</option>
+                    <option value="24hrs">Last 24hrs </option>
                   </select>
                 </div>
               </div>
-              {console.log("initialBatchProductdata sds",initialBatchProductdata)}
+              {console.log("initialBatchProductdata sds", initialBatchProductdata)}
 
               <div className="flex flex-wrap">
 
                 {allBatchProductdata && allBatchProductdata?.map((initialBatchProductdataVal) => <div className="w-full lg:w-6/12 pr-4 mb-10 font-light">
 
-                  <span onClick={() => navigate('/admin/BatchCoveredDetail', { state: { factoryID:  initialBatchProductdataVal?._id, factoryName:  initialBatchProductdataVal?.name, factoryEmail:  initialBatchProductdataVal?.email, factoryLocation:  initialBatchProductdataVal?.city + " , " + initialBatchProductdataVal?.country, factoryPhone:  initialBatchProductdataVal?.phone } })}>
+                  <span onClick={() => navigate('/admin/BatchCoveredDetail', { state: { factoryID: initialBatchProductdataVal?._id, factoryName: initialBatchProductdataVal?.name, factoryEmail: initialBatchProductdataVal?.email, factoryLocation: initialBatchProductdataVal?.city + " , " + initialBatchProductdataVal?.country, factoryPhone: initialBatchProductdataVal?.phone } })}>
                     <div className="background-feedback-part">
                       <h6>{initialBatchProductdataVal?.batchCount}</h6>
                       <p>{initialBatchProductdataVal?.name}</p>

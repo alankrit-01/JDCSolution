@@ -4,7 +4,7 @@ import Footer from "components/Admin/Footer";
 import { NavLink } from "react-router-dom";
 import PieRechartComponent from "components/Admin/PieChart";
 import ProgressCard from "components/Admin/ProgressCard";
-import PieRechartComponents from 'components/Factory/PieChart';
+import DashboardWarningChart from 'components/Admin/DashboardWarningChart';
 import "react-multi-carousel/lib/styles.css";
 import Card from "@material-tailwind/react/Card";
 import CardRow from "@material-tailwind/react/CardRow";
@@ -15,8 +15,8 @@ import cumulative from "assets/img/cumulative.png";
 import { useEffect } from "react";
 import { resetLoginData } from "Services/action";
 import { useDispatch } from "react-redux";
-import  GoogleMapReact  from 'google-map-react';
-import  AnyReactComponent  from 'google-map-react';
+import GoogleMapReact from 'google-map-react';
+import AnyReactComponent from 'google-map-react';
 
 const Dashboard = () => {
   const dispatch = useDispatch();
@@ -48,19 +48,19 @@ const Dashboard = () => {
 
   const defaultProps = {
     center: {
-        lat: 26.859970,
-        lng: 75.806236
+      lat: 26.859970,
+      lng: 75.806236
     },
     zoom: 11
-};
+  };
 
   return (
     <>
       <Sidebar />
       <div className="md:ml-32">
         <div className="flex justify-between">
-          <div className="px-2 mb-5 mt-5 ml-12 h-28 w-52">
-            <Card className="main-tiles p-0 w-44">
+          <div className="px-2 mb-5 mt-5 ml-12 h-20 w-52">
+            {/* <Card className="main-tiles p-0 w-44">
               <CardRow className="inner-tiles mr-3 ">
                 <button className="add-batch-dashboard-section mr-2 ">
                   <div className="add-batch-dashboard-plus h-10">
@@ -102,11 +102,10 @@ const Dashboard = () => {
                         </NavLink>
                       </DropdownItem>
                     </Dropdown>
-                    {/* </div> */}
                   </div>
                 </button>
               </CardRow>
-            </Card>
+            </Card> */}
           </div>
 
           <div className="received-part-two2 report-drop cumulative">
@@ -131,12 +130,12 @@ const Dashboard = () => {
               <ProgressCard />
             </div>
             <div className="px-4 mb-10 main-tiles-section">
-              <PieRechartComponents /> 
+              <DashboardWarningChart />
             </div>
-           
+
             <div className="px-4 mb-10 main-tiles-section">
               <div>
-                <h2 className="heading-background">Distributor Locations</h2>
+                <h2 className="heading-background">Locations</h2>
               </div>
               <div className='w-80 h-96 map-padding-use'>
 

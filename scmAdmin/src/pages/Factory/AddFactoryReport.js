@@ -76,6 +76,8 @@ const AddFactoryReport = () => {
                                                         <input {...register("role")} type="hidden" value="Factory" />
                                                         <input {...register("name")} type="hidden" value={initialdata && initialdata.factoryUserName} />
                                                         <input {...register("email")} type="hidden" value={initialdata && initialdata.factoryUserEmail} />
+                                                        <input {...register("location")} type="hidden" value={initialdata && initialdata.factoryUserCity + " , " + initialdata.factoryUserCountry} />
+
                                                         <li>
                                                             <input {...register("scanIssue")} className="form-control-part" type="checkbox" value="Issue with received raw materials" /><span> Issue with received raw materials</span>
                                                         </li>

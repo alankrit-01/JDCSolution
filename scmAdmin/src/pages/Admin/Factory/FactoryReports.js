@@ -1,16 +1,10 @@
-import MainStatusCard from 'components/Admin/MainStatusCard';
 import Sidebar from 'components/Admin/Sidebar';
 import Footer from 'components/Admin/Footer';
-import { NavLink } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { getFeedback } from 'Services/action';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useLocation } from "react-router-dom"
 import DataTable from 'react-data-table-component';
 import { Button } from "@material-tailwind/react";
-import Input from '@material-tailwind/react/Input';
 import loader from "assets/img/loading.gif";
-import star from "assets/img/star.png";
-import star2 from "assets/img/star-se.png";
 import calender from "assets/img/calendar.png";
 import cumulative from "assets/img/cumulative.png";
 import Popup from "reactjs-popup";
@@ -19,25 +13,15 @@ import img2 from "assets/img/product.jpg";
 import img3 from "assets/img/product2.png";
 import img4 from "assets/img/product3.jpg";
 
-import { useLocation } from "react-router-dom"
 
 const FactoryReports = () => {
-
   let factoryReports = useLocation();
-  let factoryReportsData = factoryReports.state.factoryReportsData;
-  console.log("data",factoryReportsData)
-  const admindata = useSelector((state) => state.AdminLoginData);
-  const [adminUserId, setAdminUserId] = useState(admindata.adminUserId);
-  const dispatch = useDispatch();
+  let factoryReportsData = factoryReports?.state?.factoryReportsData;
   const [initialdata, setInitialdata] = useState([]);
-  const [totalReports, setTotalReports] = useState([]);
   const [newReportIssue, setNewReportIssue] = useState([]);
   const [pendingReportIssue, setPendingReportIssue] = useState([]);
   const [solvedReportIssue, setSolvedReportIssue] = useState([]);
-
-
   const [IssueReport, setIssueReport] = useState([]);
-
   const [Search, setSearch] = useState("");
   const [FilterIssueReport, setFilterIssueReport] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -70,7 +54,6 @@ const FactoryReports = () => {
       sortable: true,
     },
     {
-      name: "Report",
       selector: (row) => (
         //   <button className="custom-details-btn" onClick={() => Popup()}>View More</button>
         <Popup
@@ -89,14 +72,13 @@ const FactoryReports = () => {
                 </h5>
                 <br></br>
                 <div className="text-sm">
-                  {/* <p style={{ display: "none" }}>{issues = row.scanIssue.split(',')}</p> */}
+                                    <p style={{ display: "none" }}>{issues = row.scanIssue.split(',')}</p>
 
                   {issues && issues.map((issuesVal) => <div className="flex">
                     <input
                       className="w-4 h-4"
                       type="checkbox"
                       checked={"checked"}
-                    //   onChange={handleChange}
                     />
                     <p className="pl-2">
                       {issuesVal && issuesVal}
@@ -106,7 +88,7 @@ const FactoryReports = () => {
               </div>
               <div className="mt-6 ml-36  text-left text-sm">
                 <div className="flex">
-                  <h5 className="font-medium">Customer Name</h5>
+                  <h5 className="font-medium">Name</h5>
                   <p>: {row?.name}</p>
                 </div>
                 <div className="flex">
@@ -147,47 +129,37 @@ const FactoryReports = () => {
     },
   ];
   useEffect(() => {
-    
-    if(factoryReportsData !== undefined){
-    setInitialdata(factoryReportsData);
 
-    let newReportIssue = factoryReportsData.filter((reportissue) => reportissue.status == "Unread");
-    let pendingReportIssue = factoryReportsData.filter((reportissue) => reportissue.status == "Pending");
-    let solvedReportIssue = factoryReportsData.filter((reportissue) => reportissue.status == "Solved");
+    if (factoryReportsData !== undefined) {
+      setInitialdata(factoryReportsData);
 
-    setNewReportIssue(newReportIssue);
-    setPendingReportIssue(pendingReportIssue);
-    setSolvedReportIssue(solvedReportIssue);
-    
-  }
-  else{
-    var factoryReportsData = [{ email: "There are no record to display" }];
-    setInitialdata(factoryReportsData);
-    setTotalReports(0);
-}
+      let newReportIssue = factoryReportsData.filter((reportissue) => reportissue.status == "Unread");
+      let pendingReportIssue = factoryReportsData.filter((reportissue) => reportissue.status == "Pending");
+      let solvedReportIssue = factoryReportsData.filter((reportissue) => reportissue.status == "Solved");
 
+      setNewReportIssue(newReportIssue);
+      setPendingReportIssue(pendingReportIssue);
+      setSolvedReportIssue(solvedReportIssue);
+    }else {
+      var factoryReportempty = [{ email: "There are no record to display" }];
+      setInitialdata(factoryReportempty);
+    }
   }, [factoryReportsData])
-
   useEffect(() => {
     var a = [{ comment: "There are no record to display" }];
     setIssueReport(initialdata);
     setLoading(true);
-    if (
-      initialdata != 0 &&
-      initialdata != null &&
-      initialdata != ""
-    ) {
+    if (initialdata != 0 && initialdata != null && initialdata != "") {
       setFilterIssueReport(initialdata);
     } else {
       setLoading(false);
-
       setFilterIssueReport(a);
     }
   }, [initialdata])
 
-  useEffect(() => {
+  useEffect(() => {    
     const result = IssueReport.filter((issueReportVal) => {
-      return issueReportVal.comment.toLowerCase().match(Search.toLowerCase());
+      return issueReportVal.name.toLowerCase().match(Search.toLowerCase());
     })
     setFilterIssueReport(result)
   }, [Search])
@@ -220,11 +192,10 @@ const FactoryReports = () => {
                 <div className="w-full lg:w-4/12 pl-4 font-light">
                   <div className="received-part-two">
                     <img src={cumulative} />
-                    <select id="colours" className="dd-button">
-                      <option value="red">Cumulative</option>
-                      <option value="green">Green</option>
-                      <option value="blue">Blue </option>
-
+                    <select id="filters" className="dd-button">
+                      <option value="cumulative">Cumulative</option>
+                      <option value="monthly">Monthly</option>
+                      <option value="24hrs">Last 24hrs </option>
                     </select>
                   </div>
                   <ul className="sub-text">
@@ -245,7 +216,7 @@ const FactoryReports = () => {
                     ></img>
                   </div>
                 }
-                data={factoryReportsData}
+                data={FilterIssueReport}
                 pagination
                 fixedHeader
                 selectableRows

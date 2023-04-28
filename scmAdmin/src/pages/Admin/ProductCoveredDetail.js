@@ -28,7 +28,7 @@ const ProductCoveredDetail = () => {
     let factoryPhone = factoryUserData.state.factoryPhone;
     let factoryProductCovered = factoryUserData.state.factoryProductCovered;
 
-    
+
 
     const [BatchTemplates, setBatchTemplates] = useState([]);
     const [Search, setSearch] = useState("");
@@ -81,7 +81,7 @@ const ProductCoveredDetail = () => {
     }, [])
     const initialBatchTemplatedata = useSelector((state) => state.BatchTemplateRecord);
     const batchProductData = initialBatchTemplatedata?.batchTemplateRec?.message;
-    console.log("batchProductData",batchProductData)
+    console.log("batchProductData", batchProductData)
 
     let batchProductDataArray = [];
     let totalProductSent = 0;
@@ -145,7 +145,7 @@ const ProductCoveredDetail = () => {
                             <div className="flex flex-wrap mt-10">
                                 <div className="w-full lg:w-9/12 pr-4 mb-10 font-light back-set-gray">
                                     <div className="background-factory details-background-color">
-                                    <h2>{factoryName && factoryName}</h2>
+                                        <h2>{factoryName && factoryName}</h2>
                                         <p className="click-open-btn btn-one"> <Icon className="chage-c" name="phone" size="1xl" color="black" />{factoryLocation && factoryLocation}</p>
                                         <p className="click-open-btn btn-one"> <Icon className="chage-c" name="phone" size="1xl" color="black" />{factoryPhone && factoryPhone}</p>
                                         <p className="click-open-btn btn-one"> <Icon className="chage-c" name="email" size="1xl" color="black" />{factoryEmail && factoryEmail}</p>
@@ -154,19 +154,19 @@ const ProductCoveredDetail = () => {
                                 <div className="w-full lg:w-3/12 pl-4 font-light">
                                     <div className="received-part-two report-drop">
                                         <img src={cumulative} />
-                                        <select id="colours" className="dd-button">
-                                            <option value="red">Cumulative</option>
-                                            <option value="green">Green</option>
-                                            <option value="blue">Blue </option>
+                                        <select id="filters" className="dd-button">
+                                            <option value="cumulative">Cumulative</option>
+                                            <option value="monthly">Monthly</option>
+                                            <option value="24hrs">Last 24hrs </option>
                                         </select>
                                     </div>
 
                                     <div className="right-button-section cust-part">
 
-                                    <NavLink to="/factory/addBatchTemplate">
-                                        <button className="cust-button">Batches Sent <span className="batches-sent">{factoryProductCovered && factoryProductCovered}</span></button>
-                                    </NavLink>
-                                </div>
+                                        <NavLink to="/factory/addBatchTemplate">
+                                            <button className="cust-button">Batches Sent <span className="batches-sent">{factoryProductCovered && factoryProductCovered}</span></button>
+                                        </NavLink>
+                                    </div>
                                 </div></div>
 
                             <DataTable

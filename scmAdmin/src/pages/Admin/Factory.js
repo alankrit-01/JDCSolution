@@ -160,7 +160,7 @@ const Factory = () => {
       setFilterFactories(a);
     }
   }, [initialdata]);
-
+ 
   useEffect(() => {
     const result = Factories.filter((retailer) => {
       return retailer.name.toLowerCase().match(Search.toLowerCase());
@@ -236,9 +236,9 @@ const Factory = () => {
                       <button className="cust-export-button">Export CSV <img src={Arrowdown} className="w-3 h-3" style={{ margin: "2px 0px 2px 2px" }} /> </button>
                     </div>
                   </CSVLink>
-                  <NavLink to="/admin/addfactory">
+                  {/* <NavLink to="/admin/addfactory">
                     <button className="cust-button">Add +</button>
-                  </NavLink>
+                  </NavLink> */}
                 </div>
               </div>
               <DataTable

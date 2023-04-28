@@ -34,15 +34,30 @@ const DistributerFeedback = () => {
     const [Search, setSearch] = useState("");
     const [FilterFeedback, setFilterFeedback] = useState([]);
     const [loading, setLoading] = useState(false);
+    let starimg = <img className='w-4 h-4' src={star} />;
+
+
+    function StarRating(props) {
+        let leftRating = 5 - props.rating;
+        let mainRating = [];
+        for (let i = 0; i < props.rating; i++) {
+            mainRating.push(<img className='shrink w-6 h-6 ml-3' src={star} />);
+        }
+        for (let i = 0; i < leftRating; i++) {
+            mainRating.push(<img className='shrink w-6 h-6 ml-3' src={starGrey} />);
+        }
+        return mainRating;
+    }
     const columns = [
         {
-            name: "Distributer Name",
+            name: "Name",
             selector: (row) => row.name,
             sortable: true,
         },
         {
             name: "Rating",
-            selector: (row) => row.rating,
+            selector: (row) =>
+                <div className='flex'><p>{row.rating} </p> <p>{starimg}</p></div>,
             sortable: true,
         },
         {
@@ -66,34 +81,28 @@ const DistributerFeedback = () => {
                 <Popup trigger=
                     {<Button className="view-more-part2">View Feedback</Button>}
                     position="left center" marginLeft="30px">
-
-
                     <div class="popup" className=" h-92 bg-[#CCCCCC] ml-56 px-2 max-w-2xl text-[#0c3f6a] pr-6 p-9 position-set-part2">                    <div className='flex'>
-                            <div className='mt-6 ml-6'><h2 className='text-xl font-extrabold'>Feedback by Distributer</h2><br></br>
-                                <div className="image-part1 img w-36 h-14 flex ">
-                                    <img className=' w-3 h-4 ml-3 pt-0' src={star} />
-                                    <img className='shrink w-4 h-5 ml-3' src={star} />
-                                    <img className='shrink w-5 h-5 ml-3' src={star} />
-                                    <img className='shrink w-6 h-6 ml-3' src={starGrey} />
-                                    <img className='shrink w-7 h-7 ml-3' src={starGrey} />
-                                    <p className='text-[#0c3f6a] font-extrabold text-2xl'> -3.0</p>
+                        <div className='mt-6 ml-6'><h2 className='text-xl font-extrabold'>Feedback by Distributer</h2><br></br>
+                            <div className="image-part1 img w-36 h-14 flex ">
 
-                                </div>
-                            </div>
-                            <div className='mt-6 ml-36  text-left'>
+                                <StarRating rating={row?.rating} />
+                                <p className='text-[#0c3f6a] font-extrabold text-2xl'> - {row.rating}</p>
 
-                                <div className='flex'><h5 className='font-medium'>Distributor Name</h5><p>: Alpha</p></div>
-                                <div className='flex'><h5 className='font-medium'>Location</h5> <p>: Karnatka</p></div>
-                                <div className='flex'><h5 className='font-medium'>Phone No</h5> <p>: 9998702364</p></div>
-                                <div className='flex'> <h5 className='font-medium'>Email : alpha@gmail.com</h5></div>
                             </div>
-                        </div><br></br>
+                        </div>
+                        <div className='mt-6 ml-36  text-left'>
+
+                            <div className='flex'><h5 className='font-medium'>Distributor Name</h5><p>: {row.name && row.name}</p></div>
+                            <div className='flex'><h5 className='font-medium'>Location</h5> <p>: {row.location && row.location}</p></div>
+                            <div className='flex'><h5 className='font-medium'>Phone No</h5> <p>: {row.phone && row.phone}</p></div>
+                            <div className='flex'> <h5 className='font-medium'>Email</h5> <p>:{row.email && row.email}</p></div>
+                        </div>
+                    </div><br></br>
                         <div className='ml-6  font-extrabold'><h3>Remarks</h3></div>
                         <br></br>
 
                         <div className='ml-6  mr-6  h-20 text-left border border-[#243c5a] rounded-md max-w-2xl px-2'>
-                            <p> Lorem ipsum is placeholder text commonly used in the graphic, print,
-                                publishing industries for previewing layouts and visual mockups.</p>
+                            <p>{row.comment && row.comment}</p>
                         </div>
 
                     </div>
@@ -105,7 +114,6 @@ const DistributerFeedback = () => {
     ];
     useEffect(() => {
         const data = {
-            receiverUserID: adminUserId,
             role: 'Distributer',
         }
         dispatch(getFeedback(data))
@@ -115,12 +123,12 @@ const DistributerFeedback = () => {
 
     useEffect(() => {
         var a = [{ subject: "There are no record to display" }];
-        setFeedback(initialdata.feedbackRec);
+        setFeedback(initialdata?.feedbackRec);
         setLoading(true);
         if (
-            initialdata.feedbackRec != 0 &&
-            initialdata.feedbackRec != null &&
-            initialdata.feedbackRec != ""
+            initialdata?.feedbackRec != 0 &&
+            initialdata?.feedbackRec != null &&
+            initialdata?.feedbackRec != ""
         ) {
             setFilterFeedback(initialdata.feedbackRec);
         } else {
@@ -128,17 +136,12 @@ const DistributerFeedback = () => {
             setFilterFeedback(a);
         }
     }, [initialdata])
-
     useEffect(() => {
         const result = Feedback.filter((feedbackval) => {
             return feedbackval.name.toLowerCase().match(Search.toLowerCase());
         })
         setFilterFeedback(result)
     }, [Search])
-
-
-
-
 
     var distributerRatingSum = 0;
     for (let i = 0; i < FilterFeedback.length; i++) {
@@ -235,11 +238,10 @@ const DistributerFeedback = () => {
                                 <div className="w-full lg:w-2/12 pl-4 font-light">
                                     <div className="received-part-two report-drop image-sets">
                                         <img src={cumulative} />
-                                        <select id="colours" className="dd-button">
-                                            <option value="red">Cumulative</option>
-                                            <option value="green">Green</option>
-                                            <option value="blue">Blue </option>
-
+                                        <select id="filters" className="dd-button">
+                                            <option value="cumulative">Cumulative</option>
+                                            <option value="monthly">Monthly</option>
+                                            <option value="24hrs">Last 24hrs </option>
                                         </select>
                                     </div>
 

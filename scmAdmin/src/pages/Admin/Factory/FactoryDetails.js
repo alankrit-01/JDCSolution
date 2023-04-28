@@ -143,12 +143,10 @@ const FactoryDetails = () => {
                                         <div className="button-buttom-part center-width">
                                             <div className="received-part-two report-drop buttion-cumulative">
                                                 <img src={cumulative} />
-
-                                                <select id="colours" className="dd-button">
-                                                    <option value="red">Cumulative</option>
-                                                    <option value="green">Green</option>
-                                                    <option value="blue">Blue </option>
-
+                                                <select id="filters" className="dd-button">
+                                                    <option value="cumulative">Cumulative</option>
+                                                    <option value="monthly">Monthly</option>
+                                                    <option value="24hrs">Last 24hrs </option>
                                                 </select>
                                             </div>
                                             <div className="received-part-two batch eye-liner-part">
@@ -180,7 +178,7 @@ const FactoryDetails = () => {
                                     </div>
                                     <div className="w-full lg:w-6/12 pl-4 mb-10 font-light self">
                                         <h3>Products Sent</h3>
-                                        { allProductSentData.length == 0 ? <div className="no-record mt-20">No Product Sent</div> : null}
+                                        {allProductSentData?.length == 0 ? <div className="no-record mt-20">No Product Sent</div> : null}
                                         <PieChart width={400} height={400}>
                                             <Pie
                                                 data={productDataInPercent}
@@ -205,14 +203,6 @@ const FactoryDetails = () => {
                                                 ))}
                                             </Pie>
                                             <Tooltip content={<AuthenticationLevelTooltip />} />
-
-
-
-                                            {/* <Legend
-            layout="vertical"
-            verticalAlign="bottom"
-            align="center"
-          /> */}
                                         </PieChart>
                                     </div>
                                 </div>

@@ -1,7 +1,7 @@
 import MainStatusCard from 'components/Factory/MainStatusCard';
 import FactorySidebar from 'components/Factory/Sidebar';
 import Footer from 'components/Factory/Footer';
-import { NavLink, useNavigate,useLocation } from 'react-router-dom';
+import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useMemo, useState } from 'react';
 import DataTable from 'react-data-table-component';
@@ -21,7 +21,7 @@ const BatchSentDetail = () => {
     let BatchID = batchData.state.BatchID;
     let companyBatchID = batchData.state.companyBatchID;
     let productName = batchData.state.productName;
- 
+
     const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -39,7 +39,7 @@ const BatchSentDetail = () => {
         },
         {
             name: "Richmint Product Code",
-            selector: (row) => "P-"+row.CompanyProductID,
+            selector: (row) => "P-" + row.CompanyProductID,
             sortable: true,
         },
         {
@@ -48,8 +48,8 @@ const BatchSentDetail = () => {
             ignoreRowClick: true,
             allowOverflow: true,
             button: true,
-            width:"200px"
-        }, 
+            width: "200px"
+        },
         // {
         //     selector: (row) => <button className="custom-details-btn" onClick={() => navigate('/factory/BatchProductQr', { state: { BatchID: row.BatchID } })}>Batch Product Qr</button>,
         //     ignoreRowClick: true,
@@ -117,10 +117,10 @@ const BatchSentDetail = () => {
                                 <div className="w-full lg:w-12/12 pl-4 font-light">
                                     <div className="received-part-two report-drop">
                                         <img src={cumulative} />
-                                        <select id="colours" className="dd-button">
-                                            <option value="red">Cumulative</option>
-                                            <option value="green">Green</option>
-                                            <option value="blue">Blue </option>
+                                        <select id="filters" className="dd-button">
+                                            <option value="cumulative">Cumulative</option>
+                                            <option value="monthly">Monthly</option>
+                                            <option value="24hrs">Last 24hrs </option>
                                         </select>
                                     </div>
 

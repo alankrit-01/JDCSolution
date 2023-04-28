@@ -239,9 +239,9 @@ const Retailer = () => {
                       <button className="cust-export-button">Export CSV <img src={Arrowdown} className="w-3 h-3" style={{ margin: "2px 0px 2px 2px" }} /> </button>
                     </div>
                   </CSVLink>
-                  <NavLink to="/admin/addretailer">
+                  {/* <NavLink to="/admin/addretailer">
                     <button className="cust-button">Add +</button>
-                  </NavLink>
+                  </NavLink> */}
                   {/* <NavLink to="/admin/addMultiUser">
                     <button className="cust-button">Add Multi User+</button>
                   </NavLink> */}

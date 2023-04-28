@@ -56,7 +56,7 @@ const RetailerDetails = () => {
     console.log(" retail product details", allProductReceived)
     let allProductReceivedData = allProductReceived?.ProductReceivedDetail
 
-    console.log("allProductReceivedData",allProductReceivedData)
+    console.log("allProductReceivedData", allProductReceivedData)
 
     var totalProduct = 0
     for (let i = 0; i < allProductReceivedData?.length; i++) {
@@ -159,17 +159,16 @@ const RetailerDetails = () => {
                                         <div className="button-buttom-part center-width">
                                             <div className="received-part-two report-drop buttion-cumulative">
                                                 <img src={cumulative} />
-                                                <select id="colours" className="dd-button">
-                                                    <option value="red">Cumulative</option>
-                                                    <option value="green">Green</option>
-                                                    <option value="blue">Blue </option>
+                                                <select id="filters" className="dd-button">
+                                                    <option value="cumulative">Cumulative</option>
+                                                    <option value="monthly">Monthly</option>
+                                                    <option value="24hrs">Last 24hrs </option>
                                                 </select>
                                             </div>
                                             <div className="received-part-two batch eye-liner-part">
                                                 <select id="colours" className="dd-button batch-selected option-down">
                                                     <option value="red"> All Products</option>
-                                                    {/* <option value="green">Green</option>
-                                                <option value="blue">Blue </option> */}
+                                                   
                                                 </select>
                                             </div>
                                         </div>
@@ -223,8 +222,8 @@ const RetailerDetails = () => {
 
                                         {AuthenticationLevelData.map((entry, index) => (
                                             <>
-                                            {console.log("entry",entry)
-}
+                                                {console.log("entry", entry)
+                                                }
                                                 <div className="productData">
                                                     <p className="productName" style={{ color: AuthenticationLevelCOLORS[index] }} >{entry.name} ------------ {entry.productQty}</p>
                                                 </div>

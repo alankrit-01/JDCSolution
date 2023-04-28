@@ -1,7 +1,7 @@
 import MainStatusCard from "components/Admin/MainStatusCard";
 import Sidebar from "components/Admin/Sidebar";
 import Footer from "components/Admin/Footer";
-import { NavLink,useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getBatchProductForCeo } from "Services/action";
 import { useEffect, useMemo, useState } from "react";
@@ -51,23 +51,23 @@ const ProductCovered = () => {
                       }}
                     >
                       <NavLink to="/admin/batchCovered">
-                      Batches Covered
+                        Batches Covered
                       </NavLink>
                     </DropdownItem>
                   </Dropdown>
                 </div>
                 <div className="received-part-two report-drop">
                   <img src={cumulative} />
-                  <select id="colours" className="dd-button">
-                    <option value="red">Cumulative</option>
-                    <option value="green">Green</option>
-                    <option value="blue">Blue </option>
+                  <select id="filters" className="dd-button">
+                    <option value="cumulative">Cumulative</option>
+                    <option value="monthly">Monthly</option>
+                    <option value="24hrs">Last 24hrs </option>
                   </select>
                 </div>
-              </div> 
+              </div>
               <div className="flex flex-wrap">
                 {initialBatchProductdata && initialBatchProductdata.message.map((initialBatchProductdataVal) => <div className="w-full lg:w-6/12 pr-4 mb-10 font-light">
-                  <span onClick={() => navigate('/admin/productCoveredDetail', { state: { factoryID:  initialBatchProductdataVal?._id, factoryName:  initialBatchProductdataVal?.name, factoryEmail:  initialBatchProductdataVal?.email, factoryLocation:  initialBatchProductdataVal?.city + " , " + initialBatchProductdataVal?.country, factoryPhone:  initialBatchProductdataVal?.phone, factoryProductCovered:  initialBatchProductdataVal?.productCount } })}>
+                  <span onClick={() => navigate('/admin/productCoveredDetail', { state: { factoryID: initialBatchProductdataVal?._id, factoryName: initialBatchProductdataVal?.name, factoryEmail: initialBatchProductdataVal?.email, factoryLocation: initialBatchProductdataVal?.city + " , " + initialBatchProductdataVal?.country, factoryPhone: initialBatchProductdataVal?.phone, factoryProductCovered: initialBatchProductdataVal?.productCount } })}>
                     <div className="background-feedback-part">
                       <h6>{initialBatchProductdataVal?.productCount}</h6>
                       <p>{initialBatchProductdataVal?.name}</p>

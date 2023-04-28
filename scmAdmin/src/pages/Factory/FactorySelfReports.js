@@ -53,7 +53,7 @@ const FactorySelfReports = () => {
     {
       name: "Report",
       selector: (row) => (
-         
+
         //   <button className="custom-details-btn" onClick={() => Popup()}>View More</button>
         <Popup
           trigger={<Button className="view-more-part2">View more</Button>}
@@ -64,7 +64,7 @@ const FactorySelfReports = () => {
             class="popup"
             className=" max-h-max bg-[#CCCCCC] ml-56 px-2 max-w-2xl pb-6 text-[#0c3f6a] pr-6 position-set-part"
           >
-            <p  style={{display: "none"}}>{issues = row.scanIssue.split(',')}</p>
+            <p style={{ display: "none" }}>{issues = row.scanIssue.split(',')}</p>
             <div className="flex">
               <div className="mt-6 ml-6">
                 <h5 className="text-lg font-extrabold">
@@ -72,7 +72,7 @@ const FactorySelfReports = () => {
                 </h5>
                 <br></br>
                 <div className="text-sm">
-                  {issues && issues.map((issuesval)=><div className="flex">
+                  {issues && issues.map((issuesval) => <div className="flex">
                     <input
                       className="w-4 h-4"
                       type="checkbox"
@@ -83,7 +83,7 @@ const FactorySelfReports = () => {
                       {issuesval && issuesval}
                     </p>
                   </div>)}
-                  
+
                 </div>
               </div>
               <div className="mt-6 ml-36  text-left text-sm">
@@ -194,12 +194,10 @@ const FactorySelfReports = () => {
 
               <div className="received-part-two report-drop">
                 <img src={cumulative} />
-
-                <select id="colours" className="dd-button right-button-set">
-                  <option value="red">Cumulative</option>
-                  <option value="green">Green</option>
-                  <option value="blue">Blue </option>
-
+                <select id="filters" className="dd-button right-button-set">
+                  <option value="cumulative">Cumulative</option>
+                  <option value="monthly">Monthly</option>
+                  <option value="24hrs">Last 24hrs </option>
                 </select>
 
 

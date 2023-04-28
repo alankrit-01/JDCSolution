@@ -41,7 +41,6 @@ const ViewCompanyFeedback = () => {
 
     useEffect(() => {
         const data = {
-            receiverUserID:superAdminUserId,
             role:'Admin',
         }
         dispatch(getFeedback(data))
