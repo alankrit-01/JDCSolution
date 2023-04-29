@@ -27,8 +27,7 @@ const ProductCovered = () => {
     };
     dispatch(getBatchProductForCeo(data));
   }, []);
-  const initialBatchProductdata = useSelector((state) => state?.AllBatchProductForCeo?.batchProductForCeoRec);
-  console.log("initialBatchProductdata", initialBatchProductdata)
+  const initialBatchProductdata = useSelector((state) => state?.AllBatchProductForCeo?.batchProductForCeoRec?.message);
   return (
     <>
       <Sidebar />
@@ -66,7 +65,7 @@ const ProductCovered = () => {
                 </div>
               </div>
               <div className="flex flex-wrap">
-                {initialBatchProductdata && initialBatchProductdata.message.map((initialBatchProductdataVal) => <div className="w-full lg:w-6/12 pr-4 mb-10 font-light">
+                {initialBatchProductdata && initialBatchProductdata.map((initialBatchProductdataVal) => <div className="w-full lg:w-6/12 pr-4 mb-10 font-light">
                   <span onClick={() => navigate('/admin/productCoveredDetail', { state: { factoryID: initialBatchProductdataVal?._id, factoryName: initialBatchProductdataVal?.name, factoryEmail: initialBatchProductdataVal?.email, factoryLocation: initialBatchProductdataVal?.city + " , " + initialBatchProductdataVal?.country, factoryPhone: initialBatchProductdataVal?.phone, factoryProductCovered: initialBatchProductdataVal?.productCount } })}>
                     <div className="background-feedback-part">
                       <h6>{initialBatchProductdataVal?.productCount}</h6>

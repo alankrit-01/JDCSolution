@@ -11,6 +11,8 @@ import { getTotalScans, getAllLevelFails } from "Services/action";
 import { useDispatch, useSelector } from "react-redux";
 import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
 
+import ProgressCard from "components/Admin/ProgressCard"
+import DashboardWarningChart from 'components/Admin/DashboardWarningChart';
 
 const TotalFrouds = () => {
     const dispatch = useDispatch();
@@ -49,7 +51,7 @@ const TotalFrouds = () => {
     const initialFailsLeveldata = useSelector((state) => state.FailsLevelRecord);
     let allFailsLevelData = initialFailsLeveldata && initialFailsLeveldata?.failsLevelRec
 
-    console.log("allFailsLevelData",allFailsLevelData)
+    console.log("allFailsLevelData", allFailsLevelData)
 
     useEffect(() => {
         let FailDatalevel1 = allFailsLevelData.filter((failsLevel) => failsLevel.level === 1);
@@ -120,39 +122,16 @@ const TotalFrouds = () => {
                 <div className="ml-12 text-2xl text-[#0c3f6a]"><h3 className="">Total Frouds Detected</h3></div>
                 <div className="flex mt-6">
                     <div>
-                        <div className="px-4 mb-10 main-tiles-section">
-                            <div className="grid grid-cols-1 ml-7 mb-2  bg-[#0c3f6a]  h-full">
-                                <div className=" text-white "><h5 className='mt-1 p-1  ml-3'>All Products</h5></div>
-                                {/* <div className="px-0  main-tiles-section  inline-flex mt-3  bg-red-400"> */}
-                                <div className=" w-full h-full  bg-[#EDF6FB] py-12  text-left ">
-                                    <div>
-                                        <div className="mb-1 text-base font-medium text-black-700 dark:text-black-500 ml-5">
-                                            Scans Done
-                                        </div>
-                                        <div className="w-24 bg-gray-200 rounded-full h-2.5 mb-4 dark:bg-gray-700 ml-5">
-                                            <div className="bg-yellow-600 h-2.5 rounded-full text-yellow-700 dark:text-yellow-500"><span className="ml-28 ">{totalScansDone && totalScansDone}</span> </div>
-                                        </div>
-                                    </div>
-                                    <br></br>
-                                    <div>
-                                        <div className="mb-1 text-base font-medium text-black-700 dark:text-black-500 ml-5">
-                                            Frauds Detected
-                                        </div>
-                                        <div className="w-20 bg-gray-200 rounded-full h-2.5 mb-4 dark:bg-gray-700 ml-5">
-                                            <div className="bg-red-600 h-2.5 rounded-full  text-red-700 dark:text-red-500"><span className="ml-24 mt-0">{totalFailScans && totalFailScans}</span></div>
-                                        </div>
-                                    </div>
-                                    <br></br>
+                        <div className="px-4 mb-10 main-tiles-section fraud-section">
+                            <ProgressCard />
+                        </div>
+                        <div className="px-4 mb-10 main-tiles-section warning-section">
 
-                                </div>
+                        <DashboardWarningChart />
+                        </div>
 
-
-                                {/* </div> */}
-
-                            </div>                </div>
-                        <div className="px-4 mb-10  h- full  bg-[#EDF6FB] ml-9 ">
+                        {/* <div className="px-4 mb-10  h- full  bg-[#EDF6FB] ml-9 ">
                             <h2 className="heading-background w-96 -ml-4 flex mr-4"><img className="w-8" src={warning} />Warnings</h2>
-                            {/* {initialFailsLeveldata.distributerBatchProductRec.message == "Result is empty" ? <div className="no-record mt-20">No Product Received</div> : null} */}
                             <PieChart width={400} height={400}>
                                 <Pie
                                     data={AuthenticationLevelData}
@@ -172,7 +151,6 @@ const TotalFrouds = () => {
                                     ))}
                                 </Pie>
                                 <Tooltip content={<AuthenticationLevelTooltip />} />
-                                {/* <Legend /> */}
                             </PieChart>
                             <div className="productData">
                                 {Failedlevel1.length ? <p className="productName" style={{ color: "#8884d8" }} > {"Products not validated by distributer"} ------------ {Failedlevel1.length && Failedlevel1.length}</p> : null}
@@ -181,7 +159,7 @@ const TotalFrouds = () => {
                                 {Failedlevel4.length ? <p className="productName" style={{ color: "#FF8042" }} > {"Level (4)"} ------------ {Failedlevel4.length && Failedlevel4.length}</p> : null}
                                 {Failedlevel5.length ? <p className="productName" style={{ color: "#AF19FF" }} > {"Location Mismatch"} ------------ {Failedlevel5.length && Failedlevel5.length}</p> : null}
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                     <div className="px-0 mb-10 ml-5 mr-5 w-full bg-[#EDF6FB]  main-tiles-section">
                         <div>

@@ -12,6 +12,7 @@ import CardStatus from '@material-tailwind/react/CardStatus';
 import DashboardImg from 'assets/img/distributer.png';
 import ProductIcon from 'assets/img/Productcovered.png';
 import BatchIcon from 'assets/img/Batchcovered.png';
+import CompanyIcon from 'assets/img/Company.png';
 import FactoryIcon from 'assets/img/Factory.png';
 import DistributerIcon from 'assets/img/distributer.png';
 import RetailerIcon from 'assets/img/Retailer.png';
@@ -78,6 +79,20 @@ const MainStatusCard = () => {
 
 
 <Carousel responsive={responsive}>
+
+
+<div className="px-6 mb-10 main-tiles-section">
+                    <NavLink to="/superAdmin/company">
+                        <Card className="main-tiles p-0">
+                            <CardRow className="inner-tiles">
+                                <CardStatus className="tiles-title" title={Factories && Factories} />
+                                <img src={CompanyIcon} className="w-24 h-24" />
+                                <CardStatus className="tiles-title-bottom" title={"Company"} />
+                            </CardRow>
+                        </Card>
+                    </NavLink>
+                </div>
+
                 <div className="px-6 mb-10 main-tiles-section">
                     <NavLink to="/admin/factory">
                         <Card className="main-tiles p-0">

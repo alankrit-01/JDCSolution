@@ -29,8 +29,8 @@ const MainStatusCard = () => {
     const [Retailer, setRetailer] = useState([]);
     const [Feedback, setFeedback] = useState([]);
     const [IssueReport, setIssueReport] = useState([]);
+    const [TotalFrauds, setTotalFrauds] = useState([]);
 
-    
     useEffect(() => {
         const adminUserData = {
             adminID: adminUserId
@@ -39,12 +39,17 @@ const MainStatusCard = () => {
     }, [])
     const CeoStaticsRecord = useSelector((state) => state.CeoStaticsRecord);
 
+    console.log("CeoStaticsRecord",CeoStaticsRecord)
+
     useEffect(() => {
         setFactories(CeoStaticsRecord?.ceoStaticsRec?.totalFactory)
         setDistributer(CeoStaticsRecord?.ceoStaticsRec?.totalDisributer)
         setRetailer(CeoStaticsRecord?.ceoStaticsRec?.totalRetailer)
         setIssueReport(CeoStaticsRecord?.ceoStaticsRec?.totalIssueReport)
         setFeedback(CeoStaticsRecord?.ceoStaticsRec?.totalFeedback)
+        setTotalFrauds(CeoStaticsRecord?.ceoStaticsRec?.totalFrauds)
+
+        
     }, [CeoStaticsRecord])
     const responsive = {
         superLargeDesktop: {
@@ -105,7 +110,7 @@ const MainStatusCard = () => {
                 <div className="px-6 mb-10 main-tiles-section">
                     <Card className="main-tiles p-0">
                         <CardRow className="inner-tiles">
-                            <CardStatus className="tiles-title" title={100} />
+                            <CardStatus className="tiles-title" title={TotalFrauds && TotalFrauds} />
                             <img src={FraudsDetectedIcon} className="w-24 h-24" />
                             <CardStatus className="tiles-title-bottom" title={"Total Fraud Detected"} />
                         </CardRow>

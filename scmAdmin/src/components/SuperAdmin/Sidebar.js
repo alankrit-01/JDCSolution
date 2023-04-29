@@ -7,6 +7,7 @@ import RichmintLogo from 'assets/img/richmint-logo.png';
 import LogoutImg from 'assets/img/setting.png';
 import ProductIcon from 'assets/img/products-template.png';
 import BatchIcon from 'assets/img/batches-sent.png';
+import CompanyIcon from 'assets/img/Company.png';
 import FactoryIcon from 'assets/img/Factory.png';
 import DistributerIcon from 'assets/img/distributer.png';
 import RetailerIcon from 'assets/img/Retailer.png';
@@ -52,7 +53,7 @@ export default function SuperAdminSidebar() {
                   className="flex items-center gap-4 text-sm text-gray-700 font-light px-4 py-3 rounded-lg"
                   activeClassName="bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md"
                 >
-                  <img src={FactoryIcon} className="w-16 h-16" style={{ margin: "auto" }} />
+                  <img src={CompanyIcon} className="w-16 h-16" style={{ margin: "auto" }} />
                 </NavLink>
               </li>
 

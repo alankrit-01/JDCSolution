@@ -3,7 +3,7 @@ import FactorySidebar from 'components/Admin/Sidebar';
 import Footer from 'components/Admin/Footer';
 import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import DataTable from 'react-data-table-component';
 import { Button } from "@material-tailwind/react";
 import Input from '@material-tailwind/react/Input';
@@ -21,18 +21,23 @@ const ProductCoveredDetail = () => {
 
 
     let factoryUserData = useLocation();
-    let factoryUserId = factoryUserData.state.factoryID;
-    let factoryName = factoryUserData.state.factoryName;
-    let factoryEmail = factoryUserData.state.factoryEmail;
-    let factoryLocation = factoryUserData.state.factoryLocation;
-    let factoryPhone = factoryUserData.state.factoryPhone;
-    let factoryProductCovered = factoryUserData.state.factoryProductCovered;
+    let factoryUserId = factoryUserData?.state?.factoryID;
+    let factoryName = factoryUserData?.state?.factoryName;
+    let factoryEmail = factoryUserData?.state?.factoryEmail;
+    let factoryLocation = factoryUserData?.state?.factoryLocation;
+    let factoryPhone = factoryUserData?.state?.factoryPhone;
+    let factoryProductCovered = factoryUserData?.state?.factoryProductCovered;
+
+
+
 
 
 
     const [BatchTemplates, setBatchTemplates] = useState([]);
     const [Search, setSearch] = useState("");
     const [FilterBatchTemplates, setFilterBatchTemplates] = useState([]);
+
+
 
 
     const columns = [
@@ -73,21 +78,22 @@ const ProductCoveredDetail = () => {
         //     width: "150px"
         // },
     ];
-    useEffect(() => {
+
+    useEffect(() => {     
         const data = {
             factoryID: factoryUserId
         }
         dispatch(getBatchTemplate(data))
-    }, [])
-    const initialBatchTemplatedata = useSelector((state) => state.BatchTemplateRecord);
-    const batchProductData = initialBatchTemplatedata?.batchTemplateRec?.message;
-    console.log("batchProductData", batchProductData)
+    },[])
 
+    const initialBatchTemplatedata = useSelector((state) => state.BatchTemplateRecord);
+    const batchProductData = initialBatchTemplatedata && initialBatchTemplatedata?.batchTemplateRec?.message;
+    let batchLength = batchProductData && batchProductData.length
     let batchProductDataArray = [];
     let totalProductSent = 0;
-    for (let i = 0; i < batchProductData.length; i++) {
-        const batchProductRec = batchProductData && batchProductData[i].ProductIDs;
-        const batchProductRecordLength = batchProductRec && batchProductRec.length
+    for (let i = 0; i < batchLength; i++) {
+        let batchProductRec = batchProductData && batchProductData[i].ProductIDs;
+        let batchProductRecordLength = batchProductRec && batchProductRec?.length
         for (let j = 0; j < batchProductRecordLength; j++) {
             totalProductSent++;
             batchProductDataArray.push({

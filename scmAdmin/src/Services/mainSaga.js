@@ -127,7 +127,6 @@ function* adminUserLogin(data) {
         let uri = API_URL.concat('/adminLogin')
         const adminLoginRes = yield call(Axios.post, uri, requestData)
         const result = adminLoginRes.data;
-        console.log("result",result)
         if (result.status == 'fail') { 
             yield put({ type: Admin_Login_Invalid, result })
         } else {

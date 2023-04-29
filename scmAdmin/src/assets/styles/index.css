@@ -1456,3 +1456,13 @@ span.error {
    
     background-color:grey;
 }
+.fraud-section .authentic-certificate {
+    display: none;
+}
+.fraud-section .revenue-saved {
+    display: none;
+}
+.fraud-section .product-sold {
+    display: none;
+}
+
