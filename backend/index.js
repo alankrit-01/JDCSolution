@@ -1547,9 +1547,29 @@ app.get('/api/ceoStatistics', async (req, res) => {
       const countRetailer = await User.countDocuments(retailerquery);
       const countIssueReport = await ScanIssueReport.countDocuments();
       const countFeedback = await Feedback.countDocuments();
-      res.status(200).json({ status: "success", totalFactory: countFactory,  totalDisributer: countDistributer, totalRetailer: countRetailer, totalIssueReport: countIssueReport, totalFeedback :countFeedback});
+      const distributorRetailerScan = await scan.countDocuments();
+      const customerScan = await verificationData.countDocuments();
+      const productsSold = await customerData.countDocuments();
+      const frauds = await verificationData.count({level:1});
+      const level2 = await verificationData.count({level:2});
+      const level3 = await verificationData.count({level:3});
+      const level4 = await verificationData.count({level:4});
+      res.status(200).json({ status: "success", 
+                              totalFactory: countFactory,  
+                              totalDisributer: countDistributer, 
+                              totalRetailer: countRetailer, 
+                              totalIssueReport: countIssueReport, 
+                              totalFeedback :countFeedback,
+                              totalScans :(distributorRetailerScan+customerScan),
+                              totalProductSold :productsSold,
+                              totalWarnings :customerScan-frauds,
+                              totalFrauds :frauds,
+                              productsNotValidatedByDistributor :level2,
+                              productsNotValidatedByRetailer :level3,
+                              locationMismatch :level4,
+                            });
     } else {
-      res.status(200).json({ status: "fail", message: "Please Provide Factory Details" });
+      res.status(200).json({ status: "fail", message: "Please provide correct amdinID!" });
     }
   } catch (error) {
     console.log(error)
