@@ -1,12 +1,8 @@
 import { useEffect, useState } from "react";
-import { Navigate, NavLink, useNavigate } from "react-router-dom";
+import {NavLink, useNavigate } from "react-router-dom";
 import AdminNavbar from "./AdminNavbar";
 import { adminLogout } from "../../Services/action";
-import Icon from "@material-tailwind/react/Icon";
-import H6 from "@material-tailwind/react/Heading6";
-import { Button } from "@material-tailwind/react";
 import { useDispatch, useSelector } from "react-redux";
-
 import RichmintLogo from 'assets/img/richmint-logo.png';
 import LogoutImg from 'assets/img/setting.png';
 import ProductIcon from 'assets/img/products-template.png';

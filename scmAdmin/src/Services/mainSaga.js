@@ -14,13 +14,14 @@ function* superAdminUserLogin(data) {
         localStorage.setItem('superAdminUserId', superAdminLoginRes.data.userId);
         localStorage.setItem('superAdminUserName', superAdminLoginRes.data.userName);
         localStorage.setItem('superAdminUserEmail', superAdminLoginRes.data.userEmail);
+        localStorage.setItem('superAdminUserPhone', superAdminLoginRes.data.userPhone);
         localStorage.setItem('superAdmintoken', superAdminLoginRes.data.token);
         localStorage.setItem('superAdminUserRole', superAdminLoginRes.data.userRole);
-        localStorage.setItem('superAdminUserAddress', superAdminLoginRes.data.address);
-        localStorage.setItem('superAdminUserCity', superAdminLoginRes.data.city);
-        localStorage.setItem('superAdminUserCountry', superAdminLoginRes.data.country);
-        localStorage.setItem('superAdminUserLatitude', superAdminLoginRes.data.latitude);
-        localStorage.setItem('superAdminUserLongitude', superAdminLoginRes.data.longitude);
+        localStorage.setItem('superAdminUserAddress', superAdminLoginRes.data.userAddress);
+        localStorage.setItem('superAdminUserCity', superAdminLoginRes.data.userCity);
+        localStorage.setItem('superAdminUserCountry', superAdminLoginRes.data.userCountry);
+        localStorage.setItem('superAdminUserLatitude', superAdminLoginRes.data.userLatitude);
+        localStorage.setItem('superAdminUserLongitude', superAdminLoginRes.data.userLongitude);
         yield put({ type: Set_SuperAdmin_Login, result })
     } catch (error) {
         console.log("Error is ", error)

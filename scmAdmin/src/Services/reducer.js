@@ -234,12 +234,15 @@ export const SuperAdminLoginData = (initialdata = superAdminData, action) => {
             return initialdata;
             break;
         case Set_SuperAdmin_Login:
+
             let userId = localStorage.getItem('superAdminUserId');
             initialdata = { ...initialdata, superAdminUserId: userId }
             let username = localStorage.getItem('superAdminUserName');
             initialdata = { ...initialdata, superAdminUserName: username }
             let userEmail = localStorage.getItem('superAdminUserEmail');
             initialdata = { ...initialdata, superAdminUserEmail: userEmail }
+            let userPhone = localStorage.getItem('superAdminUserPhone');
+            initialdata = { ...initialdata, superAdminUserPhone: userPhone }
             let token = localStorage.getItem('superAdmintoken');
             initialdata = { ...initialdata, superAdmintoken: token }
             let userRole = localStorage.getItem('superAdminUserRole');
@@ -267,6 +270,8 @@ export const SuperAdminLoginData = (initialdata = superAdminData, action) => {
             initialdata = { ...initialdata, superAdminUserName: username1 }
             let userEmail1 = localStorage.getItem('superAdminUserEmail');
             initialdata = { ...initialdata, superAdminUserEmail: userEmail1 }
+            let userPhone1 = localStorage.getItem('superAdminUserPhone');
+            initialdata = { ...initialdata, superAdminUserPhone: userPhone1 }
             let token1 = localStorage.getItem('superAdmintoken');
             initialdata = { ...initialdata, superAdmintoken: token1 }
             let userRole1 = localStorage.getItem('superAdminUserRole');
@@ -287,6 +292,7 @@ export const SuperAdminLoginData = (initialdata = superAdminData, action) => {
             localStorage.removeItem('superAdminUserId');
             localStorage.removeItem('superAdminUserName');
             localStorage.removeItem('superAdminUserEmail');
+            localStorage.removeItem('superAdminUserPhone');
             localStorage.removeItem('superAdmintoken');
             localStorage.removeItem('superAdminUserRole');
             localStorage.removeItem('superAdminUserAddress');
@@ -297,6 +303,7 @@ export const SuperAdminLoginData = (initialdata = superAdminData, action) => {
             initialdata = { ...initialdata, superAdminUserId: "" }
             initialdata = { ...initialdata, superAdminUserName: "" }
             initialdata = { ...initialdata, superAdminUserEmail: "" }
+            initialdata = { ...initialdata, superAdminUserPhone: "" }
             initialdata = { ...initialdata, superAdmintoken: "" }
             initialdata = { ...initialdata, superAdminUserRole: "" }
             initialdata = { ...initialdata, superAdminUserAddress: "" }

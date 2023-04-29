@@ -1462,7 +1462,7 @@ app.post('/api/superAdminLogin', jsonParser, async function (req, res) {
       if (validPassword) {
         jwt.sign({ userData }, jwtkey, { expiresIn: '300s' }, (err, token) => {
           //res.status(200).json({ token })
-          res.status(200).json({ token, userId: userData._id, userEmail: userData.email, userRole: userData.role, userName: userData.name, userAddress: userData.address, userCity: userData.city, userCountry: userData.country, userLatitude: userData.latitude, userLongitude: userData.longitude })
+          res.status(200).json({ token, userId: userData._id, userEmail: userData.email, userRole: userData.role, userName: userData.name ,userPhone: userData.phone, userAddress: userData.address, userCity: userData.city, userCountry: userData.country, userLatitude: userData.latitude, userLongitude: userData.longitude })
         })
       } else {
         res.status(400).json({ error: "Invalid Password" });

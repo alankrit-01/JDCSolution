@@ -725,6 +725,9 @@ video {
 .ml-9{
 	margin-left: 2.25rem;
 }
+.mr-4{
+	margin-right: 1rem;
+}
 .mr-5{
 	margin-right: 1.25rem;
 }
@@ -745,9 +748,6 @@ video {
 }
 .mb-12{
 	margin-bottom: 3rem;
-}
-.mr-4{
-	margin-right: 1rem;
 }
 .block{
 	display: block;
@@ -914,6 +914,9 @@ video {
 .w-1\/4{
 	width: 25%;
 }
+.w-8{
+	width: 2rem;
+}
 .w-screen{
 	width: 100vw;
 }
@@ -925,9 +928,6 @@ video {
 }
 .w-1\/6{
 	width: 16.666667%;
-}
-.w-8{
-	width: 2rem;
 }
 .min-w-full{
 	min-width: 100%;
