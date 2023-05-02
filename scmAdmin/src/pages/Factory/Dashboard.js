@@ -2,14 +2,12 @@ import MainStatusCard from 'components/Factory/MainStatusCard';
 import FactorySidebar from 'components/Factory/Sidebar';
 import Footer from 'components/Factory/Footer';
 import { NavLink } from "react-router-dom";
-
 import Card from '@material-tailwind/react/Card';
 import CardRow from '@material-tailwind/react/CardRow';
 import CardStatus from '@material-tailwind/react/CardStatus';
 import MapExample from 'components/Factory/MapExample';
 import DashboardVector from 'assets/img/vactor.jpg';
 import sendfree from 'assets/img/free-send.png';
-
 import PieRechartComponent from 'components/Factory/PieChart';
 import {resetLoginData} from "Services/action";
 import  GoogleMapReact  from 'google-map-react';

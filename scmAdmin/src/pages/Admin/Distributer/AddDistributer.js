@@ -5,7 +5,7 @@ import Card from '@material-tailwind/react/Card';
 import CardBody from '@material-tailwind/react/CardBody';
 import Button from '@material-tailwind/react/Button';
 import {storeDistributer, resetDistributerData} from "Services/action";
-import React, { useMemo, useRef, useState,useEffect} from "react";
+import React, {useRef, useState,useEffect} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -37,16 +37,13 @@ const AddDistributer= () => {
 
 
     function onSubmit(data) {
-        console.log("data",data);
         // if (dataFetchedRef.current) return;
         // dataFetchedRef.current = true;
         dispatch(resetDistributerData());
         dispatch(storeDistributer(data));
-
     }
     
     const initialDistributerStoredata = useSelector((state) => state.DistributerStoreData);
-    console.log("hello",initialDistributerStoredata)
     useEffect(() => {
         if (initialDistributerStoredata?.success) {
           
@@ -83,7 +80,7 @@ const AddDistributer= () => {
                                                     <div class="w-full relative h-11">
                                                     <input type="hidden" {...register("adminId", { required: true })} value={adminUserId && adminUserId} />
                                                     <input type="hidden" {...register("role", { required: true })} value={"Distributer"} />
-                                                        <input {...register("name", { required: true })} placeholder="Name"  className="w-full h-full focus:outline-none" />
+                                                        <input type="text" {...register("name", { required: true })} placeholder="Name"  className="w-full h-full focus:outline-none" />
                                                         {errors.name && <span className="error"> Name is required.</span>}
                                                     </div>
                                                 </div>

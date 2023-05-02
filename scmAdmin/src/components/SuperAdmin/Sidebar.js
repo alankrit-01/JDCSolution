@@ -15,7 +15,6 @@ import FraudsDetectedIcon from 'assets/img/Frauds-detected.png';
 import ReportsIcon from 'assets/img/Reports.png';
 import FeedbackIcon from 'assets/img/Feedback.png';
 
-
 export default function SuperAdminSidebar() {
     const [showSidebar, setShowSidebar] = useState("-left-64");
     const dispatch = useDispatch();

@@ -1253,6 +1253,30 @@ video {
 	--tw-bg-opacity: 1;
 	background-color: rgba(79, 70, 229, var(--tw-bg-opacity));
 }
+.bg-\[\#a7bccd\]{
+	--tw-bg-opacity: 1;
+	background-color: rgba(167, 188, 205, var(--tw-bg-opacity));
+}
+.bg-\[\#dca63d\]{
+	--tw-bg-opacity: 1;
+	background-color: rgba(220, 166, 61, var(--tw-bg-opacity));
+}
+.bg-\[\#b44e94\]{
+	--tw-bg-opacity: 1;
+	background-color: rgba(180, 78, 148, var(--tw-bg-opacity));
+}
+.bg-\[\#52b3c7\]{
+	--tw-bg-opacity: 1;
+	background-color: rgba(82, 179, 199, var(--tw-bg-opacity));
+}
+.bg-\[\#92a3b3\]{
+	--tw-bg-opacity: 1;
+	background-color: rgba(146, 163, 179, var(--tw-bg-opacity));
+}
+.bg-\[\#8a73af\]{
+	--tw-bg-opacity: 1;
+	background-color: rgba(138, 115, 175, var(--tw-bg-opacity));
+}
 .bg-gradient-to-tr{
 	background-image: linear-gradient(to top right, var(--tw-gradient-stops));
 }
@@ -4387,6 +4411,30 @@ span.error {
 .fraud-section .product-sold {
     display: none;
 }
+.statistics-main{
+    background-color: #a7bccd;
+    text-align: center;
+    width: 100%;
+    margin: 25px 0px;
+}
+.statistics-pre {
+    width: 20%;
+}
+.statistics-title {
+    width: 80%;
+    padding: 15px;
+    font-size: 22px;
+    font-weight: bold;
+}
+.statistics-counter {
+    width: 4%;
+    background-color: #000;
+    color: #fff;
+    padding: 20px;
+    border-radius: 100%;
+    position: absolute;
+    right: 21px;
+}
 .hover\:scale-105:hover{
 	--tw-scale-x: 1.05;
 	--tw-scale-y: 1.05;
@@ -4669,4 +4717,3 @@ span.error {
 		grid-template-columns: repeat(5, minmax(0, 1fr));
 	}
 }
-

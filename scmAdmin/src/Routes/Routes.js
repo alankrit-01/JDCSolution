@@ -5,6 +5,7 @@ import SuperAdminDashboard from 'pages/SuperAdmin/Dashboard';
 import SuperAdminSetting from 'pages/SuperAdmin/Settings';
 import Company from 'pages/SuperAdmin/Company/Company';
 import AddCompany from 'pages/SuperAdmin/Company/AddCompany';
+import CompanyDetails from 'pages/SuperAdmin/Company/CompanyDetails';
 import SuperAdminFactory from 'pages/SuperAdmin/Factory';
 import SuperAdminDistributer from 'pages/SuperAdmin/Distributer';
 import SuperAdminRetailer from 'pages/SuperAdmin/Retailer';
@@ -100,6 +101,7 @@ const WebRoutes = () => {
             <Route path="/superAdmin/dashboard" index element={<SuperAdminDashboard />} />
             <Route path="/superAdmin/settings" index element={<SuperAdminSetting />} />
             <Route path="/superAdmin/company" index element={<Company />} />
+            <Route path="/superAdmin/companyDetails" index element={<CompanyDetails />} />
             <Route path="/superAdmin/addCompany" index element={<AddCompany />} />
             <Route path="/superAdmin/factory" index element={<SuperAdminFactory />} />
             <Route path="/superAdmin/distributer" index element={<SuperAdminDistributer />} />

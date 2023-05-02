@@ -52,7 +52,7 @@ export const getCompany = (data) =>{
         data:data 
     } 
 }
-
+ 
 export const getFraudScans = (data) =>{
     return{
         type:Get_Fraud_Scans,

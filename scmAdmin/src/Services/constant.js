@@ -22,9 +22,13 @@ export const Set_Handle_User_Status_Data_Fail = 'Set_Handle_User_Status_Data_Fai
 export const Store_Company = 'Store_Company';
 export const Store_Company_Request = 'Store_Company_Request';
 export const Set_Store_Company_Data = 'Set_Store_Company_Data';
+export const Set_Store_Company_Data_Already_Exist = 'Set_Store_Company_Data_Already_Exist';
+
 export const Set_Store_Company_Data_Fail = 'Set_Store_Company_Data_Fail';
 export const Check_Company_Success_data = 'Check_Company_Success_data';
 export const Check_Company_Success_data_1 = 'Check_Company_Success_data_1';
+
+
 
 export const Get_Company = 'Get_Company';
 export const Set_Company_List = 'Set_Company_List';

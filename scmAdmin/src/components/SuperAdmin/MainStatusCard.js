@@ -85,7 +85,7 @@ const MainStatusCard = () => {
                     <NavLink to="/superAdmin/company">
                         <Card className="main-tiles p-0">
                             <CardRow className="inner-tiles">
-                                <CardStatus className="tiles-title" title={Factories && Factories} />
+                                <CardStatus className="tiles-title" title={Company && Company} />
                                 <img src={CompanyIcon} className="w-24 h-24" />
                                 <CardStatus className="tiles-title-bottom" title={"Company"} />
                             </CardRow>
