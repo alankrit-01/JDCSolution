@@ -1492,3 +1492,7 @@ span.error {
     position: absolute;
     right: 21px;
 }
+
+.rdt_TableHead {
+    z-index: 0000 !important;
+}

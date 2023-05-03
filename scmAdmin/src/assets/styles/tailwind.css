@@ -982,6 +982,9 @@ video {
 .grid-cols-3{
 	grid-template-columns: repeat(3, minmax(0, 1fr));
 }
+.grid-cols-4{
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+}
 .flex-col{
 	flex-direction: column;
 }
@@ -1252,10 +1255,6 @@ video {
 .bg-indigo-600{
 	--tw-bg-opacity: 1;
 	background-color: rgba(79, 70, 229, var(--tw-bg-opacity));
-}
-.bg-\[\#a7bccd\]{
-	--tw-bg-opacity: 1;
-	background-color: rgba(167, 188, 205, var(--tw-bg-opacity));
 }
 .bg-\[\#dca63d\]{
 	--tw-bg-opacity: 1;
@@ -4434,6 +4433,9 @@ span.error {
     border-radius: 100%;
     position: absolute;
     right: 21px;
+}
+.rdt_TableHead {
+    z-index: 0000 !important;
 }
 .hover\:scale-105:hover{
 	--tw-scale-x: 1.05;

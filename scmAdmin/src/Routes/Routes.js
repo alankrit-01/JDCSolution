@@ -6,7 +6,7 @@ import SuperAdminSetting from 'pages/SuperAdmin/Settings';
 import Company from 'pages/SuperAdmin/Company/Company';
 import AddCompany from 'pages/SuperAdmin/Company/AddCompany';
 import CompanyDetails from 'pages/SuperAdmin/Company/CompanyDetails';
-import SuperAdminFactory from 'pages/SuperAdmin/Factory';
+import SuperAdminFactory from 'pages/SuperAdmin/Factory/SuperAdminFactory';
 import SuperAdminDistributer from 'pages/SuperAdmin/Distributer';
 import SuperAdminRetailer from 'pages/SuperAdmin/Retailer';
 import CompanyFeedback from 'pages/SuperAdmin/Company/CompanyFeedback';

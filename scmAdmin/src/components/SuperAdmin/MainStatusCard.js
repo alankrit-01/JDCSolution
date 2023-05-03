@@ -94,7 +94,7 @@ const MainStatusCard = () => {
                 </div>
 
                 <div className="px-6 mb-10 main-tiles-section">
-                    <NavLink to="/admin/factory">
+                    <NavLink to="/superAdmin/factory">
                         <Card className="main-tiles p-0">
                             <CardRow className="inner-tiles">
                                 <CardStatus className="tiles-title" title={Factories && Factories} />

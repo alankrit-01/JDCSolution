@@ -370,7 +370,6 @@ app.get('/api/viewProductsByFilter', async (req, res) => {
     res.status(400).send({ error: error.message });
   }
 });
-
 app.get('/api/factoryStatistics', async (req, res) => {
   try {
     const FactoryID = req.query.factoryID;
@@ -1397,10 +1396,10 @@ app.post('/api/login', jsonParser, async function (req, res) {
           res.status(200).json({ token, userId: userData._id })
         })
       } else {
-        res.status(400).json({ error: "Invalid Password" });
+        res.status(200).json({ error: "Invalid Password" });
       }
     } else {
-      res.status(401).json({ error: "User does not exist" });
+      res.status(200).json({ error: "User does not exist" });
     }
   } else {
     if (userEmail == '' || userEmail == undefined) {

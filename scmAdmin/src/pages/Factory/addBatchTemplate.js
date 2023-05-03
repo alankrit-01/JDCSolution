@@ -114,16 +114,6 @@ const AddBatchTemplate = () => {
 
     const distributerdata = useSelector((state) => state.DistributerRecord);
     let distributerdatarec = distributerdata.distributerRec
-    // const distributerlist = [];
-    // if (distributerdatarec && distributerdatarec.length > 0) {
-    //     for (let i = 0; i < distributerdatarec.length; i++) {
-    //         distributerlist.push(
-    //             <>
-    //                 <option value={distributerdatarec[i]._id.toString()}>{distributerdatarec[i].name}</option>
-    //             </>
-    //         )
-    //     }
-    // }
 
     const [parsedData, setParsedData] = useState([]);
     //State to store the values
@@ -218,7 +208,7 @@ const AddBatchTemplate = () => {
                                                
                                                     <div className="w-full lg:w-6/12 pr-4 mb-10 font-light">
 
-                                                    <select id="distributer" name="distributer" color="purple" required class="block border-gray-part border_two py-2.5 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer" defaultValue={materialtype} onChange={(e) => setMaterialtype(e.target.value)}>
+                                                    <select id="productType" name="productType" color="purple" required class="block border-gray-part border_two py-2.5 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer" defaultValue={materialtype} onChange={(e) => setMaterialtype(e.target.value)}>
                                                          <option selected>Select Product Id</option> 
                                                         <option value={'Auto'} selected>Auto Generate</option>
                                                         <option value={'csv'}>Import Product CSV</option>
@@ -259,14 +249,14 @@ const AddBatchTemplate = () => {
                                                     />
                                                 </div>
                                                 <div className="w-full lg:w-6/12 mb-10 font-light  drop-set">
-                                                    <span><b>Select Distributer</b></span>
+
                                                     <Select
                                                         id="distributer"
                                                         name="distributer"
                                                         color="purple"
-                                                        className="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
+                                                        className="block border-gray-part py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer border_two2"
                                                         options={distributerdatarec}
-                                                        placeholder="Choose a Distributer"
+                                                        placeholder="Select a Distributer"
                                                         value={selectedDistributer}
                                                         onChange={selectDistibuter}
                                                         getOptionValue={(option) => option._id.toString()}

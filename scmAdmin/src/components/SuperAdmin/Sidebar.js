@@ -58,7 +58,7 @@ export default function SuperAdminSidebar() {
 
               <li className="rounded-lg mb-2">
                 <NavLink
-                  to="/superAdmin/dashboard"
+                  to="/superAdmin/factory"
                   className="flex items-center gap-4 text-sm text-gray-700 font-light px-4 py-3 rounded-lg"
                   activeClassName="bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md"
                 >
