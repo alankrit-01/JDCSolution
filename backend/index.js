@@ -370,6 +370,7 @@ app.get('/api/viewProductsByFilter', async (req, res) => {
     res.status(400).send({ error: error.message });
   }
 });
+
 app.get('/api/factoryStatistics', async (req, res) => {
   try {
     const FactoryID = req.query.factoryID;
@@ -806,14 +807,28 @@ app.get('/api/retailerScansHistory', async (req, res) => {
 })
 
 app.get('/api/viewProductInfo', async (req, res) => {
-  const ProductID = req.query.productID;
-  try {
-    const doc = await product.findOne({ ProductID: ProductID });
-    const data = await batch.findOne({ BatchID: doc.BatchID });
+  // const ProductID = req.query.productID;
+  // try {
+  //   const doc = await product.findOne({ ProductID: ProductID });
+  //   const data = await batch.findOne({ BatchID: doc.BatchID });
 
-    res.status(200).json({ status: "success", productData: doc, batchData: data });
+  //   res.status(200).json({ status: "success", productData: doc, batchData: data });
+  // } catch (error) {
+  //   res.status(500).json({ message: error.message });
+  // }
+  try {
+    let ProductID = req.query.productID;
+    const documents = await customerData.findOne({ ProductID: ProductID })
+    // .populate("ProductRef")    
+    console.log(documents);
+    if (documents) {
+      res.status(200).json({ status: "success", message: documents });
+    } else {
+      res.status(200).json({ status: "success", message: [] });
+    }
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.log(error.message);
+    res.status(400).send({ error: error.message });
   }
 })
 
@@ -1396,10 +1411,10 @@ app.post('/api/login', jsonParser, async function (req, res) {
           res.status(200).json({ token, userId: userData._id })
         })
       } else {
-        res.status(200).json({ error: "Invalid Password" });
+        res.status(400).json({ error: "Invalid Password" });
       }
     } else {
-      res.status(200).json({ error: "User does not exist" });
+      res.status(401).json({ error: "User does not exist" });
     }
   } else {
     if (userEmail == '' || userEmail == undefined) {
@@ -1461,7 +1476,7 @@ app.post('/api/superAdminLogin', jsonParser, async function (req, res) {
       if (validPassword) {
         jwt.sign({ userData }, jwtkey, { expiresIn: '300s' }, (err, token) => {
           //res.status(200).json({ token })
-          res.status(200).json({ token, userId: userData._id, userEmail: userData.email, userRole: userData.role, userName: userData.name ,userPhone: userData.phone, userAddress: userData.address, userCity: userData.city, userCountry: userData.country, userLatitude: userData.latitude, userLongitude: userData.longitude })
+          res.status(200).json({ token, userId: userData._id, userEmail: userData.email, userRole: userData.role, userName: userData.name, userAddress: userData.address, userCity: userData.city, userCountry: userData.country, userLatitude: userData.latitude, userLongitude: userData.longitude })
         })
       } else {
         res.status(400).json({ error: "Invalid Password" });
@@ -1546,6 +1561,7 @@ app.get('/api/ceoStatistics', async (req, res) => {
       const countRetailer = await User.countDocuments(retailerquery);
       const countIssueReport = await ScanIssueReport.countDocuments();
       const countFeedback = await Feedback.countDocuments();
+      
       const distributorRetailerScan = await scan.countDocuments();
       const customerScan = await verificationData.countDocuments();
       const productsSold = await customerData.countDocuments();
