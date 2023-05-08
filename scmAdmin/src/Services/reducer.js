@@ -1,5 +1,5 @@
 import { combineReducers } from "redux";
-import { GETDETAILS, Set_User_Detail, SuperAdminUserLogin, Set_SuperAdmin_Login, SuperAdmin_Login_Fail, set_SuperAdmin_Local_Store_Data, Set_Handle_User_Status_Data, Set_Handle_User_Status_Data_Fail, Store_Company, Store_Company_Request, Set_Store_Company_Data, Set_Store_Company_Data_Fail, Check_Company_Success_data_1, Get_Company, Set_Company_List, Set_Fraud_Scans_List, Set_All_Level_Fails_List, Set_SuperAdmin_Logout, AdminUserLogin, Set_Admin_Login, Admin_Login_Fail, Get_Local_Store_Data, set_Local_Store_Data, Set_Retailer_By_Company_List, Set_Retailer_List, Set_Factory_List, Set_Factory_By_Company_List, Set_Distributer_List, Set_Distributer_By_Company_List, Set_Admin_Logout, FactoryUserLogin, Factory_Login_Invalid, Set_Factory_Login, Factory_Login_Fail, set_Factory_Local_Store_Data, Set_Factory_Logout, Store_Factory, Set_Reset_Factory_Data, Store_Factory_Request, Set_Store_Factory_Data, Set_Store_Factory_Data_Already_Exist, Set_Store_Factory_Data_Fail, Check_Factory_Success_data, Check_Factory_Success_data_1, Store_Distributer, Set_Reset_Distributer_Data, Set_Store_Distributer_Data, Set_Store_Distributer_Data_Fail, Store_Distributer_Request, Check_Distributer_Success_data, Check_Distributer_Success_data_1, Store_Retailer, Set_Store_Retailer_Data, Set_Store_Retailer_Data_Fail, Store_Retailer_Request, Check_Retailer_Success_data, Check_Retailer_Success_data_1, Set_Self_Report_List, Set_Reset_Factory_Report_Data, Set_Store_Factory_Report_Data, Set_Store_Factory_Report_Data_Fail, Store_Company_Feedback, Set_Store_Company_Feedback_Data, Set_Store_Company_Feedback_Data_Fail, Store_Company_Feedback_Request, Check_Company_Feedback_Success_data, Check_Company_Feedback_Success_data_1, Store_Multi_User, Store_Product_Template, Set_Store_Product_Template_Data, Set_Store_Product_Template_Data_Fail, Set_Reset_Product_Template_Data, Store_Product_Template_Request, Check_Product_Template_Success_data, Check_Product_Template_Success_data_1, Get_Product_Template, Set_Product_Template_List, Store_Batch_Template, Set_Store_Batch_Template_Data, Set_Store_Batch_Template_Data_Fail, Store_Batch_Template_Request, Check_Batch_Template_Success_data, Check_Batch_Template_Success_data_1, Set_Batch_Sent_To_Distributer, Set_Batch_By_Distributer, Get_Batch_Template, Set_Batch_Template_List, Get_Batch_Detail, Set_Reset_Batch_Template_Data, Set_Batch_Detail_List, Set_Feedback_List, Set_Self_Feedback_List, Set_Store_Distributer_Data_Already_Exist, Set_Store_Retailer_Data_Already_Exist, Set_Reset_Retailer_Data, Admin_Login_Invalid,Set_Reset_Login_Data,Get_Factory_Statics ,Set_Factory_Statics_List,Get_Ceo_Statistics, Set_Ceo_Statistics, Set_Factory_Sent_Product_List, Set_Distributer_Batch_Product_Chart, Set_Total_Scan_Data,Set_Batch_Product_For_Ceo, Set_All_Report_For_Ceo ,Set_Retailer_Batch_Product_Chart} from "./constant";
+import { GETDETAILS, Set_User_Detail, SuperAdminUserLogin, Set_SuperAdmin_Login, SuperAdmin_Login_Fail, set_SuperAdmin_Local_Store_Data, Set_Handle_User_Status_Data, Set_Handle_User_Status_Data_Fail, Store_Company, Store_Company_Request, Set_Store_Company_Data, Set_Store_Company_Data_Fail,Set_Store_Company_Data_Already_Exist, Check_Company_Success_data_1, Get_Company, Set_Company_List, Set_Fraud_Scans_List, Set_All_Level_Fails_List, Set_SuperAdmin_Logout, AdminUserLogin, Set_Admin_Login, Admin_Login_Fail, Get_Local_Store_Data, set_Local_Store_Data, Set_Retailer_By_Company_List, Set_Retailer_List, Set_Factory_List, Set_Factory_By_Company_List, Set_Distributer_List, Set_Distributer_By_Company_List, Set_Admin_Logout, FactoryUserLogin, Factory_Login_Invalid, Set_Factory_Login, Factory_Login_Fail, set_Factory_Local_Store_Data, Set_Factory_Logout, Store_Factory, Set_Reset_Factory_Data, Store_Factory_Request, Set_Store_Factory_Data, Set_Store_Factory_Data_Already_Exist, Set_Store_Factory_Data_Fail, Check_Factory_Success_data, Check_Factory_Success_data_1, Store_Distributer, Set_Reset_Distributer_Data, Set_Store_Distributer_Data, Set_Store_Distributer_Data_Fail, Store_Distributer_Request, Check_Distributer_Success_data, Check_Distributer_Success_data_1, Store_Retailer, Set_Store_Retailer_Data, Set_Store_Retailer_Data_Fail, Store_Retailer_Request, Check_Retailer_Success_data, Check_Retailer_Success_data_1, Set_Self_Report_List, Set_Reset_Factory_Report_Data, Set_Store_Factory_Report_Data, Set_Store_Factory_Report_Data_Fail, Store_Company_Feedback, Set_Store_Company_Feedback_Data, Set_Store_Company_Feedback_Data_Fail, Store_Company_Feedback_Request, Check_Company_Feedback_Success_data, Check_Company_Feedback_Success_data_1, Store_Multi_User, Store_Product_Template, Set_Store_Product_Template_Data, Set_Store_Product_Template_Data_Fail, Set_Reset_Product_Template_Data, Store_Product_Template_Request, Check_Product_Template_Success_data, Check_Product_Template_Success_data_1, Get_Product_Template, Set_Product_Template_List, Store_Batch_Template, Set_Store_Batch_Template_Data, Set_Store_Batch_Template_Data_Fail, Store_Batch_Template_Request, Check_Batch_Template_Success_data, Check_Batch_Template_Success_data_1, Set_Batch_Sent_To_Distributer, Set_Batch_By_Distributer, Get_Batch_Template, Set_Batch_Template_List, Get_Batch_Detail, Set_Reset_Batch_Template_Data, Set_Batch_Detail_List, Set_Feedback_List, Set_Self_Feedback_List, Set_Store_Distributer_Data_Already_Exist, Set_Store_Retailer_Data_Already_Exist, Set_Reset_Retailer_Data, Admin_Login_Invalid, Set_Reset_Login_Data, Get_Factory_Statics, Set_Factory_Statics_List, Get_Ceo_Statistics, Set_Ceo_Statistics, Set_Factory_Sent_Product_List, Set_Distributer_Batch_Product_Chart, Set_Total_Scan_Data, Set_Batch_Product_For_Ceo, Set_All_Report_For_Ceo, Set_Retailer_Batch_Product_Chart } from "./constant";
 const data = {
     error: ""
 }
@@ -234,12 +234,15 @@ export const SuperAdminLoginData = (initialdata = superAdminData, action) => {
             return initialdata;
             break;
         case Set_SuperAdmin_Login:
+
             let userId = localStorage.getItem('superAdminUserId');
             initialdata = { ...initialdata, superAdminUserId: userId }
             let username = localStorage.getItem('superAdminUserName');
             initialdata = { ...initialdata, superAdminUserName: username }
             let userEmail = localStorage.getItem('superAdminUserEmail');
             initialdata = { ...initialdata, superAdminUserEmail: userEmail }
+            let userPhone = localStorage.getItem('superAdminUserPhone');
+            initialdata = { ...initialdata, superAdminUserPhone: userPhone }
             let token = localStorage.getItem('superAdmintoken');
             initialdata = { ...initialdata, superAdmintoken: token }
             let userRole = localStorage.getItem('superAdminUserRole');
@@ -267,6 +270,8 @@ export const SuperAdminLoginData = (initialdata = superAdminData, action) => {
             initialdata = { ...initialdata, superAdminUserName: username1 }
             let userEmail1 = localStorage.getItem('superAdminUserEmail');
             initialdata = { ...initialdata, superAdminUserEmail: userEmail1 }
+            let userPhone1 = localStorage.getItem('superAdminUserPhone');
+            initialdata = { ...initialdata, superAdminUserPhone: userPhone1 }
             let token1 = localStorage.getItem('superAdmintoken');
             initialdata = { ...initialdata, superAdmintoken: token1 }
             let userRole1 = localStorage.getItem('superAdminUserRole');
@@ -287,6 +292,7 @@ export const SuperAdminLoginData = (initialdata = superAdminData, action) => {
             localStorage.removeItem('superAdminUserId');
             localStorage.removeItem('superAdminUserName');
             localStorage.removeItem('superAdminUserEmail');
+            localStorage.removeItem('superAdminUserPhone');
             localStorage.removeItem('superAdmintoken');
             localStorage.removeItem('superAdminUserRole');
             localStorage.removeItem('superAdminUserAddress');
@@ -297,6 +303,7 @@ export const SuperAdminLoginData = (initialdata = superAdminData, action) => {
             initialdata = { ...initialdata, superAdminUserId: "" }
             initialdata = { ...initialdata, superAdminUserName: "" }
             initialdata = { ...initialdata, superAdminUserEmail: "" }
+            initialdata = { ...initialdata, superAdminUserPhone: "" }
             initialdata = { ...initialdata, superAdmintoken: "" }
             initialdata = { ...initialdata, superAdminUserRole: "" }
             initialdata = { ...initialdata, superAdminUserAddress: "" }
@@ -345,6 +352,10 @@ export const CompanyStoreData = (initialdata = companyStoreData, action) => {
             break;
         case Check_Company_Success_data_1:
             initialdata = { ...initialdata, success: false, store_request: false, error: false }
+            return initialdata;
+            break;
+        case Set_Store_Company_Data_Already_Exist:
+            initialdata = { ...initialdata, error: 'Already Exist', store_request: false, success: false }
             return initialdata;
             break;
         case Set_Store_Company_Data_Fail:
@@ -1022,7 +1033,7 @@ export const FactorySentProductListRecord = (initialdata = factorySentProductDat
             return initialdata
             break;
     }
-} 
+}
 export const DistributerBatchProductChartData = (initialdata = distributerBathProdChartData, action) => {
     switch (action.type) {
         case Set_Distributer_Batch_Product_Chart:
@@ -1070,7 +1081,7 @@ export const AllBatchProductForCeo = (initialdata = allBatchProductCeoData, acti
 }
 
 export const RetailerBatchProductChartData = (initialdata = retailerBatchProdChartData, action) => {
-    
+
     switch (action.type) {
         case Set_Retailer_Batch_Product_Chart:
             initialdata = { ...initialdata, retailerBatchProductRec: action.result }
@@ -1089,4 +1100,4 @@ export const RetailerBatchProductChartData = (initialdata = retailerBatchProdCha
 
 
 
-export const finalrecord = combineReducers({AllBatchProductForCeo,AllReportForCeo,TotalScansData,DistributerBatchProductChartData,RetailerBatchProductChartData, FactorySentProductListRecord, FactoryStaticsRecord,CeoStaticsRecord, Details, UserDetailRecord, SuperAdminLoginData, handleUserStatusData, CompanyStoreData, CompanyRecord, AdminLoginData, FraudScansRecord, FailsLevelRecord, RetailerRecord, FactoryRecord, DistributerRecord, FactoryLoginData, FactoryStoreData, DistributerStoreData, RetailerStoreData, FactoryReportRecord, SelfReportRecord, CompanyFeedbackStoreData, MultiUserStoreData, StoreProductTemplateData, ProductTemplateRecord, StoreBatchTemplateData, BatchSentRecord, BatchTemplateRecord, BatchDetailRecord, FeedbackRecord, SelfFeedbackRecord })
+export const finalrecord = combineReducers({ AllBatchProductForCeo, AllReportForCeo, TotalScansData, DistributerBatchProductChartData, RetailerBatchProductChartData, FactorySentProductListRecord, FactoryStaticsRecord, CeoStaticsRecord, Details, UserDetailRecord, SuperAdminLoginData, handleUserStatusData, CompanyStoreData, CompanyRecord, AdminLoginData, FraudScansRecord, FailsLevelRecord, RetailerRecord, FactoryRecord, DistributerRecord, FactoryLoginData, FactoryStoreData, DistributerStoreData, RetailerStoreData, FactoryReportRecord, SelfReportRecord, CompanyFeedbackStoreData, MultiUserStoreData, StoreProductTemplateData, ProductTemplateRecord, StoreBatchTemplateData, BatchSentRecord, BatchTemplateRecord, BatchDetailRecord, FeedbackRecord, SelfFeedbackRecord })

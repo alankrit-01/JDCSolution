@@ -1,6 +1,6 @@
 import { takeLatest, call, put } from 'redux-saga/effects';
 
-import { Set_Reset_Distributer_Data, Set_Store_Distributer_Data, Reset_Retailer_Data, Set_Reset_Retailer_Data, Set_Store_Retailer_Data_Already_Exist, Get_User_Detail, Set_User_Detail, SuperAdminUserLogin, Set_SuperAdmin_Login, SuperAdmin_Login_Fail, Get_SuperAdmin_Local_Store_Data, set_SuperAdmin_Local_Store_Data, Handle_User_Status, Set_Handle_User_Status_Data, Set_Handle_User_Status_Data_Fail, Store_Company, Set_Store_Company_Data, Set_Store_Company_Data_Fail, Check_Company_Success_data, Check_Company_Success_data_1, Get_Company, Set_Company_List, Get_Fraud_Scans, Set_Fraud_Scans_List, Get_All_Level_Fails, Set_All_Level_Fails_List, SuperAdminUserLogout, Set_SuperAdmin_Logout, AdminUserLogin, Set_Admin_Login, Admin_Login_Fail, AdminUserLogout, Set_Admin_Logout, Get_Local_Store_Data, set_Local_Store_Data, Get_Retailers, Get_Retailer_By_Company, Set_Retailer_List, Set_Retailer_By_Company_List, Get_Factory, Get_Factory_By_Company, Set_Factory_List, Set_Factory_By_Company_List, Get_Distributer, Get_Distributer_By_Company, Set_Distributer_List, Set_Distributer_By_Company_List, FactoryUserLogin, Factory_Login_Invalid, Set_Factory_Login, Factory_Login_Fail, FactoryUserLogout, Set_Factory_Logout, Get_Factory_Local_Store_Data, set_Factory_Local_Store_Data, Reset_Factory_Data, Store_Factory, Set_Reset_Factory_Data, Set_Store_Factory_Data, Set_Store_Factory_Data_Already_Exist, Set_Store_Distributer_Data_Already_Exist, Set_Store_Factory_Data_Fail, Check_Factory_Success_data, Check_Factory_Success_data_1, Reset_Distributer_Data, Store_Distributer, Set_Store_Distributer_Data_Fail, Check_Distributer_Success_data, Check_Distributer_Success_data_1, Store_Retailer, Set_Store_Retailer_Data, Set_Store_Retailer_Data_Fail, Check_Retailer_Success_data, Check_Retailer_Success_data_1,Get_Self_Report,Set_Self_Report_List, Store_Factory_Report, Set_Store_Factory_Report_Data, Set_Store_Factory_Report_Data_Fail, Reset_Factory_Report_Data, Set_Reset_Factory_Report_Data, Store_Company_Feedback, Set_Store_Company_Feedback_Data, Set_Store_Company_Feedback_Data_Fail, Check_Company_Feedback_Success_data, Check_Company_Feedback_Success_data_1, Store_Multi_User, Store_Product_Template, Set_Store_Product_Template_Data, Set_Store_Product_Template_Data_Fail, Check_Product_Template_Success_data, Check_Product_Template_Success_data_1, Get_Product_Template, Reset_Product_Template_Data, Set_Reset_Product_Template_Data, Set_Product_Template_List, Get_Batch_Sent_To_Distributer, Set_Batch_Sent_To_Distributer, Get_Batch_By_Distributer, Set_Batch_By_Distributer, Store_Batch_Template, Set_Store_Batch_Template_Data, Set_Store_Batch_Template_Data_Fail, Check_Batch_Template_Success_data, Check_Batch_Template_Success_data_1, Get_Batch_Template, Set_Batch_Template_List, Get_Batch_Detail, Reset_Batch_Template_Data, Set_Reset_Batch_Template_Data, Set_Batch_Detail_List, Get_Feedback, Set_Feedback_List, Get_Self_Feedback, Set_Self_Feedback_List, Admin_Login_Invalid, Set_Reset_Login_Data,Reset_Login_Data ,Get_Factory_Statics ,Set_Factory_Statics_List,Get_Ceo_Statistics, Set_Ceo_Statistics, Sent_Product_List_By_Factory,Set_Factory_Sent_Product_List,Distributer_Batch_Product_Chart_Data, Set_Distributer_Batch_Product_Chart, Get_Total_Scans, Set_Total_Scan_Data, Get_All_Report_For_Ceo, Get_Batch_Product_For_Ceo, Set_Batch_Product_For_Ceo, Set_All_Report_For_Ceo,Retailer_Batch_Product_Chart_Data,Set_Retailer_Batch_Product_Chart} from "./constant";
+import { Set_Reset_Distributer_Data, Set_Store_Distributer_Data, Reset_Retailer_Data, Set_Reset_Retailer_Data, Set_Store_Retailer_Data_Already_Exist, Get_User_Detail, Set_User_Detail, SuperAdminUserLogin, Set_SuperAdmin_Login, SuperAdmin_Login_Fail, Get_SuperAdmin_Local_Store_Data, set_SuperAdmin_Local_Store_Data, Handle_User_Status, Set_Handle_User_Status_Data, Set_Handle_User_Status_Data_Fail, Store_Company, Set_Store_Company_Data,Set_Store_Company_Data_Already_Exist, Set_Store_Company_Data_Fail, Check_Company_Success_data, Check_Company_Success_data_1, Get_Company, Set_Company_List, Get_Fraud_Scans, Set_Fraud_Scans_List, Get_All_Level_Fails, Set_All_Level_Fails_List, SuperAdminUserLogout, Set_SuperAdmin_Logout, AdminUserLogin, Set_Admin_Login, Admin_Login_Fail, AdminUserLogout, Set_Admin_Logout, Get_Local_Store_Data, set_Local_Store_Data, Get_Retailers, Get_Retailer_By_Company, Set_Retailer_List, Set_Retailer_By_Company_List, Get_Factory, Get_Factory_By_Company, Set_Factory_List, Set_Factory_By_Company_List, Get_Distributer, Get_Distributer_By_Company, Set_Distributer_List, Set_Distributer_By_Company_List, FactoryUserLogin, Factory_Login_Invalid, Set_Factory_Login, Factory_Login_Fail, FactoryUserLogout, Set_Factory_Logout, Get_Factory_Local_Store_Data, set_Factory_Local_Store_Data, Reset_Factory_Data, Store_Factory, Set_Reset_Factory_Data, Set_Store_Factory_Data, Set_Store_Factory_Data_Already_Exist, Set_Store_Distributer_Data_Already_Exist, Set_Store_Factory_Data_Fail, Check_Factory_Success_data, Check_Factory_Success_data_1, Reset_Distributer_Data, Store_Distributer, Set_Store_Distributer_Data_Fail, Check_Distributer_Success_data, Check_Distributer_Success_data_1, Store_Retailer, Set_Store_Retailer_Data, Set_Store_Retailer_Data_Fail, Check_Retailer_Success_data, Check_Retailer_Success_data_1,Get_Self_Report,Set_Self_Report_List, Store_Factory_Report, Set_Store_Factory_Report_Data, Set_Store_Factory_Report_Data_Fail, Reset_Factory_Report_Data, Set_Reset_Factory_Report_Data, Store_Company_Feedback, Set_Store_Company_Feedback_Data, Set_Store_Company_Feedback_Data_Fail, Check_Company_Feedback_Success_data, Check_Company_Feedback_Success_data_1, Store_Multi_User, Store_Product_Template, Set_Store_Product_Template_Data, Set_Store_Product_Template_Data_Fail, Check_Product_Template_Success_data, Check_Product_Template_Success_data_1, Get_Product_Template, Reset_Product_Template_Data, Set_Reset_Product_Template_Data, Set_Product_Template_List, Get_Batch_Sent_To_Distributer, Set_Batch_Sent_To_Distributer, Get_Batch_By_Distributer, Set_Batch_By_Distributer, Store_Batch_Template, Set_Store_Batch_Template_Data, Set_Store_Batch_Template_Data_Fail, Check_Batch_Template_Success_data, Check_Batch_Template_Success_data_1, Get_Batch_Template, Set_Batch_Template_List, Get_Batch_Detail, Reset_Batch_Template_Data, Set_Reset_Batch_Template_Data, Set_Batch_Detail_List, Get_Feedback, Set_Feedback_List, Get_Self_Feedback, Set_Self_Feedback_List, Admin_Login_Invalid, Set_Reset_Login_Data,Reset_Login_Data ,Get_Factory_Statics ,Set_Factory_Statics_List,Get_Ceo_Statistics, Set_Ceo_Statistics, Sent_Product_List_By_Factory,Set_Factory_Sent_Product_List,Distributer_Batch_Product_Chart_Data, Set_Distributer_Batch_Product_Chart, Get_Total_Scans, Set_Total_Scan_Data, Get_All_Report_For_Ceo, Get_Batch_Product_For_Ceo, Set_Batch_Product_For_Ceo, Set_All_Report_For_Ceo,Retailer_Batch_Product_Chart_Data,Set_Retailer_Batch_Product_Chart} from "./constant";
 
 import { API_URL } from "./constant"
 import Axios from "axios"
@@ -14,13 +14,14 @@ function* superAdminUserLogin(data) {
         localStorage.setItem('superAdminUserId', superAdminLoginRes.data.userId);
         localStorage.setItem('superAdminUserName', superAdminLoginRes.data.userName);
         localStorage.setItem('superAdminUserEmail', superAdminLoginRes.data.userEmail);
+        localStorage.setItem('superAdminUserPhone', superAdminLoginRes.data.userPhone);
         localStorage.setItem('superAdmintoken', superAdminLoginRes.data.token);
         localStorage.setItem('superAdminUserRole', superAdminLoginRes.data.userRole);
-        localStorage.setItem('superAdminUserAddress', superAdminLoginRes.data.address);
-        localStorage.setItem('superAdminUserCity', superAdminLoginRes.data.city);
-        localStorage.setItem('superAdminUserCountry', superAdminLoginRes.data.country);
-        localStorage.setItem('superAdminUserLatitude', superAdminLoginRes.data.latitude);
-        localStorage.setItem('superAdminUserLongitude', superAdminLoginRes.data.longitude);
+        localStorage.setItem('superAdminUserAddress', superAdminLoginRes.data.userAddress);
+        localStorage.setItem('superAdminUserCity', superAdminLoginRes.data.userCity);
+        localStorage.setItem('superAdminUserCountry', superAdminLoginRes.data.userCountry);
+        localStorage.setItem('superAdminUserLatitude', superAdminLoginRes.data.userLatitude);
+        localStorage.setItem('superAdminUserLongitude', superAdminLoginRes.data.userLongitude);
         yield put({ type: Set_SuperAdmin_Login, result })
     } catch (error) {
         console.log("Error is ", error)
@@ -70,14 +71,21 @@ function* storeCompany(data) {
     const requestData = data.data
     try {
         let uri = API_URL.concat('/addUser')
-        const storeCompanyRes = yield call(Axios.post, uri, requestData)
-        const result = storeCompanyRes.data;
-        yield put({ type: Set_Store_Company_Data, result })
+        const storeDistributerRes = yield call(Axios.post, uri, requestData)
+        const result = storeDistributerRes.data;
+        console.log("result",result)
+        if (result.status == 'fail') {
+            yield put({ type: Set_Store_Company_Data_Already_Exist, result })
+        } else {
+            yield put({ type: Set_Store_Company_Data, result })
+        }
     } catch (error) {
         console.log("Error is ", error)
         yield put({ type: Set_Store_Company_Data_Fail })
     }
 }
+
+
 function* checkCompanySuccessdata(data) {
     const requestData = data.data
     yield put({ type: Check_Company_Success_data_1 })
@@ -126,7 +134,6 @@ function* adminUserLogin(data) {
         let uri = API_URL.concat('/adminLogin')
         const adminLoginRes = yield call(Axios.post, uri, requestData)
         const result = adminLoginRes.data;
-        console.log("result",result)
         if (result.status == 'fail') { 
             yield put({ type: Admin_Login_Invalid, result })
         } else {
@@ -320,8 +327,6 @@ function* resetDistributerData() {
 
 function* storeDistributer(data) {
     const requestData = data.data
-    console.log("requestData", requestData)
-
     try {
         let uri = API_URL.concat('/addUser')
         const storeDistributerRes = yield call(Axios.post, uri, requestData)

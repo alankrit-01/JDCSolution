@@ -14,7 +14,6 @@ import locationicon from  "assets/img/location.png";
 import { adminLogout } from "../../Services/action";
 import {useDispatch, useSelector } from "react-redux";
 export default function AdminNavbar({ showSidebar, setShowSidebar }) {
-  const location = useLocation().pathname;
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const initialdata = useSelector((state) => state.AdminLoginData);

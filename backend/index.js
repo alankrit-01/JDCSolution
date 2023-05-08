@@ -370,7 +370,6 @@ app.get('/api/viewProductsByFilter', async (req, res) => {
     res.status(400).send({ error: error.message });
   }
 });
-
 app.get('/api/factoryStatistics', async (req, res) => {
   try {
     const FactoryID = req.query.factoryID;
@@ -1409,10 +1408,10 @@ app.post('/api/login', jsonParser, async function (req, res) {
           res.status(200).json({ token, userId: userData._id })
         })
       } else {
-        res.status(400).json({ error: "Invalid Password" });
+        res.status(200).json({ error: "Invalid Password" });
       }
     } else {
-      res.status(401).json({ error: "User does not exist" });
+      res.status(200).json({ error: "User does not exist" });
     }
   } else {
     if (userEmail == '' || userEmail == undefined) {
@@ -1474,7 +1473,7 @@ app.post('/api/superAdminLogin', jsonParser, async function (req, res) {
       if (validPassword) {
         jwt.sign({ userData }, jwtkey, { expiresIn: '300s' }, (err, token) => {
           //res.status(200).json({ token })
-          res.status(200).json({ token, userId: userData._id, userEmail: userData.email, userRole: userData.role, userName: userData.name, userAddress: userData.address, userCity: userData.city, userCountry: userData.country, userLatitude: userData.latitude, userLongitude: userData.longitude })
+          res.status(200).json({ token, userId: userData._id, userEmail: userData.email, userRole: userData.role, userName: userData.name ,userPhone: userData.phone, userAddress: userData.address, userCity: userData.city, userCountry: userData.country, userLatitude: userData.latitude, userLongitude: userData.longitude })
         })
       } else {
         res.status(400).json({ error: "Invalid Password" });

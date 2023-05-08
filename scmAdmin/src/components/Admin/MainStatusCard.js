@@ -4,15 +4,11 @@ import {getCeoStatistics } from 'Services/action';
 import StatusCard from "./StatusCard";
 import { useNavigate } from 'react-router-dom';
 import { NavLink } from "react-router-dom";
-
-
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
-
 import Card from '@material-tailwind/react/Card';
 import CardRow from '@material-tailwind/react/CardRow';
 import CardStatus from '@material-tailwind/react/CardStatus';
-
 import DashboardImg from 'assets/img/distributer.png';
 import ProductIcon from 'assets/img/Productcovered.png';
 import BatchIcon from 'assets/img/Batchcovered.png';
@@ -33,8 +29,8 @@ const MainStatusCard = () => {
     const [Retailer, setRetailer] = useState([]);
     const [Feedback, setFeedback] = useState([]);
     const [IssueReport, setIssueReport] = useState([]);
+    const [TotalFrauds, setTotalFrauds] = useState([]);
 
-    
     useEffect(() => {
         const adminUserData = {
             adminID: adminUserId
@@ -43,12 +39,17 @@ const MainStatusCard = () => {
     }, [])
     const CeoStaticsRecord = useSelector((state) => state.CeoStaticsRecord);
 
+    console.log("CeoStaticsRecord",CeoStaticsRecord)
+
     useEffect(() => {
         setFactories(CeoStaticsRecord?.ceoStaticsRec?.totalFactory)
         setDistributer(CeoStaticsRecord?.ceoStaticsRec?.totalDisributer)
         setRetailer(CeoStaticsRecord?.ceoStaticsRec?.totalRetailer)
         setIssueReport(CeoStaticsRecord?.ceoStaticsRec?.totalIssueReport)
         setFeedback(CeoStaticsRecord?.ceoStaticsRec?.totalFeedback)
+        setTotalFrauds(CeoStaticsRecord?.ceoStaticsRec?.totalFrauds)
+
+        
     }, [CeoStaticsRecord])
     const responsive = {
         superLargeDesktop: {
@@ -109,7 +110,7 @@ const MainStatusCard = () => {
                 <div className="px-6 mb-10 main-tiles-section">
                     <Card className="main-tiles p-0">
                         <CardRow className="inner-tiles">
-                            <CardStatus className="tiles-title" title={100} />
+                            <CardStatus className="tiles-title" title={TotalFrauds && TotalFrauds} />
                             <img src={FraudsDetectedIcon} className="w-24 h-24" />
                             <CardStatus className="tiles-title-bottom" title={"Total Fraud Detected"} />
                         </CardRow>
@@ -159,84 +160,7 @@ const MainStatusCard = () => {
                         </Card>
                     </NavLink>
                 </div>
-
             </Carousel>
-
-            {/* <div className="px-4 mb-10 main-tiles-section">
-                <Card className="main-tiles p-0">
-                    <CardRow className="inner-tiles">
-                        <CardStatus className="tiles-title" title={100} />
-                        <img src={DashboardImg} className="w-24 h-24" />
-                        <CardStatus className="tiles-title-bottom" title={"Distributer"} />
-                    </CardRow>
-                </Card>
-            </div>
-            <div className="px-4 mb-10 main-tiles-section">
-                <Card className="main-tiles p-0">
-                    <CardRow className="inner-tiles">
-                        <CardStatus className="tiles-title" title={100} />
-                        <img src={BatchImg} className="w-24 h-24" />
-                        <CardStatus className="tiles-title-bottom" title={"Batches Sent"} />
-                    </CardRow>
-                </Card>
-            </div>
-            <div className="px-4 mb-10 main-tiles-section">
-                <Card className="main-tiles p-0">
-                    <CardRow className="inner-tiles">
-                        <CardStatus className="tiles-title" title={100} />
-                        <img src={ProductTempImg} className="w-24 h-24" />
-                        <CardStatus className="tiles-title-bottom" title={"Products Sent"} />
-                    </CardRow>
-                </Card>
-            </div>
-            <div className="px-4 mb-10 main-tiles-section">
-                <Card className="main-tiles p-0">
-                    <CardRow className="inner-tiles">
-                        <CardStatus className="tiles-title" title={100} />
-                        <img src={FeedbackImg} className="w-24 h-24" />
-                        <CardStatus className="tiles-title-bottom" title={"Reports Received"} />
-                    </CardRow>
-                </Card>
-            </div> */}
-            {/* <span style={{ cursor: "pointer" }} onClick={() => navigate('/admin/factory')}>
-                <StatusCard
-                    color="pink"
-                    icon="groups"
-                    title="Factory"
-                    amount={Factories}
-                // percentage="3.48"
-                // percentageIcon="arrow_upward"
-                // percentageColor="green"
-                // date="Since last month"
-                />
-            </span> */}
-
-            {/* <span style={{ cursor: "pointer" }} onClick={() => navigate('/admin/distributer')}>
-                <StatusCard
-                    color="purple"
-                    icon="groups"
-                    title="Distributer"
-                    amount={Distributer}
-                // percentage="1.10"
-                // percentageIcon="arrow_downward"
-                // percentageColor="orange"
-                // date="Since yesterday"
-                />
-            </span> */}
-
-            {/* <span style={{ cursor: "pointer" }} onClick={() => navigate('/admin/retailer')}>
-
-                <StatusCard
-                    color="orange"
-                    icon="groups"
-                    title="Retailer"
-                    amount={Retailer}
-                // percentage="3.48"
-                // percentageIcon="arrow_downward"
-                // percentageColor="red"
-                // date="Since last week"
-                />
-            </span> */}
         </>
     )
 }

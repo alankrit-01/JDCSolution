@@ -41,9 +41,7 @@ const Dashboard = () => {
   };
   useEffect(() => {
     dispatch(resetLoginData());
-  },
-    []
-  )
+  },[])
 
 
   const defaultProps = {

@@ -1456,3 +1456,43 @@ span.error {
    
     background-color:grey;
 }
+.fraud-section .authentic-certificate {
+    display: none;
+}
+.fraud-section .revenue-saved {
+    display: none;
+}
+.fraud-section .product-sold {
+    display: none;
+}
+
+.statistics-main{
+    background-color: #a7bccd;
+    text-align: center;
+    width: 100%;
+    margin: 25px 0px;
+}
+
+.statistics-pre {
+    width: 20%;
+}
+
+.statistics-title {
+    width: 80%;
+    padding: 15px;
+    font-size: 22px;
+    font-weight: bold;
+}
+.statistics-counter {
+    width: 4%;
+    background-color: #000;
+    color: #fff;
+    padding: 20px;
+    border-radius: 100%;
+    position: absolute;
+    right: 21px;
+}
+
+.rdt_TableHead {
+    z-index: 0000 !important;
+}
