@@ -7,7 +7,11 @@ import Company from 'pages/SuperAdmin/Company/Company';
 import AddCompany from 'pages/SuperAdmin/Company/AddCompany';
 import CompanyDetails from 'pages/SuperAdmin/Company/CompanyDetails';
 import SuperAdminFactory from 'pages/SuperAdmin/Factory/SuperAdminFactory';
-import SuperAdminDistributer from 'pages/SuperAdmin/Distributer';
+import SuperAdminAddFactory from 'pages/SuperAdmin/Factory/SuperAdminAddFactory';
+import SuperAdminFactoryDetail from 'pages/SuperAdmin/Factory/superAdminFactoryDetail';
+// import SuperAdminDistributer from 'pages/SuperAdmin/Distributer';
+import SuperAdminDistributer from 'pages/SuperAdmin/Distributer/SuperAdminDistributer';
+import SuperAdminAddDistributer from 'pages/SuperAdmin/Distributer/SuperAdminAddDistributer';
 import SuperAdminRetailer from 'pages/SuperAdmin/Retailer';
 import CompanyFeedback from 'pages/SuperAdmin/Company/CompanyFeedback';
 import ViewCompanyFeedback from 'pages/SuperAdmin/Company/ViewCompanyFeedback';
@@ -104,7 +108,10 @@ const WebRoutes = () => {
             <Route path="/superAdmin/companyDetails" index element={<CompanyDetails />} />
             <Route path="/superAdmin/addCompany" index element={<AddCompany />} />
             <Route path="/superAdmin/factory" index element={<SuperAdminFactory />} />
+            <Route path="/superAdmin/addFactory" index element={<SuperAdminAddFactory />} />
+            <Route path="/superAdmin/factoryDetail" index element={<SuperAdminFactoryDetail />} />
             <Route path="/superAdmin/distributer" index element={<SuperAdminDistributer />} />
+            <Route path="/superAdmin/addDistributer" index element={<SuperAdminAddDistributer />} />
             <Route path="/superAdmin/retailer" index element={<SuperAdminRetailer />} />
             <Route path="/superAdmin/companyFeedback" index element={<CompanyFeedback />} />
             <Route path="/superAdmin/viewCompanyFeedback" index element={<ViewCompanyFeedback />} />

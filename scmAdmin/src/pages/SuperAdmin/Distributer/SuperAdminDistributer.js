@@ -2,7 +2,7 @@ import Sidebar from "components/SuperAdmin/Sidebar";
 import Footer from "components/SuperAdmin/Footer";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getFactory,getFactoryByCompany, getCompany, resetFactoryData } from "Services/action";
+import { getDistributer,getDistributerByCompany, getCompany, resetFactoryData } from "Services/action";
 import { useEffect, useState, useRef, useMemo } from "react";
 import DataTable from "react-data-table-component";
 import { CSVLink } from "react-csv";
@@ -13,17 +13,14 @@ import { handleUserStatus } from "Services/action";
 import Arrowdown from 'assets/img/down-arrow.png';
 import Select from "react-select";
 
-const SuperAdminFactory = () => {
+const SuperAdminDistributer = () => {
   const dataFetchedRef = useRef(false);
-
-
-
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [Factories, setFactories] = useState([]);
+  const [Distributer, setDistributer] = useState([]);
   const [Search, setSearch] = useState("");
-  const [FilterFactories, setFilterFactories] = useState([]);
+  const [FilterDistributer, setFilterDistributer] = useState([]);
   const [excelData, setExcelData] = useState([]);
   const [selectedData, setSelectedData] = React.useState([]);
   const [loading, setLoading] = useState(false);
@@ -33,29 +30,29 @@ const SuperAdminFactory = () => {
   let companyUserId = companyUserData?.state?.userId;
   const columns = [
     {
-      name: <div className="text-base">Factory Name</div>,
+      name: <div className="text-base">Distributer Name</div>,
       selector: (row) => row.name,
       sortable: true,
     },
     {
-      name: <div className="text-base">Factory Email</div>,
+      name: <div className="text-base">Distributer Email</div>,
       selector: (row) => row.email,
       sortable: true,
     },
     {
-      name: <div className="text-base">Factory Address</div>,
+      name: <div className="text-base">Distributer Address</div>,
       selector: (row) => row.address,
       sortable: true,
     },
     {
-      name: <div className="text-base">Factory Phone</div>,
+      name: <div className="text-base">Distributer Phone</div>,
       selector: (row) => row.phone,
       sortable: true,
     },
     {
       name: <div className="text-base">Information</div>,
       selector: (row) => (
-        <button className="custom-details-btn" onClick={() => navigate('/superAdmin/factoryDetail', { state: { userId: row._id } })}>Details</button>
+        <button className="custom-details-btn" onClick={() => navigate('/superAdmin/distributerDetail', { state: { userId: row._id } })}>Details</button>
       ),
       sortable: true,
     },
@@ -111,10 +108,10 @@ const SuperAdminFactory = () => {
   useEffect(() => {
     const columns = [
       {
-        name: "Factory Name",
-        email: "Factory Email",
-        address: "Factory Address",
-        phone: "Factory Phone",
+        name: "Distributer Name",
+        email: "Distributer Email",
+        address: "Distributer Address",
+        phone: "Distributer Phone",
       },
     ];
     setExcelData(columns);
@@ -128,18 +125,25 @@ const SuperAdminFactory = () => {
       const data = {
         adminId : companyUserId
       }
-    dispatch(getFactoryByCompany(data));
+    dispatch(getDistributerByCompany(data));
     }else{
-      dispatch(getFactory());
+      dispatch(getDistributer());
     }
   }, []);
+
   const companydata = useSelector((state) => state.CompanyRecord);
+
   const compRecord = companydata?.companyRec;
-  const initialdata = useSelector((state) => state.FactoryRecord);
-  const initialFactoryStoredata = useSelector((state) => state.FactoryStoreData);
+
+
+  const initialdata = useSelector((state) => state.DistributerRecord);
+  const initialStoredata = useSelector((state) => state.DistributerStoreData);
+
+
+  console.log("initialdata", initialdata)
 
   const successNotify = () =>
-    toast.success("Factory Added Successfully!.", {
+    toast.success("Distributer Added Successfully!.", {
       position: "bottom-right",
       autoClose: 5000,
       hideProgressBar: false,
@@ -152,46 +156,48 @@ const SuperAdminFactory = () => {
 
 
   useEffect(() => {
-    if (initialFactoryStoredata?.success) {
+    if (initialStoredata?.success) {
       successNotify();
     }
-  }, [initialFactoryStoredata]);
+  }, [initialStoredata]);
 
   useEffect(() => {
+
     var a = [{ email: "There are no record to display" }];
-    setFactories(initialdata.factoryRec);
+    setDistributer(initialdata.distributerRec);
     setLoading(true);
     if (
-      initialdata.factoryRec != 0 &&
-      initialdata.factoryRec != null &&
-      initialdata.factoryRec != ""
+      initialdata.distributerRec != 0 &&
+      initialdata.distributerRec != null &&
+      initialdata.distributerRec != ""
     ) {
-      setFilterFactories(initialdata.factoryRec);
+      setFilterDistributer(initialdata.distributerRec);
     } else {
       setLoading(false);
 
-      setFilterFactories(a);
+      setFilterDistributer(a);
     }
   }, [initialdata]);
 
   useEffect(() => {
+    
     var a = [{ email: "There are no record to display" }];
-    const result = Factories.filter((factoriesrec) => {
-      return factoriesrec.name.toLowerCase().match(Search.toLowerCase()) && factoriesrec.adminId === SelectedCompany?._id;
+    const result = Distributer.filter((filterRec) => {
+      return filterRec.name.toLowerCase().match(Search.toLowerCase()) && filterRec.adminId === SelectedCompany?._id;
     });
 
     if (result.length != 0) {
-      setFilterFactories(result);
+      setFilterDistributer(result);
     } else {
       setLoading(false);
-      setFilterFactories(a);
+      setFilterDistributer(a);
     }
   }, [Search, SelectedCompany]);
 
   const getCsvData = () => {
     const csvData = [];
 
-    if (excelData.length > 0 && FilterFactories.length > 0) {
+    if (excelData.length > 0 && FilterDistributer.length > 0) {
       excelData.map((ex) => {
         csvData.push([
           `${ex.name}`,
@@ -210,7 +216,7 @@ const SuperAdminFactory = () => {
           ]);
         });
       } else {
-        FilterFactories.map((val) => {
+        FilterDistributer.map((val) => {
           csvData.push([
             `${val.name}`,
             `${val.email}`,
@@ -248,7 +254,7 @@ const SuperAdminFactory = () => {
 
               <div class="grid grid-cols-4 gap-4">
                 <div>
-                  <h2 className="head-cust-color">Factory List - {FilterFactories.length && FilterFactories.length}</h2>
+                  <h2 className="head-cust-color">Distributer List - {FilterDistributer.length && FilterDistributer.length}</h2>
                 </div>
                 <div>
                   <input type="text" className="cust-input" placeholder="Search" value={Search}
@@ -268,11 +274,11 @@ const SuperAdminFactory = () => {
                 <div className="right-button-section">
                   
                     <div className="">
-                    <CSVLink filename="FactoryList.csv" data={getCsvData()}>
+                    <CSVLink filename="DistributerList.csv" data={getCsvData()}>
                       <button className="cust-export-button">Export CSV <img src={Arrowdown} className="w-3 h-3" style={{ margin: "2px 0px 2px 2px" }} /> </button>
                       </CSVLink>
                     </div>
-                  <NavLink to="/superAdmin/addfactory">
+                  <NavLink to="/superAdmin/addDistributer">
                     <button className="cust-button">Add +</button>
                   </NavLink>
                 </div>
@@ -288,7 +294,7 @@ const SuperAdminFactory = () => {
                     ></img>
                   </div>
                 }
-                data={FilterFactories}
+                data={FilterDistributer}
                 pagination
                 fixedHeader
                 selectableRows
@@ -305,4 +311,4 @@ const SuperAdminFactory = () => {
     </>
   );
 };
-export default SuperAdminFactory;
+export default SuperAdminDistributer;
