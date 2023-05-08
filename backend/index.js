@@ -915,19 +915,31 @@ app.get('/api/viewProductBoughts', async (req, res) => {
 });
 
 app.get('/api/viewProductBoughtDetail', async (req, res) => {
+  // try {
+  //   let ProductID = req.query.productID;
+  //   const documents = await customerData.findOne({ ProductID: ProductID })
+  //   // .populate("ProductRef")    
+  //   console.log(documents);
+  //   if (documents) {
+  //     res.status(200).json({ status: "success", message: documents });
+  //   } else {
+  //     res.status(200).json({ status: "success", message: [] });
+  //   }
+  // } catch (error) {
+  //   console.log(error.message);
+  //   res.status(400).send({ error: error.message });
+  // }
+  const ProductID = req.query.productID;
   try {
-    let ProductID = req.query.productID;
-    const documents = await customerData.findOne({ ProductID: ProductID })
-    // .populate("ProductRef")    
-    console.log(documents);
-    if (documents) {
-      res.status(200).json({ status: "success", message: documents });
-    } else {
-      res.status(200).json({ status: "success", message: [] });
+    const doc = await product.findOne({ ProductID: ProductID });
+    if(!doc){
+      res.status(200).json({ status: "success", productData: [], batchData: [] });
+    }else{
+      const data = await batch.findOne({ BatchID: doc.BatchID });
+      res.status(200).json({ status: "success", productData: doc, batchData: data });
     }
   } catch (error) {
-    console.log(error.message);
-    res.status(400).send({ error: error.message });
+    res.status(500).json({ message: error.message });
   }
 });
 
@@ -1547,6 +1559,7 @@ app.get('/api/ceoStatistics', async (req, res) => {
       const countRetailer = await User.countDocuments(retailerquery);
       const countIssueReport = await ScanIssueReport.countDocuments();
       const countFeedback = await Feedback.countDocuments();
+      
       const distributorRetailerScan = await scan.countDocuments();
       const customerScan = await verificationData.countDocuments();
       const productsSold = await customerData.countDocuments();
