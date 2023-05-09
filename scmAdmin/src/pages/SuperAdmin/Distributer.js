@@ -1,4 +1,3 @@
-import MainStatusCard from "components/SuperAdmin/MainStatusCard";
 import Sidebar from "components/SuperAdmin/Sidebar";
 import Footer from "components/SuperAdmin/Footer";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,7 +10,7 @@ import loader from "assets/img/loading.gif";
 
 const Distributer = () => {
   let distributerAdminData = useLocation();
-  let distributerAdminId = distributerAdminData.state.adminId;
+  let distributerAdminId = distributerAdminData.state.userId;
   const dispatch = useDispatch();
   const [Distributer, setDistributer] = useState([]);
   const [Search, setSearch] = useState("");

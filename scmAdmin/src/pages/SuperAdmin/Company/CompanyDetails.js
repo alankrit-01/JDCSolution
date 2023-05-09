@@ -175,7 +175,7 @@ console.log("CeoStaticsRecord",CeoStaticsData)
                                         <div className="statistics-counter">{TotalFactory && TotalFactory}</div>
                                       </div>
 
-                                      <div className="statistics-main flex">
+                                      <div className="statistics-main flex" onClick={() => navigate('/superAdmin/distributer', { state: { userId: userId } })}>
                                         <div className="statistics-pre bg-[#b44e94]"></div>
                                         <div className="statistics-title">Distributer</div>
                                         <div className="statistics-counter">{TotalDisributer && TotalDisributer}</div>

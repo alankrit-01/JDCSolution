@@ -105,7 +105,7 @@ const MainStatusCard = () => {
                     </NavLink>
                 </div>
                 <div className="px-6 mb-10 main-tiles-section">
-                    <NavLink to="/admin/distributer">
+                    <NavLink to="/superAdmin/distributer">
                         <Card className="main-tiles p-0">
                             <CardRow className="inner-tiles">
                                 <CardStatus className="tiles-title" title={Distributer && Distributer} />
