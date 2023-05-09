@@ -9,10 +9,15 @@ import CompanyDetails from 'pages/SuperAdmin/Company/CompanyDetails';
 import SuperAdminFactory from 'pages/SuperAdmin/Factory/SuperAdminFactory';
 import SuperAdminAddFactory from 'pages/SuperAdmin/Factory/SuperAdminAddFactory';
 import SuperAdminFactoryDetail from 'pages/SuperAdmin/Factory/superAdminFactoryDetail';
-// import SuperAdminDistributer from 'pages/SuperAdmin/Distributer';
 import SuperAdminDistributer from 'pages/SuperAdmin/Distributer/SuperAdminDistributer';
 import SuperAdminAddDistributer from 'pages/SuperAdmin/Distributer/SuperAdminAddDistributer';
-import SuperAdminRetailer from 'pages/SuperAdmin/Retailer';
+import SuperAdminDistributerDetail from 'pages/SuperAdmin/Distributer/SuperAdminDistributerDetail';
+
+import SuperAdminRetailer from 'pages/SuperAdmin/Retailer/SuperAdminRetailer';
+import SuperAdminAddRetailer from 'pages/SuperAdmin/Retailer/SuperAdminAddRetailer';
+import SuperAdminRetailerDetail from 'pages/SuperAdmin/Retailer/SuperAdminRetailerDetail';
+
+
 import CompanyFeedback from 'pages/SuperAdmin/Company/CompanyFeedback';
 import ViewCompanyFeedback from 'pages/SuperAdmin/Company/ViewCompanyFeedback';
 
@@ -111,8 +116,12 @@ const WebRoutes = () => {
             <Route path="/superAdmin/addFactory" index element={<SuperAdminAddFactory />} />
             <Route path="/superAdmin/factoryDetail" index element={<SuperAdminFactoryDetail />} />
             <Route path="/superAdmin/distributer" index element={<SuperAdminDistributer />} />
+            <Route path="/superAdmin/distributerDetail" index element={<SuperAdminDistributerDetail />} />
             <Route path="/superAdmin/addDistributer" index element={<SuperAdminAddDistributer />} />
             <Route path="/superAdmin/retailer" index element={<SuperAdminRetailer />} />
+            <Route path="/superAdmin/addRetailer" index element={<SuperAdminAddRetailer />} />
+            <Route path="/superAdmin/retailerDetail" index element={<SuperAdminRetailerDetail />} />
+
             <Route path="/superAdmin/companyFeedback" index element={<CompanyFeedback />} />
             <Route path="/superAdmin/viewCompanyFeedback" index element={<ViewCompanyFeedback />} />
             <Route path="/admin" index element={<AdminLogin />} />

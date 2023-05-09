@@ -1,13 +1,12 @@
 import Sidebar from "components/SuperAdmin/Sidebar";
 import Footer from "components/SuperAdmin/Footer";
 import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
-
-import { getUserDetail, sentProductListByFactory } from "Services/action";
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import { getUserDetail, retailerBatchProductChartData } from "Services/action";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import cumulative from "assets/img/cumulative.png";
-const SuperAdminFactoryDetail = () => { 
+import cumulative from "assets/img/cumulative.png"; 
+const SuperAdminDistributerDetail = () => { 
     const dispatch = useDispatch();
     const [userName, setUserName] = useState('');
     const [userEmail, setUserEmail] = useState('');
@@ -26,35 +25,43 @@ const SuperAdminFactoryDetail = () => {
         }
         dispatch(getUserDetail(data))
 
-        const ProductUserId = {
-            factoryID: userId
+        const retailerdata = {
+            retailerID: userId
         }
-        dispatch(sentProductListByFactory(ProductUserId));
+        dispatch(retailerBatchProductChartData(retailerdata));
 
     }, [])
     const initialdata = useSelector((state) => state.UserDetailRecord);
-    const initialFactoryProductSentData = useSelector((state) => state.FactorySentProductListRecord);
-    let allProductSentData = initialFactoryProductSentData && initialFactoryProductSentData.factorySentProductRec.message;
-    var totalProduct = 0;
-    var totalBatch = 0;
-    for (let i = 0; i < allProductSentData?.length; i++) {
-        totalProduct = totalProduct + allProductSentData[i].Products
-        totalBatch = totalBatch + allProductSentData[i].Batches
+   
+   
+    const initialRetailBatchProductChartData = useSelector((state) => state?.RetailerBatchProductChartData);
+
+    console.log("initialRetailBatchProductChartData",initialRetailBatchProductChartData)
+
+    let allProductReceived = initialRetailBatchProductChartData && initialRetailBatchProductChartData?.retailerBatchProductRec?.message;
+    let allProductReceivedData = allProductReceived?.ProductReceivedDetail
+
+    var totalProduct = 0
+    for (let i = 0; i < allProductReceivedData?.length; i++) {
+        totalProduct = totalProduct + allProductReceivedData[i].ProductsReceived
+
     }
-    let productDataInPercent = [];
 
-    for (let i = 0; i < allProductSentData?.length; i++) {
 
-        let value = allProductSentData[i].Products / totalProduct * 100;
-        let args = Math.round(value);
 
-        productDataInPercent.push({
-            name: allProductSentData[i].Name,
-            value: args,
-            productQty: allProductSentData[i].Products
+    let AuthenticationLevelData = [];
+
+    for (let i = 0; i < allProductReceivedData?.length; i++) {
+
+        let productPercentValue = allProductReceivedData[i].ProductsReceived / totalProduct * 100;
+        let productPercentValueData = Math.round(productPercentValue);
+
+        AuthenticationLevelData.push({
+            name: allProductReceivedData[i].ProductName,
+            value: productPercentValueData,
+            productQty: allProductReceivedData[i].ProductsReceived
         })
     }
-
 
     const AuthenticationLevelCOLORS = [
         "#8884d8",
@@ -63,6 +70,7 @@ const SuperAdminFactoryDetail = () => {
         "#FF8042",
         "#AF19FF",
     ];
+
 
     const AuthenticationLevelTooltip = ({ active, payload, label }) => {
         if (active) {
@@ -109,12 +117,12 @@ const SuperAdminFactoryDetail = () => {
                         <div className="grid grid-cols-1 xl:grid-cols-6">
                             <div className="xl:col-start-1 xl:col-end-7 px-4 mb-16">
                                 <div>
-                                    <h2 className="head-cust-color">Factory -  {userName && userName.charAt(0).toUpperCase() + userName.slice(1)} Details</h2>
+                                    <h2 className="head-cust-color">Retailer -  {userName && userName.charAt(0).toUpperCase() + userName.slice(1)} Details</h2>
                                 </div>
                                 <div className="flex flex-wrap mt-5">
                                     <div className="w-full lg:w-6/12 pr-4 mb-10 font-light">
                                         <ul className="factory-beta">
-                                            <li className="factory-bg">Factory Name  <span>: {userName && userName.charAt(0).toUpperCase() + userName.slice(1)}</span></li>
+                                            <li className="factory-bg">Retailer Name  <span>: {userName && userName.charAt(0).toUpperCase() + userName.slice(1)}</span></li>
                                             <li className="factory-bg2">Email <span>: {userEmail && userEmail}</span></li>
                                             <li className="factory-bg">Phone No  <span className="space-l">: {userPhone && userPhone}</span></li>
                                             <li className="factory-bg2">PIN  <span className="space-l2 ">: {userPincode && userPincode}</span></li>
@@ -135,38 +143,34 @@ const SuperAdminFactoryDetail = () => {
                                                 </select>
                                             </div>
                                             <div className="received-part-two batch eye-liner-part">
-
                                                 <select id="colours" className="dd-button batch-selected option-down">
                                                     <option>All Product</option>
-
-                                                    {productDataInPercent.map((entry, index) => (
+                                                    {/* {productDataInPercent.map((entry, index) => (
                                                         <>
                                                             <option value="red"> {entry && entry?.name}</option>
                                                         </>
-                                                    ))}
-
+                                                    ))} */}
                                                 </select>
                                             </div>
-
                                         </div>
-
-
                                         <div className="liner-part">
-                                            <p>Batches sent</p>
-                                            <p><span className="bg-span-part"> </span>  <span className="bg-span-part2">
-                                                {totalBatch && totalBatch}                                            </span></p>
-
-                                            <p>Products Sent</p>
-                                            <p><span className="bg-span-part3"> </span>  <span className="bg-span-part4"> {totalProduct && totalProduct}</span></p>
+                                            <p>Products Received</p>
+                                            <p><span className="bg-span-part3"> </span>  <span className="bg-span-part4">
+                                                {initialRetailBatchProductChartData?.retailerBatchProductRec?.message == "Result is empty" ? 0 : initialRetailBatchProductChartData?.retailerBatchProductRec?.message?.ProductsReceived}
+                                            </span></p>
+                                            <p>Products Sold</p>
+                                            <p><span className="bg-span-part3"> </span>  <span className="bg-span-part4">
+                                                {initialRetailBatchProductChartData?.retailerBatchProductRec?.message == "Result is empty" ? 0 : initialRetailBatchProductChartData?.retailerBatchProductRec?.message?.ProductsSold}
+                                            </span></p>
                                         </div>
-
                                     </div>
-                                    <div className="w-full lg:w-6/12 pl-4 mb-10 font-light self">
-                                        <h3>Products Sent</h3>
-                                        {allProductSentData?.length == 0 ? <div className="no-record mt-20">No Product Sent</div> : null}
+
+                                    <div className="w-full lg:w-6/12 pl-4 mb-10 font-light self factoryDistributerDetail">
+                                        <h3>Products Received</h3>
+                                        {initialRetailBatchProductChartData?.retailerBatchProductRec?.message == "Result is empty" ? <div className="no-record mt-20">No Product Received</div> : null}
                                         <PieChart width={400} height={400}>
                                             <Pie
-                                                data={productDataInPercent}
+                                                data={AuthenticationLevelData}
                                                 color="#000000"
                                                 dataKey="value"
                                                 nameKey="name"
@@ -175,7 +179,7 @@ const SuperAdminFactoryDetail = () => {
                                                 outerRadius={120}
                                                 fill="#8884d8"
                                             >
-                                                {productDataInPercent.map((entry, index) => (
+                                                {AuthenticationLevelData.map((entry, index) => (
                                                     <Cell
 
                                                         key={`cell-${index}`}
@@ -189,10 +193,20 @@ const SuperAdminFactoryDetail = () => {
                                             </Pie>
                                             <Tooltip content={<AuthenticationLevelTooltip />} />
                                         </PieChart>
+
+                                        {AuthenticationLevelData.map((entry, index) => (
+                                            <>
+                                                {console.log("entry", entry)
+                                                }
+                                                <div className="productData">
+                                                    <p className="productName" style={{ color: AuthenticationLevelCOLORS[index] }} >{entry.name} ------------ {entry.productQty}</p>
+                                                </div>
+                                            </>
+                                        ))}
+
                                     </div>
+
                                 </div>
-
-
                             </div>
                         </div>
                     </div>
@@ -202,4 +216,4 @@ const SuperAdminFactoryDetail = () => {
         </>
     )
 }
-export default SuperAdminFactoryDetail
+export default SuperAdminDistributerDetail

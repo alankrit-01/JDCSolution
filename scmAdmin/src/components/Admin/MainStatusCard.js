@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import {getCeoStatistics } from 'Services/action';
-import StatusCard from "./StatusCard";
 import { useNavigate } from 'react-router-dom';
 import { NavLink } from "react-router-dom";
 import Carousel from 'react-multi-carousel';
@@ -32,14 +31,12 @@ const MainStatusCard = () => {
     const [TotalFrauds, setTotalFrauds] = useState([]);
 
     useEffect(() => {
-        const adminUserData = {
+        const adminUserData = { 
             adminID: adminUserId
         }
         dispatch(getCeoStatistics(adminUserData))
     }, [])
     const CeoStaticsRecord = useSelector((state) => state.CeoStaticsRecord);
-
-    console.log("CeoStaticsRecord",CeoStaticsRecord)
 
     useEffect(() => {
         setFactories(CeoStaticsRecord?.ceoStaticsRec?.totalFactory)

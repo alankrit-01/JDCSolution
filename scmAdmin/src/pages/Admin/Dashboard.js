@@ -1,16 +1,9 @@
 import MainStatusCard from "components/Admin/MainStatusCard";
 import Sidebar from "components/Admin/Sidebar";
 import Footer from "components/Admin/Footer";
-import { NavLink } from "react-router-dom";
-import PieRechartComponent from "components/Admin/PieChart";
 import ProgressCard from "components/Admin/ProgressCard";
 import DashboardWarningChart from 'components/Admin/DashboardWarningChart';
 import "react-multi-carousel/lib/styles.css";
-import Card from "@material-tailwind/react/Card";
-import CardRow from "@material-tailwind/react/CardRow";
-import CardStatus from "@material-tailwind/react/CardStatus";
-import Dropdown from "@material-tailwind/react/Dropdown";
-import DropdownItem from "@material-tailwind/react/DropdownItem";
 import cumulative from "assets/img/cumulative.png";
 import { useEffect } from "react";
 import { resetLoginData } from "Services/action";
@@ -20,25 +13,6 @@ import AnyReactComponent from 'google-map-react';
 
 const Dashboard = () => {
   const dispatch = useDispatch();
-  const responsive = {
-    superLargeDesktop: {
-      // the naming can be any, depends on you.
-      breakpoint: { max: 4000, min: 3000 },
-      items: 5,
-    },
-    desktop: {
-      breakpoint: { max: 3000, min: 1024 },
-      items: 3,
-    },
-    tablet: {
-      breakpoint: { max: 1024, min: 464 },
-      items: 2,
-    },
-    mobile: {
-      breakpoint: { max: 464, min: 0 },
-      items: 1,
-    },
-  };
   useEffect(() => {
     dispatch(resetLoginData());
   },[])
@@ -136,8 +110,6 @@ const Dashboard = () => {
                 <h2 className="heading-background">Locations</h2>
               </div>
               <div className='w-80 h-96 map-padding-use'>
-
-                {/* <div style={{ height: '100vh', width: '100%' }}> */}
                 <GoogleMapReact
                   bootstrapURLKeys={{ key: "AIzaSyChufzuq8C_rWT2fSVe_0WLEqjiktQen-Q" }}
                   defaultCenter={defaultProps.center}
@@ -149,18 +121,11 @@ const Dashboard = () => {
                     text="My Marker"
                   />
                 </GoogleMapReact>
-                {/* </div> */}
-
-
               </div>
             </div>
 
 
           </div>
-
-          {/* <div className="container mx-auto max-w-full h-96 ">
-            <PieRechartComponent />
-          </div> */}
         </div>
         <Footer />
       </div>

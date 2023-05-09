@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import {getCompany, getDistributer, getFactory, getRetailers } from 'Services/action';
+import {getSuperAdminStatistics } from 'Services/action';
 import StatusCard from "./StatusCard";
 import { useNavigate } from 'react-router-dom';
 import { NavLink } from "react-router-dom";
@@ -20,39 +20,39 @@ import FraudsDetectedIcon from 'assets/img/Frauds-detected.png';
 import ReportsIcon from 'assets/img/Reports.png';
 import FeedbackIcon from 'assets/img/Feedback.png';
 
-
-
-
-
-
-
-
-
 const MainStatusCard = () => {  
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const [Company, setCompany] = useState([]);
+    const [TotalCompany, setTotalCompany] = useState([]);
     const [Distributer, setDistributer] = useState([]);
     const [Factories, setFactories] = useState([]);
     const [Retailer, setRetailer] = useState([]);
-
+    const [Feedback, setFeedback] = useState([]);
+    const [IssueReport, setIssueReport] = useState([]);
+    const [TotalFrauds, setTotalFrauds] = useState([]);
     useEffect(() => {
-        dispatch(getCompany())
-        dispatch(getDistributer())
-        dispatch(getFactory())
-        dispatch(getRetailers())
+        dispatch(getSuperAdminStatistics())
+       
     }, [])
 
-    const initialCompanydata = useSelector((state) => state.CompanyRecord);
-    const initialdata = useSelector((state) => state.DistributerRecord);
-    const initialFactorydata = useSelector((state) => state.FactoryRecord);
-    const initialRetailerdata = useSelector((state) => state.RetailerRecord);
+    const SuperAdminStaticsRecord = useSelector((state) => state.SuperAdminStaticsRecord);
+
+
+
     useEffect(() => {
-        setCompany(initialCompanydata.companyRec.length && initialCompanydata.companyRec.length)
-        setDistributer(initialdata.distributerRec.length && initialdata.distributerRec.length)
-        setFactories(initialFactorydata.factoryRec.length && initialFactorydata.factoryRec.length)
-        setRetailer(initialRetailerdata.retailerRec.length && initialRetailerdata.retailerRec.length)
-    }, [initialdata, initialFactorydata, initialRetailerdata])
+        
+        setTotalCompany(SuperAdminStaticsRecord?.superAdminStaticsRec?.totalCompany)
+        setFactories(SuperAdminStaticsRecord?.superAdminStaticsRec?.totalFactory)
+        setDistributer(SuperAdminStaticsRecord?.superAdminStaticsRec?.totalDisributer)
+        setRetailer(SuperAdminStaticsRecord?.superAdminStaticsRec?.totalRetailer)
+        setIssueReport(SuperAdminStaticsRecord?.superAdminStaticsRec?.totalIssueReport)
+        setFeedback(SuperAdminStaticsRecord?.superAdminStaticsRec?.totalFeedback)
+        setTotalFrauds(SuperAdminStaticsRecord?.superAdminStaticsRec?.totalFrauds)
+
+        
+    }, [SuperAdminStaticsRecord])
+
+
 
     const responsive = {
         superLargeDesktop: {
@@ -76,16 +76,12 @@ const MainStatusCard = () => {
 
     return (
         <>
-
-
 <Carousel responsive={responsive}>
-
-
 <div className="px-6 mb-10 main-tiles-section">
                     <NavLink to="/superAdmin/company">
                         <Card className="main-tiles p-0">
                             <CardRow className="inner-tiles">
-                                <CardStatus className="tiles-title" title={Company && Company} />
+                                <CardStatus className="tiles-title" title={TotalCompany && TotalCompany} />
                                 <img src={CompanyIcon} className="w-24 h-24" />
                                 <CardStatus className="tiles-title-bottom" title={"Company"} />
                             </CardRow>
@@ -116,7 +112,7 @@ const MainStatusCard = () => {
                     </NavLink>
                 </div>
                 <div className="px-6 mb-10 main-tiles-section">
-                    <NavLink to="/admin/retailer">
+                    <NavLink to="/superAdmin/retailer">
                         <Card className="main-tiles p-0">
                             <CardRow className="inner-tiles">
                                 <CardStatus className="tiles-title" title={Retailer && Retailer} />
@@ -129,17 +125,17 @@ const MainStatusCard = () => {
                 <div className="px-6 mb-10 main-tiles-section">
                     <Card className="main-tiles p-0">
                         <CardRow className="inner-tiles">
-                            <CardStatus className="tiles-title" title={100} />
+                            <CardStatus className="tiles-title" title={TotalFrauds && TotalFrauds} />
                             <img src={FraudsDetectedIcon} className="w-24 h-24" />
                             <CardStatus className="tiles-title-bottom" title={"Total Fraud Detected"} />
                         </CardRow>
                     </Card>
                 </div>
                 <div className="px-6 mb-10 main-tiles-section">
-                    <NavLink to="/admin/reports">
+                    <NavLink to="/superAdmin/reports">
                         <Card className="main-tiles p-0">
                             <CardRow className="inner-tiles">
-                                <CardStatus className="tiles-title" title={100} />
+                                <CardStatus className="tiles-title" title={IssueReport && IssueReport} />
                                 <img src={ReportsIcon} className="w-24 h-24" />
                                 <CardStatus className="tiles-title-bottom" title={"Reports Received"} />
                             </CardRow>
@@ -147,7 +143,7 @@ const MainStatusCard = () => {
                     </NavLink>
                 </div>
                 <div className="px-6 mb-10 main-tiles-section">
-                    <NavLink to="/admin/productCovered">
+                    <NavLink to="/superAdmin/productCovered">
                         <Card className="main-tiles p-0">
                             <CardRow className="inner-tiles">
                                 <CardStatus className="tiles-title" title={100} />
@@ -158,7 +154,7 @@ const MainStatusCard = () => {
                     </NavLink>
                 </div>
                 <div className="px-6 mb-10 main-tiles-section">
-                    <NavLink to="/admin/batchCovered">
+                    <NavLink to="/superAdmin/batchCovered">
                         <Card className="main-tiles p-0">
                             <CardRow className="inner-tiles">
                                 <CardStatus className="tiles-title" title={100} />
@@ -169,10 +165,10 @@ const MainStatusCard = () => {
                     </NavLink>
                 </div>
                 <div className="px-6 mb-10 main-tiles-section">
-                    <NavLink to="/admin/feedback">
+                    <NavLink to="/superAdmin/feedback">
                         <Card className="main-tiles p-0">
                             <CardRow className="inner-tiles">
-                                <CardStatus className="tiles-title" title={150} />
+                                <CardStatus className="tiles-title" title={Feedback && Feedback} />
                                 <img src={FeedbackIcon} className="w-24 h-24" />
                                 <CardStatus className="tiles-title-bottom" title={"Feedback"} />
                             </CardRow>
@@ -180,42 +176,6 @@ const MainStatusCard = () => {
                     </NavLink>
                 </div>
             </Carousel>
-
-
-
-
-
-
-            {/* <span style={{cursor: "pointer"}} onClick={() => navigate('/superAdmin/company')}>
-                <StatusCard
-                    color="blue"
-                    icon="groups"
-                    title="Company"
-                    amount={Company}
-                />
-            </span>
-            <StatusCard
-                color="pink"
-                icon="groups"
-                title="Factory"
-                amount={Factories}
-            />
-            <StatusCard
-                color="purple"
-                icon="groups"
-                title="Distributer"
-                amount={Distributer}
-            />
-
-            <StatusCard
-                color="orange"
-                icon="groups"
-                title="Retailer"
-                amount={Retailer}
-            /> */}
-
-
-
         </>
     )
 }
