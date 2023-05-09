@@ -816,16 +816,60 @@ app.get('/api/viewProductInfo', async (req, res) => {
   // } catch (error) {
   //   res.status(500).json({ message: error.message });
   // }
+  let result;
   try {
     let ProductID = req.query.productID;
-    const documents = await customerData.findOne({ ProductID: ProductID })
-    // .populate("ProductRef")    
-    console.log(documents);
-    if (documents) {
-      res.status(200).json({ status: "success", message: documents });
-    } else {
-      res.status(200).json({ status: "success", message: [] });
+    // const documents = await customerData.findOne({ ProductID: ProductID })
+    const doc = await product.findOne({ ProductID: ProductID });
+    if(!doc){
+      return res.status(200).json({ status: "success", message: [] });
     }
+    const data = await batch.findOne({ BatchID: doc.BatchID });
+
+    console.log(doc);
+    console.log(data);
+    // console.log(doc.ProductName)
+    // console.log(doc.ProductID)
+    // console.log(doc.ProductID)
+    // console.log(doc.CustomerID)
+    // console.log(doc.CustomerName)
+    // console.log(doc.RetailerID) //
+    // console.log(doc.DateWhenSoldToCustomer)
+    // console.log(data.DateOfProduction)
+    // console.log(data.BatchID)
+    // console.log(data.FactoryID) //
+
+    let factoryName;
+    let retailerName;
+    if(!data.FactoryID){
+      factoryName=""
+    }else{
+      const factoryUser = await User.findById(data.FactoryID);
+      factoryName=factoryUser.name
+    }
+    if(!doc.RetailerID){
+      console.log(doc.RetailerID)
+      retailerName=""
+    }else{
+      console.log(doc.RetailerID)
+      const retailerUser = await User.findById(doc.RetailerID);
+      retailerName=retailerUser.name
+    }
+    
+    result={
+      ProductName: doc.ProductName,
+      ProductID:doc.ProductID,
+      CustomerID: doc.CustomerID,
+      CustomerName: doc.CustomerName,
+      RetailerName:retailerName,
+      DateWhenSoldToCustomer:doc.DateWhenSoldToCustomer,
+      PackagingTimestamp: data.DateOfProduction,
+      BatchID: data.BatchID,
+      ManufacturedBy:factoryName
+    }
+ 
+    res.status(200).json({ status: "success", message: result });
+
   } catch (error) {
     console.log(error.message);
     res.status(400).send({ error: error.message });
