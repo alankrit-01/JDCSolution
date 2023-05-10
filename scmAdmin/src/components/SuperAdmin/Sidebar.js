@@ -44,7 +44,6 @@ export default function SuperAdminSidebar() {
           </NavLink>
           <div className="flex flex-col">
             <hr className="my-4 min-w-full" />
-            
             <ul className="flex-col min-w-full flex list-none">
             <li className="rounded-lg mb-2">
                 <NavLink
@@ -55,7 +54,6 @@ export default function SuperAdminSidebar() {
                   <img src={CompanyIcon} className="w-16 h-16" style={{ margin: "auto" }} />
                 </NavLink>
               </li>
-
               <li className="rounded-lg mb-2">
                 <NavLink
                   to="/superAdmin/factory"
@@ -85,27 +83,25 @@ export default function SuperAdminSidebar() {
               </li>
               <li className="rounded-lg mb-2">
                 <NavLink
-                  to="/superAdmin/dashboard"
+                  to="/superAdmin/totalFrouds"
                   className="flex items-center gap-4 text-sm text-gray-700 font-light px-4 py-3 rounded-lg"
                   activeClassName="bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md"
                 >
                   <img src={FraudsDetectedIcon} className="w-16 h-16" style={{ margin: "auto" }} />
                 </NavLink>
               </li>
-
               <li className="rounded-lg mb-2">
                 <NavLink
-                  to="/superAdmin/dashboard"
+                  to="/superAdmin/reports"
                   className="flex items-center gap-4 text-sm text-gray-700 font-light px-4 py-3 rounded-lg"
                   activeClassName="bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md"
                 >
-               
                   <img src={ReportsIcon} className="w-16 h-16" style={{ margin: "auto" }} />
                 </NavLink>
               </li>
               <li className="rounded-lg mb-2">
                 <NavLink
-                  to="/superAdmin/dashboard"
+                  to="/superAdmin/batchCovered"
                   className="flex items-center gap-4 text-sm text-gray-700 font-light px-4 py-3 rounded-lg"
                   activeClassName="bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md"
                 >
@@ -124,7 +120,7 @@ export default function SuperAdminSidebar() {
               
               <li className="rounded-lg mb-2">
                 <NavLink
-                  to="/superAdmin/dashboard"
+                  to="/superAdmin/feedback"
                   className="flex items-center gap-4 text-sm text-gray-700 font-light px-4 py-3 rounded-lg"
                   activeClassName="bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md"
                 >
@@ -142,9 +138,7 @@ export default function SuperAdminSidebar() {
                   className="flex items-center gap-4 text-sm text-gray-700 font-light px-4 py-3 rounded-lg"
                   activeClassName="bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md"
                   style={{margin: "auto"}}
-                >
-                  {" "}
-                  
+                >                  
                   <img src={LogoutImg} className="w-16 h-16" style={{ margin: "auto" }} />
                 </button>
               </li>

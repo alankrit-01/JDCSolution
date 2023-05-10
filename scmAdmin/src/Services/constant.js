@@ -199,7 +199,8 @@ export const Set_All_Report_For_Ceo = 'Set_All_Report_For_Ceo';
 export const Get_Batch_Product_For_Ceo = 'Get_Batch_Product_For_Ceo';
 export const Set_Batch_Product_For_Ceo = 'Set_Batch_Product_For_Ceo';
 
-
+export const Get_All_Report_For_SuperAdmin = 'Get_All_Report_For_SuperAdmin';
+export const Set_All_Report_For_SuperAdmin = 'Set_All_Report_For_SuperAdmin';
 
 
 

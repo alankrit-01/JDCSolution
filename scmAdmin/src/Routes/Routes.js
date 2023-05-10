@@ -18,6 +18,20 @@ import SuperAdminAddRetailer from 'pages/SuperAdmin/Retailer/SuperAdminAddRetail
 import SuperAdminRetailerDetail from 'pages/SuperAdmin/Retailer/SuperAdminRetailerDetail';
 
 
+import SuperAdminFeedback from 'pages/SuperAdmin/SuperAdminFeedback';
+import SuperAdminDistributerFeedback from 'pages/SuperAdmin/Distributer/SuperAdminDistributerFeedback';
+import SuperAdminRetailerFeedback from 'pages/SuperAdmin/Retailer/SuperAdminRetailerFeedback';
+import SuperAdminCustomerFeedback from 'pages/SuperAdmin/Customer/SuperAdminCustomerFeedback';
+
+import SuperAdminTotalFrouds from 'pages/SuperAdmin/SuperAdminTotalFrouds';
+
+import SuperAdminBatchCovered from 'pages/SuperAdmin/SuperAdminBatchCovered';
+import SuperAdminBatchCoveredByCompany from 'pages/SuperAdmin/SuperAdminBatchCoveredByCompany';
+
+import SuperAdminReports from 'pages/SuperAdmin/SuperAdminReports';
+import SuperAdminReportsSentToCeo from 'pages/SuperAdmin/SuperAdminReportsSentToCeo';
+
+
 import CompanyFeedback from 'pages/SuperAdmin/Company/CompanyFeedback';
 import ViewCompanyFeedback from 'pages/SuperAdmin/Company/ViewCompanyFeedback';
 
@@ -122,6 +136,22 @@ const WebRoutes = () => {
             <Route path="/superAdmin/addRetailer" index element={<SuperAdminAddRetailer />} />
             <Route path="/superAdmin/retailerDetail" index element={<SuperAdminRetailerDetail />} />
 
+
+            
+            <Route path="/superAdmin/feedback" index element={<SuperAdminFeedback />} />
+            <Route path="/superAdmin/distributerFeedback" index element={<SuperAdminDistributerFeedback />} />
+            <Route path="/superAdmin/retailerFeedback" index element={<SuperAdminRetailerFeedback />} />
+            <Route path="/superAdmin/customerFeedback" index element={<SuperAdminCustomerFeedback />} />
+
+            <Route path="/superAdmin/totalFrouds" index element={<SuperAdminTotalFrouds />} />
+
+            <Route path="/superAdmin/batchCovered" index element={<SuperAdminBatchCovered />} />
+            <Route path="/superAdmin/batchCoveredByCompany" index element={<SuperAdminBatchCoveredByCompany />} />
+
+            <Route path="/superAdmin/reports" index element={<SuperAdminReports />} />
+            <Route path="/superAdmin/reportsSentToCeo" index element={<SuperAdminReportsSentToCeo />} />
+
+            
             <Route path="/superAdmin/companyFeedback" index element={<CompanyFeedback />} />
             <Route path="/superAdmin/viewCompanyFeedback" index element={<ViewCompanyFeedback />} />
             <Route path="/admin" index element={<AdminLogin />} />

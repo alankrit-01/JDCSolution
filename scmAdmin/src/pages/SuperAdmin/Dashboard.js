@@ -66,17 +66,22 @@ const SuperAdminDashboard = () => {
                                             }}
                                         >
                                             <DropdownItem >
-                                                <NavLink to="/admin/addfactory">
+                                                <NavLink to="/superAdmin/addCompany">
+                                                    Add Company
+                                                </NavLink>
+                                            </DropdownItem>
+                                            <DropdownItem >
+                                                <NavLink to="/superAdmin/addFactory">
                                                     Add Factory
                                                 </NavLink>
                                             </DropdownItem>
                                             <DropdownItem>
-                                                <NavLink to="/admin/adddistributer">
+                                                <NavLink to="/superAdmin/addDistributer">
                                                     Add Distributer
                                                 </NavLink>
                                             </DropdownItem>
                                             <DropdownItem>
-                                                <NavLink to="/admin/addretailer">
+                                                <NavLink to="/superAdmin/addRetailer">
                                                     Add Retailer
                                                 </NavLink>
                                             </DropdownItem>

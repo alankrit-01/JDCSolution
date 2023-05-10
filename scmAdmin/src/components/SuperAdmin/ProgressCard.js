@@ -24,10 +24,7 @@ useEffect(() => {
   setTotalProductSold(SuperAdminStaticsRecord?.superAdminStaticsRec?.totalProductSold)
   setTotalFrauds(SuperAdminStaticsRecord?.superAdminStaticsRec?.totalFrauds)
   setTotalWarnings(SuperAdminStaticsRecord?.superAdminStaticsRec?.totalWarnings)
-
 }, [SuperAdminStaticsRecord])
-
-
   return (
     <>
       <div className="grid grid-cols-1 ml-1 mb-2  bg-[#0c3f6a]  w-92  h-88">
