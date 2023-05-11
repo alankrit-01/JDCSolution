@@ -22,7 +22,7 @@ const SuperAdminReports = () => {
     let retailerReportIssue = reportScanIssuedata.filter((reportissue) => reportissue.role == "Retailer");
     let customerReportIssue = reportScanIssuedata.filter((reportissue) => reportissue.role == "Customer");
 
-    let detailedReports = factoryReportIssue?.length + distributerReportIssue?.length + retailerReportIssue?.length + customerReportIssue?.length
+    let detailedReportsData = reportScanIssuedata.filter((reportissue) => reportissue.role !== "SuperAdmin" && reportissue.role !== "Admin");
 
     return (
         <>
@@ -57,7 +57,7 @@ const SuperAdminReports = () => {
                                     </span>
                                 </div>
                                 <div className="w-full lg:w-6/12 pl-4 mb-10 font-light">
-                                    <span onClick={() => navigate('/superAdmin/distributerReports', { state: { distributerReportsData: distributerReportIssue } })}>
+                                    <span onClick={() => navigate('/superAdmin/companyReportsReceived', { state: { reportsSentFromCeoData: companyReportIssue } })}>
                                         <div className="background-feedback-part">
                                             <h6>{companyReportIssue && companyReportIssue.length }</h6>
                                             <p>Companies Reports</p>
@@ -66,9 +66,9 @@ const SuperAdminReports = () => {
                                 </div> 
                                 <div className="w-full lg:w-3/12 pr-4 mb-10 font-light"></div>
                                 <div className="w-full lg:w-6/12 pr-4 mb-10 font-light">
-                                    <span onClick={() => navigate('/superAdmin/retailerReports', { state: { retailerReportsData: retailerReportIssue } })}>
+                                    <span onClick={() => navigate('/superAdmin/detailedReports', { state: { detailedReportsData: detailedReportsData, factoryReportIssue : factoryReportIssue, distributerReportIssue: distributerReportIssue,  retailerReportIssue : retailerReportIssue, customerReportIssue :customerReportIssue } })}>
                                         <div className="background-feedback-part">
-                                            <h6>{detailedReports && detailedReports}</h6>
+                                            <h6>{detailedReportsData && detailedReportsData.length}</h6>
                                             <p>Detailed Reports</p>
                                         </div>
                                     </span>

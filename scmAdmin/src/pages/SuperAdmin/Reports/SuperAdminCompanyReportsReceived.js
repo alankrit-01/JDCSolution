@@ -14,9 +14,9 @@ import img3 from "assets/img/product2.png";
 import img4 from "assets/img/product3.jpg";
 
 
-const SuperAdminReportsSentToCeo = () => {
+const SuperAdminCompanyReportsReceived = () => {
   let issueReports = useLocation();
-  let issueReportsData = issueReports?.state?.reportsSentToCeoData;
+  let issueReportsData = issueReports?.state?.reportsSentFromCeoData;
   const [initialdata, setInitialdata] = useState([]);
   const [newReportIssue, setNewReportIssue] = useState([]);
   const [pendingReportIssue, setPendingReportIssue] = useState([]);
@@ -29,28 +29,18 @@ const SuperAdminReportsSentToCeo = () => {
   let issues;
   const columns = [
     {
-      name: "Distributer Name",
+      name: "Name",
       selector: (row) => row.name,
-      sortable: true,
-    },
-    {
-      name: "Location",
-      selector: (row) => row.location,
-      sortable: true,
-    },
-    {
-      name: "Email",
-      selector: (row) => row.email,
-      sortable: true,
-    },
-    {
-      name: "Date",
-      selector: (row) => row.created,
       sortable: true,
     },
     {
       name: "Report",
       selector: (row) => row.comment,
+      sortable: true,
+    },
+    {
+      name: "Date",
+      selector: (row) => row.created,
       sortable: true,
     },
     {
@@ -71,7 +61,7 @@ const SuperAdminReportsSentToCeo = () => {
                 </h5>
                 <br></br>
                 <div className="text-sm">
-                                    <p style={{ display: "none" }}>{issues = row.scanIssue.split(',')}</p>
+                  <p style={{ display: "none" }}>{issues = row?.scanIssue?.split(',')}</p>
 
                   {issues && issues.map((issuesVal) => <div className="flex">
                     <input
@@ -139,7 +129,7 @@ const SuperAdminReportsSentToCeo = () => {
       setNewReportIssue(newReportIssue);
       setPendingReportIssue(pendingReportIssue);
       setSolvedReportIssue(solvedReportIssue);
-    }else {
+    } else {
       var issueReportempty = [{ email: "There are no record to display" }];
       setInitialdata(issueReportempty);
     }
@@ -156,7 +146,7 @@ const SuperAdminReportsSentToCeo = () => {
     }
   }, [initialdata])
 
-  useEffect(() => {    
+  useEffect(() => {
     const result = IssueReport.filter((issueReportVal) => {
       return issueReportVal.name.toLowerCase().match(Search.toLowerCase());
     })
@@ -177,7 +167,7 @@ const SuperAdminReportsSentToCeo = () => {
               <div className="flex flex-wrap feedback-padding lg:w-12/12">
                 <div className="w-full lg:w-4/12 pr-4">
                   <div>
-                    <h2 className="reports-part">Reports - <span className="factory-bold">Distributer</span></h2>
+                    <h2 className="reports-part">Reports Received - <span className="factory-bold">Company</span></h2>
                     <h4 className="font-spano5"><span>{issueReportsData && issueReportsData.length}</span></h4>
                   </div>
                 </div>
@@ -221,7 +211,7 @@ const SuperAdminReportsSentToCeo = () => {
                 selectableRows
                 selectableRowsHighlight
                 highlightOnHover
-              
+
               />
             </div>
           </div>
@@ -231,4 +221,4 @@ const SuperAdminReportsSentToCeo = () => {
     </>
   );
 }
-export default SuperAdminReportsSentToCeo
+export default SuperAdminCompanyReportsReceived

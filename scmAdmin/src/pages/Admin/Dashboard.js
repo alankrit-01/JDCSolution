@@ -8,8 +8,8 @@ import cumulative from "assets/img/cumulative.png";
 import { useEffect } from "react";
 import { resetLoginData } from "Services/action";
 import { useDispatch } from "react-redux";
-import GoogleMapReact from 'google-map-react';
-import AnyReactComponent from 'google-map-react';
+
+import MapExample from 'components/Admin/MapExample';
 
 const Dashboard = () => {
   const dispatch = useDispatch();
@@ -18,13 +18,7 @@ const Dashboard = () => {
   },[])
 
 
-  const defaultProps = {
-    center: {
-      lat: 26.859970,
-      lng: 75.806236
-    },
-    zoom: 11
-  };
+ 
 
   return (
     <>
@@ -110,18 +104,10 @@ const Dashboard = () => {
                 <h2 className="heading-background">Locations</h2>
               </div>
               <div className='w-80 h-96 map-padding-use'>
-                <GoogleMapReact
-                  bootstrapURLKeys={{ key: "AIzaSyChufzuq8C_rWT2fSVe_0WLEqjiktQen-Q" }}
-                  defaultCenter={defaultProps.center}
-                  defaultZoom={defaultProps.zoom}
-                >
-                  <AnyReactComponent
-                    lat={26.859970}
-                    lng={75.806236}
-                    text="My Marker"
-                  />
-                </GoogleMapReact>
+
+              <MapExample /> 
               </div>
+              
             </div>
 
 

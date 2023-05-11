@@ -28,8 +28,14 @@ import SuperAdminTotalFrouds from 'pages/SuperAdmin/SuperAdminTotalFrouds';
 import SuperAdminBatchCovered from 'pages/SuperAdmin/SuperAdminBatchCovered';
 import SuperAdminBatchCoveredByCompany from 'pages/SuperAdmin/SuperAdminBatchCoveredByCompany';
 
-import SuperAdminReports from 'pages/SuperAdmin/SuperAdminReports';
-import SuperAdminReportsSentToCeo from 'pages/SuperAdmin/SuperAdminReportsSentToCeo';
+import SuperAdminReports from 'pages/SuperAdmin/Reports/SuperAdminReports';
+import SuperAdminReportsSentToCeo from 'pages/SuperAdmin/Reports/SuperAdminReportsSentToCeo';
+import SuperAdminCompanyReportsReceived from 'pages/SuperAdmin/Reports/SuperAdminCompanyReportsReceived';
+import SuperAdminDetailedReports from 'pages/SuperAdmin/Reports/SuperAdminDetailedReports';
+import SuperAdminFactoryReports from 'pages/SuperAdmin/Reports/SuperAdminFactoryReports';
+import SuperAdminDistributerReports from 'pages/SuperAdmin/Reports/SuperAdminDistributerReports';
+import SuperAdminRetailerReports from 'pages/SuperAdmin/Reports/SuperAdminRetailerReports';
+import SuperAdminCustomerReports from 'pages/SuperAdmin/Reports/SuperAdminCustomerReports';
 
 
 import CompanyFeedback from 'pages/SuperAdmin/Company/CompanyFeedback';
@@ -150,8 +156,13 @@ const WebRoutes = () => {
 
             <Route path="/superAdmin/reports" index element={<SuperAdminReports />} />
             <Route path="/superAdmin/reportsSentToCeo" index element={<SuperAdminReportsSentToCeo />} />
+            <Route path="/superAdmin/companyReportsReceived" index element={<SuperAdminCompanyReportsReceived />} />
+            <Route path="/superAdmin/detailedReports" index element={<SuperAdminDetailedReports />} />
+            <Route path="/superAdmin/factoryReports" index element={<SuperAdminFactoryReports />} />
+            <Route path="/superAdmin/distributerReports" index element={<SuperAdminDistributerReports />} />
+            <Route path="/superAdmin/retailerReports" index element={<SuperAdminRetailerReports />} />
+            <Route path="/superAdmin/customerReports" index element={<SuperAdminCustomerReports />} />
 
-            
             <Route path="/superAdmin/companyFeedback" index element={<CompanyFeedback />} />
             <Route path="/superAdmin/viewCompanyFeedback" index element={<ViewCompanyFeedback />} />
             <Route path="/admin" index element={<AdminLogin />} />
@@ -202,7 +213,6 @@ const WebRoutes = () => {
             <Route path="/factory/distributer" index element={<FactoryDistributer />} />
             <Route path="/factory/distributerDetails" index element={<FactoryDistributerDetails />} />
 
-
             <Route path="/factory/batchTemplate" index element={<BatchTemplate />} />
             <Route path="/factory/addBatchTemplate" index element={<AddBatchTemplate />} />
             <Route path="/factory/batchQr" index element={<BatchQr />} />
@@ -210,8 +220,6 @@ const WebRoutes = () => {
             <Route path="/factory/batchSent" index element={<BatchSent />} />
             <Route path="/factory/batchSentDistributer" index element={<BatchSentDistributer />} />
             <Route path="/factory/batchSentDetail" index element={<BatchSentDetail />} />
-
-            
 
             <Route path="/factory/productTemplate" index element={<ProductTemplate />} />
             <Route path="/factory/addProductTemplate" index element={<AddProductTemplate />} />
@@ -229,8 +237,6 @@ const WebRoutes = () => {
             {/* <Route path="/factory/product" index element={<Products />} />
             <Route path="/factory/addProduct" index element={<AddProduct />} /> */}
             {/* End Need Changes */}
-
-
         </Routes>
     )
 }
