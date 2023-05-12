@@ -1,4 +1,3 @@
-import MainStatusCard from "components/SuperAdmin/MainStatusCard";
 import Sidebar from "components/SuperAdmin/Sidebar";
 import Footer from "components/SuperAdmin/Footer";
 import { useDispatch, useSelector } from "react-redux";

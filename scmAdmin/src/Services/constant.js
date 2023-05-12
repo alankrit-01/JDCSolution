@@ -8,6 +8,10 @@ export const GETDETAILS = 'GETDETAILS';
 export const Get_Ceo_Statistics = 'Get_Ceo_Statistics';
 export const Set_Ceo_Statistics = 'Set_Ceo_Statistics';
 
+export const Get_SuperAdmin_Statistics = 'Get_SuperAdmin_Statistics';
+export const Set_SuperAdmin_Statistics = 'Set_SuperAdmin_Statistics';
+
+
 export const Get_User_Detail = 'Get_User_Detail'; 
 export const Set_User_Detail = 'Set_User_Detail'; 
 export const SuperAdminUserLogin = 'SuperAdminUserLogin';
@@ -195,7 +199,8 @@ export const Set_All_Report_For_Ceo = 'Set_All_Report_For_Ceo';
 export const Get_Batch_Product_For_Ceo = 'Get_Batch_Product_For_Ceo';
 export const Set_Batch_Product_For_Ceo = 'Set_Batch_Product_For_Ceo';
 
-
+export const Get_All_Report_For_SuperAdmin = 'Get_All_Report_For_SuperAdmin';
+export const Set_All_Report_For_SuperAdmin = 'Set_All_Report_For_SuperAdmin';
 
 
 

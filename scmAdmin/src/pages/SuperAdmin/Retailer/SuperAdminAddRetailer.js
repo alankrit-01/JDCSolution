@@ -1,33 +1,33 @@
-import MainStatusCard from "components/Admin/MainStatusCard";
-import Sidebar from "components/Admin/Sidebar";
-import Footer from "components/Admin/Footer";
+import Sidebar from "components/SuperAdmin/Sidebar";
+import Footer from "components/SuperAdmin/Footer";
 import Card from '@material-tailwind/react/Card';
 import CardBody from '@material-tailwind/react/CardBody';
 import Button from '@material-tailwind/react/Button';
-import {storeDistributer, resetDistributerData} from "Services/action";
-import React, {useRef, useState,useEffect} from "react";
+import { storeRetailer, resetRetailerData, getCompany } from "Services/action";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { ToastContainer, toast } from "react-toastify";
+import Select from "react-select";
 
-const AddDistributer= () => {
-    const dataFetchedRef = useRef(false);
+const SuperAdminAddRetailer = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const admindata = useSelector((state) => state.AdminLoginData);
-    const [adminUserId, setAdminUserId] = useState(admindata.adminUserId);
+    const [SelectedCompany, setSelectedCompany] = React.useState();
+    const [SelectedCompanyId, setSelectedCompanyId] = React.useState();
+
     const errorNotify = () =>
-    toast.error("Email Already Exist!.", {
-      position: "bottom-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-    });
+        toast.error("Email Already Exist!.", {
+            position: "bottom-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+        });
 
     const {
         register,
@@ -37,25 +37,35 @@ const AddDistributer= () => {
 
 
     function onSubmit(data) {
-        dispatch(resetDistributerData());
-        dispatch(storeDistributer(data));
+        data.adminId = SelectedCompany._id
+        dispatch(resetRetailerData());
+        dispatch(storeRetailer(data));
     }
-    
-    const initialDistributerStoredata = useSelector((state) => state.DistributerStoreData);
+
+    const initialStoredata = useSelector((state) => state.RetailerStoreData);
     useEffect(() => {
-        if (initialDistributerStoredata?.success) {
-          
-            navigate('/admin/distributer')
+        if (initialStoredata?.success) {
+            navigate('/superAdmin/retailer')
         }
-        if (initialDistributerStoredata.error == 'Already Exist') {
+        if (initialStoredata.error == 'Already Exist') {
             errorNotify();
         }
-    }, [initialDistributerStoredata])
+    }, [initialStoredata])
+
+    useEffect(() => {
+        dispatch(getCompany());
+        dispatch(resetRetailerData());
+
+    }, []);
+
+    const companydata = useSelector((state) => state.CompanyRecord);
+
+    const compRecord = companydata?.companyRec;
 
 
     return (
         <>
-              <ToastContainer />
+            <ToastContainer />
             <Sidebar />
             <div className="md:ml-32">
                 <div className="pt-14 pb-20 px-3 md:px-8 h-auto">
@@ -68,17 +78,31 @@ const AddDistributer= () => {
                         <div className="grid grid-cols-1 xl:grid-cols-6">
                             <div className="xl:col-start-1 xl:col-end-7 px-4 mb-16">
                                 <div>
-                                    <h2 className="head-cust-color">Add New Distributer</h2>
+                                    <h2 className="head-cust-color">Add New Retailer</h2>
                                 </div>
                                 <Card className="background-gray rounded-none">
                                     <CardBody>
                                         <form className="custom-form" onSubmit={handleSubmit(onSubmit)}>
                                             <div className="flex flex-wrap mt-10">
-                                                <div className="w-full lg:w-12/12 mb-10 font-light">
+                                                <div className="w-full lg:w-6/12 pr-4 mb-10 font-light">
+                                                    <Select
+                                                        className="block border-gray-part py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer border_two2"
+                                                        options={compRecord && compRecord}
+                                                        placeholder={"Select a Company"}
+                                                        value={SelectedCompany}
+                                                        onChange={setSelectedCompany}
+                                                        getOptionValue={(SelectedCompany) => SelectedCompany?._id}
+                                                        getOptionLabel={(SelectedCompany) => `${SelectedCompany?.name}`}
+                                                        required={true}
+                                                        name="company"
+                                                    />
+                                                    {errors.company && <span className="error"> Company is required.</span>}
+                                                </div>
+                                                <div className="w-full lg:w-6/12 pl-4 mb-10 font-light">
                                                     <div class="w-full relative h-11">
-                                                    <input type="hidden" {...register("adminId", { required: true })} value={adminUserId && adminUserId} />
-                                                    <input type="hidden" {...register("role", { required: true })} value={"Distributer"} />
-                                                        <input type="text" {...register("name", { required: true })} placeholder="Name"  className="w-full h-full focus:outline-none" />
+                                                        <input type="hidden" {...register("adminId")} value={SelectedCompanyId && SelectedCompanyId} />
+                                                        <input type="hidden" {...register("role", { required: true })} value={"Retailer"} />
+                                                        <input {...register("name", { required: true })} placeholder="Name" required className="w-full h-full focus:outline-none" />
                                                         {errors.name && <span className="error"> Name is required.</span>}
                                                     </div>
                                                 </div>
@@ -167,4 +191,4 @@ const AddDistributer= () => {
         </>
     )
 }
-export default AddDistributer;
+export default SuperAdminAddRetailer

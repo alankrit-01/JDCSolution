@@ -171,7 +171,7 @@ const DistributerDetails = () => {
                                             <p><span className="bg-span-part3"> </span>  <span className="bg-span-part4">
                                                 {initialDistBatchProductChartData.distributerBatchProductRec.message == "Result is empty" ? 0 : initialDistBatchProductChartData?.distributerBatchProductRec?.message?.ProductsReceived}
                                             </span></p>
-                                            <p>Products Sold</p>
+                                            <p>Products Sent</p>
                                             <p><span className="bg-span-part3"> </span>  <span className="bg-span-part4">
                                                 {initialDistBatchProductChartData.distributerBatchProductRec.message == "Result is empty" ? 0 : initialDistBatchProductChartData?.distributerBatchProductRec?.message?.ProductsSold}
                                             </span></p>
@@ -205,12 +205,6 @@ const DistributerDetails = () => {
                                             </Pie>
                                             <Tooltip content={<AuthenticationLevelTooltip />} />
 
-
-                                            {/* <Legend
-    layout="vertical"
-    verticalAlign="bottom"
-    align="center"
-  /> */}
                                         </PieChart>
 
                                         {AuthenticationLevelData.map((entry, index) => (

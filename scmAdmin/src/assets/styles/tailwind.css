@@ -10,7 +10,7 @@
 =========================================================
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
-/*! tailwindcss v2.1.4 | MIT License | https://tailwindcss.com
+/*! tailwindcss v2.2.19 | MIT License | https://tailwindcss.com
 */
 /*! modern-normalize v1.1.0 | MIT License | https://github.com/sindresorhus/modern-normalize */
 /*
@@ -29,7 +29,6 @@ Use a better box model (opinionated).
 Use a more readable tab size (opinionated).
 */
 html {
-	-moz-tab-size: 4;
 	tab-size: 4;
 }
 /**
@@ -85,7 +84,8 @@ Text-level semantics
 Add the correct text decoration in Chrome, Edge, and Safari.
 */
 abbr[title] {
-	text-decoration: underline dotted;
+	-webkit-text-decoration: underline dotted;
+	        text-decoration: underline dotted;
 }
 /**
 Add the correct font weight in Edge and Safari.
@@ -278,14 +278,6 @@ button {
   background-color: transparent;
   background-image: none;
 }
-/**
- * Work around a Firefox/IE bug where the transparent `button` background
- * results in a loss of the default `button` focus styles.
- */
-button:focus {
-  outline: 1px dotted;
-  outline: 5px auto -webkit-focus-ring-color;
-}
 fieldset {
   margin: 0;
   padding: 0;
@@ -348,7 +340,7 @@ body {
   box-sizing: border-box; /* 1 */
   border-width: 0; /* 2 */
   border-style: solid; /* 2 */
-  border-color: #e5e7eb; /* 2 */
+  border-color: currentColor; /* 2 */
 }
 /*
  * Ensure horizontal rules are visible by default
@@ -379,6 +371,16 @@ textarea::placeholder {
 button,
 [role="button"] {
   cursor: pointer;
+}
+/**
+ * Override legacy focus reset from Normalize with modern Firefox focus styles.
+ *
+ * This is actually an improvement over the new defaults in Firefox in our testing,
+ * as it triggers the better focus styles even for links, which still use a dotted
+ * outline in Firefox by default.
+ */
+:-moz-focusring {
+	outline: auto;
 }
 table {
   border-collapse: collapse;
@@ -429,11 +431,20 @@ samp {
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 /**
- * Make replaced elements `display: block` by default as that's
- * the behavior you want almost all of the time. Inspired by
- * CSS Remedy, with `svg` added as well.
+ * 1. Make replaced elements `display: block` by default as that's
+ *    the behavior you want almost all of the time. Inspired by
+ *    CSS Remedy, with `svg` added as well.
  *
- * https://github.com/mozdevs/cssremedy/issues/14
+ *    https://github.com/mozdevs/cssremedy/issues/14
+ * 
+ * 2. Add `vertical-align: middle` to align replaced elements more
+ *    sensibly by default when overriding `display` by adding a
+ *    utility like `inline`.
+ *
+ *    This can trigger a poorly considered linting error in some
+ *    tools but is included by design.
+ * 
+ *    https://github.com/jensimmons/cssremedy/issues/14#issuecomment-634934210
  */
 img,
 svg,
@@ -443,8 +454,8 @@ audio,
 iframe,
 embed,
 object {
-  display: block;
-  vertical-align: middle;
+  display: block; /* 1 */
+  vertical-align: middle; /* 2 */
 }
 /**
  * Constrain images and videos to the parent width and preserve
@@ -457,7 +468,25 @@ video {
   max-width: 100%;
   height: auto;
 }
-*{
+/**
+ * Ensure the default browser behavior of the `hidden` attribute.
+ */
+[hidden] {
+  display: none;
+}
+*, ::before, ::after{
+	--tw-translate-x: 0;
+	--tw-translate-y: 0;
+	--tw-rotate: 0;
+	--tw-skew-x: 0;
+	--tw-skew-y: 0;
+	--tw-scale-x: 1;
+	--tw-scale-y: 1;
+	--tw-transform: translateX(var(--tw-translate-x)) translateY(var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+	--tw-border-opacity: 1;
+	border-color: rgba(229, 231, 235, var(--tw-border-opacity));
+	--tw-ring-offset-shadow: 0 0 #0000;
+	--tw-ring-shadow: 0 0 #0000;
 	--tw-shadow: 0 0 #0000;
 	--tw-ring-inset: var(--tw-empty,/*!*/ /*!*/);
 	--tw-ring-offset-width: 0px;
@@ -465,6 +494,17 @@ video {
 	--tw-ring-color: rgba(59, 130, 246, 0.5);
 	--tw-ring-offset-shadow: 0 0 #0000;
 	--tw-ring-shadow: 0 0 #0000;
+	--tw-shadow: 0 0 #0000;
+	--tw-blur: var(--tw-empty,/*!*/ /*!*/);
+	--tw-brightness: var(--tw-empty,/*!*/ /*!*/);
+	--tw-contrast: var(--tw-empty,/*!*/ /*!*/);
+	--tw-grayscale: var(--tw-empty,/*!*/ /*!*/);
+	--tw-hue-rotate: var(--tw-empty,/*!*/ /*!*/);
+	--tw-invert: var(--tw-empty,/*!*/ /*!*/);
+	--tw-saturate: var(--tw-empty,/*!*/ /*!*/);
+	--tw-sepia: var(--tw-empty,/*!*/ /*!*/);
+	--tw-drop-shadow: var(--tw-empty,/*!*/ /*!*/);
+	--tw-filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
 }
 .container{
 	width: 100%;
@@ -508,14 +548,14 @@ video {
 .pointer-events-none{
 	pointer-events: none;
 }
+.fixed{
+	position: fixed;
+}
 .absolute{
 	position: absolute;
 }
 .relative{
 	position: relative;
-}
-.fixed{
-	position: fixed;
 }
 .inset-y-0{
 	top: 0px;
@@ -623,9 +663,6 @@ video {
 .mr-4{
 	margin-right: 1rem;
 }
-.mt-20{
-	margin-top: 5rem;
-}
 .mb-6{
 	margin-bottom: 1.5rem;
 }
@@ -679,6 +716,9 @@ video {
 }
 .mr-2{
 	margin-right: 0.5rem;
+}
+.mt-20{
+	margin-top: 5rem;
 }
 .mb-16{
 	margin-bottom: 4rem;
@@ -890,9 +930,6 @@ video {
 .w-56{
 	width: 14rem;
 }
-.w-60{
-	width: 15rem;
-}
 .w-4{
 	width: 1rem;
 }
@@ -901,6 +938,9 @@ video {
 }
 .w-36{
 	width: 9rem;
+}
+.w-60{
+	width: 15rem;
 }
 .w-52{
 	width: 13rem;
@@ -960,21 +1000,13 @@ video {
 	border-collapse: collapse;
 }
 .transform{
-	--tw-translate-x: 0;
-	--tw-translate-y: 0;
-	--tw-rotate: 0;
-	--tw-skew-x: 0;
-	--tw-skew-y: 0;
-	--tw-scale-x: 1;
-	--tw-scale-y: 1;
-	transform: translateX(var(--tw-translate-x)) translateY(var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+	transform: var(--tw-transform);
 }
 .list-none{
 	list-style-type: none;
 }
 .appearance-none{
-	-webkit-appearance: none;
-	        appearance: none;
+	appearance: none;
 }
 .grid-cols-1{
 	grid-template-columns: repeat(1, minmax(0, 1fr));
@@ -985,11 +1017,11 @@ video {
 .grid-cols-4{
 	grid-template-columns: repeat(4, minmax(0, 1fr));
 }
-.flex-col{
-	flex-direction: column;
-}
 .flex-row{
 	flex-direction: row;
+}
+.flex-col{
+	flex-direction: column;
 }
 .flex-col-reverse{
 	flex-direction: column-reverse;
@@ -1000,26 +1032,26 @@ video {
 .flex-nowrap{
 	flex-wrap: nowrap;
 }
+.items-start{
+	align-items: flex-start;
+}
 .items-center{
 	align-items: center;
 }
 .items-stretch{
 	align-items: stretch;
 }
-.items-start{
-	align-items: flex-start;
-}
-.justify-between{
-	justify-content: space-between;
-}
-.justify-center{
-	justify-content: center;
+.justify-start{
+	justify-content: flex-start;
 }
 .justify-end{
 	justify-content: flex-end;
 }
-.justify-start{
-	justify-content: flex-start;
+.justify-center{
+	justify-content: center;
+}
+.justify-between{
+	justify-content: space-between;
 }
 .gap-4{
 	gap: 1rem;
@@ -1061,14 +1093,14 @@ video {
 	--tw-divide-opacity: 1;
 	border-color: rgba(229, 231, 235, var(--tw-divide-opacity));
 }
+.overflow-hidden{
+	overflow: hidden;
+}
 .overflow-x-auto{
 	overflow-x: auto;
 }
 .overflow-y-auto{
 	overflow-y: auto;
-}
-.overflow-hidden{
-	overflow: hidden;
 }
 .whitespace-nowrap{
 	white-space: nowrap;
@@ -1236,10 +1268,6 @@ video {
 	--tw-bg-opacity: 1;
 	background-color: rgba(249, 250, 251, var(--tw-bg-opacity));
 }
-.bg-blue-600{
-	--tw-bg-opacity: 1;
-	background-color: rgba(37, 99, 235, var(--tw-bg-opacity));
-}
 .bg-\[\#CCCCCC\]{
 	--tw-bg-opacity: 1;
 	background-color: rgba(204, 204, 204, var(--tw-bg-opacity));
@@ -1248,13 +1276,17 @@ video {
 	--tw-bg-opacity: 1;
 	background-color: rgba(243, 244, 246, var(--tw-bg-opacity));
 }
+.bg-indigo-600{
+	--tw-bg-opacity: 1;
+	background-color: rgba(79, 70, 229, var(--tw-bg-opacity));
+}
 .bg-gray-500{
 	--tw-bg-opacity: 1;
 	background-color: rgba(107, 114, 128, var(--tw-bg-opacity));
 }
-.bg-indigo-600{
+.bg-blue-600{
 	--tw-bg-opacity: 1;
-	background-color: rgba(79, 70, 229, var(--tw-bg-opacity));
+	background-color: rgba(37, 99, 235, var(--tw-bg-opacity));
 }
 .bg-\[\#dca63d\]{
 	--tw-bg-opacity: 1;
@@ -1431,11 +1463,11 @@ video {
 .pt-6{
 	padding-top: 1.5rem;
 }
-.text-center{
-	text-align: center;
-}
 .text-left{
 	text-align: left;
+}
+.text-center{
+	text-align: center;
 }
 .text-right{
 	text-align: right;
@@ -1572,10 +1604,6 @@ video {
 	--tw-text-opacity: 1;
 	color: rgba(239, 68, 68, var(--tw-text-opacity));
 }
-.text-blue-700{
-	--tw-text-opacity: 1;
-	color: rgba(29, 78, 216, var(--tw-text-opacity));
-}
 .text-\[\#0c3f6a\]{
 	--tw-text-opacity: 1;
 	color: rgba(12, 63, 106, var(--tw-text-opacity));
@@ -1596,11 +1624,15 @@ video {
 	--tw-text-opacity: 1;
 	color: rgba(219, 39, 119, var(--tw-text-opacity));
 }
-.no-underline{
-	text-decoration: none;
+.text-blue-700{
+	--tw-text-opacity: 1;
+	color: rgba(29, 78, 216, var(--tw-text-opacity));
 }
 .underline{
 	text-decoration: underline;
+}
+.no-underline{
+	text-decoration: none;
 }
 .placeholder-gray-500::placeholder{
 	--tw-placeholder-opacity: 1;
@@ -1633,16 +1665,7 @@ video {
 	box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 .filter{
-	--tw-blur: var(--tw-empty,/*!*/ /*!*/);
-	--tw-brightness: var(--tw-empty,/*!*/ /*!*/);
-	--tw-contrast: var(--tw-empty,/*!*/ /*!*/);
-	--tw-grayscale: var(--tw-empty,/*!*/ /*!*/);
-	--tw-hue-rotate: var(--tw-empty,/*!*/ /*!*/);
-	--tw-invert: var(--tw-empty,/*!*/ /*!*/);
-	--tw-saturate: var(--tw-empty,/*!*/ /*!*/);
-	--tw-sepia: var(--tw-empty,/*!*/ /*!*/);
-	--tw-drop-shadow: var(--tw-empty,/*!*/ /*!*/);
-	filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+	filter: var(--tw-filter);
 }
 .transition-all{
 	transition-property: all;
@@ -1700,8 +1723,7 @@ Use a better box model (opinionated).
 Use a more readable tab size (opinionated).
 */
 html {
-	-moz-tab-size: 4;
-	   tab-size: 4;
+	tab-size: 4;
 }
 /**
 1. Correct the line height in all browsers.
@@ -1756,7 +1778,8 @@ Text-level semantics
 Add the correct text decoration in Chrome, Edge, and Safari.
 */
 abbr[title] {
-	text-decoration: underline dotted;
+	-webkit-text-decoration: underline dotted;
+	        text-decoration: underline dotted;
 }
 /**
 Add the correct font weight in Edge and Safari.
@@ -2771,9 +2794,8 @@ video {
 .mt-input-outline:focus + label, .mt-input-outline:not(:placeholder-shown) + label{font-size:0.75rem !important;line-height:1rem !important;line-height:1.25 !important}
 .mt-input-outline + label:before,
     .mt-input-outline + label:after {
-        content: '';
+        content: '';pointer-events:none;margin-top:0.375rem;box-sizing:border-box;display:block;height:0.5rem;width:0.625rem;border-width:1px;border-top-width:2px;border-bottom-width:0px;border-left-width:0px;border-right-width:0px;border-color:transparent;
     }
-.mt-input-outline + label:before, .mt-input-outline + label:after{pointer-events:none;margin-top:0.375rem;box-sizing:border-box;display:block;height:0.5rem;width:0.625rem;border-width:1px;border-top-width:2px;border-bottom-width:0px;border-left-width:0px;border-right-width:0px;border-color:transparent}
 .mt-input-outline:not(:placeholder-shown) + label:before, .mt-input-outline:not(:placeholder-shown) + label:after{border-top-width:1px;--tw-border-opacity:1;border-color:rgba(224, 224, 224, var(--tw-border-opacity))}
 .mt-input-outline:focus + label::before, .mt-input-outline:focus + label::after{border-top-width:2px}
 .mt-input-outline + label:before{margin-right:0.25rem;border-top-left-radius:0.5rem}
@@ -4437,9 +4459,13 @@ span.error {
 .rdt_TableHead {
     z-index: 0000 !important;
 }
+.statistics-main.flex.custom-link {
+    cursor: pointer;
+}
 .hover\:scale-105:hover{
 	--tw-scale-x: 1.05;
 	--tw-scale-y: 1.05;
+	transform: var(--tw-transform);
 }
 .hover\:bg-gray-50:hover{
 	--tw-bg-opacity: 1;
@@ -4469,11 +4495,11 @@ span.error {
 	--tw-text-opacity: 1;
 	color: rgba(236, 72, 153, var(--tw-text-opacity));
 }
-.hover\:no-underline:hover{
-	text-decoration: none;
-}
 .hover\:underline:hover{
 	text-decoration: underline;
+}
+.hover\:no-underline:hover{
+	text-decoration: none;
 }
 .focus\:z-10:focus{
 	z-index: 10;
@@ -4697,17 +4723,17 @@ span.error {
 	}
 }
 @media (min-width: 1280px){
-	.xl\:col-end-7{
-		grid-column-end: 7;
-	}
-	.xl\:col-end-5{
-		grid-column-end: 5;
-	}
 	.xl\:col-start-1{
 		grid-column-start: 1;
 	}
 	.xl\:col-start-5{
 		grid-column-start: 5;
+	}
+	.xl\:col-end-7{
+		grid-column-end: 7;
+	}
+	.xl\:col-end-5{
+		grid-column-end: 5;
 	}
 	.xl\:grid-cols-6{
 		grid-template-columns: repeat(6, minmax(0, 1fr));

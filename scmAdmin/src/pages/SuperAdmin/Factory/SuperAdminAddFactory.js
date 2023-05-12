@@ -18,9 +18,6 @@ const SuperAdminAddFactory = () => {
     const [SelectedCompany, setSelectedCompany] = React.useState();
     const [SelectedCompanyId, setSelectedCompanyId] = React.useState();
 
-
-    const admindata = useSelector((state) => state.AdminLoginData);
-    const [adminUserId, setAdminUserId] = useState(admindata.adminUserId);
     const errorNotify = () =>
         toast.error("Email Already Exist!.", {
             position: "bottom-right",
@@ -40,7 +37,7 @@ const SuperAdminAddFactory = () => {
     } = useForm();
 
 
-    function onSubmit(data) {        
+    function onSubmit(data) {
         data.adminId = SelectedCompany._id
         dispatch(resetFactoryData());
         dispatch(storeFactory(data));
@@ -67,7 +64,7 @@ const SuperAdminAddFactory = () => {
 
     const compRecord = companydata?.companyRec;
 
-    
+
     return (
         <>
             <ToastContainer />
@@ -104,12 +101,13 @@ const SuperAdminAddFactory = () => {
                                                     />
                                                     {errors.company && <span className="error"> Company is required.</span>}
                                                 </div>
-
                                                 <div className="w-full lg:w-6/12 pl-4 mb-10 font-light">
-                                                    <input type="hidden" {...register("adminId")} value={SelectedCompanyId && SelectedCompanyId} />
-                                                    <input type="hidden" {...register("role", { required: true })} value={"Factory"} />
-                                                    <input {...register("name", { required: true })} placeholder="Name" required className="w-full h-full focus:outline-none" />
-                                                    {errors.name && <span className="error"> Name is required.</span>}
+                                                    <div class="w-full relative h-11">
+                                                        <input type="hidden" {...register("adminId")} value={SelectedCompanyId && SelectedCompanyId} />
+                                                        <input type="hidden" {...register("role", { required: true })} value={"Factory"} />
+                                                        <input {...register("name", { required: true })} placeholder="Name" required className="w-full h-full focus:outline-none" />
+                                                        {errors.name && <span className="error"> Name is required.</span>}
+                                                    </div>
                                                 </div>
                                                 <div className="w-full lg:w-6/12 pr-4 mb-10 font-light">
                                                     <div class="w-full relative h-11">

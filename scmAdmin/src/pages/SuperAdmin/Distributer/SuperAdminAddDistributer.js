@@ -3,8 +3,8 @@ import Footer from "components/SuperAdmin/Footer";
 import Card from '@material-tailwind/react/Card';
 import CardBody from '@material-tailwind/react/CardBody';
 import Button from '@material-tailwind/react/Button';
-import { storeFactory, resetFactoryData, getCompany } from "Services/action";
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import { storeDistributer, resetDistributerData, getCompany } from "Services/action";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -12,15 +12,11 @@ import { ToastContainer, toast } from "react-toastify";
 import Select from "react-select";
 
 const SuperAdminAddDistributer = () => {
-    const dataFetchedRef = useRef(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [SelectedCompany, setSelectedCompany] = React.useState();
     const [SelectedCompanyId, setSelectedCompanyId] = React.useState();
 
-
-    const admindata = useSelector((state) => state.AdminLoginData);
-    const [adminUserId, setAdminUserId] = useState(admindata.adminUserId);
     const errorNotify = () =>
         toast.error("Email Already Exist!.", {
             position: "bottom-right",
@@ -42,24 +38,23 @@ const SuperAdminAddDistributer = () => {
 
     function onSubmit(data) {        
         data.adminId = SelectedCompany._id
-        dispatch(resetFactoryData());
-        dispatch(storeFactory(data));
-
+        dispatch(resetDistributerData());
+        dispatch(storeDistributer(data));
     }
 
-    const initialFactoryStoredata = useSelector((state) => state.FactoryStoreData);
+    const initialStoredata = useSelector((state) => state.DistributerStoreData);
     useEffect(() => {
-        if (initialFactoryStoredata?.success) {
+        if (initialStoredata?.success) {
             navigate('/superAdmin/distributer')
         }
-        if (initialFactoryStoredata.error == 'Already Exist') {
+        if (initialStoredata.error == 'Already Exist') {
             errorNotify();
         }
-    }, [initialFactoryStoredata])
+    }, [initialStoredata])
 
     useEffect(() => {
         dispatch(getCompany());
-        dispatch(resetFactoryData());
+        dispatch(resetDistributerData());
 
     }, []);
 
@@ -103,12 +98,13 @@ const SuperAdminAddDistributer = () => {
                                                     />
                                                     {errors.company && <span className="error"> Company is required.</span>}
                                                 </div>
-
                                                 <div className="w-full lg:w-6/12 pl-4 mb-10 font-light">
+                                                <div class="w-full relative h-11">
                                                     <input type="hidden" {...register("adminId")} value={SelectedCompanyId && SelectedCompanyId} />
                                                     <input type="hidden" {...register("role", { required: true })} value={"Distributer"} />
                                                     <input {...register("name", { required: true })} placeholder="Name" required className="w-full h-full focus:outline-none" />
                                                     {errors.name && <span className="error"> Name is required.</span>}
+                                                </div>
                                                 </div>
                                                 <div className="w-full lg:w-6/12 pr-4 mb-10 font-light">
                                                     <div class="w-full relative h-11">

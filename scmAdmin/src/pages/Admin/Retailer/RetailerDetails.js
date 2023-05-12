@@ -50,13 +50,9 @@ const RetailerDetails = () => {
     const initialdata = useSelector((state) => state.UserDetailRecord);
 
     const initialRetailBatchProductChartData = useSelector((state) => state?.RetailerBatchProductChartData);
-    console.log("retail page", initialRetailBatchProductChartData);
 
     let allProductReceived = initialRetailBatchProductChartData && initialRetailBatchProductChartData?.retailerBatchProductRec?.message;
-    console.log(" retail product details", allProductReceived)
     let allProductReceivedData = allProductReceived?.ProductReceivedDetail
-
-    console.log("allProductReceivedData", allProductReceivedData)
 
     var totalProduct = 0
     for (let i = 0; i < allProductReceivedData?.length; i++) {
@@ -210,14 +206,6 @@ const RetailerDetails = () => {
                                                 ))}
                                             </Pie>
                                             <Tooltip content={<AuthenticationLevelTooltip />} />
-
-
-                                            {/* <Legend
-                                            layout="vertical"
-                                            verticalAlign="bottom"
-                                            //align="center"
-                                            /> */}
-
                                         </PieChart>
 
                                         {AuthenticationLevelData.map((entry, index) => (

@@ -169,49 +169,49 @@ console.log("CeoStaticsRecord",CeoStaticsData)
                                     </div>
                                     <div className="w-full lg:w-1/12"></div>
                                     <div className="w-full lg:w-4/12 pl-4 mb-10 font-light self factoryDistributerDetail">                                      
-                                      <div className="statistics-main flex " onClick={() => navigate('/superAdmin/factory', { state: { userId: userId } })}>
+                                      <div className="statistics-main flex custom-link" onClick={() => navigate('/superAdmin/factory', { state: { userId: userId } })}>
                                         <div className="statistics-pre bg-[#dca63d]"></div>
                                         <div className="statistics-title">Factory</div>
                                         <div className="statistics-counter">{TotalFactory && TotalFactory}</div>
                                       </div>
 
-                                      <div className="statistics-main flex" onClick={() => navigate('/superAdmin/distributer', { state: { userId: userId } })}>
+                                      <div className="statistics-main flex custom-link" onClick={() => navigate('/superAdmin/distributer', { state: { userId: userId } })}>
                                         <div className="statistics-pre bg-[#b44e94]"></div>
                                         <div className="statistics-title">Distributer</div>
                                         <div className="statistics-counter">{TotalDisributer && TotalDisributer}</div>
                                       </div>
 
-                                      <div className="statistics-main flex">
+                                      <div className="statistics-main flex custom-link" onClick={() => navigate('/superAdmin/retailer', { state: { userId: userId } })}>
                                         <div className="statistics-pre bg-[#52b3c7]"></div>
                                         <div className="statistics-title">Retailer</div>
                                         <div className="statistics-counter">{TotalRetailer && TotalRetailer}</div>
                                       </div>
 
-                                      <div className="statistics-main flex">
+                                      <div className="statistics-main flex custom-link">
                                         <div className="statistics-pre bg-[#92a3b3]"></div>
                                         <div className="statistics-title">Frauds Detected</div>
                                         <div className="statistics-counter">{TotalFrauds && TotalFrauds}</div>
                                       </div>
 
-                                      <div className="statistics-main flex">
+                                      <div className="statistics-main flex custom-link">
                                         <div className="statistics-pre bg-[#8a73af]"></div>
                                         <div className="statistics-title">Reports</div>
                                         <div className="statistics-counter">{TotalIssueReport && TotalIssueReport}</div>
                                       </div>
                                       
-                                      <div className="statistics-main flex">
+                                      <div className="statistics-main flex custom-link">
                                         <div className="statistics-pre bg-[#b44e94]"></div>
                                         <div className="statistics-title">Batches Covered</div>
                                         <div className="statistics-counter">{TotalFactory && TotalFactory}</div>
                                       </div>
 
-                                      <div className="statistics-main flex">
+                                      <div className="statistics-main flex custom-link">
                                         <div className="statistics-pre bg-[#dca63d]"></div>
                                         <div className="statistics-title">Products Covered</div>
                                         <div className="statistics-counter">{TotalFactory && TotalFactory}</div>
                                       </div>
 
-                                      <div className="statistics-main flex">
+                                      <div className="statistics-main flex custom-link">
                                         <div className="statistics-pre bg-[#8a73af]"></div>
                                         <div className="statistics-title">Feedback</div>
                                         <div className="statistics-counter">{TotalFeedback && TotalFeedback}</div>

@@ -390,10 +390,10 @@ app.get('/api/factoryStatistics', async (req, res) => {
       const countDistributer = await User.countDocuments(distributerquery);
       const countReport = await ScanIssueReport.countDocuments(reportquery);
       let countProduct = 0;
-      if(result.length !== 0){
+      if (result.length !== 0) {
         countProduct = result[0].Products
-      } 
-      res.status(200).json({ status: "success", totalBatches: countBatch, totalReport: countReport, totalDisributer: countDistributer, totalProducts: countProduct});
+      }
+      res.status(200).json({ status: "success", totalBatches: countBatch, totalReport: countReport, totalDisributer: countDistributer, totalProducts: countProduct });
     } else {
       res.status(200).json({ status: "fail", message: "Please Provide Factory Details" });
     }
@@ -404,10 +404,63 @@ app.get('/api/factoryStatistics', async (req, res) => {
 });
 
 
+app.get('/api/superAdminBatchProductCovered', async (req, res) => {
+  try {
+    const companyUsers = await User.find({ role: 'Admin' });
+
+    const promises = companyUsers.map(async (companyUser) => {
+
+      const users = await User.find({ role: 'Factory', adminId: companyUser._id.toString() });
+
+      users.map(async (factoryUser) => {
+        const batchCount = await batch.countDocuments({ FactoryID: factoryUser._id.toString() }).exec();
+        console.log("batch",batchCount)
+        const productCount = await batch.aggregate([
+          { $match: { FactoryID: factoryUser._id.toString() } },
+          { $group: { _id: null, total: { $sum: '$BatchSize' } } },
+        ]).exec();
+        console.log("product",productCount)
+        return {
+          ...companyUser._doc,
+          batchCount,
+          productCount: productCount[0] ? productCount[0].total : 0,
+        };
+      });
+    });
+
+
+    const results = await Promise.all(promises);
+    res.status(200).json({ status: "success", message: results });
+
+
+    // const promises = companyUsers.map(async (companyUser) => {
+    //   const batchCount = await batch.countDocuments({ FactoryID: companyUser._id.toString() }).exec();
+    //   console.log(batchCount)
+    //   const productCount = await batch.aggregate([
+    //     { $match: { FactoryID: companyUser._id.toString() } },
+    //     { $group: { _id: null, total: { $sum: '$BatchSize' } } },
+    //   ]).exec();
+    //   console.log(productCount)
+    //   return {
+    //     ...companyUser._doc,
+    //     batchCount,
+    //     productCount: productCount[0] ? productCount[0].total : 0,
+    //   };
+    // });
+    // const results = await Promise.all(promises);
+    // res.status(200).json({ status: "success", message: results });
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+});
+
 ////////////////// API FOR DISTIBUTOR ////////////////////
 
 app.get('/api/viewReceivedBatchesForDistributor', async (req, res) => {
   try {
+
+    req.query.distibutorID
+
     const DistributorID = req.query.distibutorID;
     batch.find({ DistributorID }).then((documents) => {
       res.status(200).json({ status: "success", message: documents });
@@ -560,9 +613,9 @@ app.post('/api/distributorSellToRetailer', async (req, res) => {
   try {
     await session.withTransaction(async () => {
       let document = await batch.findOne({ BatchID });
-      if(!document){
+      if (!document) {
         res.status(400).json({ status: "failure", message: "Document not found for this BatchID" });
-      }else if (document.DistributorScanned == true) {
+      } else if (document.DistributorScanned == true) {
         const tx = await contract.distributorSellToRetailer(BatchID, quantity);
         tx.wait();
         console.log("Transaction completed!");
@@ -807,7 +860,7 @@ app.get('/api/viewProductInfo', async (req, res) => {
     let ProductID = req.query.productID;
     // const documents = await customerData.findOne({ ProductID: ProductID })
     const doc = await product.findOne({ ProductID: ProductID });
-    if(!doc){
+    if (!doc) {
       return res.status(200).json({ status: "success", message: [] });
     }
     const data = await batch.findOne({ BatchID: doc.BatchID });
@@ -827,33 +880,33 @@ app.get('/api/viewProductInfo', async (req, res) => {
 
     let factoryName;
     let retailerName;
-    if(!data.FactoryID){
-      factoryName=""
-    }else{
+    if (!data.FactoryID) {
+      factoryName = ""
+    } else {
       const factoryUser = await User.findById(data.FactoryID);
-      factoryName=factoryUser.name
+      factoryName = factoryUser.name
     }
-    if(!doc.RetailerID){
+    if (!doc.RetailerID) {
       console.log(doc.RetailerID)
-      retailerName=""
-    }else{
+      retailerName = ""
+    } else {
       console.log(doc.RetailerID)
       const retailerUser = await User.findById(doc.RetailerID);
-      retailerName=retailerUser.name
+      retailerName = retailerUser.name
     }
-    
-    result={
+
+    result = {
       ProductName: doc.ProductName,
-      ProductID:doc.ProductID,
+      ProductID: doc.ProductID,
       CustomerID: doc.CustomerID,
       CustomerName: doc.CustomerName,
-      RetailerName:retailerName,
-      DateWhenSoldToCustomer:doc.DateWhenSoldToCustomer,
+      RetailerName: retailerName,
+      DateWhenSoldToCustomer: doc.DateWhenSoldToCustomer,
       PackagingTimestamp: data.DateOfProduction,
       BatchID: data.BatchID,
-      ManufacturedBy:factoryName
+      ManufacturedBy: factoryName
     }
- 
+
     res.status(200).json({ status: "success", message: result });
 
   } catch (error) {
@@ -861,7 +914,17 @@ app.get('/api/viewProductInfo', async (req, res) => {
     res.status(400).send({ error: error.message });
   }
 })
+app.get('/api/ProductSellCheck', async (req, res) => {
+  const ProductID = req.query.productID;
+  try {
+    const doc = await product.findOne({ ProductID: ProductID });
+    const data = await batch.findOne({ BatchID: doc.BatchID });
 
+    res.status(200).json({ status: "success", productData: doc, batchData: data });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+})
 app.post('/api/sellToCustomer', async (req, res) => {
   try {
     const ProductID = req.body.productID;
@@ -870,7 +933,7 @@ app.post('/api/sellToCustomer', async (req, res) => {
     const customerName = req.body.customerName;
 
     const productData = await product.findOne({ ProductID });
-    const retailer=await User.findById(productData.RetailerID);
+    const retailer = await User.findById(productData.RetailerID);
 
     if (productData.RetailerScanned == true) {
       const tx = await contract.retailerSellToCustomer(ProductID, customerID, customerName);
@@ -881,9 +944,9 @@ app.post('/api/sellToCustomer', async (req, res) => {
         CustomerID: customerID,
         CustomerName: customerName,
         DateWhenSoldToCustomer: timeStamp,
-      }) 
-      const batchData = await batch.findOne({BatchID:productData.BatchID});
-      const factory =await User.findById(batchData.FactoryID);
+      })
+      const batchData = await batch.findOne({ BatchID: productData.BatchID });
+      const factory = await User.findById(batchData.FactoryID);
 
       const data = new customerData({
         _id: new mongoose.Types.ObjectId(),
@@ -926,9 +989,8 @@ app.get('/api/viewBatchAndProductCountForRetailer', async (req, res) => {
       { $sort: { _id: 1 } }
     ]);
 
-    result[0].ProductReceivedDetail = result2;
     if (result.length) {
-
+      result[0].ProductReceivedDetail = result2;
       res.status(200).json({ status: "success", message: result[0] });
     } else {
       res.status(200).json({ status: "failure", message: "Result is empty" });
@@ -1551,6 +1613,51 @@ app.post('/api/superAdminLogin', jsonParser, async function (req, res) {
 })
 
 
+
+app.get('/api/superAdminStatistics', async (req, res) => {
+  try {
+    const companyquery = { role: "Admin" };
+    const countCompany = await User.countDocuments(companyquery);
+    const factoryquery = { role: "Factory" };
+    const countFactory = await User.countDocuments(factoryquery);
+    const distributerquery = { role: "Distributer" };
+    const countDistributer = await User.countDocuments(distributerquery);
+    const retailerquery = { role: "Retailer" };
+    const countRetailer = await User.countDocuments(retailerquery);
+    const countIssueReport = await ScanIssueReport.countDocuments();
+    const countFeedback = await Feedback.countDocuments();
+
+    const distributorRetailerScan = await scan.countDocuments();
+    const customerScan = await verificationData.countDocuments();
+    const productsSold = await customerData.countDocuments();
+    const frauds = await verificationData.count({ level: 1 });
+    const level2 = await verificationData.count({ level: 2 });
+    const level3 = await verificationData.count({ level: 3 });
+    const level4 = await verificationData.count({ level: 4 });
+    res.status(200).json({
+      status: "success",
+      totalCompany: countCompany,
+      totalFactory: countFactory,
+      totalDisributer: countDistributer,
+      totalRetailer: countRetailer,
+      totalIssueReport: countIssueReport,
+      totalFeedback: countFeedback,
+      totalScans: (distributorRetailerScan + customerScan),
+      totalProductSold: productsSold,
+      totalWarnings: customerScan - frauds,
+      totalFrauds: frauds,
+      productsNotValidatedByDistributor: level2,
+      productsNotValidatedByRetailer: level3,
+      locationMismatch: level4,
+    });
+  } catch (error) {
+    console.log(error)
+    res.status(400).send({ error: error.message });
+  }
+});
+
+
+
 app.post('/api/adminLogin', jsonParser, async function (req, res) {
 
   let email = req.body.email;
@@ -1576,34 +1683,6 @@ app.post('/api/adminLogin', jsonParser, async function (req, res) {
     }
   }
 })
-
-// app.post('/api/adminLogin', jsonParser, async function (req, res) {
-//   let adminEmail = ''
-//   adminEmail = req.body.email;
-//   const adminPassword = req.body.password;
-//   if (adminEmail != '' && adminPassword != '' && adminEmail != undefined && adminPassword != undefined) {
-//     const userData = await User.findOne({ email: req.body.email, userStatus: 'Active', role: 'Admin' });
-//     if (userData) {
-//       const validPassword = await bcrypt.compare(req.body.password, userData.password);
-//       if (validPassword) {
-//         jwt.sign({ userData }, jwtkey, { expiresIn: '300s' }, (err, token) => {
-//           //res.status(200).json({ token })
-//           res.status(200).json({ token, userId: userData._id, userEmail: userData.email, userRole: userData.role, userName: userData.name, userAddress: userData.address, userCity: userData.city, userCountry: userData.country, userLatitude: userData.latitude, userLongitude: userData.longitude, superAdminId: userData.adminId })
-//         })
-//       } else {
-//         res.status(400).json({ error: "Invalid Password" });
-//       }
-//     } else {
-//       res.status(401).json({ error: "User does not exist" });
-//     }
-//   } else {
-//     if (adminEmail == '' || adminEmail == undefined) {
-//       res.status(401).json({ error: "Email is Required" });
-//     } else {
-//       res.status(401).json({ error: "Password is Required" });
-//     }
-//   }
-// })
 
 
 app.get('/api/ceoBatchProductCovered', async (req, res) => {
@@ -1699,6 +1778,9 @@ app.get('/api/ceoStatistics', async (req, res) => {
     res.status(400).send({ error: error.message });
   }
 });
+
+
+
 
 app.get('/api/users', function (req, res) {
   User.find().sort({ _id: -1 }).then((data) => {
@@ -1921,12 +2003,12 @@ app.post('/api/registerconsumer', async function (req, res) {
           created: currentdate
         })
         data.save().then((result) => {
-          res.status(200).json({ status: "success", message: "Your registration successfull", cid: result._id, mobile: result.phone});
+          res.status(200).json({ status: "success", message: "Your registration successfull", cid: result._id, mobile: result.phone });
         })
           .catch((err) => console.warn(err)
           )
       } else {
-        res.status(200).json({ status: "success", cid: checkConsumerExists._id, mobile:checkConsumerExists.phone });
+        res.status(200).json({ status: "success", cid: checkConsumerExists._id, mobile: checkConsumerExists.phone });
       }
     }
   } catch (error) {
@@ -2040,7 +2122,7 @@ app.post('/api/scanIssueReport', jsonParser, async function (req, res) {
         name: name,
         email: email,
         role: role,
-        status:"Unread",
+        status: "Unread",
         created: currentdate,
       })
       data.save().then((result) => {
@@ -2058,6 +2140,12 @@ app.post('/api/scanIssueReport', jsonParser, async function (req, res) {
 })
 
 app.get('/api/getAllReportForCeo', function (req, res) {
+  ScanIssueReport.find().sort({ _id: -1 }).then((data) => {
+    res.status(200).json(data)
+  })
+})
+
+app.get('/api/getAllReportForSuperAdmin', function (req, res) {
   ScanIssueReport.find().sort({ _id: -1 }).then((data) => {
     res.status(200).json(data)
   })

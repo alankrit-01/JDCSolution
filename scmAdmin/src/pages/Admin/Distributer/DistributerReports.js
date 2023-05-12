@@ -71,7 +71,7 @@ const DistributerReports = () => {
                 </h5>
                 <br></br>
                 <div className="text-sm">
-                                    <p style={{ display: "none" }}>{issues = row.scanIssue.split(',')}</p>
+                                    <p style={{ display: "none" }}>{issues = row?.scanIssue?.split(',')}</p>
 
                   {issues && issues.map((issuesVal) => <div className="flex">
                     <input

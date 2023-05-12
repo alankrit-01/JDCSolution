@@ -1,5 +1,5 @@
-import Sidebar from 'components/Admin/Sidebar';
-import Footer from 'components/Admin/Footer';
+import Sidebar from 'components/SuperAdmin/Sidebar';
+import Footer from 'components/SuperAdmin/Footer';
 import { useEffect, useState } from 'react';
 import { useLocation } from "react-router-dom"
 import DataTable from 'react-data-table-component';
@@ -14,9 +14,9 @@ import img3 from "assets/img/product2.png";
 import img4 from "assets/img/product3.jpg";
 
 
-const FactoryReports = () => {
-  let factoryReports = useLocation();
-  let factoryReportsData = factoryReports?.state?.factoryReportsData;
+const SuperAdminCompanyReportsReceived = () => {
+  let issueReports = useLocation();
+  let issueReportsData = issueReports?.state?.reportsSentFromCeoData;
   const [initialdata, setInitialdata] = useState([]);
   const [newReportIssue, setNewReportIssue] = useState([]);
   const [pendingReportIssue, setPendingReportIssue] = useState([]);
@@ -29,23 +29,8 @@ const FactoryReports = () => {
   let issues;
   const columns = [
     {
-      name: "Factory Name",
+      name: "Name",
       selector: (row) => row.name,
-      sortable: true,
-    },
-    {
-      name: "Location",
-      selector: (row) => row.location,
-      sortable: true,
-    },
-    {
-      name: "Email",
-      selector: (row) => row.email,
-      sortable: true,
-    },
-    {
-      name: "Date",
-      selector: (row) => row.created,
       sortable: true,
     },
     {
@@ -54,8 +39,12 @@ const FactoryReports = () => {
       sortable: true,
     },
     {
+      name: "Date",
+      selector: (row) => row.created,
+      sortable: true,
+    },
+    {
       selector: (row) => (
-        //   <button className="custom-details-btn" onClick={() => Popup()}>View More</button>
         <Popup
           trigger={<Button className="view-more-part2">View more</Button>}
           position="left center"
@@ -72,7 +61,7 @@ const FactoryReports = () => {
                 </h5>
                 <br></br>
                 <div className="text-sm">
-                                    <p style={{ display: "none" }}>{issues = row?.scanIssue?.split(',')}</p>
+                  <p style={{ display: "none" }}>{issues = row?.scanIssue?.split(',')}</p>
 
                   {issues && issues.map((issuesVal) => <div className="flex">
                     <input
@@ -130,21 +119,21 @@ const FactoryReports = () => {
   ];
   useEffect(() => {
 
-    if (factoryReportsData !== undefined) {
-      setInitialdata(factoryReportsData);
+    if (issueReportsData !== undefined) {
+      setInitialdata(issueReportsData);
 
-      let newReportIssue = factoryReportsData.filter((reportissue) => reportissue.status == "Unread");
-      let pendingReportIssue = factoryReportsData.filter((reportissue) => reportissue.status == "Pending");
-      let solvedReportIssue = factoryReportsData.filter((reportissue) => reportissue.status == "Solved");
+      let newReportIssue = issueReportsData.filter((reportissue) => reportissue.status == "Unread");
+      let pendingReportIssue = issueReportsData.filter((reportissue) => reportissue.status == "Pending");
+      let solvedReportIssue = issueReportsData.filter((reportissue) => reportissue.status == "Solved");
 
       setNewReportIssue(newReportIssue);
       setPendingReportIssue(pendingReportIssue);
       setSolvedReportIssue(solvedReportIssue);
-    }else {
-      var factoryReportempty = [{ email: "There are no record to display" }];
-      setInitialdata(factoryReportempty);
+    } else {
+      var issueReportempty = [{ email: "There are no record to display" }];
+      setInitialdata(issueReportempty);
     }
-  }, [factoryReportsData])
+  }, [issueReportsData])
   useEffect(() => {
     var a = [{ comment: "There are no record to display" }];
     setIssueReport(initialdata);
@@ -157,7 +146,7 @@ const FactoryReports = () => {
     }
   }, [initialdata])
 
-  useEffect(() => {    
+  useEffect(() => {
     const result = IssueReport.filter((issueReportVal) => {
       return issueReportVal.name.toLowerCase().match(Search.toLowerCase());
     })
@@ -178,8 +167,8 @@ const FactoryReports = () => {
               <div className="flex flex-wrap feedback-padding lg:w-12/12">
                 <div className="w-full lg:w-4/12 pr-4">
                   <div>
-                    <h2 className="reports-part">Reports - <span className="factory-bold">Factory</span></h2>
-                    <h4 className="font-spano5"><span>{factoryReportsData && factoryReportsData.length}</span></h4>
+                    <h2 className="reports-part">Reports Received - <span className="factory-bold">Company</span></h2>
+                    <h4 className="font-spano5"><span>{issueReportsData && issueReportsData.length}</span></h4>
                   </div>
                 </div>
                 <div className="w-full lg:w-4/12 pl-4 font-light">
@@ -222,14 +211,7 @@ const FactoryReports = () => {
                 selectableRows
                 selectableRowsHighlight
                 highlightOnHover
-              // subHeader
-              // subHeaderComponent={
-              //     <div className='w-full'>
-              //         <div className="float-left lg:w-6/12 d-flex pr-4 mb-10 font-light">
-              //             <Input type="text" color="purple" placeholder="Search Here" value={Search} onChange={(e) => setSearch(e.target.value)} />
-              //         </div>
-              //     </div>
-              // }
+
               />
             </div>
           </div>
@@ -239,6 +221,4 @@ const FactoryReports = () => {
     </>
   );
 }
-export default FactoryReports
-
-
+export default SuperAdminCompanyReportsReceived

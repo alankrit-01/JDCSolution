@@ -2,7 +2,7 @@ import Sidebar from "components/SuperAdmin/Sidebar";
 import Footer from "components/SuperAdmin/Footer";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getDistributer,getDistributerByCompany, getCompany, resetDistributerData } from "Services/action";
+import { getRetailers,getRetailerByCompany, getCompany, resetRetailerData } from "Services/action";
 import { useEffect, useState, useRef, useMemo } from "react";
 import DataTable from "react-data-table-component";
 import { CSVLink } from "react-csv";
@@ -12,15 +12,15 @@ import loader from "assets/img/loading.gif";
 import { handleUserStatus } from "Services/action";
 import Arrowdown from 'assets/img/down-arrow.png';
 import Select from "react-select";
-
-const SuperAdminDistributer = () => {
+ 
+const SuperAdminRetailer = () => {
   const dataFetchedRef = useRef(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [Distributer, setDistributer] = useState([]);
+  const [Retailer, setRetailer] = useState([]);
   const [Search, setSearch] = useState("");
-  const [FilterDistributer, setFilterDistributer] = useState([]);
+  const [FilterRetailer, setFilterRetailer] = useState([]);
   const [excelData, setExcelData] = useState([]);
   const [selectedData, setSelectedData] = React.useState([]);
   const [loading, setLoading] = useState(false);
@@ -30,29 +30,29 @@ const SuperAdminDistributer = () => {
   let companyUserId = companyUserData?.state?.userId;
   const columns = [
     {
-      name: <div className="text-base">Distributer Name</div>,
+      name: <div className="text-base">Retailer Name</div>,
       selector: (row) => row.name,
       sortable: true,
     },
     {
-      name: <div className="text-base">Distributer Email</div>,
+      name: <div className="text-base">Retailer Email</div>,
       selector: (row) => row.email,
       sortable: true,
     },
     {
-      name: <div className="text-base">Distributer Address</div>,
+      name: <div className="text-base">Retailer Address</div>,
       selector: (row) => row.address,
       sortable: true,
     },
     {
-      name: <div className="text-base">Distributer Phone</div>,
+      name: <div className="text-base">Retailer Phone</div>,
       selector: (row) => row.phone,
       sortable: true,
     },
     {
       name: <div className="text-base">Information</div>,
       selector: (row) => (
-        <button className="custom-details-btn" onClick={() => navigate('/superAdmin/distributerDetail', { state: { userId: row._id } })}>Details</button>
+        <button className="custom-details-btn" onClick={() => navigate('/superAdmin/retailerDetail', { state: { userId: row._id } })}>Details</button>
       ),
       sortable: true,
     },
@@ -108,10 +108,10 @@ const SuperAdminDistributer = () => {
   useEffect(() => {
     const columns = [
       {
-        name: "Distributer Name",
-        email: "Distributer Email",
-        address: "Distributer Address",
-        phone: "Distributer Phone",
+        name: "Retailer Name",
+        email: "Retailer Email",
+        address: "Retailer Address",
+        phone: "Retailer Phone",
       },
     ];
     setExcelData(columns);
@@ -120,14 +120,14 @@ const SuperAdminDistributer = () => {
 
   useEffect(() => {
     dispatch(getCompany());
-    dispatch(resetDistributerData());
+    dispatch(resetRetailerData());
     if(companyUserId){
       const data = {
         adminId : companyUserId
       }
-    dispatch(getDistributerByCompany(data));
+    dispatch(getRetailerByCompany(data));
     }else{
-      dispatch(getDistributer());
+      dispatch(getRetailers());
     }
   }, []);
 
@@ -136,12 +136,12 @@ const SuperAdminDistributer = () => {
   const compRecord = companydata?.companyRec;
 
 
-  const initialdata = useSelector((state) => state.DistributerRecord);
-  const initialStoredata = useSelector((state) => state.DistributerStoreData);
+  const initialdata = useSelector((state) => state.RetailerRecord);
+  const initialStoredata = useSelector((state) => state.RetailerStoreData);
 
 
   const successNotify = () =>
-    toast.success("Distributer Added Successfully!.", {
+    toast.success("Retailer Added Successfully!.", {
       position: "bottom-right",
       autoClose: 5000,
       hideProgressBar: false,
@@ -162,42 +162,42 @@ const SuperAdminDistributer = () => {
   useEffect(() => {
 
     var a = [{ email: "There are no record to display" }];
-    setDistributer(initialdata?.distributerRec);
+    setRetailer(initialdata?.retailerRec);
     setLoading(true);
     if (
-      initialdata.distributerRec != 0 &&
-      initialdata.distributerRec != null &&
-      initialdata.distributerRec != ""
+      initialdata.retailerRec != 0 &&
+      initialdata.retailerRec != null &&
+      initialdata.retailerRec != ""
     ) {
-      setFilterDistributer(initialdata?.distributerRec);
+      setFilterRetailer(initialdata?.retailerRec);
     } else {
       setLoading(false);
 
-      setFilterDistributer(a);
+      setFilterRetailer(a);
     }
   }, [initialdata]);
 
   useEffect(() => {
 
     var a = [{ email: "There are no record to display" }];
-    const result = Distributer.filter((filterRec) => {
+    const result = Retailer.filter((filterRec) => {
       return filterRec.name.toLowerCase().match(Search.toLowerCase()) && filterRec.adminId === SelectedCompany?._id;
     });
 
     console.log("result",result)
 
     if (result.length != 0) {
-      setFilterDistributer(result);
+      setFilterRetailer(result);
     } else {
       setLoading(false);
-      setFilterDistributer(a);
+      setFilterRetailer(a);
     }
   }, [Search, SelectedCompany]);
 
   const getCsvData = () => {
     const csvData = [];
 
-    if (excelData.length > 0 && FilterDistributer.length > 0) {
+    if (excelData.length > 0 && FilterRetailer.length > 0) {
       excelData.map((ex) => {
         csvData.push([
           `${ex.name}`,
@@ -216,7 +216,7 @@ const SuperAdminDistributer = () => {
           ]);
         });
       } else {
-        FilterDistributer.map((val) => {
+        FilterRetailer.map((val) => {
           csvData.push([
             `${val.name}`,
             `${val.email}`,
@@ -254,7 +254,7 @@ const SuperAdminDistributer = () => {
 
               <div class="grid grid-cols-4 gap-4">
                 <div>
-                  <h2 className="head-cust-color">Distributer List - {FilterDistributer.length && FilterDistributer.length}</h2>
+                  <h2 className="head-cust-color">Retailer List - {FilterRetailer.length && FilterRetailer.length}</h2>
                 </div>
                 <div>
                   <input type="text" className="cust-input" placeholder="Search" value={Search}
@@ -272,13 +272,12 @@ const SuperAdminDistributer = () => {
                   />
                 </div>
                 <div className="right-button-section">
-                  
                     <div className="">
-                    <CSVLink filename="DistributerList.csv" data={getCsvData()}>
+                    <CSVLink filename="RetailerList.csv" data={getCsvData()}>
                       <button className="cust-export-button">Export CSV <img src={Arrowdown} className="w-3 h-3" style={{ margin: "2px 0px 2px 2px" }} /> </button>
                       </CSVLink>
                     </div>
-                  <NavLink to="/superAdmin/addDistributer">
+                  <NavLink to="/superAdmin/addRetailer">
                     <button className="cust-button">Add +</button>
                   </NavLink>
                 </div>
@@ -294,7 +293,7 @@ const SuperAdminDistributer = () => {
                     ></img>
                   </div>
                 }
-                data={FilterDistributer}
+                data={FilterRetailer}
                 pagination
                 fixedHeader
                 selectableRows
@@ -311,4 +310,4 @@ const SuperAdminDistributer = () => {
     </>
   );
 };
-export default SuperAdminDistributer;
+export default SuperAdminRetailer;

@@ -22,27 +22,6 @@ import AnyReactComponent from 'google-map-react';
 
 const SuperAdminDashboard = () => {
     const dispatch = useDispatch();
-
-    const responsive = {
-        superLargeDesktop: {
-            // the naming can be any, depends on you.
-            breakpoint: { max: 4000, min: 3000 },
-            items: 5,
-        },
-        desktop: {
-            breakpoint: { max: 3000, min: 1024 },
-            items: 3,
-        },
-        tablet: {
-            breakpoint: { max: 1024, min: 464 },
-            items: 2,
-        },
-        mobile: {
-            breakpoint: { max: 464, min: 0 },
-            items: 1,
-        },
-    };
-
     const defaultProps = {
         center: {
           lat: 26.859970,
@@ -50,7 +29,6 @@ const SuperAdminDashboard = () => {
         },
         zoom: 11
       };
-    
 
     return (
         <>
@@ -88,17 +66,22 @@ const SuperAdminDashboard = () => {
                                             }}
                                         >
                                             <DropdownItem >
-                                                <NavLink to="/admin/addfactory">
+                                                <NavLink to="/superAdmin/addCompany">
+                                                    Add Company
+                                                </NavLink>
+                                            </DropdownItem>
+                                            <DropdownItem >
+                                                <NavLink to="/superAdmin/addFactory">
                                                     Add Factory
                                                 </NavLink>
                                             </DropdownItem>
                                             <DropdownItem>
-                                                <NavLink to="/admin/adddistributer">
+                                                <NavLink to="/superAdmin/addDistributer">
                                                     Add Distributer
                                                 </NavLink>
                                             </DropdownItem>
                                             <DropdownItem>
-                                                <NavLink to="/admin/addretailer">
+                                                <NavLink to="/superAdmin/addRetailer">
                                                     Add Retailer
                                                 </NavLink>
                                             </DropdownItem>
@@ -121,7 +104,6 @@ const SuperAdminDashboard = () => {
 
                 <div className="px-3 md:px-8 h-20" />
                 <div className="px-3 md:px-8 -mt-24">
-
                     <div>
                         <MainStatusCard />
                     </div>
@@ -139,8 +121,6 @@ const SuperAdminDashboard = () => {
                                 <h2 className="heading-background">Locations</h2>
                             </div>
                             <div className='w-80 h-96 map-padding-use'>
-
-                                {/* <div style={{ height: '100vh', width: '100%' }}> */}
                                 <GoogleMapReact
                                     bootstrapURLKeys={{ key: "AIzaSyChufzuq8C_rWT2fSVe_0WLEqjiktQen-Q" }}
                                     defaultCenter={defaultProps.center}
@@ -152,7 +132,6 @@ const SuperAdminDashboard = () => {
                                         text="My Marker"
                                     />
                                 </GoogleMapReact>
-                                {/* </div> */}
                             </div>
                         </div>
 
