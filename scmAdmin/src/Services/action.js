@@ -386,7 +386,7 @@ export const getTotalScans = (data) =>{
         type:Get_Total_Scans,
         data:data 
     } 
-}
+} 
 export const getAllReportForCeo = (data) =>{
     return{
         type:Get_All_Report_For_Ceo,
