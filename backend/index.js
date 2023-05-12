@@ -1710,31 +1710,7 @@ app.get('/api/ceoBatchProductCovered', async (req, res) => {
   }
 });
 
-app.get('/api/superAdminBatchProductCovered', async (req, res) => {
-  try {
-    const users = await User.find({ role: 'Admin'});
-    console.log(users);
-    const promises = users.map(async (user) => {
-  
-      const batchCount = await batch.countDocuments({ FactoryAdminID: user._id.toString() }).exec();
-      console.log(batchCount)
-      const productCount = await batch.aggregate([
-        { $match: { FactoryAdminID: user._id.toString() } },
-        { $group: { _id: null, total: { $sum: '$BatchSize' } } },
-      ]).exec();
-      console.log(productCount)
-      return {
-        ...user._doc,
-        batchCount,
-        productCount: productCount[0] ? productCount[0].total : 0,
-      };
-    });
-    const results = await Promise.all(promises);
-    res.status(200).json({ status: "success", message: results });
-  } catch (err) {
-    res.status(500).send(err.message);
-  }
-});
+
 
 app.get('/api/ceoStatistics', async (req, res) => {
   try {
