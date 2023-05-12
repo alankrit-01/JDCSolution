@@ -75,7 +75,7 @@ const SuperAdminRetailerFeedback  = () => {
                 <Popup trigger=
                     {<Button className="view-more-part2">View Feedback</Button>}
                     position="left center" marginLeft="30px">
-                    <div class="popup" className=" h-92 bg-[#CCCCCC] ml-56 px-2 max-w-2xl text-[#0c3f6a] pr-6 p-9 position-set-part2">                    <div className='flex'>
+                    <div class="popup" className=" h-92 bg-[#CCCCCC] ml-50 px-2 max-w-2xl text-[#0c3f6a] pr-6 p-9 position-set-part2">                    <div className='flex'>
                         <div className='mt-6 ml-6'><h2 className='text-xl font-extrabold'>Feedback by Retailer</h2><br></br>
                             <div className="image-part1 img w-36 h-14 flex ">
 
@@ -84,7 +84,7 @@ const SuperAdminRetailerFeedback  = () => {
 
                             </div>
                         </div>
-                        <div className='mt-6 ml-36  text-left'>
+                        <div className='mt-6 ml-6  text-left'>
 
                             <div className='flex'><h5 className='font-medium'>Retailer Name</h5><p>: {row.name && row.name}</p></div>
                             <div className='flex'><h5 className='font-medium'>Location</h5> <p>: {row.location && row.location}</p></div>

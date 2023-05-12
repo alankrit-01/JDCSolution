@@ -32,26 +32,31 @@ const SuperAdminRetailerReports = () => {
       name: "Name",
       selector: (row) => row.name,
       sortable: true,
+      width:"150px",
     },
     {
       name: "Location",
       selector: (row) => row.location,
       sortable: true,
+      width:"200px",
     },
     {
       name: "Email",
       selector: (row) => row.email,
       sortable: true,
+      width:"200px",
     },
     {
       name: "Date",
       selector: (row) => row.created,
       sortable: true,
+      width:"200px",
     },
     {
       name: "Report",
       selector: (row) => row.comment,
       sortable: true,
+      width:"250px",
     },
     {
       selector: (row) => (
@@ -62,7 +67,7 @@ const SuperAdminRetailerReports = () => {
         >
           <div
             class="popup"
-            className=" max-h-max bg-[#CCCCCC] ml-56 px-2 max-w-2xl pb-6 text-[#0c3f6a] pr-6 position-set-part3"
+            className=" max-h-max bg-[#CCCCCC] ml-50 px-2 max-w-2xl pb-6 text-[#0c3f6a] pr-6 position-set-part3"
           >
             <div className="flex">
               <div className="mt-6 ml-6">
@@ -85,7 +90,7 @@ const SuperAdminRetailerReports = () => {
                   </div>)}
                 </div>
               </div>
-              <div className="mt-6 ml-36  text-left text-sm">
+              <div className="mt-6 ml-6  text-left text-sm">
                 <div className="flex">
                   <h5 className="font-medium">Name</h5>
                   <p>: {row?.name}</p>

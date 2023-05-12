@@ -62,7 +62,7 @@ const CustomerReports = () => {
         >
           <div
             class="popup"
-            className=" max-h-max bg-[#CCCCCC] ml-56 px-2 max-w-2xl pb-6 text-[#0c3f6a] pr-6 position-set-part3"
+            className=" max-h-max bg-[#CCCCCC] ml-50 px-2 max-w-2xl pb-6 text-[#0c3f6a] pr-6 position-set-part3"
           >
             <div className="flex">
               <div className="mt-6 ml-6">
@@ -85,7 +85,7 @@ const CustomerReports = () => {
                   </div>)}
                 </div>
               </div>
-              <div className="mt-6 ml-36  text-left text-sm">
+              <div className="mt-6 ml-6  text-left text-sm">
                 <div className="flex">
                   <h5 className="font-medium">Name</h5>
                   <p>: {row?.name}</p>

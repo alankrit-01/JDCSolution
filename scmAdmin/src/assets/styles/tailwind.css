@@ -1114,11 +1114,11 @@ video {
 .rounded-lg{
 	border-radius: 0.5rem;
 }
-.rounded-xl{
-	border-radius: 0.75rem;
-}
 .rounded-md{
 	border-radius: 0.375rem;
+}
+.rounded-xl{
+	border-radius: 0.75rem;
 }
 .rounded-none{
 	border-radius: 0px;
@@ -1648,16 +1648,16 @@ video {
 	--tw-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 	box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
-.shadow-lg{
-	--tw-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-	box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
-}
 .shadow-xl{
 	--tw-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 	box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 .shadow-sm{
 	--tw-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+	box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+.shadow-lg{
+	--tw-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 	box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 .shadow{
@@ -4361,7 +4361,7 @@ span.error {
 }
 .position-set-part {
     position: relative;
-    top: 185px;
+    top: 120px;
 }
 .font-weight-text {
     font-weight: 500;
@@ -4376,11 +4376,11 @@ span.error {
 }
 .position-set-part2 {
     position: relative;
-    top: 154px;
+    top:120px;
 }
 .position-set-part3 {
     position: relative;
-    top: 210px;
+    top: 120px;
 }
 .batch-sent {
     width: 250px;
