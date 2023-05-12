@@ -11,7 +11,6 @@ export const Set_Ceo_Statistics = 'Set_Ceo_Statistics';
 export const Get_SuperAdmin_Statistics = 'Get_SuperAdmin_Statistics';
 export const Set_SuperAdmin_Statistics = 'Set_SuperAdmin_Statistics';
 
-
 export const Get_User_Detail = 'Get_User_Detail'; 
 export const Set_User_Detail = 'Set_User_Detail'; 
 export const SuperAdminUserLogin = 'SuperAdminUserLogin';

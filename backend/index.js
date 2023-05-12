@@ -417,7 +417,7 @@ app.get('/api/superAdminBatchProductCovered', async (req, res) => {
           { $match: { FactoryID: factoryUser._id.toString() } },
           { $group: { _id: null, total: { $sum: '$BatchSize' } } },
         ]).exec();
-        console.log("product",productCount)
+        console.log("product sdsds",productCount)
         return {
           ...companyUser._doc,
           batchCount,
@@ -425,12 +425,8 @@ app.get('/api/superAdminBatchProductCovered', async (req, res) => {
         };
       });
     });
-
-
     const results = await Promise.all(promises);
     res.status(200).json({ status: "success", message: results });
-
-
     // const promises = companyUsers.map(async (companyUser) => {
     //   const batchCount = await batch.countDocuments({ FactoryID: companyUser._id.toString() }).exec();
     //   console.log(batchCount)
