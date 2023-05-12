@@ -404,55 +404,55 @@ app.get('/api/factoryStatistics', async (req, res) => {
 });
 
 
-app.get('/api/superAdminBatchProductCovered', async (req, res) => {
-  try {
-    const companyUsers = await User.find({ role: 'Admin' });
+// app.get('/api/superAdminBatchProductCovered', async (req, res) => {
+//   try {
+//     const companyUsers = await User.find({ role: 'Admin' });
 
-    const promises = companyUsers.map(async (companyUser) => {
+//     const promises = companyUsers.map(async (companyUser) => {
 
-      const users = await User.find({ role: 'Factory', adminId: companyUser._id.toString() });
+//       const users = await User.find({ role: 'Factory', adminId: companyUser._id.toString() });
 
-      users.map(async (factoryUser) => {
-        const batchCount = await batch.countDocuments({ FactoryID: factoryUser._id.toString() }).exec();
-        console.log("batch",batchCount)
-        const productCount = await batch.aggregate([
-          { $match: { FactoryID: factoryUser._id.toString() } },
-          { $group: { _id: null, total: { $sum: '$BatchSize' } } },
-        ]).exec();
-        console.log("product",productCount)
-        return {
-          ...companyUser._doc,
-          batchCount,
-          productCount: productCount[0] ? productCount[0].total : 0,
-        };
-      });
-    });
-
-
-    const results = await Promise.all(promises);
-    res.status(200).json({ status: "success", message: results });
+//       users.map(async (factoryUser) => {
+//         const batchCount = await batch.countDocuments({ FactoryID: factoryUser._id.toString() }).exec();
+//         console.log("batch",batchCount)
+//         const productCount = await batch.aggregate([
+//           { $match: { FactoryID: factoryUser._id.toString() } },
+//           { $group: { _id: null, total: { $sum: '$BatchSize' } } },
+//         ]).exec();
+//         console.log("product",productCount)
+//         return {
+//           ...companyUser._doc,
+//           batchCount,
+//           productCount: productCount[0] ? productCount[0].total : 0,
+//         };
+//       });
+//     });
 
 
-    // const promises = companyUsers.map(async (companyUser) => {
-    //   const batchCount = await batch.countDocuments({ FactoryID: companyUser._id.toString() }).exec();
-    //   console.log(batchCount)
-    //   const productCount = await batch.aggregate([
-    //     { $match: { FactoryID: companyUser._id.toString() } },
-    //     { $group: { _id: null, total: { $sum: '$BatchSize' } } },
-    //   ]).exec();
-    //   console.log(productCount)
-    //   return {
-    //     ...companyUser._doc,
-    //     batchCount,
-    //     productCount: productCount[0] ? productCount[0].total : 0,
-    //   };
-    // });
-    // const results = await Promise.all(promises);
-    // res.status(200).json({ status: "success", message: results });
-  } catch (err) {
-    res.status(500).send(err.message);
-  }
-});
+//     const results = await Promise.all(promises);
+//     res.status(200).json({ status: "success", message: results });
+
+
+//     // const promises = companyUsers.map(async (companyUser) => {
+//     //   const batchCount = await batch.countDocuments({ FactoryID: companyUser._id.toString() }).exec();
+//     //   console.log(batchCount)
+//     //   const productCount = await batch.aggregate([
+//     //     { $match: { FactoryID: companyUser._id.toString() } },
+//     //     { $group: { _id: null, total: { $sum: '$BatchSize' } } },
+//     //   ]).exec();
+//     //   console.log(productCount)
+//     //   return {
+//     //     ...companyUser._doc,
+//     //     batchCount,
+//     //     productCount: productCount[0] ? productCount[0].total : 0,
+//     //   };
+//     // });
+//     // const results = await Promise.all(promises);
+//     // res.status(200).json({ status: "success", message: results });
+//   } catch (err) {
+//     res.status(500).send(err.message);
+//   }
+// });
 
 ////////////////// API FOR DISTIBUTOR ////////////////////
 
