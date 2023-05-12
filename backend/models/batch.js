@@ -8,6 +8,7 @@ let batch = new mongoose.Schema({
     BatchDescription:String,        
     ProductTemplateID:Number,   
     FactoryID:String,
+    FactoryAdminID:String,
     // FactoryName:String, 
     DistributorID:String,
     DistributorName:String,
