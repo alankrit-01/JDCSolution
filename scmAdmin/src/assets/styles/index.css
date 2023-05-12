@@ -1384,7 +1384,7 @@ span.error {
 
 .position-set-part {
     position: relative;
-    top: 185px;
+    top: 120px;
 }
 
 .font-weight-text {
@@ -1395,7 +1395,6 @@ span.error {
 .leading-none {
     line-height: inherit;
 }
-
 .location-img2 {
     width: 12px;
     display: inline-block;
@@ -1403,12 +1402,12 @@ span.error {
 
 .position-set-part2 {
     position: relative;
-    top: 154px;
+    top:120px;
 }
 
 .position-set-part3 {
     position: relative;
-    top: 210px;
+    top: 120px;
 }
 
 .batch-sent {
