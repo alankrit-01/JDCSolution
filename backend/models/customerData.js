@@ -16,6 +16,7 @@ let customerData = new mongoose.Schema({
     CustomerName:String,
     TimeStamp:String,
     RetailerName:String,
+    RetailerAdminId:String,
     PackagingTimestamp:String,
     ManufacturedBy:String,
     BatchID:Number  

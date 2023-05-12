@@ -25,6 +25,7 @@ const distributorRetailer = require('./models/distributorRetailer');
 const customerData = require('./models/customerData');
 const Rateus = require('./models/rateus');
 const User = require('./models/users');
+const geolib = require('geolib');
 const users = require('./models/users');
 const Consumer = require('./models/consumers');
 const Feedback = require('./models/feedbacks');
@@ -38,8 +39,8 @@ require('dotenv').config()
 
 MONGO_URL = "mongodb+srv://vipin:vipinrichmint@cluster0.y8ufn.mongodb.net/nodedatabase?retryWrites=true&w=majority"
 mongoose.connect(MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true }).then(() => console.log("Connected"));
-
-let contractAddress = "0xA87812852a3cDaD74DcDBcB1F8380C25ee661Ebb";
+mongoose.set('strictQuery', false);
+let contractAddress = "0xE86a68D5b9BcC7f4019b10eF39757E6411074fD4";
 let contract;
 const connectToMatic = async () => {
   optionSuccessStatus: 200
@@ -175,6 +176,7 @@ app.post('/api/factoryAddBatch', addbatchMIDDLEWARE, async (req, res) => {
   const dateOfProduction = req.body.dateOfProduction;
 
   try {
+    const factoryUser =await User.findById(factoryID);
     const Data = new batch({
       _id: new mongoose.Types.ObjectId(),
       BatchID: batchID,
@@ -184,6 +186,7 @@ app.post('/api/factoryAddBatch', addbatchMIDDLEWARE, async (req, res) => {
       BatchDescription: batchDescription,
       ProductTemplateID: productTemplateID,
       FactoryID: factoryID,
+      FactoryAdminID: factoryUser.adminId,
       DistributorID: distributorID,
       DistributorName: distributorName,
       FactoryLocation: factoryLocation,
@@ -357,7 +360,7 @@ app.get('/api/viewProductsByFilter', async (req, res) => {
       { $match: { FactoryID: FactoryID } },
       { $group: { _id: '$ProductTemplateID', Batches: { $sum: 1 }, Products: { $sum: "$BatchSize" }, Name: { $first: '$BatchName' }, BatchDescription: { $first: '$BatchDescription' } } },
       { $sort: { _id: 1 } }
-    ]);
+    ]); 
 
     res.status(200).json({ status: "success", message: result });
     // batch.find({ FactoryID }).then((documents) => {
@@ -397,31 +400,6 @@ app.get('/api/factoryStatistics', async (req, res) => {
   } catch (error) {
     console.log(error)
     res.status(400).send({ error: error.message });
-  }
-});
-
-app.get('/api/ceoBatchProductCovered', async (req, res) => {
-  try {
-    const { adminId } = req.query;
-    const users = await User.find({ role: 'Factory', adminId: adminId });
-    const promises = users.map(async (user) => {
-      const batchCount = await batch.countDocuments({ FactoryID: user._id.toString() }).exec();
-      console.log(batchCount)
-      const productCount = await batch.aggregate([
-        { $match: { FactoryID: user._id.toString() } },
-        { $group: { _id: null, total: { $sum: '$BatchSize' } } },
-      ]).exec();
-      console.log(productCount)
-      return {
-        ...user._doc,
-        batchCount,
-        productCount: productCount[0] ? productCount[0].total : 0,
-      };
-    });
-    const results = await Promise.all(promises);
-    res.status(200).json({ status: "success", message: results });
-  } catch (err) {
-    res.status(500).send(err.message);
   }
 });
 
@@ -553,8 +531,10 @@ app.post('/api/distributorScansBatch', distributorScanMIDDLEWARE, async (req, re
           _id: new mongoose.Types.ObjectId(),
           isDistributor: true,
           distributorID: distributorID,
+          distributorAdminID: user.adminId,
           isRetailer: false,
           RetailerID: "",
+          RetailerAdminID: "",
           isValid: true,
           batchID: BatchID,
           productId: 0,
@@ -584,8 +564,10 @@ app.post('/api/distributorScansBatch', distributorScanMIDDLEWARE, async (req, re
           _id: new mongoose.Types.ObjectId(),
           isDistributor: true,
           distributorID: distributorID,
+          distributorAdminID: user.adminId,
           isRetailer: false,
           RetailerID: "",
+          RetailerAdminID: "",
           isValid: false,
           batchID: BatchID,
           productId: 0,
@@ -779,8 +761,10 @@ app.post('/api/retailerScansProduct', retailerScanMIDDLEWARE, async (req, res) =
             _id: new mongoose.Types.ObjectId(),
             isDistributor: false,
             distributorID: "",
+            distributorAdminID: "",
             isRetailer: true,
             RetailerID: retailerID,
+            RetailerAdminID: user.adminId,
             isValid: true,
             batchID: document.BatchID,
             productId: ProductID,
@@ -818,8 +802,10 @@ app.post('/api/retailerScansProduct', retailerScanMIDDLEWARE, async (req, res) =
             _id: new mongoose.Types.ObjectId(),
             isDistributor: false,
             distributorID: "",
+            distributorAdminID: "",
             isRetailer: true,
             RetailerID: retailerID,
+            RetailerAdminID: user.adminId,
             isValid: false,
             batchID: document.BatchID,
             productId: ProductID,
@@ -890,7 +876,7 @@ app.get('/api/viewProductInfo', async (req, res) => {
     // console.log(doc.DateWhenSoldToCustomer)
     // console.log(data.DateOfProduction)
     // console.log(data.BatchID)
-    // console.log(data.FactoryID) //
+    // console.log(data.FactoryID) // 
 
     let factoryName;
     let retailerName;
@@ -970,10 +956,11 @@ app.post('/api/sellToCustomer', async (req, res) => {
         CustomerID: customerID,
         CustomerName: customerName,
         TimeStamp: timeStamp,
-        RetailerName: retailer.name,
-        PackagingTimestamp: batchData.DateOfProduction,
-        ManufacturedBy: factory.name,
-        BatchID: productData.BatchID
+        RetailerName:retailer.name,
+        RetailerAdminId:retailer.adminId,
+        PackagingTimestamp:batchData.DateOfProduction,
+        ManufacturedBy:factory.name,
+        BatchID:productData.BatchID 
       })
       await data.save();
 
@@ -1057,15 +1044,30 @@ app.get('/api/authenticateProduct', async (req, res) => {
     let customerID = req.query.customerID;
     let latitude = req.query.latitude;
     let longitude = req.query.longitude;
-
-    // let data = await contract.ProductMapping(ProductID);
     let data = await product.findOne({ ProductID });
 
     if (!data) {
+      console.log("ProductID doesn't exists")
+      const retailers = await User.find({ role: 'Retailer' });
+      // console.log(retailers);
+      const distances = retailers.map(r => ({
+        user: r,
+        distance: geolib.getDistance(
+          { latitude: r.latitude, longitude: r.longitude },
+          { latitude: latitude, longitude: longitude }
+        )
+      }));
+
+      const closest = distances.sort((a, b) => a.distance - b.distance)[0];
+      console.log(closest.user.adminId);
       const Data = new verificationData({
         _id: new mongoose.Types.ObjectId(),
         factoryID: "",
+        factoryAdminID: "",
         distributorID: "",
+        distributorAdminID: "",
+        retailerName:closest.user.name,
+        retailerAdminID:closest.user.adminId,
         customerID: customerID,
         productName: "",
         batchDescription: "",
@@ -1077,10 +1079,8 @@ app.get('/api/authenticateProduct', async (req, res) => {
       Data.save().then((result) => {
         console.log(result);
         res.status(200).json({ status: "success", message: "Authentication Level 1 Falied: Product ID not found", level: 1 });
-
       }).catch((err) => console.warn(err))
 
-      // res.status(200).json({status:"success", message:"Authentication Level 1 Falied: Product ID not found",level:1}); 
     } else {
       let BatchID = data.BatchID;
       let data2 = await batch.findOne({ BatchID });
@@ -1116,12 +1116,25 @@ app.get('/api/authenticateProduct', async (req, res) => {
       } else {
         level = 6;
         status = "All Authentication Level Passed"
-      }
+      } 
       const time = new Date().toLocaleString();
+
+      const factoryUser = await User.findById(data2.FactoryID);
+      console.log(factoryUser);
+      const distributorUser = await User.findById(data2.DistributorID);
+      console.log(distributorUser);
+      console.log(data);
+      const retailerUser = data.RetailerID ? await User.findById(data.RetailerID) : null;
+      console.log(retailerUser);
+
       const Data = new verificationData({
         _id: new mongoose.Types.ObjectId(),
         factoryID: data2.FactoryID,
+        factoryAdminID: factoryUser.adminId,
         distributorID: data2.DistributorID,
+        distributorAdminID: distributorUser.adminId,
+        retailerName:retailerUser!=null ? retailerUser.name : "",
+        retailerAdminID:retailerUser!=null ? retailerUser.adminId : "",
         customerID: customerID,
         productName: data2.BatchName,
         batchDescription: data2.BatchDescription,
@@ -1672,6 +1685,57 @@ app.post('/api/adminLogin', jsonParser, async function (req, res) {
 })
 
 
+app.get('/api/ceoBatchProductCovered', async (req, res) => {
+  try {
+    const { adminId } = req.query;
+    const users = await User.find({ role: 'Factory', adminId: adminId });
+    const promises = users.map(async (user) => {
+      const batchCount = await batch.countDocuments({ FactoryID: user._id.toString() }).exec();
+      console.log(batchCount)
+      const productCount = await batch.aggregate([
+        { $match: { FactoryID: user._id.toString() } },
+        { $group: { _id: null, total: { $sum: '$BatchSize' } } },
+      ]).exec();
+      console.log(productCount)
+      return {
+        ...user._doc,
+        batchCount,
+        productCount: productCount[0] ? productCount[0].total : 0,
+      };
+    });
+    const results = await Promise.all(promises);
+    res.status(200).json({ status: "success", message: results });
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+});
+
+app.get('/api/superAdminBatchProductCovered', async (req, res) => {
+  try {
+    const users = await User.find({ role: 'Admin'});
+    console.log(users);
+    const promises = users.map(async (user) => {
+  
+      const batchCount = await batch.countDocuments({ FactoryAdminID: user._id.toString() }).exec();
+      console.log(batchCount)
+      const productCount = await batch.aggregate([
+        { $match: { FactoryAdminID: user._id.toString() } },
+        { $group: { _id: null, total: { $sum: '$BatchSize' } } },
+      ]).exec();
+      console.log(productCount)
+      return {
+        ...user._doc,
+        batchCount,
+        productCount: productCount[0] ? productCount[0].total : 0,
+      };
+    });
+    const results = await Promise.all(promises);
+    res.status(200).json({ status: "success", message: results });
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+});
+
 app.get('/api/ceoStatistics', async (req, res) => {
   try {
     const adminID = req.query.adminID;
@@ -1682,31 +1746,30 @@ app.get('/api/ceoStatistics', async (req, res) => {
       const countDistributer = await User.countDocuments(distributerquery);
       const retailerquery = { role: "Retailer", adminId: adminID };
       const countRetailer = await User.countDocuments(retailerquery);
-      const countIssueReport = await ScanIssueReport.countDocuments();
-      const countFeedback = await Feedback.countDocuments();
-
-      const distributorRetailerScan = await scan.countDocuments();
-      const customerScan = await verificationData.countDocuments();
-      const productsSold = await customerData.countDocuments();
-      const frauds = await verificationData.count({ level: 1 });
-      const level2 = await verificationData.count({ level: 2 });
-      const level3 = await verificationData.count({ level: 3 });
-      const level4 = await verificationData.count({ level: 4 });
-      res.status(200).json({
-        status: "success",
-        totalFactory: countFactory,
-        totalDisributer: countDistributer,
-        totalRetailer: countRetailer,
-        totalIssueReport: countIssueReport,
-        totalFeedback: countFeedback,
-        totalScans: (distributorRetailerScan + customerScan),
-        totalProductSold: productsSold,
-        totalWarnings: customerScan - frauds,
-        totalFrauds: frauds,
-        productsNotValidatedByDistributor: level2,
-        productsNotValidatedByRetailer: level3,
-        locationMismatch: level4,
-      });
+      const countIssueReport = await ScanIssueReport.countDocuments(); 
+      const countFeedback = await Feedback.countDocuments(); 
+      
+      const distributorRetailerScan = await scan.countDocuments({$or: [{distributorAdminID: adminID}, {RetailerAdminID: adminID}]}); 
+      const customerScan = await verificationData.countDocuments({$or: [{distributorAdminID: adminID}, {factoryAdminID: adminID}, {retailerAdminID: adminID}]}); 
+      const productsSold = await customerData.countDocuments({RetailerAdminId:adminID}); 
+      const frauds = await verificationData.count({level:1, $or: [{distributorAdminID: adminID}, {factoryAdminID: adminID}, {retailerAdminID: adminID}]});
+      const level2 = await verificationData.count({level:2, $or: [{distributorAdminID: adminID}, {factoryAdminID: adminID}, {retailerAdminID: adminID}]});
+      const level3 = await verificationData.count({level:3, $or: [{distributorAdminID: adminID}, {factoryAdminID: adminID}, {retailerAdminID: adminID}]});
+      const level4 = await verificationData.count({level:4, $or: [{distributorAdminID: adminID}, {factoryAdminID: adminID}, {retailerAdminID: adminID}]}); 
+      res.status(200).json({ status: "success", 
+                              totalFactory: countFactory,  
+                              totalDisributer: countDistributer, 
+                              totalRetailer: countRetailer, 
+                              totalIssueReport: countIssueReport, 
+                              totalFeedback :countFeedback,
+                              totalScans :(distributorRetailerScan+customerScan),
+                              totalProductSold :productsSold,
+                              totalWarnings :customerScan-frauds,
+                              totalFrauds :frauds,
+                              productsNotValidatedByDistributor :level2,
+                              productsNotValidatedByRetailer :level3,
+                              locationMismatch :level4,
+                            });
     } else {
       res.status(200).json({ status: "fail", message: "Please provide correct amdinID!" });
     }
