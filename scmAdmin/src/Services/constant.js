@@ -14,6 +14,7 @@ export const Set_SuperAdmin_Statistics = 'Set_SuperAdmin_Statistics';
 export const Get_User_Detail = 'Get_User_Detail'; 
 export const Set_User_Detail = 'Set_User_Detail'; 
 export const SuperAdminUserLogin = 'SuperAdminUserLogin';
+export const SuperAdmin_Login_Invalid = 'SuperAdmin_Login_Invalid';
 export const SuperAdminUserLogout = 'SuperAdminUserLogout';
 export const Get_SuperAdmin_Local_Store_Data = 'Get_SuperAdmin_Local_Store_Data';
 export const set_SuperAdmin_Local_Store_Data = "set_SuperAdmin_Local_Store_Data";
@@ -197,6 +198,9 @@ export const Get_All_Report_For_Ceo = 'Get_All_Report_For_Ceo';
 export const Set_All_Report_For_Ceo = 'Set_All_Report_For_Ceo';
 export const Get_Batch_Product_For_Ceo = 'Get_Batch_Product_For_Ceo';
 export const Set_Batch_Product_For_Ceo = 'Set_Batch_Product_For_Ceo';
+
+export const Get_Batch_Product_For_SuperAdmin = 'Get_Batch_Product_For_SuperAdmin';
+export const Set_Batch_Product_For_SuperAdmin = 'Set_Batch_Product_For_SuperAdmin';
 
 export const Get_All_Report_For_SuperAdmin = 'Get_All_Report_For_SuperAdmin';
 export const Set_All_Report_For_SuperAdmin = 'Set_All_Report_For_SuperAdmin';

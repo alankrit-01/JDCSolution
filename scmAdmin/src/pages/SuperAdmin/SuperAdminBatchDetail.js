@@ -1,6 +1,5 @@
-import MainStatusCard from 'components/Admin/MainStatusCard';
-import Sidebar from 'components/Admin/Sidebar';
-import Footer from 'components/Admin/Footer';
+import Sidebar from 'components/SuperAdmin/Sidebar';
+import Footer from 'components/SuperAdmin/Footer';
 import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useMemo, useState } from 'react';
@@ -10,7 +9,7 @@ import { getBatchDetail } from 'Services/action';
 import loader from "assets/img/loading.gif";
 import cumulative from "assets/img/cumulative.png";
 
-const BatchDetail = () => {
+const SuperAdminBatchDetail = () => {
 
     let batchData = useLocation();
     let BatchID = batchData.state.BatchID;
@@ -55,9 +54,8 @@ const BatchDetail = () => {
         }
         dispatch(getBatchDetail(data))
     }, [])
-    const initialBatchTemplatedata = useSelector((state) => state.BatchDetailRecord);
+    const initialBatchTemplatedata = useSelector((state) => state?.BatchDetailRecord);
     let totalproduct = initialBatchTemplatedata?.batchDetailRec?.Products?.length
-
     useEffect(() => {
         setBatchTemplates(initialBatchTemplatedata && initialBatchTemplatedata?.batchDetailRec?.Products)
 
@@ -171,5 +169,5 @@ const BatchDetail = () => {
         </>
     );
 }
-export default BatchDetail
+export default SuperAdminBatchDetail
 

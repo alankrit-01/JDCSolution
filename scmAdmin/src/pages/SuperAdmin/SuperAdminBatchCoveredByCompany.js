@@ -1,6 +1,6 @@
 import Sidebar from "components/SuperAdmin/Sidebar";
 import Footer from "components/SuperAdmin/Footer";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getBatchProductForCeo } from "Services/action";
 import { useEffect, useMemo, useState } from "react";
@@ -12,16 +12,19 @@ import DropdownItem from "@material-tailwind/react/DropdownItem";
 const SuperAdminBatchCoveredByCompany = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  let userData = useLocation();
+  let adminId = userData.state.adminId;
   useEffect(() => {
     const data = {
-      adminId: "637f29523bcd21b57592615b",
+      adminId: adminId,
     };
     dispatch(getBatchProductForCeo(data));
   }, []);
-  const initialBatchProductdata = useSelector((state) => state?.AllBatchProductForCeo?.batchProductForCeoRec);
   const allBatchProductdata = useSelector((state) => state?.AllBatchProductForCeo?.batchProductForCeoRec?.message);
-
+  let allBatchCount = 0;
+  allBatchProductdata && allBatchProductdata.forEach(value => {
+   allBatchCount += value?.batchCount;
+  });
   return (
     <>
       <Sidebar />
@@ -35,7 +38,7 @@ const SuperAdminBatchCoveredByCompany = () => {
           <div className="container mx-auto max-w-full">
             <div className="grid grid-cols-1 px-4 mb-16">
               <div className="grid-section2">
-                <div className="received-part-two batch">
+                <div className="received-part-two batch flex">
                   <Dropdown className="batch-sent" buttonText={<h6>Batches Covered</h6>}>
                     <DropdownItem
                       style={{
@@ -43,11 +46,14 @@ const SuperAdminBatchCoveredByCompany = () => {
                         color: "white"
                       }}
                     >
-                      <NavLink to="/admin/productCovered">
+                      <NavLink to="/superAdmin/productCovered">
                         Product Covered
                       </NavLink>
                     </DropdownItem>
                   </Dropdown>
+
+                  <div className="batch-count">{allBatchCount && allBatchCount}</div>
+
                 </div>
                 <div className="received-part-two report-drop">
                   <img src={cumulative} />
@@ -58,13 +64,12 @@ const SuperAdminBatchCoveredByCompany = () => {
                   </select>
                 </div>
               </div>
-              {console.log("initialBatchProductdata sds", initialBatchProductdata)}
 
               <div className="flex flex-wrap">
 
                 {allBatchProductdata && allBatchProductdata?.map((initialBatchProductdataVal) => <div className="w-full lg:w-6/12 pr-4 mb-10 font-light">
 
-                  <span onClick={() => navigate('/admin/BatchCoveredDetail', { state: { factoryID: initialBatchProductdataVal?._id, factoryName: initialBatchProductdataVal?.name, factoryEmail: initialBatchProductdataVal?.email, factoryLocation: initialBatchProductdataVal?.city + " , " + initialBatchProductdataVal?.country, factoryPhone: initialBatchProductdataVal?.phone } })}>
+                  <span onClick={() => navigate('/superAdmin/batchCoveredDetail', { state: { factoryID: initialBatchProductdataVal?._id, factoryName: initialBatchProductdataVal?.name, factoryEmail: initialBatchProductdataVal?.email, factoryLocation: initialBatchProductdataVal?.city + " , " + initialBatchProductdataVal?.country, factoryPhone: initialBatchProductdataVal?.phone } })}>
                     <div className="background-feedback-part">
                       <h6>{initialBatchProductdataVal?.batchCount}</h6>
                       <p>{initialBatchProductdataVal?.name}</p>

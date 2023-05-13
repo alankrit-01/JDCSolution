@@ -1,5 +1,5 @@
-import FactorySidebar from 'components/Admin/Sidebar';
-import Footer from 'components/Admin/Footer';
+import FactorySidebar from 'components/SuperAdmin/Sidebar';
+import Footer from 'components/SuperAdmin/Footer';
 import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useMemo, useState } from 'react';
@@ -11,7 +11,7 @@ import loader from "assets/img/loading.gif";
 import cumulative from "assets/img/cumulative.png";
 import Icon from "@material-tailwind/react/Icon";
 
-const BatchCoveredDetail = () => {
+const SuperAdminBatchCoveredDetail = () => {
     const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -53,7 +53,7 @@ const BatchCoveredDetail = () => {
         },
         {
             name: "Action",
-            selector: (row) => <button className="custom-details-btn" onClick={() => navigate('/admin/BatchDetail', { state: { BatchID: row.BatchID, companyBatchID: row.CompanyBatchID, productName: row.BatchName } })}>View Batch</button>,
+            selector: (row) => <button className="custom-details-btn" onClick={() => navigate('/superAdmin/batchDetail', { state: { BatchID: row.BatchID, companyBatchID: row.CompanyBatchID, productName: row.BatchName } })}>View Batch</button>,
             ignoreRowClick: true,
             allowOverflow: true,
             button: true,
@@ -161,5 +161,5 @@ const BatchCoveredDetail = () => {
         </>
     );
 }
-export default BatchCoveredDetail
+export default SuperAdminBatchCoveredDetail
 

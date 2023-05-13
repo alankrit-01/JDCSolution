@@ -3,27 +3,24 @@ import Footer from "components/SuperAdmin/Footer";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getBatchProductForSuperAdmin } from "Services/action";
-import { useEffect, useState } from "react";
-
+import { useEffect } from "react";
 import cumulative from "assets/img/cumulative.png";
 import Icon from "@material-tailwind/react/Icon";
 import Dropdown from "@material-tailwind/react/Dropdown";
 import DropdownItem from "@material-tailwind/react/DropdownItem";
-const SuperAdminBatchCovered = () => {
+const SuperAdminProductCovered = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(getBatchProductForSuperAdmin());
   }, []);
-  const allBatchProductdata = useSelector((state) => state?.AllBatchProductForSuperAdmin?.batchProductForSuperADminRec?.message);
+  const initialBatchProductdata = useSelector((state) => state?.AllBatchProductForSuperAdmin?.batchProductForSuperADminRec?.message);
 
+  let ProductCount = 0;
 
-
-   let allBatchCount = 0;
-
-   allBatchProductdata && allBatchProductdata.forEach(value => {
-    allBatchCount += value?.batchCount;
+  initialBatchProductdata && initialBatchProductdata.forEach(value => {
+    ProductCount += value?.productCount;
    });
   return (
     <>
@@ -31,7 +28,6 @@ const SuperAdminBatchCovered = () => {
       <div className="md:ml-32">
         <div className="pt-14 pb-20 px-3 md:px-8 h-auto">
           <div className="container mx-auto max-w-full">
-            {/* <MainStatusCard /> */}
           </div>
         </div>
         <div className="px-3 md:px-7 h-auto -mt-24">
@@ -39,19 +35,19 @@ const SuperAdminBatchCovered = () => {
             <div className="grid grid-cols-1 px-4 mb-16">
               <div className="grid-section2">
                 <div className="received-part-two batch flex">
-                  <Dropdown className="batch-sent" buttonText={<h6>Batches Covered</h6>}>
+                  <Dropdown className="batch-sent" buttonText={<h6>Products Covered</h6>}>
                     <DropdownItem style={{
                         backgroundColor: " #0c3f6a",
                         color: "white"
                       }}
                     >
-                      <NavLink to="/superAdmin/productCovered">
-                        Product Covered
+                      <NavLink to="/superAdmin/batchCovered">
+                        Batches Covered
                       </NavLink>
                     </DropdownItem>
                   </Dropdown>
-                  <div className="batch-count">{allBatchCount && allBatchCount}</div>
-                  
+                  <div className="batch-count">{ProductCount && ProductCount}</div>
+
                 </div>
                 <div className="received-part-two report-drop">
                   <img src={cumulative} />
@@ -63,10 +59,10 @@ const SuperAdminBatchCovered = () => {
                 </div>
               </div>
               <div className="flex flex-wrap">
-                {allBatchProductdata && allBatchProductdata?.map((initialBatchProductdataVal) => <div className="w-full lg:w-6/12 pr-4 mb-10 font-light">
-                  <span onClick={() => navigate('/superAdmin/batchCoveredByCompany', { state: { adminId: initialBatchProductdataVal?._id } })}>
+                {initialBatchProductdata && initialBatchProductdata.map((initialBatchProductdataVal) => <div className="w-full lg:w-6/12 pr-4 mb-10 font-light">
+                  <span onClick={() => navigate('/admin/productCoveredDetail', { state: { factoryID: initialBatchProductdataVal?._id, factoryName: initialBatchProductdataVal?.name, factoryEmail: initialBatchProductdataVal?.email, factoryLocation: initialBatchProductdataVal?.city + " , " + initialBatchProductdataVal?.country, factoryPhone: initialBatchProductdataVal?.phone, factoryProductCovered: initialBatchProductdataVal?.productCount } })}>
                     <div className="background-feedback-part">
-                      <h6>{initialBatchProductdataVal?.batchCount}</h6>
+                      <h6>{initialBatchProductdataVal?.productCount}</h6>
                       <p>{initialBatchProductdataVal?.name}</p>
                     </div>
                   </span>
@@ -88,4 +84,4 @@ const SuperAdminBatchCovered = () => {
     </>
   );
 };
-export default SuperAdminBatchCovered;
+export default SuperAdminProductCovered;

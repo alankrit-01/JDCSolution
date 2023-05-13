@@ -2,7 +2,6 @@
 
 import { useState, useMemo, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
 import { adminLogin, getLocalStoreData } from "../../Services/action";
 import Button from '@material-tailwind/react/Button';
 import { useNavigate } from "react-router-dom";
@@ -25,6 +24,7 @@ const AdminLogin = () => {
         dispatch(getLocalStoreData())
     }, [])
     const initialdata = useSelector((state) => state.AdminLoginData);
+    console.log("initialdata",initialdata)
 
     let admintoken = initialdata.admintoken;
     useEffect(() => {
@@ -33,7 +33,6 @@ const AdminLogin = () => {
         }
     })
     useEffect(() => {
-       
         if (initialdata?.error) {
             let error = initialdata.error;
             errorNotify(error);

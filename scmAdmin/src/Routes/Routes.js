@@ -27,6 +27,11 @@ import SuperAdminTotalFrouds from 'pages/SuperAdmin/SuperAdminTotalFrouds';
 
 import SuperAdminBatchCovered from 'pages/SuperAdmin/SuperAdminBatchCovered';
 import SuperAdminBatchCoveredByCompany from 'pages/SuperAdmin/SuperAdminBatchCoveredByCompany';
+import SuperAdminBatchCoveredDetail from 'pages/SuperAdmin/SuperAdminBatchCoveredDetail';
+import SuperAdminBatchDetail from 'pages/SuperAdmin/SuperAdminBatchDetail';
+
+
+import SuperAdminProductCovered from 'pages/SuperAdmin/SuperAdminProductCovered';
 
 import SuperAdminReports from 'pages/SuperAdmin/Reports/SuperAdminReports';
 import SuperAdminReportsSentToCeo from 'pages/SuperAdmin/Reports/SuperAdminReportsSentToCeo';
@@ -153,6 +158,9 @@ const WebRoutes = () => {
 
             <Route path="/superAdmin/batchCovered" index element={<SuperAdminBatchCovered />} />
             <Route path="/superAdmin/batchCoveredByCompany" index element={<SuperAdminBatchCoveredByCompany />} />
+            <Route path="/superAdmin/batchCoveredDetail" index element={<SuperAdminBatchCoveredDetail />} />
+            <Route path="/superAdmin/batchDetail" index element={<SuperAdminBatchDetail />} />
+            <Route path="/superAdmin/productCovered" index element={<SuperAdminProductCovered />} />
 
             <Route path="/superAdmin/reports" index element={<SuperAdminReports />} />
             <Route path="/superAdmin/reportsSentToCeo" index element={<SuperAdminReportsSentToCeo />} />

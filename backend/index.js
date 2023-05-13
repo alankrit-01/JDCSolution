@@ -176,7 +176,7 @@ app.post('/api/factoryAddBatch', addbatchMIDDLEWARE, async (req, res) => {
   const dateOfProduction = req.body.dateOfProduction;
 
   try {
-    const factoryUser =await User.findById(factoryID);
+    const factoryUser = await User.findById(factoryID);
     const Data = new batch({
       _id: new mongoose.Types.ObjectId(),
       BatchID: batchID,
@@ -360,7 +360,7 @@ app.get('/api/viewProductsByFilter', async (req, res) => {
       { $match: { FactoryID: FactoryID } },
       { $group: { _id: '$ProductTemplateID', Batches: { $sum: 1 }, Products: { $sum: "$BatchSize" }, Name: { $first: '$BatchName' }, BatchDescription: { $first: '$BatchDescription' } } },
       { $sort: { _id: 1 } }
-    ]); 
+    ]);
 
     res.status(200).json({ status: "success", message: result });
     // batch.find({ FactoryID }).then((documents) => {
@@ -905,11 +905,11 @@ app.post('/api/sellToCustomer', async (req, res) => {
         CustomerID: customerID,
         CustomerName: customerName,
         TimeStamp: timeStamp,
-        RetailerName:retailer.name,
-        RetailerAdminId:retailer.adminId,
-        PackagingTimestamp:batchData.DateOfProduction,
-        ManufacturedBy:factory.name,
-        BatchID:productData.BatchID 
+        RetailerName: retailer.name,
+        RetailerAdminId: retailer.adminId,
+        PackagingTimestamp: batchData.DateOfProduction,
+        ManufacturedBy: factory.name,
+        BatchID: productData.BatchID
       })
       await data.save();
 
@@ -1015,8 +1015,8 @@ app.get('/api/authenticateProduct', async (req, res) => {
         factoryAdminID: "",
         distributorID: "",
         distributorAdminID: "",
-        retailerName:closest.user.name,
-        retailerAdminID:closest.user.adminId,
+        retailerName: closest.user.name,
+        retailerAdminID: closest.user.adminId,
         customerID: customerID,
         productName: "",
         batchDescription: "",
@@ -1065,7 +1065,7 @@ app.get('/api/authenticateProduct', async (req, res) => {
       } else {
         level = 6;
         status = "All Authentication Level Passed"
-      } 
+      }
       const time = new Date().toLocaleString();
 
       const factoryUser = await User.findById(data2.FactoryID);
@@ -1082,8 +1082,8 @@ app.get('/api/authenticateProduct', async (req, res) => {
         factoryAdminID: factoryUser.adminId,
         distributorID: data2.DistributorID,
         distributorAdminID: distributorUser.adminId,
-        retailerName:retailerUser!=null ? retailerUser.name : "",
-        retailerAdminID:retailerUser!=null ? retailerUser.adminId : "",
+        retailerName: retailerUser != null ? retailerUser.name : "",
+        retailerAdminID: retailerUser != null ? retailerUser.adminId : "",
         customerID: customerID,
         productName: data2.BatchName,
         batchDescription: data2.BatchDescription,
@@ -1533,30 +1533,55 @@ app.post('/api/userProfile', jsonParser, async function (req, res) {
 
 
 
-app.post('/api/superAdminLogin', jsonParser, async function (req, res) {
-  let adminEmail = ''
-  adminEmail = req.body.email;
-  const adminPassword = req.body.password;
-  if (adminEmail != '' && adminPassword != '' && adminEmail != undefined && adminPassword != undefined) {
-    const userData = await User.findOne({ email: req.body.email, role: req.body.role, role: 'Superadmin' });
+app.post('/api/adminLogin', jsonParser, async function (req, res) {
+
+  let email = req.body.email;
+  let password = req.body.password;
+
+  if (email == '' || email === undefined) {
+    res.status(200).json({ status: "fail", message: "Please Enter Email Address" });
+  } else if (password == '' || password === undefined) {
+    res.status(200).json({ status: "fail", message: "Please Enter Password" });
+  } else {
+    const userData = await User.findOne({ email: req.body.email, userStatus: 'Active', role: 'Admin' });
     if (userData) {
       const validPassword = await bcrypt.compare(req.body.password, userData.password);
       if (validPassword) {
         jwt.sign({ userData }, jwtkey, { expiresIn: '300s' }, (err, token) => {
-          //res.status(200).json({ token })
-          res.status(200).json({ token, userId: userData._id, userEmail: userData.email, userRole: userData.role, userName: userData.name, userAddress: userData.address, userCity: userData.city, userCountry: userData.country, userLatitude: userData.latitude, userLongitude: userData.longitude })
+          res.status(200).json({ token, userId: userData._id, userPhone: userData.phone, userEmail: userData.email, userRole: userData.role, userName: userData.name, address: userData.address, city: userData.city, country: userData.country, latitude: userData.latitude, longitude: userData.longitude, adminId: userData.adminId })
         })
       } else {
-        res.status(400).json({ error: "Invalid Password" });
+        res.status(200).json({ status: "fail", message: "Invalid Password" });
       }
     } else {
-      res.status(401).json({ error: "User does not exist" });
+      res.status(200).json({ status: "fail", message: "Invalid Email Address" });
     }
+  }
+})
+
+
+app.post('/api/superAdminLogin', jsonParser, async function (req, res) {
+  let email = req.body.email;
+  let password = req.body.password;
+
+
+  if (email == '' || email === undefined) {
+    res.status(200).json({ status: "fail", message: "Please Enter Email Address" });
+  } else if (password == '' || password === undefined) {
+    res.status(200).json({ status: "fail", message: "Please Enter Password" });
   } else {
-    if (adminEmail == '' || adminEmail == undefined) {
-      res.status(401).json({ error: "Email is Required" });
+    const userData = await User.findOne({ email: req.body.email, userStatus: 'Active', role: 'Superadmin' });
+    if (userData) {
+      const validPassword = await bcrypt.compare(req.body.password, userData.password);
+      if (validPassword) {
+        jwt.sign({ userData }, jwtkey, { expiresIn: '300s' }, (err, token) => {
+          res.status(200).json({ token, userId: userData._id, userPhone: userData.phone, userEmail: userData.email, userRole: userData.role, userName: userData.name, address: userData.address, city: userData.city, country: userData.country, latitude: userData.latitude, longitude: userData.longitude, adminId: userData.adminId })
+        })
+      } else {
+        res.status(200).json({ status: "fail", message: "Invalid Password" });
+      }
     } else {
-      res.status(401).json({ error: "Password is Required" });
+      res.status(200).json({ status: "fail", message: "Invalid Email Address" });
     }
   }
 })
@@ -1661,7 +1686,7 @@ app.get('/api/ceoBatchProductCovered', async (req, res) => {
 
 app.get('/api/superAdminBatchProductCovered', async (req, res) => {
   try {
-    const users = await User.find({ role: 'Admin'});
+    const users = await User.find({ role: 'Admin' });
     console.log(users);
     const promises = users.map(async (user) => {
 
@@ -1697,30 +1722,31 @@ app.get('/api/ceoStatistics', async (req, res) => {
       const countDistributer = await User.countDocuments(distributerquery);
       const retailerquery = { role: "Retailer", adminId: adminID };
       const countRetailer = await User.countDocuments(retailerquery);
-      const countIssueReport = await ScanIssueReport.countDocuments(); 
-      const countFeedback = await Feedback.countDocuments(); 
-      
-      const distributorRetailerScan = await scan.countDocuments({$or: [{distributorAdminID: adminID}, {RetailerAdminID: adminID}]}); 
-      const customerScan = await verificationData.countDocuments({$or: [{distributorAdminID: adminID}, {factoryAdminID: adminID}, {retailerAdminID: adminID}]}); 
-      const productsSold = await customerData.countDocuments({RetailerAdminId:adminID}); 
-      const frauds = await verificationData.count({level:1, $or: [{distributorAdminID: adminID}, {factoryAdminID: adminID}, {retailerAdminID: adminID}]});
-      const level2 = await verificationData.count({level:2, $or: [{distributorAdminID: adminID}, {factoryAdminID: adminID}, {retailerAdminID: adminID}]});
-      const level3 = await verificationData.count({level:3, $or: [{distributorAdminID: adminID}, {factoryAdminID: adminID}, {retailerAdminID: adminID}]});
-      const level4 = await verificationData.count({level:4, $or: [{distributorAdminID: adminID}, {factoryAdminID: adminID}, {retailerAdminID: adminID}]}); 
-      res.status(200).json({ status: "success", 
-                              totalFactory: countFactory,  
-                              totalDisributer: countDistributer, 
-                              totalRetailer: countRetailer, 
-                              totalIssueReport: countIssueReport, 
-                              totalFeedback :countFeedback,
-                              totalScans :(distributorRetailerScan+customerScan),
-                              totalProductSold :productsSold,
-                              totalWarnings :customerScan-frauds,
-                              totalFrauds :frauds,
-                              productsNotValidatedByDistributor :level2,
-                              productsNotValidatedByRetailer :level3,
-                              locationMismatch :level4,
-                            });
+      const countIssueReport = await ScanIssueReport.countDocuments();
+      const countFeedback = await Feedback.countDocuments();
+
+      const distributorRetailerScan = await scan.countDocuments({ $or: [{ distributorAdminID: adminID }, { RetailerAdminID: adminID }] });
+      const customerScan = await verificationData.countDocuments({ $or: [{ distributorAdminID: adminID }, { factoryAdminID: adminID }, { retailerAdminID: adminID }] });
+      const productsSold = await customerData.countDocuments({ RetailerAdminId: adminID });
+      const frauds = await verificationData.count({ level: 1, $or: [{ distributorAdminID: adminID }, { factoryAdminID: adminID }, { retailerAdminID: adminID }] });
+      const level2 = await verificationData.count({ level: 2, $or: [{ distributorAdminID: adminID }, { factoryAdminID: adminID }, { retailerAdminID: adminID }] });
+      const level3 = await verificationData.count({ level: 3, $or: [{ distributorAdminID: adminID }, { factoryAdminID: adminID }, { retailerAdminID: adminID }] });
+      const level4 = await verificationData.count({ level: 4, $or: [{ distributorAdminID: adminID }, { factoryAdminID: adminID }, { retailerAdminID: adminID }] });
+      res.status(200).json({
+        status: "success",
+        totalFactory: countFactory,
+        totalDisributer: countDistributer,
+        totalRetailer: countRetailer,
+        totalIssueReport: countIssueReport,
+        totalFeedback: countFeedback,
+        totalScans: (distributorRetailerScan + customerScan),
+        totalProductSold: productsSold,
+        totalWarnings: customerScan - frauds,
+        totalFrauds: frauds,
+        productsNotValidatedByDistributor: level2,
+        productsNotValidatedByRetailer: level3,
+        locationMismatch: level4,
+      });
     } else {
       res.status(200).json({ status: "fail", message: "Please provide correct amdinID!" });
     }

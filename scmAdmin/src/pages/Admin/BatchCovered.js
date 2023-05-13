@@ -5,12 +5,6 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getBatchProductForCeo } from "Services/action";
 import { useEffect, useMemo, useState } from "react";
-import DataTable from "react-data-table-component";
-import { Button } from "@material-tailwind/react";
-import Input from "@material-tailwind/react/Input";
-import loader from "assets/img/loading.gif";
-import star from "assets/img/star.png";
-import star2 from "assets/img/star-se.png";
 import cumulative from "assets/img/cumulative.png";
 import Icon from "@material-tailwind/react/Icon";
 import Dropdown from "@material-tailwind/react/Dropdown";
@@ -27,7 +21,6 @@ const BatchCovered = () => {
     };
     dispatch(getBatchProductForCeo(data));
   }, []);
-  const initialBatchProductdata = useSelector((state) => state?.AllBatchProductForCeo?.batchProductForCeoRec);
   const allBatchProductdata = useSelector((state) => state?.AllBatchProductForCeo?.batchProductForCeoRec?.message);
 
   return (
@@ -66,8 +59,6 @@ const BatchCovered = () => {
                   </select>
                 </div>
               </div>
-              {console.log("initialBatchProductdata sds", initialBatchProductdata)}
-
               <div className="flex flex-wrap">
 
                 {allBatchProductdata && allBatchProductdata?.map((initialBatchProductdataVal) => <div className="w-full lg:w-6/12 pr-4 mb-10 font-light">

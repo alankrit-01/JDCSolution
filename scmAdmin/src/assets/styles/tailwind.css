@@ -4387,6 +4387,13 @@ span.error {
     height: 50px;
     background-color: #0c3f6a;
 }
+.batch-count {
+    color: #ff9c67;
+    background-color: #0c3f6a;
+    padding: 12px;
+    margin-left: 10px;
+    border-radius: 5px;
+}
 .batch-sent:hover {
     background-color: #0c3f6a;
 }
