@@ -1,51 +1,70 @@
 import Sidebar from "components/SuperAdmin/Sidebar";
 import Footer from "components/SuperAdmin/Footer";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, useLocation, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getBatchProductForSuperAdmin } from "Services/action";
-import { useEffect } from "react";
+import { getBatchProductForCeo } from "Services/action";
+import { useEffect, useMemo, useState } from "react";
+
 import cumulative from "assets/img/cumulative.png";
 import Icon from "@material-tailwind/react/Icon";
 import Dropdown from "@material-tailwind/react/Dropdown";
 import DropdownItem from "@material-tailwind/react/DropdownItem";
-const SuperAdminProductCovered = () => {
+const SuperAdminProductCoveredByCompany = () => {
+ 
+//   let userData = useLocation()
+//   let adminId = userData.state.adminId
+//   let companyName = userData.state.companyName
+
+// console.log("adminId", adminId)
+// console.log("companyName", companyName)
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  let userData = useLocation();
+  let adminId = userData.state.adminId;
+  let companyName = userData.state.companyName;
 
   useEffect(() => {
-    dispatch(getBatchProductForSuperAdmin());
+    const data = {
+      adminId: adminId,
+    };
+    dispatch(getBatchProductForCeo(data));
   }, []);
-  const initialBatchProductdata = useSelector((state) => state?.AllBatchProductForSuperAdmin?.batchProductForSuperADminRec?.message);
-
+  const allBatchProductdata = useSelector((state) => state?.AllBatchProductForCeo?.batchProductForCeoRec?.message);
   let ProductCount = 0;
-
-  initialBatchProductdata && initialBatchProductdata.forEach(value => {
+  allBatchProductdata && allBatchProductdata.forEach(value => {
     ProductCount += value?.productCount;
-   });
+  });
   return (
     <>
       <Sidebar />
       <div className="md:ml-32">
         <div className="pt-14 pb-20 px-3 md:px-8 h-auto">
           <div className="container mx-auto max-w-full">
+            {/* <MainStatusCard /> */}
           </div>
         </div>
         <div className="px-3 md:px-7 h-auto -mt-24">
           <div className="container mx-auto max-w-full">
             <div className="grid grid-cols-1 px-4 mb-16">
+              <div>
+                <h2 className="head-cust-color">Company - {companyName && companyName}</h2>
+              </div>
               <div className="grid-section2">
                 <div className="received-part-two batch flex">
-                  <Dropdown className="batch-sent" buttonText={<h6>Products Covered</h6>}>
-                    <DropdownItem style={{
+                  <Dropdown className="batch-sent" buttonText={<h6>Product Covered</h6>}>
+                    <DropdownItem
+                      style={{
                         backgroundColor: " #0c3f6a",
                         color: "white"
                       }}
                     >
-                      <NavLink to="/superAdmin/batchCovered">
-                        Batches Covered
-                      </NavLink>
+                      <Link to="/superAdmin/batchCoveredByCompany" state={{ adminId: adminId, companyName: companyName }}>
+                      Batches Covered
+                      </Link>
                     </DropdownItem>
                   </Dropdown>
+
                   <div className="batch-count">{ProductCount && ProductCount}</div>
 
                 </div>
@@ -58,9 +77,12 @@ const SuperAdminProductCovered = () => {
                   </select>
                 </div>
               </div>
+
               <div className="flex flex-wrap">
-                {initialBatchProductdata && initialBatchProductdata.map((initialBatchProductdataVal) => <div className="w-full lg:w-6/12 pr-4 mb-10 font-light">
-                  <span onClick={() => navigate('/superAdmin/productCoveredByCompany', { state: { adminId: initialBatchProductdataVal?._id, companyName: initialBatchProductdataVal?.name } })}>
+
+                {allBatchProductdata && allBatchProductdata?.map((initialBatchProductdataVal) => <div className="w-full lg:w-6/12 pr-4 mb-10 font-light">
+
+                  <span onClick={() => navigate('/superAdmin/productCoveredDetail', { state: { factoryID: initialBatchProductdataVal?._id, factoryName: initialBatchProductdataVal?.name, factoryEmail: initialBatchProductdataVal?.email, factoryLocation: initialBatchProductdataVal?.city + " , " + initialBatchProductdataVal?.country, factoryPhone: initialBatchProductdataVal?.phone, factoryProductCovered: initialBatchProductdataVal?.productCount, companyName: companyName } })}>
                     <div className="background-feedback-part">
                       <h6>{initialBatchProductdataVal?.productCount}</h6>
                       <p>{initialBatchProductdataVal?.name}</p>
@@ -84,4 +106,4 @@ const SuperAdminProductCovered = () => {
     </>
   );
 };
-export default SuperAdminProductCovered;
+export default SuperAdminProductCoveredByCompany;

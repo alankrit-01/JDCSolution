@@ -9,7 +9,7 @@ import { useEffect } from "react";
 import { resetLoginData } from "Services/action";
 import { useDispatch } from "react-redux";
 
-import MapExample from 'components/Admin/MapExample';
+import MapLocation from 'components/Admin/MapLocation';
 
 const Dashboard = () => {
   const dispatch = useDispatch();
@@ -17,8 +17,6 @@ const Dashboard = () => {
     dispatch(resetLoginData());
   },[])
 
-
- 
 
   return (
     <>
@@ -105,7 +103,7 @@ const Dashboard = () => {
               </div>
               <div className='w-80 h-96 map-padding-use'>
 
-              <MapExample /> 
+              <MapLocation /> 
               </div>
               
             </div>

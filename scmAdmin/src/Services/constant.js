@@ -31,6 +31,9 @@ export const Set_Store_Company_Data_Already_Exist = 'Set_Store_Company_Data_Alre
 export const Set_Store_Company_Data_Fail = 'Set_Store_Company_Data_Fail';
 export const Check_Company_Success_data = 'Check_Company_Success_data';
 export const Check_Company_Success_data_1 = 'Check_Company_Success_data_1';
+export const Reset_Conpany_Data = 'Reset_Conpany_Data';
+export const Set_Reset_Company_Data = 'Set_Reset_Company_Data';
+
 
 
 

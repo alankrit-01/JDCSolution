@@ -15,6 +15,7 @@ const SuperAdminBatchDetail = () => {
     let BatchID = batchData.state.BatchID;
     let companyBatchID = batchData.state.companyBatchID;
     let productName = batchData.state.productName;
+    let companyName = batchData.state.companyName;
 
     const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
@@ -101,8 +102,11 @@ const SuperAdminBatchDetail = () => {
                 <div className="px-3 md:px-8 h-auto -mt-24">
                     <div className="container mx-auto max-w-full">
                         <div className="grid grid-cols-1 px-4 mb-16">
-
+                            
                             <div className="flex flex-wrap mt-10">
+                            <div>
+                                <h2 className="head-cust-color">Company - {companyName && companyName}</h2>
+                            </div>
                                 <div className="w-full lg:w-12/12 pl-4 font-light">
                                     <div className="received-part-two report-drop">
                                         <img src={cumulative} />

@@ -4,7 +4,7 @@ import Footer from "components/SuperAdmin/Footer";
 import Card from '@material-tailwind/react/Card';
 import CardBody from '@material-tailwind/react/CardBody';
 import Button from '@material-tailwind/react/Button';
-import { storeCompany } from "Services/action";
+import { storeCompany, resetConpanyData } from "Services/action";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -32,13 +32,10 @@ const AddCompany = () => {
         handleSubmit,
         formState: { errors },
     } = useForm();
-
     function onSubmit(data) {
-        // dispatch(resetDistributerData());
+         dispatch(resetConpanyData());
         dispatch(storeCompany(data));
     }
-
-
     const initialCompanyStoredata = useSelector((state) => state.CompanyStoreData);
     useEffect(() => {
         if (initialCompanyStoredata?.success) {

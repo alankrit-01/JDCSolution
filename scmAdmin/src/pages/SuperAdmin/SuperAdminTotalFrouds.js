@@ -1,24 +1,12 @@
-import React, { useEffect, useState } from "react";
 import Sidebar from "components/SuperAdmin/Sidebar";
 import Footer from "components/SuperAdmin/Footer";
 import cumulative from "assets/img/cumulative.png";
-import GoogleMapReact from 'google-map-react';
-import AnyReactComponent from 'google-map-react';
 import Arrowdown from 'assets/img/down-arrow.png';
-import { useDispatch } from "react-redux";
-
+import SuperAdminFraudLocationMap from "components/SuperAdmin/SuperAdminFraudLocationMap"
 import ProgressCard from "components/SuperAdmin/ProgressCard"
 import DashboardWarningChart from 'components/SuperAdmin/DashboardWarningChart';
 
 const SuperAdminTotalFrouds = () => {
-    const dispatch = useDispatch();
-    const defaultProps = {
-        center: {
-            lat: 26.859970,
-            lng: 75.806236
-        },
-        zoom: 11
-    };
     return (
         <>
             <Sidebar />
@@ -51,15 +39,7 @@ const SuperAdminTotalFrouds = () => {
                             <button className="cust-export-button">Export CSV <img src={Arrowdown} className="w-3 h-3" style={{ margin: "2px 0px 2px 2px" }} /> </button>
                         </div>
                         <div className='w-full h-96 map-padding-use'>
-                            <GoogleMapReact bootstrapURLKeys={{ key: "AIzaSyChufzuq8C_rWT2fSVe_0WLEqjiktQen-Q" }}
-                                defaultCenter={defaultProps.center}
-                                defaultZoom={defaultProps.zoom} >
-                                <AnyReactComponent
-                                    lat={26.859970}
-                                    lng={75.806236}
-                                    text="My Marker"
-                                />
-                            </GoogleMapReact>
+                            <SuperAdminFraudLocationMap />
                         </div>
                     </div>
                 </div>

@@ -18,7 +18,7 @@ import { useDispatch } from "react-redux";
 import GoogleMapReact from 'google-map-react';
 import AnyReactComponent from 'google-map-react';
 
-
+import SuperADminMapLocation from "components/SuperAdmin/SuperADminMapLocation"
 
 const SuperAdminDashboard = () => {
     const dispatch = useDispatch();
@@ -121,17 +121,7 @@ const SuperAdminDashboard = () => {
                                 <h2 className="heading-background">Locations</h2>
                             </div>
                             <div className='w-80 h-96 map-padding-use'>
-                                <GoogleMapReact
-                                    bootstrapURLKeys={{ key: "AIzaSyChufzuq8C_rWT2fSVe_0WLEqjiktQen-Q" }}
-                                    defaultCenter={defaultProps.center}
-                                    defaultZoom={defaultProps.zoom}
-                                >
-                                    <AnyReactComponent
-                                        lat={26.859970}
-                                        lng={75.806236}
-                                        text="My Marker"
-                                    />
-                                </GoogleMapReact>
+                                <SuperADminMapLocation />
                             </div>
                         </div>
 

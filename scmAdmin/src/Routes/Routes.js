@@ -32,6 +32,9 @@ import SuperAdminBatchDetail from 'pages/SuperAdmin/SuperAdminBatchDetail';
 
 
 import SuperAdminProductCovered from 'pages/SuperAdmin/SuperAdminProductCovered';
+import SuperAdminProductCoveredByCompany from 'pages/SuperAdmin/SuperAdminProductCoveredByCompany';
+import SuperAdminProductCoveredDetail from 'pages/SuperAdmin/SuperAdminProductCoveredDetail';
+
 
 import SuperAdminReports from 'pages/SuperAdmin/Reports/SuperAdminReports';
 import SuperAdminReportsSentToCeo from 'pages/SuperAdmin/Reports/SuperAdminReportsSentToCeo';
@@ -161,6 +164,9 @@ const WebRoutes = () => {
             <Route path="/superAdmin/batchCoveredDetail" index element={<SuperAdminBatchCoveredDetail />} />
             <Route path="/superAdmin/batchDetail" index element={<SuperAdminBatchDetail />} />
             <Route path="/superAdmin/productCovered" index element={<SuperAdminProductCovered />} />
+            <Route path="/superAdmin/productCoveredByCompany" index element={<SuperAdminProductCoveredByCompany />} />
+            <Route path="/superAdmin/productCoveredDetail" index element={<SuperAdminProductCoveredDetail />} />
+
 
             <Route path="/superAdmin/reports" index element={<SuperAdminReports />} />
             <Route path="/superAdmin/reportsSentToCeo" index element={<SuperAdminReportsSentToCeo />} />

@@ -64,7 +64,7 @@ const SuperAdminBatchCovered = () => {
               </div>
               <div className="flex flex-wrap">
                 {allBatchProductdata && allBatchProductdata?.map((initialBatchProductdataVal) => <div className="w-full lg:w-6/12 pr-4 mb-10 font-light">
-                  <span onClick={() => navigate('/superAdmin/batchCoveredByCompany', { state: { adminId: initialBatchProductdataVal?._id } })}>
+                  <span onClick={() => navigate('/superAdmin/batchCoveredByCompany', { state: { adminId: initialBatchProductdataVal?._id, companyName: initialBatchProductdataVal?.name } })}>
                     <div className="background-feedback-part">
                       <h6>{initialBatchProductdataVal?.batchCount}</h6>
                       <p>{initialBatchProductdataVal?.name}</p>

@@ -105,13 +105,15 @@ const MainStatusCard = () => {
                     </NavLink>
                 </div>
                 <div className="px-6 mb-10 main-tiles-section">
+                <NavLink to="/admin/totalFrouds">
                     <Card className="main-tiles p-0">
                         <CardRow className="inner-tiles">
                             <CardStatus className="tiles-title" title={TotalFrauds && TotalFrauds} />
                             <img src={FraudsDetectedIcon} className="w-24 h-24" />
-                            <CardStatus className="tiles-title-bottom" title={"Total Fraud Detected"} />
+                            <CardStatus className="tiles-title-bottom" title={"Total Frauds Detected"} />
                         </CardRow>
                     </Card>
+                    </NavLink>
                 </div>
                 <div className="px-6 mb-10 main-tiles-section">
                     <NavLink to="/admin/reports">
@@ -120,17 +122,6 @@ const MainStatusCard = () => {
                                 <CardStatus className="tiles-title" title={IssueReport && IssueReport} />
                                 <img src={ReportsIcon} className="w-24 h-24" />
                                 <CardStatus className="tiles-title-bottom" title={"Reports Received"} />
-                            </CardRow>
-                        </Card>
-                    </NavLink>
-                </div>
-                <div className="px-6 mb-10 main-tiles-section">
-                    <NavLink to="/admin/productCovered">
-                        <Card className="main-tiles p-0">
-                            <CardRow className="inner-tiles">
-                                <CardStatus className="tiles-title" title={100} />
-                                <img src={ProductIcon} className="w-24 h-24" />
-                                <CardStatus className="tiles-title-bottom" title={"Products Covered"} />
                             </CardRow>
                         </Card>
                     </NavLink>
@@ -146,6 +137,18 @@ const MainStatusCard = () => {
                         </Card>
                     </NavLink>
                 </div>
+                <div className="px-6 mb-10 main-tiles-section">
+                    <NavLink to="/admin/productCovered">
+                        <Card className="main-tiles p-0">
+                            <CardRow className="inner-tiles">
+                                <CardStatus className="tiles-title" title={100} />
+                                <img src={ProductIcon} className="w-24 h-24" />
+                                <CardStatus className="tiles-title-bottom" title={"Products Covered"} />
+                            </CardRow>
+                        </Card>
+                    </NavLink>
+                </div>
+               
                 <div className="px-6 mb-10 main-tiles-section">
                     <NavLink to="/admin/feedback">
                         <Card className="main-tiles p-0">

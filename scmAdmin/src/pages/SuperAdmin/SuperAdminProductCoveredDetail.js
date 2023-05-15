@@ -2,61 +2,62 @@ import FactorySidebar from 'components/SuperAdmin/Sidebar';
 import Footer from 'components/SuperAdmin/Footer';
 import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import DataTable from 'react-data-table-component';
-
 import 'react-toastify/dist/ReactToastify.css';
 import { getBatchTemplate } from 'Services/action';
 import loader from "assets/img/loading.gif";
 import cumulative from "assets/img/cumulative.png";
 import Icon from "@material-tailwind/react/Icon";
 
-const SuperAdminBatchCoveredDetail = () => {
+const SuperAdminProductCoveredDetail = () => {
     const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
+
     let factoryUserData = useLocation();
-    let factoryUserId = factoryUserData.state.factoryID;
-    let factoryName = factoryUserData.state.factoryName;
-    let factoryEmail = factoryUserData.state.factoryEmail;
-    let factoryLocation = factoryUserData.state.factoryLocation;
-    let factoryPhone = factoryUserData.state.factoryPhone;
+    let factoryUserId = factoryUserData?.state?.factoryID;
+    let factoryName = factoryUserData?.state?.factoryName;
+    let factoryEmail = factoryUserData?.state?.factoryEmail;
+    let factoryLocation = factoryUserData?.state?.factoryLocation;
+    let factoryPhone = factoryUserData?.state?.factoryPhone;
+    let factoryProductCovered = factoryUserData?.state?.factoryProductCovered;
     let companyName = factoryUserData?.state?.companyName;
 
-
+    
     const [BatchTemplates, setBatchTemplates] = useState([]);
     const [Search, setSearch] = useState("");
     const [FilterBatchTemplates, setFilterBatchTemplates] = useState([]);
 
-
     const columns = [
+        {
+            name: "Product Name",
+            selector: (row) => row.productName,
+            sortable: true,
+        },
+        {
+            name: "Product ID",
+            selector: (row) => row.productID,
+            sortable: true,
+        },
+        {
+            name: "Richmint Product Code",
+            selector: (row) => row.richmintProductCode,
+            sortable: true,
+        },
         {
             name: "Batch Id",
             selector: (row) => row.BatchID,
             sortable: true,
         },
         {
-            name: "Richmint Batch Code",
-            selector: (row) => row.BatchID,
-            sortable: true,
-        },
-        {
-            name: "Product Name",
-            selector: (row) => row.BatchName,
-            sortable: true,
-        },
-        {
-            name: "Quantity Of Batch",
-            selector: (row) => row.BatchSize,
-            sortable: true,
-        },
-        {
             name: "Action",
-            selector: (row) => <button className="custom-details-btn" onClick={() => navigate('/superAdmin/batchDetail', { state: { BatchID: row.BatchID, companyBatchID: row.CompanyBatchID, productName: row.BatchName, companyName: companyName } })}>View Batch</button>,
+            selector: (row) => <button className="custom-details-btn" >Product Status</button>,
             ignoreRowClick: true,
             allowOverflow: true,
             button: true,
+            width: "150px",
         },
         // {
         //     selector: (row) => <button className="custom-details-btn" onClick={() => navigate('/factory/BatchProductQr', { state: { BatchID: row.BatchID } })}>Batch Product Qr</button>,
@@ -66,53 +67,77 @@ const SuperAdminBatchCoveredDetail = () => {
         //     width: "150px"
         // },
     ];
-    useEffect(() => {
+
+    useEffect(() => {     
         const data = {
             factoryID: factoryUserId
         }
         dispatch(getBatchTemplate(data))
-    }, [])
-    const initialBatchTemplatedata = useSelector((state) => state?.BatchTemplateRecord);
-    useEffect(() => {
-        setBatchTemplates(initialBatchTemplatedata && initialBatchTemplatedata?.batchTemplateRec?.message)
-        setFilterBatchTemplates(initialBatchTemplatedata && initialBatchTemplatedata?.batchTemplateRec?.message)
+    },[])
 
-        var a = [{ BatchName: "There are no record to display" }];
+    const initialBatchTemplatedata = useSelector((state) => state.BatchTemplateRecord);
+    const batchProductData = initialBatchTemplatedata && initialBatchTemplatedata?.batchTemplateRec?.message;
+    let batchLength = batchProductData && batchProductData.length
+    let batchProductDataArray = [];
+    let totalProductSent = 0;
+    for (let i = 0; i < batchLength; i++) {
+        let batchProductRec = batchProductData && batchProductData[i].ProductIDs;
+        let batchProductRecordLength = batchProductRec && batchProductRec?.length
+        for (let j = 0; j < batchProductRecordLength; j++) {
+            totalProductSent++;
+            batchProductDataArray.push({
+                BatchID: batchProductData[i].BatchID,
+                productName: batchProductData[i].BatchName,
+                productID: batchProductRec[j],
+                richmintProductCode: batchProductRec[j],
+
+            })
+        }
+    }
+
+    useEffect(() => {
+        setBatchTemplates(batchProductDataArray && batchProductDataArray)
+        setFilterBatchTemplates(batchProductDataArray && batchProductDataArray)
+
+        var a = [{ richmintProductCode: "There are no record to display" }];
 
         setLoading(true);
         if (
-            initialBatchTemplatedata?.batchTemplateRec?.message != 0 &&
-            initialBatchTemplatedata?.batchTemplateRec?.message != null &&
-            initialBatchTemplatedata?.batchTemplateRec?.message != ""
+            batchProductDataArray != 0 &&
+            batchProductDataArray &&
+            batchProductDataArray != ""
         ) {
-            setFilterBatchTemplates(initialBatchTemplatedata && initialBatchTemplatedata?.batchTemplateRec?.message);
-
+            setFilterBatchTemplates(batchProductDataArray && batchProductDataArray);
         } else {
             setLoading(false);
-
             setFilterBatchTemplates(a);
         }
     }, [initialBatchTemplatedata])
 
     useEffect(() => {
         const result = BatchTemplates.filter((allBatchTemplate) => {
-            return allBatchTemplate.BatchName.toLowerCase().match(Search.toLowerCase());
+            return allBatchTemplate.productName.toLowerCase().match(Search.toLowerCase());
         })
         setFilterBatchTemplates(result)
     }, [Search])
+
     return (
         <>
             <FactorySidebar />
             <div className="md:ml-32">
                 <div className="pt-14 pb-10 px-3 md:px-8 h-auto">
                     <div className="container mx-auto max-w-full">
+
+
                         {/* <MainStatusCard /> */}
+
+
                     </div>
                 </div>
                 <div className="px-3 md:px-8 h-auto -mt-24">
                     <div className="container mx-auto max-w-full">
                         <div className="grid grid-cols-1 px-4 mb-16">
-                            <div>
+                        <div>
                                 <h2 className="head-cust-color">Company - {companyName && companyName}</h2>
                             </div>
                             <div className="flex flex-wrap mt-10">
@@ -134,7 +159,10 @@ const SuperAdminBatchCoveredDetail = () => {
                                         </select>
                                     </div>
                                     <div className="right-button-section cust-part">
-                                        <button className="cust-button">Batches Sent <span className="batches-sent">{FilterBatchTemplates.length && FilterBatchTemplates.length}</span></button>
+
+                                        <NavLink to="/factory/addBatchTemplate">
+                                            <button className="cust-button">Products Covered <span className="batches-sent">{factoryProductCovered && factoryProductCovered}</span></button>
+                                        </NavLink>
                                     </div>
                                 </div></div>
 
@@ -164,5 +192,5 @@ const SuperAdminBatchCoveredDetail = () => {
         </>
     );
 }
-export default SuperAdminBatchCoveredDetail
+export default SuperAdminProductCoveredDetail
 
