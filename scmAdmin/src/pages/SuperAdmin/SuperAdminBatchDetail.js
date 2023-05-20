@@ -29,12 +29,12 @@ const SuperAdminBatchDetail = () => {
         {
             name: "Product Id",
             selector: (row) => row.BatchID,
-            sortable: true,
+            sortable: false,
         },
         {
             name: "Richmint Product Code",
             selector: (row) => "P-" + row.CompanyProductID,
-            sortable: true,
+            sortable: false,
         },
         {
             name: "Action",

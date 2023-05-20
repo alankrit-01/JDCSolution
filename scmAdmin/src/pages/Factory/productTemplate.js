@@ -38,17 +38,17 @@ const ProductTemplate = () => {
         {
             name: "	Product Template ID",
             selector: (row) => row.ProductTemplateID,
-            sortable: true,
+            sortable: false,
         },
         {
             name: "Product Name",
             selector: (row) => row.Name,
-            sortable: true,
+            sortable: false,
         },
         {
             name: "Product Description",
             selector: (row) => row.Description,
-            sortable: true,
+            sortable: false,
         },
     ];
     useEffect(() => {

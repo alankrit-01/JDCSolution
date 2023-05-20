@@ -33,27 +33,27 @@ const RetailerScansFail = () => {
         {
             name: "Name",
             selector: (row) => row.Name,
-            sortable: true,
+            sortable: false,
         },
         {
             name: "Email",
             selector: (row) => row.Email,
-            sortable: true,
+            sortable: false,
         },
         {
             name: "Scanned Distance",
             selector: (row) => row.distanceSeprated + " Km",
-            sortable: true,
+            sortable: false,
         },
         {
             name: "Scanned Location",
             selector: (row) => row.currentLocation,
-            sortable: true,
+            sortable: false,
         },
         {
             name: "Actual Location",
             selector: (row) => row.orignalLocation,
-            sortable: true,
+            sortable: false,
         },
     ];
 

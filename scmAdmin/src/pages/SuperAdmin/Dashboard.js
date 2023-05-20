@@ -1,22 +1,18 @@
 import MainStatusCard from 'components/SuperAdmin/MainStatusCard';
 import Sidebar from 'components/SuperAdmin/Sidebar';
 import Footer from 'components/SuperAdmin/Footer';
-
 import { NavLink } from "react-router-dom";
 import ProgressCard from "components/SuperAdmin/ProgressCard";
 import DashboardWarningChart from 'components/SuperAdmin/DashboardWarningChart';
 import "react-multi-carousel/lib/styles.css";
 import Card from "@material-tailwind/react/Card";
 import CardRow from "@material-tailwind/react/CardRow";
-import CardStatus from "@material-tailwind/react/CardStatus";
 import Dropdown from "@material-tailwind/react/Dropdown";
 import DropdownItem from "@material-tailwind/react/DropdownItem";
 import cumulative from "assets/img/cumulative.png";
-import { useEffect } from "react";
 import { resetLoginData } from "Services/action";
 import { useDispatch } from "react-redux";
-import GoogleMapReact from 'google-map-react';
-import AnyReactComponent from 'google-map-react';
+import Arrowdown from 'assets/img/down-arrow.png';
 
 import SuperADminMapLocation from "components/SuperAdmin/SuperADminMapLocation"
 
@@ -24,11 +20,11 @@ const SuperAdminDashboard = () => {
     const dispatch = useDispatch();
     const defaultProps = {
         center: {
-          lat: 26.859970,
-          lng: 75.806236
+            lat: 26.859970,
+            lng: 75.806236
         },
         zoom: 11
-      };
+    };
 
     return (
         <>
@@ -121,6 +117,9 @@ const SuperAdminDashboard = () => {
                                 <h2 className="heading-background">Locations</h2>
                             </div>
                             <div className='w-80 h-96 map-padding-use'>
+                                <div className="flex justify-end">
+                                    <button className="cust-export-button">Export CSV <img src={Arrowdown} className="w-3 h-3" style={{ margin: "2px 0px 2px 2px" }} /> </button>
+                                </div>
                                 <SuperADminMapLocation />
                             </div>
                         </div>

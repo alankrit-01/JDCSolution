@@ -38,31 +38,31 @@ const BatchTemplate = () => {
         {
             name: "Batch Id",
             selector: (row) => row.BatchID,
-            sortable: true,
+            sortable: false,
             width: "200px"
         },
         {
             name: "Product Name",
             selector: (row) => row.BatchName,
-            sortable: true,
+            sortable: false,
             width: "200px"
         },
         {
             name: "Distributer Name",
             selector: (row) => row.DistributorName,
-            sortable: true,
+            sortable: false,
             width: "200px"
         },
         {
             name: "Batch Size",
             selector: (row) => row.BatchSize,
-            sortable: true,
+            sortable: false,
             width: "200px"
         },
         {
             name: "Batch Date",
             selector: (row) => row.DateOfProduction,
-            sortable: true,
+            sortable: false,
             width: "200px"
         },
         {

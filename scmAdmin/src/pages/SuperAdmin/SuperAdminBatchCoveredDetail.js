@@ -34,22 +34,22 @@ const SuperAdminBatchCoveredDetail = () => {
         {
             name: "Batch Id",
             selector: (row) => row.BatchID,
-            sortable: true,
+            sortable: false,
         },
         {
             name: "Richmint Batch Code",
             selector: (row) => row.BatchID,
-            sortable: true,
+            sortable: false,
         },
         {
             name: "Product Name",
             selector: (row) => row.BatchName,
-            sortable: true,
+            sortable: false,
         },
         {
             name: "Quantity Of Batch",
             selector: (row) => row.BatchSize,
-            sortable: true,
+            sortable: false,
         },
         {
             name: "Action",

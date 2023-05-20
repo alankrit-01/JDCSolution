@@ -47,29 +47,29 @@ const Distributer = () => {
     {
       name: "Distributer Name",
       selector: (row) => row.name,
-      sortable: true,
+      sortable: false,
     },
     {
       name: "Distributer Email",
       selector: (row) => row.email,
-      sortable: true,
+      sortable: false,
     },
     {
       name: "Distributer Address",
       selector: (row) => row.address,
-      sortable: true,
+      sortable: false,
     },
     {
       name: "Distributer Phone",
       selector: (row) => row.phone,
-      sortable: true,
+      sortable: false,
     },
     {
       name: "Information",
       selector: (row) => (
         <button className="custom-details-btn" onClick={() => navigate('/admin/distributerDetails', { state: { userId:  row._id } })}>Details</button>
       ),
-      sortable: true,
+      sortable: false,
     },
     // {
     //   name: <div className="text-base">Action</div>,

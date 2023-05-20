@@ -37,22 +37,22 @@ const BatchSentDistributer = () => {
         {
             name: "Batch Id",
             selector: (row) => row.BatchID,
-            sortable: true,
+            sortable: false,
         },
         {
             name: "Richmint Batch Code",
             selector: (row) => "B-" + row.CompanyBatchID,
-            sortable: true,
+            sortable: false,
         },
         {
             name: "Product Name",
             selector: (row) => row.BatchName,
-            sortable: true,
+            sortable: false,
         },
         {
             name: "Quantity of Batch",
             selector: (row) => row.BatchSize,
-            sortable: true,
+            sortable: false,
         },
         {
             name: "Action",

@@ -50,29 +50,29 @@ const FactoryDistributer = () => {
     {
       name: "Distributer Name",
       selector: (row) => row.name,
-      sortable: true,
+      sortable: false,
     },
     {
       name: "Distributer Email",
       selector: (row) => row.email,
-      sortable: true,
+      sortable: false,
     },
     {
       name: "Location",
       selector: (row) => row.address,
-      sortable: true,
+      sortable: false,
     },
     {
       name: "Phone No.",
       selector: (row) => row.phone,
-      sortable: true,
+      sortable: false,
     },
     {
       name: "Information",
       selector: (row) => (
         <button className="custom-details-btn" onClick={() => navigate('/factory/distributerDetails', { state: { userId:  row._id } })}>Details</button>
       ),
-      sortable: true,
+      sortable: false,
     },
   ];
 

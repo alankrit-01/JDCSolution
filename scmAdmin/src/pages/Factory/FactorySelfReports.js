@@ -42,13 +42,13 @@ const FactorySelfReports = () => {
     {
       name: "Comment",
       selector: (row) => row.comment.substring(0, 150) + "...",
-      sortable: true,
+      sortable: false,
       width: "750px"
     },
     {
       name: "Date",
       selector: (row) => row.created,
-      sortable: true,
+      sortable: false,
     },
     {
       name: "Report",
@@ -125,7 +125,7 @@ const FactorySelfReports = () => {
           </div>
         </Popup>
       ),
-      sortable: true,
+      sortable: false,
     },
   ];
   useEffect(() => {

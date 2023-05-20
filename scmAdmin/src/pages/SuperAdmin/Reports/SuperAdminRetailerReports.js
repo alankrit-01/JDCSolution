@@ -31,31 +31,31 @@ const SuperAdminRetailerReports = () => {
     {
       name: "Name",
       selector: (row) => row.name,
-      sortable: true,
+      sortable: false,
       width:"150px",
     },
     {
       name: "Location",
       selector: (row) => row.location,
-      sortable: true,
+      sortable: false,
       width:"200px",
     },
     {
       name: "Email",
       selector: (row) => row.email,
-      sortable: true,
+      sortable: false,
       width:"200px",
     },
     {
       name: "Date",
       selector: (row) => row.created,
-      sortable: true,
+      sortable: false,
       width:"200px",
     },
     {
       name: "Report",
       selector: (row) => row.comment,
-      sortable: true,
+      sortable: false,
       width:"250px",
     },
     {
@@ -129,7 +129,7 @@ const SuperAdminRetailerReports = () => {
           </div>
         </Popup>
       ),
-      sortable: true,
+      sortable: false,
     },
   ];
   useEffect(() => {

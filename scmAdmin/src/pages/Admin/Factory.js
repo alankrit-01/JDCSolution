@@ -30,29 +30,29 @@ const Factory = () => {
     {
       name: "Factory Name",
       selector: (row) => row.name,
-      sortable: true,
+      sortable: false,
     },
     {
       name: "Factory Email",
       selector: (row) => row.email,
-      sortable: true,
+      sortable: false,
     },
     {
       name: "Factory Address",
       selector: (row) => row.address,
-      sortable: true,
+      sortable: false,
     },
     {
       name: "Factory Phone",
       selector: (row) => row.phone,
-      sortable: true,
+      sortable: false,
     },
     {
       name: "Information",
       selector: (row) => (
         <button className="custom-details-btn" onClick={() => navigate('/admin/factoryDetails', { state: { userId:  row._id } })}>Details</button>
       ),
-      sortable: true,
+      sortable: false,
     },
     // {
     //   name: <div className="text-base">Action</div>, 

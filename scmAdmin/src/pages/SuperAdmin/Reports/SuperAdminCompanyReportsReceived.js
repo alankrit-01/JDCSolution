@@ -31,17 +31,17 @@ const SuperAdminCompanyReportsReceived = () => {
     {
       name: "Name",
       selector: (row) => row.name,
-      sortable: true,
+      sortable: false,
     },
     {
       name: "Report",
       selector: (row) => row.comment,
-      sortable: true,
+      sortable: false,
     },
     {
       name: "Date",
       selector: (row) => row.created,
-      sortable: true,
+      sortable: false,
     },
     {
       selector: (row) => (
@@ -114,7 +114,7 @@ const SuperAdminCompanyReportsReceived = () => {
           </div>
         </Popup>
       ),
-      sortable: true,
+      sortable: false,
     },
   ];
   useEffect(() => {

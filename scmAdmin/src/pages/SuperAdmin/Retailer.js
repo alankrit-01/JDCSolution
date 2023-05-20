@@ -19,22 +19,22 @@ const Retailer = () => {
     {
       name: <div className="text-base">Retailer Name</div>,
       selector: (row) => row.name,
-      sortable: true,
+      sortable: false,
     },
     {
       name: <div className="text-base">Retailer Email</div>,
       selector: (row) => row.email,
-      sortable: true,
+      sortable: false,
     },
     {
       name: <div className="text-base">Retailer Address</div>,
       selector: (row) => row.address,
-      sortable: true,
+      sortable: false,
     },
     {
       name: <div className="text-base">Retailer Phone</div>,
       selector: (row) => row.phone,
-      sortable: true,
+      sortable: false,
     },
   ];
   useEffect(() => {

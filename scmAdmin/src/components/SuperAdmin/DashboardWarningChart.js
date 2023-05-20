@@ -65,8 +65,8 @@ const DashboardWarningChart = () => {
    };
 
    return (
-      <div className="px-4 mb-10  h- full  bg-[#EDF6FB] ml-9 ">
-         <h2 className="heading-background w-96 -ml-4 flex mr-4"><img className="w-8" src={warningimg} />Warnings</h2>
+      <div className="mb-10  h- full  bg-[#EDF6FB] ml-9 ">
+         <h2 className="heading-background w-full flex"><img className="w-8" src={warningimg} />Warnings</h2>
          {TotalProductsNotValidatedByDistributor && TotalProductsNotValidatedByRetailer && TotalLocationMisMatch == 0 ? <div className="no-record mt-20">No Product Received</div> : null}
          <PieChart width={400} height={400}>
             <Pie

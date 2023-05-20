@@ -34,13 +34,13 @@ const BatchSentDetail = () => {
         {
             name: "Product Id",
             selector: (row) => row.ProductID,
-            sortable: true,
+            sortable: false,
 
         },
         {
             name: "Richmint Product Code",
             selector: (row) => "P-" + row.CompanyProductID,
-            sortable: true,
+            sortable: false,
         },
         {
             name: "Action",

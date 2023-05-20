@@ -51,29 +51,29 @@ const Company = () => {
     {
       name: <div className="text-base">Company Name</div>,
       selector: (row) => row.name,
-      sortable: true,
+      sortable: false,
     },
     {
       name: <div className="text-base">Email</div>,
       selector: (row) => row.email,
-      sortable: true,
+      sortable: false,
     },
     {
       name: <div className="text-base"> Location</div>,
       selector: (row) => row.address,
-      sortable: true,
+      sortable: false,
     },
     {
       name: <div className="text-base"> Phone</div>,
       selector: (row) => row.phone,
-      sortable: true,
+      sortable: false,
     },
     {
       name: "Information",
       selector: (row) => (
         <button className="custom-details-btn" onClick={() => navigate('/superAdmin/companyDetails', { state: { userId:  row._id } })}>Details</button>
       ),
-      sortable: true,
+      sortable: false,
     },
     // {
     //   name: <div className="text-base">Action</div>,

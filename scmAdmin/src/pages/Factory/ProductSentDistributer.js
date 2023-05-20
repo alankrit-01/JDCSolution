@@ -36,22 +36,22 @@ const ProductSentDistributer = () => {
         {
             name: "Product Name",
             selector: (row) => row.productName,
-            sortable: true,
+            sortable: false,
         },
         {
             name: "Product Id",
             selector: (row) => row.productID,
-            sortable: true,
+            sortable: false,
         },
         {
             name: "Richmint Product Code",
             selector: (row) => "P-" + row.productID,
-            sortable: true,
+            sortable: false,
         },
         {
             name: "Batch Id",
             selector: (row) => row.BatchID,
-            sortable: true,
+            sortable: false,
         },
         {
             name: "Action",

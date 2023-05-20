@@ -36,22 +36,22 @@ const FactoryySelfFeedback = () => {
         {
             name: "Name",
             selector: (row) => row.name,
-            sortable: true,
+            sortable: false,
         },
         // {
         //     name: "Subject",
         //     selector: (row) => row.subject,
-        //     sortable: true,
+        //     sortable: false,
         // },
         // {
         //     name: "Descrition",
         //     selector: (row) => row.description,
-        //     sortable: true,
+        //     sortable: false,
         // },
         {
             name: "Date",
             selector: (row) => row.date,
-            sortable: true,
+            sortable: false,
         },
     ];
     useEffect(() => {

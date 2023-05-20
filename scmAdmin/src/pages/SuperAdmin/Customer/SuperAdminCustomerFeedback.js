@@ -47,28 +47,28 @@ const SuperAdminCustomerFeedback = () => {
         {
             name: "Name",
             selector: (row) => row.name,
-            sortable: true,
+            sortable: false,
         },
         {
             name: "Rating",
             selector: (row) =>
                 <div className='flex'><p>{row.rating} </p> <p>{starimg}</p></div>,
-            sortable: true,
+            sortable: false,
         },
         {
             name: "Comment",
             selector: (row) => row.comment,
-            sortable: true,
+            sortable: false,
         },
         {
             name: "Services",
             selector: (row) => row.services,
-            sortable: true,
+            sortable: false,
         },
         {
             name: "Date",
             selector: (row) => row.date,
-            sortable: true,
+            sortable: false,
         },
         {
             name: "Feedback",
@@ -102,7 +102,7 @@ const SuperAdminCustomerFeedback = () => {
                     </div>
                 </Popup>
             ),
-            sortable: true,
+            sortable: false,
         },
     ];
     useEffect(() => {

@@ -2,35 +2,41 @@ import React, { useEffect, useState } from 'react';
 import degreeBatch from "assets/img/degree3.jpg";
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import {getSuperAdminStatistics } from 'Services/action';
+import { getSuperAdminStatistics } from 'Services/action';
 
 function ProgressCard() {
 
   const navigate = useNavigate();
-    const dispatch = useDispatch();
-    const [TotalProductSold, setTotalProductSold] = useState([]);
-    const [TotalScans, setTotalScans] = useState([]);
-    const [TotalFrauds, setTotalFrauds] = useState([]);
-    const [TotalWarnings, setTotalWarnings] = useState([]);
+  const dispatch = useDispatch();
+  const [TotalProductSold, setTotalProductSold] = useState([]);
+  const [TotalScans, setTotalScans] = useState([]);
+  const [TotalFrauds, setTotalFrauds] = useState([]);
+  const [TotalWarnings, setTotalWarnings] = useState([]);
 
-    
+
   useEffect(() => {
     dispatch(getSuperAdminStatistics())
-}, [])
-const SuperAdminStaticsRecord = useSelector((state) => state.SuperAdminStaticsRecord);
+  }, [])
+  const SuperAdminStaticsRecord = useSelector((state) => state.SuperAdminStaticsRecord);
 
-useEffect(() => {
-  setTotalScans(SuperAdminStaticsRecord?.superAdminStaticsRec?.totalScans)
-  setTotalProductSold(SuperAdminStaticsRecord?.superAdminStaticsRec?.totalProductSold)
-  setTotalFrauds(SuperAdminStaticsRecord?.superAdminStaticsRec?.totalFrauds)
-  setTotalWarnings(SuperAdminStaticsRecord?.superAdminStaticsRec?.totalWarnings)
-}, [SuperAdminStaticsRecord])
+  useEffect(() => {
+    setTotalScans(SuperAdminStaticsRecord?.superAdminStaticsRec?.totalScans)
+    setTotalProductSold(SuperAdminStaticsRecord?.superAdminStaticsRec?.totalProductSold)
+    setTotalFrauds(SuperAdminStaticsRecord?.superAdminStaticsRec?.totalFrauds)
+    setTotalWarnings(SuperAdminStaticsRecord?.superAdminStaticsRec?.totalWarnings)
+  }, [SuperAdminStaticsRecord])
   return (
     <>
       <div className="grid grid-cols-1 ml-1 mb-2  bg-[#0c3f6a]  w-92  h-88">
-        <div className=" text-white "><h5 className='mt-1  ml-3'>All Products</h5></div>
+        <div>
+          <select id="colours" className="dd-button batch-selected">
+            <option>All Products</option>
+            <option>All Products</option>
+            <option>All Products</option>
+          </select>
+        </div>
         <div className="px-0  main-tiles-section  inline-flex mt-2  bg-red-400">
-        <div className=" w-full h-full  bg-[#EDF6FB] py-12  text-left ">
+          <div className=" w-full h-full  bg-[#EDF6FB] py-12  text-left ">
             <div>
               <div className="mb-1 text-base font-medium text-black-700 dark:text-black-500 ml-5">
                 Scans Done
@@ -86,8 +92,9 @@ useEffect(() => {
               <h4>Certificates</h4>
               <h4>Generated</h4>
             </div>
-            <div className=" w-12 h-12 py-2 mt-5 ml-16 ">
+            <div className="w-20 mt-12 certificateSection">
               <img src={degreeBatch} />
+              <span className="certificateCounter">15</span>
             </div>
           </div>
 

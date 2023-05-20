@@ -657,12 +657,6 @@ video {
 .ml-9{
 	margin-left: 2.25rem;
 }
-.-ml-4{
-	margin-left: -1rem;
-}
-.mr-4{
-	margin-right: 1rem;
-}
 .mb-6{
 	margin-bottom: 1.5rem;
 }
@@ -680,9 +674,6 @@ video {
 }
 .ml-1{
 	margin-left: 0.25rem;
-}
-.ml-3{
-	margin-left: 0.75rem;
 }
 .mb-1{
 	margin-bottom: 0.25rem;
@@ -702,11 +693,8 @@ video {
 .ml-24{
 	margin-left: 6rem;
 }
-.mt-5{
-	margin-top: 1.25rem;
-}
-.ml-16{
-	margin-left: 4rem;
+.mt-12{
+	margin-top: 3rem;
 }
 .mt-3{
 	margin-top: 0.75rem;
@@ -716,6 +704,9 @@ video {
 }
 .mr-2{
 	margin-right: 0.5rem;
+}
+.-ml-4{
+	margin-left: -1rem;
 }
 .mt-20{
 	margin-top: 5rem;
@@ -728,6 +719,9 @@ video {
 }
 .ml-40{
 	margin-left: 10rem;
+}
+.ml-3{
+	margin-left: 0.75rem;
 }
 .ml-56{
 	margin-left: 14rem;
@@ -743,6 +737,9 @@ video {
 }
 .ml-2{
 	margin-left: 0.5rem;
+}
+.mt-5{
+	margin-top: 1.25rem;
 }
 .ml-12{
 	margin-left: 3rem;
@@ -785,6 +782,9 @@ video {
 }
 .mb-12{
 	margin-bottom: 3rem;
+}
+.ml-16{
+	margin-left: 4rem;
 }
 .block{
 	display: block;
@@ -834,9 +834,6 @@ video {
 .h-2{
 	height: 0.5rem;
 }
-.h-12{
-	height: 3rem;
-}
 .h-screen{
 	height: 100vh;
 }
@@ -870,6 +867,9 @@ video {
 .h-28{
 	height: 7rem;
 }
+.h-12{
+	height: 3rem;
+}
 .h-11{
 	height: 2.75rem;
 }
@@ -899,9 +899,6 @@ video {
 }
 .w-12{
 	width: 3rem;
-}
-.w-96{
-	width: 24rem;
 }
 .w-8{
 	width: 2rem;
@@ -948,14 +945,14 @@ video {
 .w-44{
 	width: 11rem;
 }
-.w-80{
-	width: 20rem;
-}
 .w-1\/4{
 	width: 25%;
 }
 .w-screen{
 	width: 100vw;
+}
+.w-80{
+	width: 20rem;
 }
 .w-64{
 	width: 16rem;
@@ -1380,13 +1377,13 @@ video {
 	padding-top: 5rem;
 	padding-bottom: 5rem;
 }
-.py-2{
-	padding-top: 0.5rem;
-	padding-bottom: 0.5rem;
-}
 .py-2\.5{
 	padding-top: 0.625rem;
 	padding-bottom: 0.625rem;
+}
+.py-2{
+	padding-top: 0.5rem;
+	padding-bottom: 0.5rem;
 }
 .px-8{
 	padding-left: 2rem;
@@ -3434,6 +3431,7 @@ h5.add-batch-dashboard-title {
     font-size: 12px;
     margin-bottom: 10px;
     display: inline-flex;
+    border-radius:10px;
 }
 .right-button-section {
     text-align: right;
@@ -4241,7 +4239,7 @@ span.error {
     margin-top: 0px;
 }
 .buttion-cumulative img {
-    top: 240px;
+    top: 110px;
     right: 162px;
 }
 .eye-liner-part {
@@ -4272,10 +4270,6 @@ span.error {
 }
 .buttion-cumulative {
     margin-top: 0px;
-}
-.buttion-cumulative img {
-    top: 240px;
-    right: 162px;
 }
 .eye-liner-part {
     float: right;
@@ -4446,6 +4440,16 @@ span.error {
 }
 .statistics-main.flex.custom-link {
     cursor: pointer;
+}
+span.certificateCounter {
+    font-size: 25px;
+    font-weight: bold;
+    color: #0c3f6a;
+    margin-top: 25px;
+    margin-left: 5px;
+}
+.certificateSection{
+    display: inline-flex;
 }
 .hover\:scale-105:hover{
 	--tw-scale-x: 1.05;

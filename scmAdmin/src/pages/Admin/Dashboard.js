@@ -8,6 +8,7 @@ import cumulative from "assets/img/cumulative.png";
 import { useEffect } from "react";
 import { resetLoginData } from "Services/action";
 import { useDispatch } from "react-redux";
+import Arrowdown from 'assets/img/down-arrow.png';
 
 import MapLocation from 'components/Admin/MapLocation';
 
@@ -15,7 +16,7 @@ const Dashboard = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(resetLoginData());
-  },[])
+  }, [])
 
 
   return (
@@ -101,11 +102,13 @@ const Dashboard = () => {
               <div>
                 <h2 className="heading-background">Locations</h2>
               </div>
-              <div className='w-80 h-96 map-padding-use'>
-
-              <MapLocation /> 
+              <div className='w-full h-96 map-padding-use'>
+                <div className="flex justify-end">
+                  <button className="cust-export-button">Export CSV <img src={Arrowdown} className="w-3 h-3" style={{ margin: "2px 0px 2px 2px" }} /> </button>
+                </div>
+                <MapLocation />
               </div>
-              
+
             </div>
 
 

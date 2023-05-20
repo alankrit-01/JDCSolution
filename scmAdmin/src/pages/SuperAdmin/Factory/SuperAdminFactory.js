@@ -35,29 +35,29 @@ const SuperAdminFactory = () => {
     {
       name: <div className="text-base">Factory Name</div>,
       selector: (row) => row.name,
-      sortable: true,
+      sortable: false,
     },
     {
       name: <div className="text-base">Factory Email</div>,
       selector: (row) => row.email,
-      sortable: true,
+      sortable: false,
     },
     {
       name: <div className="text-base">Factory Address</div>,
       selector: (row) => row.address,
-      sortable: true,
+      sortable: false,
     },
     {
       name: <div className="text-base">Factory Phone</div>,
       selector: (row) => row.phone,
-      sortable: true,
+      sortable: false,
     },
     {
       name: <div className="text-base">Information</div>,
       selector: (row) => (
         <button className="custom-details-btn" onClick={() => navigate('/superAdmin/factoryDetail', { state: { userId: row._id } })}>Details</button>
       ),
-      sortable: true,
+      sortable: false,
     },
     // {
     //   name: <div className="text-base">Action</div>, 

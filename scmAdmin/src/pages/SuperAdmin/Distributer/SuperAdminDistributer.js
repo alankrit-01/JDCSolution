@@ -32,29 +32,29 @@ const SuperAdminDistributer = () => {
     {
       name: <div className="text-base">Distributer Name</div>,
       selector: (row) => row.name,
-      sortable: true,
+      sortable: false,
     },
     {
       name: <div className="text-base">Distributer Email</div>,
       selector: (row) => row.email,
-      sortable: true,
+      sortable: false,
     },
     {
       name: <div className="text-base">Distributer Address</div>,
       selector: (row) => row.address,
-      sortable: true,
+      sortable: false,
     },
     {
       name: <div className="text-base">Distributer Phone</div>,
       selector: (row) => row.phone,
-      sortable: true,
+      sortable: false,
     },
     {
       name: <div className="text-base">Information</div>,
       selector: (row) => (
         <button className="custom-details-btn" onClick={() => navigate('/superAdmin/distributerDetail', { state: { userId: row._id } })}>Details</button>
       ),
-      sortable: true,
+      sortable: false,
     },
     // {
     //   name: <div className="text-base">Action</div>, 

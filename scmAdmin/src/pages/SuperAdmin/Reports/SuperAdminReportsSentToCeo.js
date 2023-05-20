@@ -31,28 +31,28 @@ const SuperAdminReportsSentToCeo = () => {
     {
       name: "Name",
       selector: (row) => row.name,
-      sortable: true,
+      sortable: false,
     },
     // {
     //   name: "Location",
     //   selector: (row) => row.location,
-    //   sortable: true,
+    //   sortable: false,
     // },
     // {
     //   name: "Email",
     //   selector: (row) => row.email,
-    //   sortable: true,
+    //   sortable: false,
     // },
 
     {
       name: "Report",
       selector: (row) => row.comment,
-      sortable: true,
+      sortable: false,
     },
     {
       name: "Date",
       selector: (row) => row.created,
-      sortable: true,
+      sortable: false,
     },
     {
       selector: (row) => (
@@ -124,7 +124,7 @@ const SuperAdminReportsSentToCeo = () => {
           </div>
         </Popup>
       ),
-      sortable: true,
+      sortable: false,
     },
   ];
   useEffect(() => {
